@@ -20,5 +20,5 @@ build() {
 
 package() {
   cd "${srcdir}/bankstown-${pkgver}"
-  make DESTDIR="${pkgdir}" install
+  make LIBDIR=/usr/lib DESTDIR="${pkgdir}" install
 }
