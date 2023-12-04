@@ -1,7 +1,7 @@
 # Maintainer: Hector Martin <marcan@marcan.st>
 
 pkgname=speakersafetyd
-pkgver=0.1.4
+pkgver=0.1.5
 commit=d1c1f0b5b903f98ad553a04e3dc33a8731a58b28
 pkgrel=1
 pkgdesc='Asahi Linux speaker safety daemon'
