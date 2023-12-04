@@ -14,9 +14,9 @@ pkgname=(
 	"mesa$_suffix"
 )
 pkgdesc="An open-source implementation of the OpenGL specification"
-_asahiver=20230904
+_asahiver=20231126
 _commit=asahi-$_asahiver
-pkgver=23.3.0_pre$_asahiver
+pkgver=24.0.0_pre$_asahiver
 pkgrel=2
 arch=('aarch64')
 makedepends=('python-mako' 'libxml2' 'libx11' 'xorgproto' 'libdrm' 'libxshmfence' 'libxxf86vm'
@@ -28,7 +28,7 @@ license=('custom')
 options=('debug' '!lto')
 source=(https://gitlab.freedesktop.org/asahi/mesa/-/archive/$_commit/mesa-$_commit.tar.gz
         LICENSE)
-sha512sums=('ca2a2afdd17b491c6f4b746cb426154d50caf45db8a01f449f295c90300d1036ea51ceac81a2036e63fe0ecee9c582e1313d5d924015688d6dee29eba3fab76e'
+sha512sums=('3c23dea8b7482fbee451965da86dc49b7ccb173f8071f381f44ca652dc4e8309783658710ed1b1c8c61855458b430e1f69e8eceaedd63ece22fa06b4707cafff'
             'f9f0d0ccf166fe6cb684478b6f1e1ab1f2850431c06aa041738563eb1808a004e52cdec823c103c9e180f03ffc083e95974d291353f0220fe52ae6d4897fecc7')
 
 prepare() {
@@ -41,6 +41,7 @@ build() {
   CXXFLAGS+=' -g1'
 
   arch-meson mesa-$_commit build \
+    --libdir=/usr/lib \
     -D b_ndebug=true \
     -D b_lto=false \
     -D platforms=x11,wayland \
