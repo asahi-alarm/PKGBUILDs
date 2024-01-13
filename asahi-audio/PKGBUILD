@@ -8,7 +8,7 @@ arch=('aarch64')
 url='http://asahilinux.org'
 license=('MIT')
 makedepends=(wireplumber pipewire)
-depends=('wireplumber>=0.4.16' pipewire bankstown)
+depends=('wireplumber>=0.4.16' pipewire bankstown lsp-plugins-lv2)
 source=(
   "asahi-audio-${pkgver}.tar.gz::https://github.com/AsahiLinux/asahi-audio/archive/refs/tags/v${pkgver}.tar.gz"
 )
