@@ -28,14 +28,11 @@ options=('!strip')
 source=(
   https://github.com/AsahiLinux/linux/archive/${_commit_id}.tar.gz
   config         # the main kernel config file
-  config.edge    # overrides for linux-asahi-edge
 )
 sha256sums=('b633c6055dbbbd56b6af555afa07c8c68ba27d778c4be1b630c6e56fc6da73c2'
-            'adbefe442c323be82bc534702efccbf7dcd6720dad926af93435e69b261e6817'
-            'a30d8bfd24b9cdd45755bf5eda9ba876195a860527552d1e704516702e792872')
+            'adbefe442c323be82bc534702efccbf7dcd6720dad926af93435e69b261e6817')
 b2sums=('5ead418fa294d5015af560b4249324aa2531a2aa34db214be4d09ab9cef602b6ffdbee7a45a21329b35a9df96bbaf7312b8b311a6461066af33ceafdb1aabeb7'
-        'fe5b2ed51dc5a08c32487d85cf24eef9f76c1dd5865ad8b48f5fc49c33b7388ea8c346f357a931bcd48d4028dff73cde839e3450c2b07178f0b86934b70df729'
-        '329d247959ba2862a7e55714ebc59886c62b840f1cab9d27b7b74b2379789f0da607b08c22b5ceddf6d2487761f6cba350d6e0997d53c0f2642e81d7da3c4c8b')
+        'fe5b2ed51dc5a08c32487d85cf24eef9f76c1dd5865ad8b48f5fc49c33b7388ea8c346f357a931bcd48d4028dff73cde839e3450c2b07178f0b86934b70df729')
 export KBUILD_BUILD_HOST=archlinux
 export KBUILD_BUILD_USER=$pkgbase
 export KBUILD_BUILD_TIMESTAMP="$(date -Ru${SOURCE_DATE_EPOCH:+d @$SOURCE_DATE_EPOCH})"
@@ -56,18 +53,13 @@ prepare() {
   done
 
   echo "Creating build directories..."
-  mkdir -p build/base build/edge
+  mkdir -p build/base
 
   echo "Setting config (base)..."
   cp ../config build/base/.config
   make olddefconfig prepare O=$PWD/build/base
   diff -u ../config build/base/.config || :
   make -s kernelrelease O=$PWD/build/base > build/base/version
-
-  echo "Setting config (edge)..."
-  cat build/base/.config ../config.edge > build/edge/.config
-  make olddefconfig prepare O=$PWD/build/edge
-  make -s kernelrelease O=$PWD/build/edge > build/edge/version
 
   echo "Prepared $pkgbase version $(<build/base/version)"
 }
@@ -76,16 +68,6 @@ build() {
   cd $_srcname
   echo "Building base..."
   make all O=$PWD/build/base
-  echo "Copying objects..."
-  cp build/edge/.config{,.save}
-  touch build/base/.config
-  cp -urT build/{base,edge}
-  rm build/edge/init/version.o
-  make O=$PWD/build/edge oldconfig prepare
-  cp build/edge/.config{.save,}
-  echo "Building edge..."
-  make O=$PWD/build/edge oldconfig prepare
-  make O=$PWD/build/edge all
 }
 
 _package_kernel() {
@@ -95,6 +77,7 @@ _package_kernel() {
               'linux-firmware: firmware images needed for some devices')
   provides=(WIREGUARD-MODULE linux=${pkgver})
   replaces=(wireguard-arch)
+  conflicts=($pkgbase-edge)
 
   local kernver="$(<$O/version)"
   local modulesdir="$pkgdir/usr/lib/modules/$kernver"
@@ -121,12 +104,6 @@ _package() {
   cd $_srcname
   export O="$PWD/build/base"
   _package_kernel "$pkgbase"
-}
-
-_package-edge() {
-  cd $_srcname
-  export O="$PWD/build/edge"
-  _package_kernel "$pkgbase-edge" "$pkgbase=$pkgver"
 }
 
 _package-headers() {
@@ -217,16 +194,9 @@ _package-headers() {
   mkdir -p "$pkgdir/usr/src"
   ln -sr "$builddir" "$pkgdir/usr/src/$pkgbase"
 
-  O=build/edge
-  local builddir2="$pkgdir/usr/lib/modules/$(<${O}/version)/build"
-  mkdir -p $builddir2
-  cp -rl $builddir/* $builddir2
-  cp --remove-destination $O/{.config,System.map,version,Module.symvers,vmlinux} $builddir2
-  rm -rf $builddir2/include/config
-  cp -r $O/include/config $builddir2/include/config
 }
 
-pkgname=("$pkgbase" "$pkgbase-headers" "$pkgbase-edge")
+pkgname=("$pkgbase" "$pkgbase-headers")
 for _p in "${pkgname[@]}"; do
   eval "package_$_p() {
     $(declare -f "_package${_p#$pkgbase}")
