@@ -1,7 +1,7 @@
 # Maintainer: Hector Martin <marcan@marcan.st>
 
 pkgname=bankstown
-pkgver=1.0.3
+pkgver=1.1.0
 pkgrel=1
 pkgdesc='a barebones bass enhancer'
 arch=('aarch64')
@@ -11,7 +11,7 @@ license=('MIT')
 source=(
   "bankstown-${pkgver}.tar.gz::https://github.com/chadmed/bankstown/archive/refs/tags/${pkgver}.tar.gz"
 )
-sha256sums=('2d1dcc457facbb4638ed6ff2ff1361baac5dc5c079510fc3cb134add9fc47503')
+sha256sums=('e877508b73fe90774d74526d838f75e8ea278bdbcee0a1f92e3eca67ed734675')
 
 build() {
   cd "${srcdir}/bankstown-${pkgver}"
