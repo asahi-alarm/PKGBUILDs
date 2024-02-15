@@ -5,7 +5,7 @@ buildarch=8
 
 _rcver=6.6
 #_rcrel=3
-_asahirel=14
+_asahirel=15
 pkgrel=1
 
 _m1n1_version=1.4.11
@@ -29,9 +29,9 @@ source=(
   https://github.com/AsahiLinux/linux/archive/${_commit_id}.tar.gz
   config         # the main kernel config file
 )
-sha256sums=('b633c6055dbbbd56b6af555afa07c8c68ba27d778c4be1b630c6e56fc6da73c2'
+sha256sums=('1d8d82dcfd87fb7153d81f52d01789be226c79637898de2b7407019ec7d35c8e'
             'adbefe442c323be82bc534702efccbf7dcd6720dad926af93435e69b261e6817')
-b2sums=('5ead418fa294d5015af560b4249324aa2531a2aa34db214be4d09ab9cef602b6ffdbee7a45a21329b35a9df96bbaf7312b8b311a6461066af33ceafdb1aabeb7'
+b2sums=('f0cdce0421bb8637d52e82d2ff0b7e07c29e828783c7cb8733f1582916be81bfd14a0b6a98f51f633ee9da3d10aa1fff6b27c5779bd9fa55c1d04615173d6d4b'
         'fe5b2ed51dc5a08c32487d85cf24eef9f76c1dd5865ad8b48f5fc49c33b7388ea8c346f357a931bcd48d4028dff73cde839e3450c2b07178f0b86934b70df729')
 export KBUILD_BUILD_HOST=archlinux
 export KBUILD_BUILD_USER=$pkgbase
@@ -72,7 +72,7 @@ build() {
 
 _package_kernel() {
   pkgdesc="The $pkgdesc kernel and modules"
-  depends=(coreutils kmod initramfs $2 "m1n1>=$_m1n1_version")
+  depends=(coreutils kmod initramfs $2 "m1n1>=$_m1n1_version" "mesa-asahi-edge>=24.1.0_pre20240214-1")
   optdepends=('crda: to set the correct wireless channels of your country'
               'linux-firmware: firmware images needed for some devices')
   provides=(WIREGUARD-MODULE linux=${pkgver})
