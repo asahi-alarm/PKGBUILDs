@@ -14,9 +14,9 @@ pkgname=(
 	"mesa$_suffix"
 )
 pkgdesc="An open-source implementation of the OpenGL specification"
-_asahiver=20231213
+_asahiver=20240214
 _commit=asahi-$_asahiver
-pkgver=24.0.0_pre$_asahiver
+pkgver=24.1.0_pre$_asahiver
 pkgrel=1
 arch=('aarch64')
 makedepends=('python-mako' 'libxml2' 'libx11' 'xorgproto' 'libdrm' 'libxshmfence' 'libxxf86vm'
@@ -28,7 +28,7 @@ license=('custom')
 options=('debug' '!lto')
 source=(https://gitlab.freedesktop.org/asahi/mesa/-/archive/$_commit/mesa-$_commit.tar.gz
         LICENSE)
-sha512sums=('7651077669b49b5633aa82ff1f22e6a5f1ef2ee01a1d08679cd3fd8e243de186a6bfafe8c53c2a5896e3b44e9f16355c8c1d09e9363bed4573cc59b5065dcaa1'
+sha512sums=('e7a87a61badb44c08fbbaa1e21e1b8cc6bd2d4a837e3a183dd755fb4bc5faf7257a1b5a6c27dcaf8438402b0801a188ab6d20c7bb6a3eb92554a1c6377be3ed0'
             'f9f0d0ccf166fe6cb684478b6f1e1ab1f2850431c06aa041738563eb1808a004e52cdec823c103c9e180f03ffc083e95974d291353f0220fe52ae6d4897fecc7')
 
 prepare() {
@@ -42,7 +42,7 @@ build() {
 
   arch-meson mesa-$_commit build \
     --libdir=/usr/lib \
-    -D b_ndebug=true \
+    -D b_ndebug=false \
     -D b_lto=false \
     -D platforms=x11,wayland \
     -D gallium-drivers=swrast,virgl,kmsro,asahi \
@@ -51,13 +51,14 @@ build() {
     -D dri3=enabled \
     -D egl=enabled \
     -D gallium-extra-hud=true \
-    -D gallium-opencl=disabled \
-    -D gallium-rusticl=false \
-    -D gallium-va=disabled \
-    -D gallium-vdpau=disabled \
+    -D gallium-opencl=icd \
+    -D gallium-rusticl=true \
+    -D gallium-va=enabled \
+    -D gallium-vdpau=enabled \
     -D gallium-xa=disabled \
     -D gbm=enabled \
-    -D gles1=disabled \
+    -D opengl=true \
+    -D gles1=enabled \
     -D gles2=enabled \
     -D glvnd=true \
     -D glx=dri \
@@ -120,13 +121,20 @@ _package_mesa() {
 
   # ati-dri, nouveau-dri, intel-dri, svga-dri, swrast, swr
   _install fakeinstall/usr/lib/dri/*_dri.so
+  _install fakeinstall/usr/lib/dri/*_video.so
+  _install fakeinstall/usr/lib/vdpau
+  _install fakeinstall/usr/lib/gallium-pipe
 
+  _install fakeinstall/usr/lib/libMesa*
+  _install fakeinstall/usr/lib/libRusticl*
   _install fakeinstall/usr/lib/lib{gbm,glapi}.so*
   _install fakeinstall/usr/lib/libOSMesa.so*
 
   _install fakeinstall/usr/include
   rm -f fakeinstall/usr/lib/pkgconfig/{egl,gl}.pc
   _install fakeinstall/usr/lib/pkgconfig
+
+  _install fakeinstall/etc
 
   # libglvnd support
   _install fakeinstall/usr/lib/libGLX_mesa.so*
