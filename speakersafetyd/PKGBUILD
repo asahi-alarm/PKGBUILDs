@@ -10,7 +10,7 @@ url='http://asahilinux.org'
 depends=('alsa-lib')
 license=('MIT')
 source=(
-  "speakersafetyd-${commit}.tar.gz::https://github.com/chadmed/speakersafetyd/archive/${commit}.tar.gz"
+  "speakersafetyd-${commit}.tar.gz::https://github.com/AsahiLinux/speakersafetyd/archive/${commit}.tar.gz"
 )
 sha256sums=('df84178387acd5a579778269d3d50a64827d6a19455ff6eb81ce83df3ec253b9')
 
