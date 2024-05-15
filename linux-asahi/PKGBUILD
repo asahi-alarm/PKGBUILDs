@@ -28,11 +28,17 @@ options=('!strip')
 source=(
   https://github.com/AsahiLinux/linux/archive/${_commit_id}.tar.gz
   config         # the main kernel config file
+  0001-READ-COMMIT-MESSAGE-macaudio-Enable-first-round-of-m.patch
+  0002-READ-COMMIT-MESSAGE-macaudio-Enable-second-round-of-.patch
 )
 sha256sums=('15e8837a6905324500e7cf7972e6a8b25a21897ae2b8e5003129af885a2edd2f'
-            '9432e63b6c631273d7ef2040703c4fd70f99f16261168dc4e1a9aae2fec2ce99')
+            '9432e63b6c631273d7ef2040703c4fd70f99f16261168dc4e1a9aae2fec2ce99'
+            'd133d00c2198673b5f8a37249ea936a466dc98050a7b6b0767d7a6dfc42d8541'
+            '95408f3b1cc8842e12ffaa3ce41ada149ee32fd5bd2bbafa95449388a37cef7c')
 b2sums=('5a08d3df1d0e1fc274a68f29ab592c790421d58dafa5533b7f526f13c5046d668e0c864b9a71f2c5b736a1890a65ba0877694b11bbde9acf5ff873f7a8a5a167'
-        '4353850ca1b12cd8eb8176b83973274ef802ac5625ad04918d0d90212305b750051cd93b286e45db723aaddd2421cecd133bbb94ae7c5ee56b2d5d5d0d2e072d')
+        '4353850ca1b12cd8eb8176b83973274ef802ac5625ad04918d0d90212305b750051cd93b286e45db723aaddd2421cecd133bbb94ae7c5ee56b2d5d5d0d2e072d'
+        '2e0015cfb2aea1b4bc2da796f4a40c7d9ac21baf08aae572d28ecc4f0f399141072df42acb598176cfb06c6184dadc1ccfbf8a2a8b4e9085759260e800068e26'
+        '2b0481f336dbf33c3909ac16a9b3ab8b425a31a085746730648910a00b8fabf90ba3988e4bb04d9c8801e1b100c6ecba858c191a2fab00c0af51f931c26a515d')
 export KBUILD_BUILD_HOST=archlinux
 export KBUILD_BUILD_USER=$pkgbase
 export KBUILD_BUILD_TIMESTAMP="$(date -Ru${SOURCE_DATE_EPOCH:+d @$SOURCE_DATE_EPOCH})"
