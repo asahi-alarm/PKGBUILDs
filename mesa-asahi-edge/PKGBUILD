@@ -17,7 +17,7 @@ pkgdesc="An open-source implementation of the OpenGL specification"
 _asahiver=20240228
 _commit=asahi-$_asahiver
 pkgver=24.1.0_pre$_asahiver
-pkgrel=2
+pkgrel=3
 arch=('aarch64')
 makedepends=('python-mako' 'libxml2' 'libx11' 'xorgproto' 'libdrm' 'libxshmfence' 'libxxf86vm'
              'libxdamage' 'libvdpau' 'libva' 'wayland' 'wayland-protocols' 'zstd' 'elfutils' 'llvm' 'spirv-llvm-translator'
@@ -72,7 +72,7 @@ build() {
     -D android-libbacktrace=disabled
 
   # Print config
-  meson configure build
+  meson configure --no-pager build
 
   ninja -C build
   meson compile -C build
