@@ -6,7 +6,7 @@ buildarch=8
 _rcver=6.9.6
 #_rcrel=3
 _asahirel=1
-pkgrel=2
+pkgrel=3
 
 _m1n1_version=1.4.14
 
@@ -42,6 +42,15 @@ prepare() {
 
   echo "Setting version..."
   echo "-$_asahirel-$pkgrel" > localversion.10-pkgrel
+
+  local src
+  for src in "${source[@]}"; do
+    src="${src%%::*}"
+    src="${src##*/}"
+    [[ $src = *.patch ]] || continue
+    echo "Applying patch $src..."
+    patch -Np1 < "../$src"
+  done
 
   echo "Creating build directories..."
   mkdir -p build/base
