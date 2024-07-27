@@ -14,10 +14,10 @@ pkgname=(
 	"mesa$_suffix"
 )
 pkgdesc="An open-source implementation of the OpenGL specification"
-_asahiver=20240527
+_asahiver=20240725
 _commit=asahi-$_asahiver
 pkgver=24.2.0_pre$_asahiver
-pkgrel=3
+pkgrel=1
 arch=('aarch64')
 makedepends=('python-mako' 'libxml2' 'libx11' 'xorgproto' 'libdrm' 'libxshmfence' 'libxxf86vm'
              'libxdamage' 'libvdpau' 'libva' 'wayland' 'wayland-protocols' 'zstd' 'elfutils' 'llvm' 'spirv-llvm-translator'
@@ -28,7 +28,7 @@ license=('custom')
 options=('debug' '!lto')
 source=(https://gitlab.freedesktop.org/asahi/mesa/-/archive/$_commit/mesa-$_commit.tar.gz
         LICENSE)
-sha512sums=('2cd7d61a3b35ecb9349da22ea513c89395993f13620c85c997e2a12a4646a69185ab3b2367d8a4e4d4c92a822ae4800cbc45ee9f248376caabd5598bfac97ff7'
+sha512sums=('b70c8352ac1cf13e7cc941299727d7a317b818e511f77770f89565c07b924c11018b033fc8564422c1ce203c8866de9e81580cd5d377d0d078f56353e1e29d0e'
             'f9f0d0ccf166fe6cb684478b6f1e1ab1f2850431c06aa041738563eb1808a004e52cdec823c103c9e180f03ffc083e95974d291353f0220fe52ae6d4897fecc7')
 
 prepare() {
@@ -52,7 +52,7 @@ build() {
     -D egl=enabled \
     -D gallium-extra-hud=true \
     -D gallium-opencl=icd \
-    -D gallium-rusticl=false \
+    -D gallium-rusticl=true \
     -D gallium-va=enabled \
     -D gallium-vdpau=enabled \
     -D gallium-xa=disabled \
@@ -70,7 +70,7 @@ build() {
     -D microsoft-clc=disabled \
     -D valgrind=enabled \
     -D android-libbacktrace=disabled \
-    -Dintel-rt=disabled
+    -D intel-rt=disabled
 
   # Print config
   meson configure --no-pager build
@@ -127,7 +127,7 @@ _package_mesa() {
   _install fakeinstall/usr/lib/gallium-pipe
 
   _install fakeinstall/usr/lib/libMesa*
-  # _install fakeinstall/usr/lib/libRusticl*
+  _install fakeinstall/usr/lib/libRusticl*
   _install fakeinstall/usr/lib/lib{gbm,glapi}.so*
   _install fakeinstall/usr/lib/libOSMesa.so*
 
