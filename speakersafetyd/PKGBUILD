@@ -1,8 +1,8 @@
 # Maintainer: Hector Martin <marcan@marcan.st>
 
 pkgname=speakersafetyd
-pkgver=1.0.0
-commit=7faaaa5a0bd949e993560da82d1594c17b75712c
+pkgver=1.0.1
+commit=3f7e7be539958938df28ec33c59bef81a19c0d60
 pkgrel=1
 pkgdesc='Asahi Linux speaker safety daemon'
 arch=('aarch64')
@@ -12,7 +12,7 @@ license=('MIT')
 source=(
   "speakersafetyd-${commit}.tar.gz::https://github.com/AsahiLinux/speakersafetyd/archive/${commit}.tar.gz"
 )
-sha256sums=('e8ca222ba078eb940997bf47f5cf872296123110d4b31a7e6c3fcea39a7f580f')
+sha256sums=('217c106a41368bf67eea1ffb829bbca067666b4b554a756ff0a7b0bfd3cbd57c')
 
 build() {
   cd "${srcdir}/speakersafetyd-${commit}"
