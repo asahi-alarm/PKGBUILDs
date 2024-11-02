@@ -7428,7 +7428,7 @@ CONFIG_SECURITY_LANDLOCK=y
 # CONFIG_IMA_SECURE_AND_OR_TRUSTED_BOOT is not set
 # CONFIG_DEFAULT_SECURITY_APPARMOR is not set
 CONFIG_DEFAULT_SECURITY_DAC=y
-CONFIG_LSM="yama,loadpin,safesetid,integrity,selinux,smack,tomoyo,apparmor"
+CONFIG_LSM="landlock,yama,loadpin,safesetid,integrity,selinux,smack,tomoyo,apparmor"
 
 #
 # Kernel hardening options

@@ -29,10 +29,10 @@ source=(
   https://github.com/AsahiLinux/linux/archive/${_commit_id}.tar.gz
   config         # the main kernel config file
 )
-sha256sums=('70ba64c6e7444d0aab0e844fa621d7c67fc0474d6fb1b8dc4daabb4be6f4fac2'
-            '536824c71040f8be4f04e4649bd583de2891f5ea526656c85fdb3f29e4de1b02')
-b2sums=('46fb5c876e42db974fc5e90229127365d04938a92d95ee8802b2a9b9f34fc956c1cc79159bde4ecbd4ac3501df1696c1b2c225cf69c54cada6c88a0226b17322'
-        'dfde4dbbbaddcff1fb8455ab3a307e57dcb043fcb0b5624d8f5a160252380bb3cfba3512c73552fc2761e24ba5518965ef752b93f4a2d4cde23fe22b35ee154c')
+sha256sums=('e81a811e1c2c78927ef72d62b149af8081cf2648750e432532aa19fe01bda9bf'
+            '7bb7f30b8ea2dff28f9c1dcab036c65adde6d8bb7b3d0f48588b6ecf66e327a7')
+b2sums=('aa224263d9bcfdb68b96a5d8f3ee86f5f150c073e4e6cdc0b5b7fd555b0071fcba795a6ad287196e86e56a99732af1e1b729e75943834bdcd0e3d1d987ad4dbd'
+        '6b0de7ca5943a836ae2c85258cbd690ab93b46ec39539e53907802a656097f7a3271e4ce39e611eb36533b98dc5420ccd6cfe8d339189fe49caa464ad90b34d0')
 export KBUILD_BUILD_HOST=archlinux
 export KBUILD_BUILD_USER=$pkgbase
 export KBUILD_BUILD_TIMESTAMP="$(date -Ru${SOURCE_DATE_EPOCH:+d @$SOURCE_DATE_EPOCH})"
