@@ -107,6 +107,7 @@ package() {
   _install fakeinstall/usr/lib/libMesa*
   _install fakeinstall/usr/lib/libRusticl*
   _install fakeinstall/usr/lib/lib{gbm,glapi}.so*
+  _install fakeinstall/usr/lib/gbm/dri_gbm.so*
   _install fakeinstall/usr/lib/libOSMesa.so*
 
   _install fakeinstall/usr/include
