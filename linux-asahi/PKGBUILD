@@ -6,7 +6,7 @@ buildarch=8
 _rcver=6.11.4
 #_rcrel=3
 _asahirel=1
-pkgrel=1
+pkgrel=2
 
 _m1n1_version=1.4.14
 
@@ -72,7 +72,7 @@ build() {
 
 _package_kernel() {
   pkgdesc="The $pkgdesc kernel and modules"
-  depends=(coreutils kmod initramfs $2 "m1n1>=$_m1n1_version" "mesa-asahi-edge>=24.1.0_pre20240214-1")
+  depends=(coreutils kmod initramfs $2 "m1n1>=$_m1n1_version" "mesa-asahi>=24.3.0_pre20241006-1")
   optdepends=('crda: to set the correct wireless channels of your country'
               'linux-firmware: firmware images needed for some devices')
   provides=(WIREGUARD-MODULE linux=${pkgver})
