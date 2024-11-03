@@ -8,27 +8,29 @@ highmem=1
 
 _suffix=-asahi
 
-pkgbase=mesa$_suffix
-pkgname=(
-	"vulkan$_suffix"
-	"mesa$_suffix"
-)
+pkgname=mesa$_suffix
 pkgdesc="An open-source implementation of the OpenGL specification"
-_asahiver=20241006
+_asahiver=20241104
 _commit=asahi-$_asahiver
 pkgver=24.3.0_pre$_asahiver
-pkgrel=2
+pkgrel=1
 arch=('aarch64')
 makedepends=('python-mako' 'libxml2' 'libx11' 'xorgproto' 'libdrm' 'libxshmfence' 'libxxf86vm'
              'libxdamage' 'libvdpau' 'libva' 'wayland' 'wayland-protocols' 'zstd' 'elfutils' 'llvm' 'spirv-llvm-translator'
              'libomxil-bellagio' 'libclc' 'clang' 'libglvnd' 'libunwind' 'lm_sensors' 'libxrandr'
-             'systemd' 'valgrind' 'glslang' 'vulkan-icd-loader' 'directx-headers' 'cmake' 'meson' 'python-pycparser')
+             'systemd' 'valgrind' 'glslang' 'vulkan-icd-loader' 'directx-headers' 'cmake' 'meson' 'python-pycparser' 'python-packaging' 'python-pyaml')
+depends=('egl-wayland' 'libdrm' 'wayland' 'libxxf86vm' 'libxdamage' 'libxshmfence' 'libelf' 'libomxil-bellagio'
+         'libunwind' 'llvm-libs' 'lm_sensors' 'libglvnd' 'zstd' 'vulkan-icd-loader')
+#depends+=('libsensors.so' 'libexpat.so' 'libvulkan.so')
+optdepends=('vulkan-mesa-layers: additional vulkan layers')
+provides=('mesa-libgl' 'opengl-driver' 'mesa' 'mesa-asahi-edge' 'vulkan-asahi' 'vulkan-swrast')
+conflicts=('mesa-libgl' 'mesa' 'mesa-asahi-edge')
 url="https://www.mesa3d.org/"
 license=('custom')
 options=('debug' '!lto')
 source=(https://gitlab.freedesktop.org/asahi/mesa/-/archive/$_commit/mesa-$_commit.tar.gz
         LICENSE)
-sha512sums=('e34b3c2177af5d9727342b26ae1a5fb46ff1e583790d3e322dd36cdf4cd801d1172f7c96bc795ddd211b8338441341e56bba74521729d319403c803af4356860'
+sha512sums=('db72aaf9a251dd840022185157bc29f735499112ec9f9e77cf581bc9166ff53edf9c87c2437a2ef160008daa8e0a49c9c3e26906018f4cee5559610a5ce54e7e'
             'f9f0d0ccf166fe6cb684478b6f1e1ab1f2850431c06aa041738563eb1808a004e52cdec823c103c9e180f03ffc083e95974d291353f0220fe52ae6d4897fecc7')
 
 prepare() {
@@ -45,8 +47,9 @@ build() {
     -D b_ndebug=false \
     -D b_lto=false \
     -D platforms=x11,wayland \
-    -D gallium-drivers=swrast,virgl,asahi \
+    -D gallium-drivers=swrast,virgl,asahi,zink \
     -D vulkan-drivers=swrast,asahi \
+    -D vulkan-layers= \
     -D egl=enabled \
     -D gallium-extra-hud=true \
     -D gallium-opencl=icd \
@@ -91,35 +94,12 @@ _install() {
   done
 }
 
-_package_vulkan() {
-  pkgdesc="Vulkan asahi driver"
-  depends=('wayland' 'libx11' 'libxshmfence' 'libdrm' 'zstd' 'llvm-libs' 'systemd-libs' 'libunwind')
-  optdepends=('vulkan-mesa-layers: additional vulkan layers')
-  conflicts=('vulkan-mesa' 'vulkan-swrast' 'vulkan-swrast-asahi-edge')
-  replaces=('vulkan-mesa')
-  provides=('vulkan-driver' 'vulkan-swrast')
-
-  _install fakeinstall/usr/share/vulkan
-  _install fakeinstall/usr/lib/libvulkan*
-  _install fakeinstall/usr/lib/libgallium*
-
-  install -m644 -Dt "${pkgdir}/usr/share/licenses/${pkgname}" LICENSE
-}
-
-_package_mesa() {
-  depends=('libdrm' 'wayland' 'libxxf86vm' 'libxdamage' 'libxshmfence' 'libelf'
-           'libomxil-bellagio' 'libunwind' 'llvm-libs' 'lm_sensors' 'libglvnd'
-           'zstd' 'vulkan-icd-loader')
-  depends+=('libsensors.so' 'libexpat.so' 'libvulkan.so')
-  optdepends=('opengl-man-pages: for the OpenGL API man pages')
-  provides=('mesa-libgl' 'opengl-driver' 'mesa')
-  conflicts=('mesa-libgl' 'mesa' 'mesa-asahi-edge')
-  replaces=('mesa-libgl')
+package() {
 
   _install fakeinstall/usr/share/drirc.d/00-mesa-defaults.conf
   _install fakeinstall/usr/share/glvnd/egl_vendor.d/50_mesa.json
 
-  # ati-dri, nouveau-dri, intel-dri, svga-dri, swrast, swr
+  #install libs
   _install fakeinstall/usr/lib/dri/*.so
   _install fakeinstall/usr/lib/vdpau
   _install fakeinstall/usr/lib/gallium-pipe
@@ -139,6 +119,11 @@ _package_mesa() {
   _install fakeinstall/usr/lib/libGL*
   _install fakeinstall/usr/lib/libEG*
 
+  # vulkan support
+  _install fakeinstall/usr/share/vulkan
+  _install fakeinstall/usr/lib/libvulkan*
+  _install fakeinstall/usr/lib/libgallium*
+
   # indirect rendering
   ln -s /usr/lib/libGLX_mesa.so.0 "${pkgdir}/usr/lib/libGLX_indirect.so.0"
 
@@ -147,10 +132,3 @@ _package_mesa() {
 
   install -m644 -Dt "${pkgdir}/usr/share/licenses/${pkgname}" LICENSE
 }
-
-for _p in "${pkgname[@]}"; do
-  eval "package_$_p() {
-    $(declare -f "_package_${_p%$_suffix}")
-    _package_${_p%$_suffix}
-  }"
-done
