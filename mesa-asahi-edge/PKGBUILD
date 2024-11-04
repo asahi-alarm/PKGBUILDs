@@ -49,7 +49,7 @@ build() {
     -D platforms=x11,wayland \
     -D gallium-drivers=swrast,virgl,asahi,zink \
     -D vulkan-drivers=swrast,asahi \
-    -D vulkan-layers= \
+    -D vulkan-layers=device-select \
     -D egl=enabled \
     -D gallium-extra-hud=true \
     -D gallium-opencl=icd \
@@ -71,7 +71,9 @@ build() {
     -D microsoft-clc=disabled \
     -D valgrind=enabled \
     -D android-libbacktrace=disabled \
-    -D intel-rt=disabled
+    -D intel-rt=disabled \
+    -D shared-llvm=enabled \
+    -D build-tests=false
 
   # Print config
   meson configure --no-pager build
@@ -124,6 +126,7 @@ package() {
   _install fakeinstall/usr/share/vulkan
   _install fakeinstall/usr/lib/libvulkan*
   _install fakeinstall/usr/lib/libgallium*
+  _install fakeinstall/usr/lib/libVkLayer*
 
   # indirect rendering
   ln -s /usr/lib/libGLX_mesa.so.0 "${pkgdir}/usr/lib/libGLX_indirect.so.0"
