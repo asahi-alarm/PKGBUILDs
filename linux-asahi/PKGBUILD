@@ -72,7 +72,7 @@ build() {
 
 _package_kernel() {
   pkgdesc="The $pkgdesc kernel and modules"
-  depends=(coreutils kmod initramfs $2 "m1n1>=$_m1n1_version" "mesa-asahi>=24.3.0_pre20241006-1")
+  depends=(coreutils kmod initramfs $2 "m1n1>=$_m1n1_version")
   optdepends=('crda: to set the correct wireless channels of your country'
               'linux-firmware: firmware images needed for some devices')
   provides=(WIREGUARD-MODULE linux=${pkgver})
