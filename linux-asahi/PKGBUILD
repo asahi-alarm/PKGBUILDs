@@ -67,7 +67,7 @@ prepare() {
 build() {
   cd $_srcname
   echo "Building base..."
-  make all O=$PWD/build/base
+  make all O=$PWD/build/base -j8
 }
 
 _package_kernel() {

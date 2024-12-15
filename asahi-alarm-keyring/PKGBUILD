@@ -1,0 +1,18 @@
+# Maintainer: Hector Martin <marcan@marcan.st>
+
+pkgname=asahi-alarm-keyring
+pkgver=20241214
+pkgrel=1
+pkgdesc='Asahi Linux PGP keyring'
+arch=('any')
+url='http://asahilinux.org'
+license=('GPL')
+install="${pkgname}.install"
+source=("${pkgname}-${pkgver}.tar.gz::https://github.com/asahi-alarm/${pkgname}/archive/refs/tags/${pkgver}.tar.gz")
+sha256sums=('419f65fd992b8b3d55dc0f39478f16b8633a20a7465ef8e2f608b75d1c7f3b7e')
+b2sums=('ec75e19d645979040683305834bbaca14488d85c95c583a6f4ce1dab09c32909f334537a70f1e2561ade795203fe7b2193c67d8c97a7a5b8d92ea00ae6e13d60')
+
+package() {
+	cd "${srcdir}/${pkgname}-${pkgver}"
+	make PREFIX=/usr DESTDIR=${pkgdir} install
+}

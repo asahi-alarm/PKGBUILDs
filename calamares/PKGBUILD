@@ -5,7 +5,7 @@ pkgdesc='Universal linux distro graphical installer'
 arch=('aarch64')
 license=('GPL3')
 url='https://calamares.io/'
-depends=('binutils' 'fakeroot' 'gcc' 'boost' 'qt5-tools' 'yaml-cpp' 'ack' 'kpmcore' 'qt5-location' 'icu' 'qt5-declarative' 'qt5-translations' 'qt5-xmlpatterns' 'kiconthemes' 'kservice' 'kio' 'kparts' 'cmake' 'autoconf' 'automake' 'bison' 'flex' 'git' 'libtool' 'm4' 'make' 'extra-cmake-modules' 'libpwquality' 'python3' 'python-qtpy' 'qt5-webengine' 'python-pip')
+depends=('binutils' 'fakeroot' 'gcc' 'boost' 'qt5-tools' 'yaml-cpp' 'ack' 'kpmcore' 'qt5-location' 'icu' 'qt5-declarative' 'qt5-translations' 'qt5-xmlpatterns' 'kiconthemes' 'kservice' 'kio' 'kparts' 'cmake' 'autoconf' 'automake' 'bison' 'flex' 'git' 'libtool' 'm4' 'make' 'extra-cmake-modules' 'libpwquality' 'python3' 'python-qtpy' 'qt5-webengine' 'python-pip' 'polkit-qt5')
 source=("${pkgname}-${pkgver}.tar.gz::https://github.com/AsahiLinux/${pkgname}/archive/refs/tags/v${pkgver/_/-}.tar.gz")
 sha256sums=('7c2ebe467a42936b920a3308150b3f8b7930c4d240ce56b20d26edc04f8e51bb')
 
