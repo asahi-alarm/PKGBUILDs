@@ -1,7 +1,16 @@
 #!/bin/bash
 
-set -x
 set -e
+
+# Run this on an arch aarch64 machine
+#
+# You need to also have the asahi-alarm repo checked out next to this one
+# for the release option to work
+#
+# It will build all packages or the packages given on the command line
+# if you pass -r option, it will also create a new release on github
+#
+# This also requires the github-cli tool to be installed and logged in
 
 RELEASE=false
 
@@ -54,12 +63,12 @@ for srcpkg in $PKGS; do
   popd
 done
 
-# Release packages
+# Release packages on github if requested
 if [ "$RELEASE" = true ]; then
   cd ../$REPO
   git tag -d aarch64 && git tag aarch64 && git push -f --tags
 
   yes | gh release delete aarch64
   gh release create aarch64 --notes ""
-  gh release upload aarch64 -- *
+  gh release upload aarch64 -- *.xz *.sig asahi-alarm.db* asahi-alarm.files*
 fi
