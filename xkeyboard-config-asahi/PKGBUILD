@@ -22,12 +22,12 @@ build() {
 	-D xorg-rules-symlinks=true
 
   # Print config
-  meson configure build
+  meson configure --no-pager build
 
   ninja -C build
  }
- 
- package() { 
+
+ package() {
   DESTDIR="$pkgdir" ninja -C build install
 
   install -m755 -d "${pkgdir}/var/lib/xkb"
