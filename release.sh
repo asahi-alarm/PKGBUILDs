@@ -12,16 +12,24 @@ set -e
 #
 # This also requires the github-cli tool to be installed and logged in
 
+REPO=asahi-alarm
+
 RELEASE=false
 
 # Parse options
-while getopts ":rh" opt; do
+while getopts ":crh" opt; do
   case $opt in
+    c)
+      echo "cleaning files"
+      rm -f ../$REPO/*.xz ../$REPO/*.sig ../$REPO/asahi-alarm.db* ../$REPO/asahi-alarm.files* || true
+      ;;
     r)
       RELEASE=true
       ;;
     h)
-      echo "Usage: $0 [-r] [PKGS]"
+      echo "Usage: $0 [-r] [-c] [PKGS]"
+      echo "\t -r: create a release on github"
+      echo "\t -c: clean the packages in ../$REPO before building"
       exit 1
       ;;
     \?)
@@ -43,7 +51,6 @@ if [ $# -ge 1 ]; then
 fi
 
 echo "building packages: ${PKGS[*]}"
-REPO=asahi-alarm
 
 echo "Enter GPG passphrase:"
 read -s GPG_PASSPHRASE
@@ -70,5 +77,5 @@ if [ "$RELEASE" = true ]; then
 
   yes | gh release delete aarch64
   gh release create aarch64 --notes ""
-  gh release upload aarch64 -- *.xz *.sig asahi-alarm.db* asahi-alarm.files*
+  gh release upload aarch64 -- *.xz *.xz.sig asahi-alarm.db* asahi-alarm.files*
 fi
