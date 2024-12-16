@@ -12,6 +12,8 @@ set -e
 #
 # This also requires the github-cli tool to be installed and logged in
 
+KEY=12CE6799A94A3F1B5DDFFE88F576553597FB8FEB
+
 REPO=asahi-alarm
 
 RELEASE=false
@@ -63,9 +65,9 @@ for srcpkg in $PKGS; do
   pkg=$(ls -- *.pkg.tar.xz)
   # there could be multiple packages
   for bin in $pkg; do
-    echo "$GPG_PASSPHRASE" | gpg --local-user 12CE6799A94A3F1B5DDFFE88F576553597FB8FEB --pinentry-mode loopback --passphrase-fd 0 --detach-sign "${bin}"
+    echo "$GPG_PASSPHRASE" | gpg --local-user $KEY --pinentry-mode loopback --passphrase-fd 0 --detach-sign "${bin}"
     cp "$bin"* ../../$REPO/
-    repo-add --sign ../../$REPO/$REPO.db.tar.gz "../../$REPO/$bin"
+    repo-add --key $KEY --sign ../../$REPO/$REPO.db.tar.gz "../../$REPO/$bin"
   done
   popd
 done
