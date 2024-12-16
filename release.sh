@@ -4,7 +4,7 @@ set -x
 set -e
 
 # re-add calamares stuff when we get to the installer
-PKGS="linux-asahi alsa-ucm-conf-asahi bankstown speakersafetyd asahi-audio asahi-configs asahi-fwextract asahilinux-keyring asahi-scripts lzfse m1n1 mesa-asahi tiny-dfr uboot-asahi xkeyboard-config-asahi asahi-desktop-meta asahi-meta"
+PKGS="linux-asahi alsa-ucm-conf-asahi bankstown speakersafetyd asahi-audio asahi-configs asahi-fwextract asahi-alarm-keyring asahi-scripts lzfse m1n1 mesa-asahi tiny-dfr uboot-asahi xkeyboard-config-asahi asahi-desktop-meta asahi-meta"
 
 if [ $# -ge 1 ]; then
   PKGS=("$@")
