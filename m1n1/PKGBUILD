@@ -1,4 +1,5 @@
-# Maintainer: Hector Martin <marcan@marcan.st>
+# Maintainer: Jos Dehaes <jos.dehaes@gmail.com>
+# Maintainer: Matthias Kurz <m.kurz@irregular.at>
 
 pkgname=m1n1
 pkgver=1.4.17

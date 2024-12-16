@@ -1,8 +1,5 @@
-# Maintainer: Laurent Carlier <lordheavym@gmail.com>
-# Maintainer: Felix Yan <felixonmars@archlinux.org>
-# Contributor: Jan de Groot <jgc@archlinux.org>
-# Contributor: Andreas Radke <andyrtr@archlinux.org>
-# Contributor: Dan Johansen <strit@manjaro.org>
+# Maintainer: Jos Dehaes <jos.dehaes@gmail.com>
+# Maintainer: Matthias Kurz <m.kurz@irregular.at>
 
 highmem=1
 
