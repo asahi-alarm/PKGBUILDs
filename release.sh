@@ -65,6 +65,8 @@ for srcpkg in $PKGS; do
   pkg=$(ls -- *.pkg.tar.xz)
   # there could be multiple packages
   for bin in $pkg; do
+    # Remove any previous created signatures
+    rm -f "${bin}".sig || true
     echo "$GPG_PASSPHRASE" | gpg --local-user $KEY --pinentry-mode loopback --passphrase-fd 0 --detach-sign "${bin}"
     cp "$bin"* ../../$REPO/
     repo-add --key $KEY --sign ../../$REPO/$REPO.db.tar.gz "../../$REPO/$bin"
