@@ -1,4 +1,5 @@
-# Maintainer: Janne Grunau <j@jannau.net
+# Maintainer: Jos Dehaes <jos.dehaes@gmail.com>
+# Maintainer: Matthias Kurz <m.kurz@irregular.at>
 
 pkgname=tiny-dfr
 pkgver=0.3.3

@@ -1,5 +1,6 @@
 # AArch64 Apple Silicon (Asahi Linux)
-# Maintainer: Janne Grunau <j@jannau.net>
+# Maintainer: Jos Dehaes <jos.dehaes@gmail.com>
+# Maintainer: Matthias Kurz <m.kurz@irregular.at>
 
 buildarch=8
 
