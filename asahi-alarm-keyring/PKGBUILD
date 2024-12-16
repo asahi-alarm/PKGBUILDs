@@ -12,8 +12,8 @@ replaces=('asahilinux-keyring')
 conflicts=('asahilinux-keyring')
 install="${pkgname}.install"
 source=("${pkgname}-${pkgver}.tar.gz::https://github.com/asahi-alarm/${pkgname}/archive/refs/tags/${pkgver}.tar.gz")
-sha256sums=('419f65fd992b8b3d55dc0f39478f16b8633a20a7465ef8e2f608b75d1c7f3b7e')
-b2sums=('ec75e19d645979040683305834bbaca14488d85c95c583a6f4ce1dab09c32909f334537a70f1e2561ade795203fe7b2193c67d8c97a7a5b8d92ea00ae6e13d60')
+sha256sums=('b92b4200c5e2644e892a2cdf36a7e7643a325a7881ab378e17086cc28d131d68')
+b2sums=('93a0c46c10eaba89d6e2c628ba63fd74b9c9c7870308748d9399fc1ab1b3bdb6c2f2d730a207ea04dd1c77267c489c8ca3aa87da72e04466dfe011d4a585f914')
 
 package() {
 	cd "${srcdir}/${pkgname}-${pkgver}"
