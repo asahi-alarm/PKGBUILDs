@@ -1,12 +1,15 @@
-# Maintainer: Hector Martin <marcan@marcan.st>
+# Maintainer: Jos Dehaes <jos.dehaes@gmail.com>
+# Maintainer: Matthias Kurz <m.kurz@irregular.at>
 
 pkgname=asahi-alarm-keyring
-pkgver=20241214
+pkgver=20241216
 pkgrel=1
 pkgdesc='Asahi Linux PGP keyring'
 arch=('any')
 url='http://asahilinux.org'
 license=('GPL')
+replaces=('asahilinux-keyring')
+conflicts=('asahilinux-keyring')
 install="${pkgname}.install"
 source=("${pkgname}-${pkgver}.tar.gz::https://github.com/asahi-alarm/${pkgname}/archive/refs/tags/${pkgver}.tar.gz")
 sha256sums=('419f65fd992b8b3d55dc0f39478f16b8633a20a7465ef8e2f608b75d1c7f3b7e')
