@@ -2,8 +2,8 @@
 # Maintainer: Matthias Kurz <m.kurz@irregular.at>
 
 pkgname=asahi-desktop-meta
-pkgver=3
-pkgrel=4
+pkgver=4
+pkgrel=1
 pkgdesc='Asahi Linux Plasma support meta package'
 url='https://www.asahilinux.org'
 arch=('any')
@@ -12,7 +12,7 @@ install=asahi-desktop-meta.install
 
 package() {
   # Put depends in package() to avoid unecessary build dependencies
-  depends=(bluedevil bluez-utils bluez-tools pipewire pipewire-audio pipewire-pulse pipewire-alsa wireplumber asahi-audio bankstown speakersafetyd "mesa-asahi>=25.0.0_pre20241211-1" widevine)
+  depends=(bluedevil bluez-utils bluez-tools pipewire pipewire-audio pipewire-pulse pipewire-alsa wireplumber asahi-audio bankstown speakersafetyd "mesa-asahi>=25.0.0_pre20241211-1" widevine calamares asahi-calamares-configs)
 }
 
 # vim: ts=2 sw=2 et:

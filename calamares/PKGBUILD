@@ -1,27 +1,80 @@
+# Maintainer: Philip Müller <philm[at]manjaro[dog]org>
+
 pkgname=calamares
-pkgver=3.2.53_asahi2
-pkgrel=5
-pkgdesc='Universal linux distro graphical installer'
-arch=('aarch64')
-license=('GPL3')
-url='https://calamares.io/'
-depends=('binutils' 'fakeroot' 'gcc' 'boost' 'qt5-tools' 'yaml-cpp' 'ack' 'kpmcore' 'qt5-location' 'icu' 'qt5-declarative' 'qt5-translations' 'qt5-xmlpatterns' 'kiconthemes' 'kservice' 'kio' 'kparts' 'cmake' 'autoconf' 'automake' 'bison' 'flex' 'git' 'libtool' 'm4' 'make' 'extra-cmake-modules' 'libpwquality' 'python3' 'python-qtpy' 'qt5-webengine' 'python-pip' 'polkit-qt5')
-source=("${pkgname}-${pkgver}.tar.gz::https://github.com/AsahiLinux/${pkgname}/archive/refs/tags/v${pkgver/_/-}.tar.gz")
-sha256sums=('7c2ebe467a42936b920a3308150b3f8b7930c4d240ce56b20d26edc04f8e51bb')
+pkgver=3.3.12
+pkgrel=3
+pkgdesc='Distribution-independent installer framework'
+arch=('i686' 'x86_64' 'aarch64')
+license=('BSD-2-Clause AND CC0-1.0 AND CC-BY-4.0 AND GPL-3.0-or-later AND LGPL-2.0-only AND LGPL-2.1-only AND LGPL-3.0-or-later AND MIT')
+url="https://github.com/calamares/calamares"
+depends=('kconfig' 'kcoreaddons' 'kiconthemes' 'ki18n' 'solid' 'yaml-cpp' 'kpmcore'
+	'boost-libs' 'qt6-svg' 'polkit-qt6'
+	'squashfs-tools' 'libpwquality' 'python')
+makedepends=('extra-cmake-modules' 'qt6-tools' 'qt6-translations' 'git' 'boost')
+backup=('usr/share/calamares/modules/bootloader.conf'
+        'usr/share/calamares/modules/displaymanager.conf'
+        'usr/share/calamares/modules/initcpio.conf'
+        'usr/share/calamares/modules/unpackfs.conf')
+
+source+=("$pkgname-$pkgver.tar.gz::$url/-/archive/v$pkgver/calamares-v$pkgver.tar.gz")
+sha256sums=('f44110a91a4394f34728042136af4b906541babc37e72b3b33664888b3220f2d')
 
 prepare() {
-  cd $pkgname-${pkgver/_/-}
+	cd ${srcdir}/calamares-${pkgver}
+
+	#_ver="$(cat CMakeLists.txt | grep -m3 -e "  VERSION" | grep -o "[[:digit:]]*" | xargs | sed s'/ /./g')"
+	_ver="$pkgver"
+	printf 'Version: %s-%s' "${_ver}" "${pkgrel}"
+	echo ""
+	sed -i -e "s|\${CALAMARES_VERSION_MAJOR}.\${CALAMARES_VERSION_MINOR}.\${CALAMARES_VERSION_PATCH}|${_ver}-${pkgrel}|g" CMakeLists.txt
+	sed -i -e "s|CALAMARES_VERSION_RC 1|CALAMARES_VERSION_RC 0|g" CMakeLists.txt
+
+	# Apply patches
+	local src
+	for src in "${source[@]}"; do
+		src="${src%%::*}"
+		src="${src##*/}"
+		[[ $src = *.patch ]] || continue
+		msg2 "Applying patch: $src..."
+		patch -Np1 < "../$src"
+	done
 }
 
 build() {
- cd $pkgname-${pkgver/_/-}
- mkdir -p build
- cd build
- cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DWITH_PYTHONQT=ON ..
- make
+	cd ${srcdir}/calamares-${pkgver}
+
+	mkdir -p build
+	cd build
+        cmake .. \
+              -DCMAKE_BUILD_TYPE=Debug \
+              -DCMAKE_INSTALL_PREFIX=/usr \
+              -DCMAKE_INSTALL_LIBDIR=lib \
+              -DWITH_QT6=ON \
+              -DINSTALL_CONFIG=ON \
+              -DSKIP_MODULES="initramfs initramfscfg \
+                              dummyprocess dummypython \
+                              dummycpp dummypythonqt \
+                              services-openrc"
+        make
 }
 
 package() {
-  cd $pkgname-${pkgver/_/-}/build
-  make DESTDIR="$pkgdir/" install
+	cd ${srcdir}/calamares-${pkgver}/build
+	make DESTDIR="$pkgdir" install
+	install -Dm644 "../data/calamares.desktop" "$pkgdir/usr/share/applications/calamares.desktop"
+	install -Dm755 "../data/calamares_polkit" "$pkgdir/usr/bin/calamares_polkit"
+	install -Dm644 "../data/49-nopasswd-calamares.rules" "$pkgdir/etc/polkit-1/rules.d/49-nopasswd-calamares.rules"
+	chmod 750      "$pkgdir"/etc/polkit-1/rules.d
+
+	# rename services-systemd back to services
+	mv "$pkgdir/usr/lib/calamares/modules/services-systemd" "$pkgdir/usr/lib/calamares/modules/services"
+	mv "$pkgdir/usr/share/calamares/modules/services-systemd.conf" "$pkgdir/usr/share/calamares/modules/services.conf"
+	sed -i -e 's/-systemd//' "$pkgdir/usr/lib/calamares/modules/services/module.desc"
+	sed -i -e 's/-systemd//' "$pkgdir/usr/share/calamares/settings.conf"
+
+	# remove files that will come from asahi-calamares-configs
+	rm "$pkgdir/usr/share/calamares/modules/displaymanager.conf"
+	rm "$pkgdir/usr/share/calamares/modules/users.conf"
+	rm "$pkgdir/usr/share/calamares/modules/welcome.conf"
+	rm "$pkgdir/usr/share/calamares/settings.conf"
 }
