@@ -45,7 +45,8 @@ done
 shift $((OPTIND - 1))
 
 # default packages, can be overridden on command line
-PKGS="linux-asahi alsa-ucm-conf-asahi bankstown speakersafetyd asahi-audio calamares asahi-calamares-configs asahi-configs asahi-fwextract asahi-alarm-keyring asahi-scripts lzfse m1n1 mesa-asahi tiny-dfr uboot-asahi xkeyboard-config-asahi widevine asahi-desktop-meta asahi-meta"
+# TODO: remove lsp-plugins once a new version is released
+PKGS="linux-asahi lsp-plugins alsa-ucm-conf-asahi bankstown speakersafetyd asahi-audio calamares asahi-calamares-configs asahi-configs asahi-fwextract asahi-alarm-keyring asahi-scripts lzfse m1n1 mesa-asahi tiny-dfr uboot-asahi xkeyboard-config-asahi widevine asahi-desktop-meta asahi-meta"
 
 if [ $# -ge 1 ]; then
   PKGS=("$@")
