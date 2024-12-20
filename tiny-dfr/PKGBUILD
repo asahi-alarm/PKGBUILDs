@@ -3,7 +3,7 @@
 
 pkgname=tiny-dfr
 pkgver=0.3.3
-pkgrel=1
+pkgrel=3
 pkgdesc='Apple silicon touch bar input / display daemon'
 arch=('aarch64')
 url=https://github.com/WhatAmISupposedToPutHere/tiny-dfr
@@ -28,7 +28,7 @@ build() {
 package() {
     cd $pkgname-$pkgver
     install -Dm755 target/release/$pkgname "$pkgdir"/usr/bin/$pkgname
-    install -Dm644 share/$pkgname/*.svg -t "$pkgdir/usr/share/$pkgname"
+    install -Dm644 share/$pkgname/* -t "$pkgdir/usr/share/$pkgname"
     install -Dm644 etc/systemd/system/$pkgname.service "$pkgdir/usr/lib/systemd/system/$pkgname.service"
     install -Dm644 etc/udev/rules.d/99-touchbar-seat.rules "$pkgdir/usr/lib/udev/rules.d/99-touchbar-seat.rules"
     install -Dm644 etc/udev/rules.d/99-touchbar-tiny-dfr.rules "$pkgdir/usr/lib/udev/rules.d/99-touchbar-tiny-dfr.rules"
