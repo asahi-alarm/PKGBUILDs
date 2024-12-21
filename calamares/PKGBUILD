@@ -2,7 +2,7 @@
 
 pkgname=calamares
 pkgver=3.3.12
-pkgrel=3
+pkgrel=5
 pkgdesc='Distribution-independent installer framework'
 arch=('i686' 'x86_64' 'aarch64')
 license=('BSD-2-Clause AND CC0-1.0 AND CC-BY-4.0 AND GPL-3.0-or-later AND LGPL-2.0-only AND LGPL-2.1-only AND LGPL-3.0-or-later AND MIT')
@@ -71,10 +71,4 @@ package() {
 	mv "$pkgdir/usr/share/calamares/modules/services-systemd.conf" "$pkgdir/usr/share/calamares/modules/services.conf"
 	sed -i -e 's/-systemd//' "$pkgdir/usr/lib/calamares/modules/services/module.desc"
 	sed -i -e 's/-systemd//' "$pkgdir/usr/share/calamares/settings.conf"
-
-	# remove files that will come from asahi-calamares-configs
-	rm "$pkgdir/usr/share/calamares/modules/displaymanager.conf"
-	rm "$pkgdir/usr/share/calamares/modules/users.conf"
-	rm "$pkgdir/usr/share/calamares/modules/welcome.conf"
-	rm "$pkgdir/usr/share/calamares/settings.conf"
 }
