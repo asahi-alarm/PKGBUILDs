@@ -1,0 +1,28 @@
+# Maintainer: Jos Dehaes <jos.dehaes@gmail.com>
+# Maintainer: Matthias Kurz <m.kurz@irregular.at>
+
+pkgname=muvm
+pkgver=0.2.0
+pkgrel=1
+pkgdesc='run programs from your system in a microVM'
+arch=('aarch64')
+url='https://github.com/AsahiLinux/muvm'
+depends=('libkrun')
+source=(
+  "${pkgname}-${pkgver}.tar.gz::https://github.com/AsahiLinux/muvm/archive/refs/tags/${pkgname}-${pkgver}.tar.gz"
+)
+sha256sums=('1f5eac567992b2c50c9c590cddc578058ef76c4591662bd351b4899b4d2d1411')
+
+build() {
+  cd "${srcdir}/${pkgname}-${pkgname}-${pkgver}"
+  cargo build --release
+}
+
+package() {
+  cd "${srcdir}/${pkgname}-${pkgname}-${pkgver}"
+  install -Dm755 target/release/muvm "$pkgdir"/usr/bin/muvm
+  install -Dm755 target/release/muvm-guest "$pkgdir"/usr/bin/muvm-guest
+  install -Dm755 target/release/muvm-hidpipe "$pkgdir"/usr/bin/muvm-hidpipe
+  install -Dm755 target/release/muvm-server "$pkgdir"/usr/bin/muvm-server
+  install -Dm755 target/release/muvm-x11bridge "$pkgdir"/usr/bin/muvm-x11bridge
+}
