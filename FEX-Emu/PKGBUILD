@@ -1,0 +1,44 @@
+pkgbase=FEX-Emu
+pkgname=FEX-Emu
+pkgver=2412
+pkgrel=2
+pkgdesc="Fast x86 emulation frontend"
+arch=(x86_64 aarch64)
+url="https://github.com/FEX-Emu/FEX"
+license=(MIT)
+makedepends=(
+  cmake
+  ninja
+  lld
+  llvm
+  clang
+)
+depends=(
+  passt
+  squashfuse
+  squashfs-tools
+  erofs-utils
+)
+source=("git+https://github.com/FEX-Emu/FEX.git#tag=FEX-${pkgver}")
+sha256sums=('SKIP')
+
+prepare() {
+  cd "${srcdir}/FEX"
+  # Needed because the repo has submodules
+  git submodule update --init --recursive
+}
+
+build() {
+  cd ${srcdir}/FEX
+  mkdir build || true
+  cd build
+  CC=clang CXX=clang++ cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release -DUSE_LINKER=lld -DENABLE_LTO=True -DBUILD_TESTS=False -DENABLE_ASSERTIONS=False -G Ninja ..
+  ninja
+}
+
+package() {
+  cd ${srcdir}/FEX/build
+  DESTDIR="${pkgdir}" ninja install
+  mkdir -p "${pkgdir}"/usr/share/fex-emu/RootFS
+  mkdir -p "${pkgdir}"/usr/share/fex-emu/overlays
+}
