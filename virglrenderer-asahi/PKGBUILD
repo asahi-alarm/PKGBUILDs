@@ -1,0 +1,42 @@
+# Maintainer: Your Name <your.email@example.com>
+
+pkgname=virglrenderer-asahi
+pkgver=20241205.2
+pkgrel=2
+pkgdesc="Asahi Linux fork of virglrenderer, a virtual 3D GPU for QEMU"
+arch=('x86_64' 'aarch64')  # Adjust if necessary
+url="https://gitlab.freedesktop.org/asahi/virglrenderer"
+license=('MIT')  # The upstream license; verify and adjust if needed
+
+# Most basic dependencies. Add or remove as needed:
+depends=('libepoxy')
+makedepends=('git' 'meson' 'ninja')  # Tools for building from Git
+
+provides=('virglrenderer')
+conflicts=('virglrenderer')
+
+source=("${pkgname}::git+https://gitlab.freedesktop.org/asahi/virglrenderer.git#tag=asahi-${pkgver}")
+sha256sums=('SKIP')
+
+prepare() {
+  cd "${srcdir}/${pkgname}"
+  # If there are submodules (unlikely here), uncomment:
+  # git submodule update --init --recursive
+}
+
+build() {
+  cd "${srcdir}/${pkgname}"
+  # Create a separate build directory
+  mkdir -p build
+  meson setup build \
+    --prefix=/usr \
+    -Ddrm-renderers=asahi-experimental
+
+  meson compile -C build
+}
+
+package() {
+  cd "${srcdir}/${pkgname}"
+  DESTDIR="${pkgdir}" meson install -C build
+}
+
