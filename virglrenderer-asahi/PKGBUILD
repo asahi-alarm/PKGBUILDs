@@ -2,7 +2,7 @@
 
 pkgname=virglrenderer-asahi
 pkgver=20241205.2
-pkgrel=2
+pkgrel=3
 pkgdesc="Asahi Linux fork of virglrenderer, a virtual 3D GPU for QEMU"
 arch=('x86_64' 'aarch64')  # Adjust if necessary
 url="https://gitlab.freedesktop.org/asahi/virglrenderer"
@@ -30,7 +30,8 @@ build() {
   mkdir -p build
   meson setup build \
     --prefix=/usr \
-    -Ddrm-renderers=asahi-experimental
+    -Ddrm-renderers=asahi-experimental \
+    -Dvideo=true
 
   meson compile -C build
 }
