@@ -1,4 +1,6 @@
-# Maintainer: Your Name <your.email@example.com>
+# Maintainer: Jos Dehaes <jos.dehaes@gmail.com>
+# Maintainer: Matthias Kurz <m.kurz@irregular.at>
+
 
 pkgname=virglrenderer-asahi
 pkgver=20241205.2
