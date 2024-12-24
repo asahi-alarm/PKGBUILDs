@@ -2,18 +2,18 @@
 
 pkgname=libkrun
 pkgver=1.9.8
-pkgrel=2
+pkgrel=3
 pkgdesc="A dynamic library providing Virtualization-based process isolation capabilities"
 url='https://github.com/containers/libkrun'
 arch=('x86_64' 'aarch64')
 license=('Apache')
-makedepends=('cargo' 'patchelf')
-depends=('glibc' 'gcc-libs' 'libkrunfw')
+makedepends=('cargo' 'patchelf' 'virglrenderer')
+depends=('glibc' 'gcc-libs' 'libkrunfw' 'virglrenderer')
 source=("https://github.com/containers/libkrun/archive/refs/tags/v$pkgver/$pkgname-$pkgver.tar.gz")
 
 build() {
     cd "$srcdir/$pkgname-$pkgver"
-    BLK=1 make
+    BLK=1 SND=1 GPU=1 NET=1 make
 }
 
 package() {
