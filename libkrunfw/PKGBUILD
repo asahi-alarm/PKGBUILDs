@@ -2,9 +2,9 @@
 
 pkgname=libkrunfw
 _pkgname=libkrunfw
-_kver=6.6.52
+_kver=6.6.59
 pkgver=4.5.1
-pkgrel=1
+pkgrel=2
 pkgdesc="A dynamic library bundling the guest payload consumed by libkrun"
 url="https://github.com/containers/libkrunfw"
 arch=('x86_64' 'aarch64')
@@ -31,5 +31,5 @@ package() {
 }
 
 sha256sums=('2046d185e67ded54260e05dea9eea6f330f31a36f2859ccc26746bf67775d6d0'
-            '1591ab348399d4aa53121158525056a69c8cf0fe0e90935b0095e9a58e37b4b8')
+            '23616808d8c08f12815ff898f4edb4c11397a2b2843d029ee62452d21833a76d')
 
