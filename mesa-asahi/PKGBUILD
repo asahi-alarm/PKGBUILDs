@@ -5,19 +5,20 @@ highmem=1
 
 _suffix=-asahi
 
-pkgname=mesa$_suffix
+pkgname=(mesa$_suffix mesa-asahi-fex-emu-overlay)
 pkgdesc="An open-source implementation of the OpenGL specification"
 _asahiver=20241211
 _commit=asahi-$_asahiver
 pkgver=25.0.0_pre$_asahiver
-pkgrel=1
-arch=('aarch64')
+pkgrel=2
+arch=('x86_64' 'aarch64')
 makedepends=('python-mako' 'libxml2' 'libx11' 'xorgproto' 'libdrm' 'libxshmfence' 'libxxf86vm'
-             'libxdamage' 'libvdpau' 'libva' 'wayland' 'wayland-protocols' 'zstd' 'elfutils' 'llvm' 'spirv-llvm-translator'
-             'libomxil-bellagio' 'libclc' 'clang' 'libglvnd' 'libunwind' 'lm_sensors' 'libxrandr'
-             'systemd' 'valgrind' 'glslang' 'vulkan-icd-loader' 'directx-headers' 'cmake' 'meson' 'python-pycparser' 'python-packaging' 'python-pyaml')
+  'libxdamage' 'libvdpau' 'libva' 'wayland' 'wayland-protocols' 'zstd' 'elfutils' 'llvm' 'spirv-llvm-translator'
+  'libomxil-bellagio' 'libclc' 'clang' 'libglvnd' 'libunwind' 'lm_sensors' 'libxrandr'
+  'systemd' 'valgrind' 'glslang' 'vulkan-icd-loader' 'directx-headers' 'cmake' 'meson' 'python-pycparser' 'python-packaging' 'python-pyaml'
+  'erofs-utils' 'lz4' 'patchelf')
 depends=('egl-wayland' 'libdrm' 'wayland' 'libxxf86vm' 'libxdamage' 'libxshmfence' 'libelf' 'libomxil-bellagio'
-         'libunwind' 'llvm-libs' 'lm_sensors' 'libglvnd' 'zstd' 'vulkan-icd-loader')
+  'libunwind' 'llvm-libs' 'lm_sensors' 'libglvnd' 'zstd' 'vulkan-icd-loader')
 #depends+=('libsensors.so' 'libexpat.so' 'libvulkan.so')
 optdepends=('vulkan-mesa-layers: additional vulkan layers')
 provides=('mesa-libgl' 'opengl-driver' 'mesa' 'mesa-asahi-edge' 'vulkan-asahi' 'vulkan-swrast')
@@ -26,9 +27,9 @@ url="https://www.mesa3d.org/"
 license=('custom')
 options=('debug' '!lto')
 source=(https://gitlab.freedesktop.org/asahi/mesa/-/archive/$_commit/mesa-$_commit.tar.gz
-        LICENSE)
+  LICENSE)
 sha512sums=('3cffd24548a3303ad318f6ddf9a39d908c503090b1dcc389e4636565e27cdc69a7da28781d59bda092a07918863ac1938f34232b1554545ec5996cbcccaadab2'
-            'f9f0d0ccf166fe6cb684478b6f1e1ab1f2850431c06aa041738563eb1808a004e52cdec823c103c9e180f03ffc083e95974d291353f0220fe52ae6d4897fecc7')
+  'f9f0d0ccf166fe6cb684478b6f1e1ab1f2850431c06aa041738563eb1808a004e52cdec823c103c9e180f03ffc083e95974d291353f0220fe52ae6d4897fecc7')
 
 prepare() {
   cd mesa-$_commit
@@ -93,7 +94,7 @@ _install() {
   done
 }
 
-package() {
+package_mesa-asahi() {
 
   _install fakeinstall/usr/share/drirc.d/00-mesa-defaults.conf
   _install fakeinstall/usr/share/glvnd/egl_vendor.d/50_mesa.json
@@ -113,7 +114,8 @@ package() {
   rm -f fakeinstall/usr/lib/pkgconfig/{egl,gl}.pc
   _install fakeinstall/usr/lib/pkgconfig
 
-  _install fakeinstall/etc
+  # there's a bug in the _install function, it fails for etc, it creates etc/etc
+  mv fakeinstall/etc ${pkgdir}/
 
   # libglvnd support
   _install fakeinstall/usr/lib/libGL*
@@ -132,4 +134,53 @@ package() {
   find fakeinstall -depth -print0 | xargs -0 rmdir
 
   install -m644 -Dt "${pkgdir}/usr/share/licenses/${pkgname}" LICENSE
+}
+
+package_mesa-asahi-fex-emu-overlay() {
+  if [[ "$CARCH" != "x86_64" ]]; then
+    return 0
+  fi
+  #dri
+  install -Dpm0755 -s -t "fexov/usr/lib" "${pkgdir}/../mesa-asahi/usr/lib/libgallium-25.0.0-devel.so"
+  install -Dpm0755 -s -t "fexov/usr/lib/ovl_dri" "${pkgdir}/../mesa-asahi/usr/lib/dri/libdril_dri.so"
+  ln -s libdril_dri.so fexov/usr/lib/ovl_dri/apple_dri.so
+  ln -s libdril_dri.so fexov/usr/lib/ovl_dri/asahi_dri.so
+  ln -s ovl_dri fexov/usr/lib/dri
+  # openGL
+  install -Dpm0755 -s -t "fexov/usr/lib/" "${pkgdir}/../mesa-asahi/usr/lib/libEGL_mesa.so.0.0.0" "${pkgdir}/../mesa-asahi/usr/lib/libGLX_mesa.so.0.0.0" "${pkgdir}/../mesa-asahi/usr/lib/libglapi.so.0.0.0"
+  ln -s libEGL_mesa.so.0.0.0 fexov/usr/lib/libEGL_mesa.so.0
+  ln -s libGLX_mesa.so.0.0.0 fexov/usr/lib/libGLX_mesa.so.0
+  ln -s libglapi.so.0.0.0 fexov/usr/lib/libglapi.so.0
+  ln -s libGLX_mesa.so.0.0.0 fexov/usr/lib/libGLX_system.so.0
+  #openCL
+  install -Dpm0755 -s -t "fexov/usr/lib/" "${pkgdir}/../mesa-asahi/usr/lib/libRusticlOpenCL.so.1.0.0"
+  ln -s libRusticlOpenCL.so.1.0.0 fexov/usr/lib/libRusticlOpenCL.so.1
+  install -Dpm0644 -t "fexov/etc/OpenCL/ovl_vendors/" $pkgdir/../mesa-asahi/etc/OpenCL/vendors/rusticl.icd
+  ln -s ovl_vendors fexov/etc/OpenCL/vendors
+
+  # vulkan
+  install -Dpm0755 -s -t "fexov/usr/lib/" "${pkgdir}/../mesa-asahi/usr/lib/libvulkan_asahi.so" "${pkgdir}/../mesa-asahi/usr/lib/libVkLayer_MESA_device_select.so"
+
+  install -Dpm0644 -t "fexov/usr/share/vulkan/ovl_icd.d/"  "${pkgdir}/../mesa-asahi/usr/share/vulkan/icd.d/asahi_icd.x86_64.json"
+  install -Dpm0644 -t "fexov/usr/share/vulkan/implicit_layer.d/" "$pkgdir/../mesa-asahi/usr/share/vulkan/implicit_layer.d/VkLayer_MESA_device_select.json"
+  ln -s ovl_icd.d "fexov/usr/share/vulkan/icd.d"
+
+  #gbm
+  install -Dpm0755 -s -t fexov/usr/lib/ "$pkgdir/../mesa-asahi/usr/lib/libgbm.so.1.0.0"
+  install -Dpm0755 -s -t fexov/usr/lib/gbm "$pkgdir/../mesa-asahi/usr/lib/gbm/dri_gbm.so"
+
+  #glvnd
+  install -Dpm0644 -t "fexov/usr/share/glvnd/ovl_egl_vendor.d/"  "${pkgdir}/../mesa-asahi/usr/share/glvnd/egl_vendor.d/50_mesa.json"
+  ln -s ovl_egl_vendor.d fexov/usr/share/glvnd/egl_vendor.d
+
+  # fedora packages this lib, for some reason it comes from rootfs
+  install -Dpm0755 -s -t fexov/usr/lib/ "/usr/lib/libLLVMSPIRVLib.so.18.1"
+
+  patchelf --add-rpath /usr/lib fexov/usr/lib/gbm/dri_gbm.so
+  patchelf --add-rpath /usr/lib fexov/usr/lib/libGLX_mesa.so.0.0.0
+  patchelf --add-rpath /usr/lib fexov/usr/lib/libEGL_mesa.so.0.0.0
+  patchelf --add-rpath /usr/lib fexov/usr/lib/libRusticlOpenCL.so.1.0.0
+
+  mkfs.erofs -z lz4 mesa-x86_64.erofs fexov
+  install -Dpm0644 -t ${pkgdir}/usr/share/fex-emu/overlays/  mesa-x86_64.erofs
 }
