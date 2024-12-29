@@ -7,7 +7,7 @@ buildarch=8
 _rcver=6.12.4
 #_rcrel=3
 _asahirel=1
-pkgrel=1
+pkgrel=2
 
 _m1n1_version=1.4.17
 
@@ -31,9 +31,9 @@ source=(
   config         # the main kernel config file
 )
 sha256sums=('6543a6aa3fadb65fa24d5b7d4ae2143054229a94bc309512ce7c436104048e2f'
-            '592a82a5b31bfd23944cf7b6f55ba6744cfb93b9fc2de7d9860a96ed83038a68')
+            '15045abc8fa1caa07cdc25bed2141bcbe89b486f0e54c83077aabd5b6c0eb0a0')
 b2sums=('4a78aefc052a98e2319729b93da19f9dd9ef09ce066deb7d6bbdd137563fd3554b949df934a829b86f19037d51fe7458c4de054b3db1a53d2f213f0503e8e1e6'
-        '2596644e48c159f7bfcbd2f0d1ec3893fc660bb48c651a8a0dc3c72ca1c6809b079bcba398a1f7c79882da52eda8016ad77816d13aaae0fcabb3a9d9e54ed989')
+        'c79a15e13ef01eb08659f46b2bac562305d4b89159969caec27afce2fe0a799a5e191224d9b096270fc00fc16b7fd9d9aea577b17094def4663940517102433b')
 export KBUILD_BUILD_HOST=archlinux
 export KBUILD_BUILD_USER=$pkgbase
 export KBUILD_BUILD_TIMESTAMP="$(date -Ru${SOURCE_DATE_EPOCH:+d @$SOURCE_DATE_EPOCH})"
