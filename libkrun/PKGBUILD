@@ -13,6 +13,7 @@ source=("https://github.com/containers/libkrun/archive/refs/tags/v$pkgver/$pkgna
 
 build() {
     cd "$srcdir/$pkgname-$pkgver"
+    # TODO: should we set VIRGL_RESOURCE_MAP2=1 ?
     BLK=1 SND=1 GPU=1 NET=1 make
     patchelf --set-soname libkrun.so.1 --output target/release/libkrun.so.%{version} target/release/libkrun.so
 }
