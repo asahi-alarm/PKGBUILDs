@@ -5,13 +5,13 @@ highmem=1
 
 _suffix=-asahi
 
-pkgname=(mesa$_suffix mesa-asahi-fex-emu-overlay)
+pkgname=(mesa$_suffix mesa-asahi-fex-emu-x86_64-overlay)
 pkgdesc="An open-source implementation of the OpenGL specification"
 _asahiver=20241211
 _commit=asahi-$_asahiver
 pkgver=25.0.0_pre$_asahiver
-pkgrel=2
-arch=('x86_64' 'aarch64')
+pkgrel=3
+arch=('x86' 'x86_64' 'aarch64')
 makedepends=('python-mako' 'libxml2' 'libx11' 'xorgproto' 'libdrm' 'libxshmfence' 'libxxf86vm'
   'libxdamage' 'libvdpau' 'libva' 'wayland' 'wayland-protocols' 'zstd' 'elfutils' 'llvm' 'spirv-llvm-translator'
   'libomxil-bellagio' 'libclc' 'clang' 'libglvnd' 'libunwind' 'lm_sensors' 'libxrandr'
@@ -21,8 +21,6 @@ depends=('egl-wayland' 'libdrm' 'wayland' 'libxxf86vm' 'libxdamage' 'libxshmfenc
   'libunwind' 'llvm-libs' 'lm_sensors' 'libglvnd' 'zstd' 'vulkan-icd-loader')
 #depends+=('libsensors.so' 'libexpat.so' 'libvulkan.so')
 optdepends=('vulkan-mesa-layers: additional vulkan layers')
-provides=('mesa-libgl' 'opengl-driver' 'mesa' 'mesa-asahi-edge' 'vulkan-asahi' 'vulkan-swrast')
-conflicts=('mesa-libgl' 'mesa' 'mesa-asahi-edge' 'vulkan-swrast')
 url="https://www.mesa3d.org/"
 license=('custom')
 options=('debug' '!lto')
@@ -95,6 +93,8 @@ _install() {
 }
 
 package_mesa-asahi() {
+  provides=('mesa-libgl' 'opengl-driver' 'mesa' 'mesa-asahi' 'vulkan-asahi')
+  conflicts=('mesa-libgl' 'mesa' 'mesa-asahi-edge' 'vulkan-swrast')
 
   _install fakeinstall/usr/share/drirc.d/00-mesa-defaults.conf
   _install fakeinstall/usr/share/glvnd/egl_vendor.d/50_mesa.json
@@ -136,10 +136,15 @@ package_mesa-asahi() {
   install -m644 -Dt "${pkgdir}/usr/share/licenses/${pkgname}" LICENSE
 }
 
-package_mesa-asahi-fex-emu-overlay() {
+package_mesa-asahi-fex-emu-x86_64-overlay() {
+  arch=(any)
+  provides=('mesa-asahi-fex-emu-x86_64-overlay')
+
   if [[ "$CARCH" != "x86_64" ]]; then
     return 0
   fi
+
+  rm -rf fexov
   #dri
   install -Dpm0755 -s -t "fexov/usr/lib" "${pkgdir}/../mesa-asahi/usr/lib/libgallium-25.0.0-devel.so"
   install -Dpm0755 -s -t "fexov/usr/lib/ovl_dri" "${pkgdir}/../mesa-asahi/usr/lib/dri/libdril_dri.so"
