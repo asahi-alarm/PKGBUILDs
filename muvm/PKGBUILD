@@ -3,11 +3,11 @@
 
 pkgname=muvm
 pkgver=0.2.0
-pkgrel=1
+pkgrel=2
 pkgdesc='run programs from your system in a microVM'
 arch=('aarch64')
 url='https://github.com/AsahiLinux/muvm'
-depends=('libkrun')
+depends=('libkrun' 'socat' 'passt' 'dhcp-client')
 source=(
   "${pkgname}-${pkgver}.tar.gz::https://github.com/AsahiLinux/muvm/archive/refs/tags/${pkgname}-${pkgver}.tar.gz"
 )
