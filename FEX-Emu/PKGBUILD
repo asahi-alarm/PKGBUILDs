@@ -4,7 +4,7 @@
 pkgbase=FEX-Emu
 pkgname=FEX-Emu
 pkgver=2412
-pkgrel=2
+pkgrel=3
 pkgdesc="Fast x86 emulation frontend"
 arch=(x86_64 aarch64)
 url="https://github.com/FEX-Emu/FEX"
@@ -12,9 +12,13 @@ license=(MIT)
 makedepends=(
   cmake
   ninja
+  git
   lld
   llvm
   clang
+  libepoxy
+  python
+  qt6-declarative
 )
 depends=(
   passt
@@ -24,6 +28,7 @@ depends=(
 )
 source=("git+https://github.com/FEX-Emu/FEX.git#tag=FEX-${pkgver}")
 sha256sums=('SKIP')
+install=FEX-Emu.install
 
 prepare() {
   cd "${srcdir}/FEX"
@@ -33,9 +38,21 @@ prepare() {
 
 build() {
   cd ${srcdir}/FEX
-  mkdir build || true
+  rm -rf build
+  mkdir -p build || true
   cd build
-  CC=clang CXX=clang++ cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release -DUSE_LINKER=lld -DENABLE_LTO=True -DBUILD_TESTS=False -DENABLE_ASSERTIONS=False -G Ninja ..
+  CC=clang CXX=clang++ cmake \
+      -G Ninja \
+      -DENABLE_OFFLINE_TELEMETRY=OFF \
+      -DUSE_FEXCONFIG_TOOLKIT=qt \
+      -DCMAKE_INSTALL_PREFIX=/usr \
+      -DCMAKE_BUILD_TYPE=Release \
+      -DUSE_LINKER=lld \
+      -DENABLE_LTO=ON \
+      -DBUILD_TESTS=OFF \
+      -DBUILD_FEX_LINUX_TESTS=OFF \
+      -DENABLE_ASSERTIONS=ON \
+      ..
   ninja
 }
 
