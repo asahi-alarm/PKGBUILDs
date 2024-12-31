@@ -3,18 +3,20 @@
 
 pkgname=muvm
 pkgver=0.2.0
-pkgrel=2
+pkgrel=3
 pkgdesc='run programs from your system in a microVM'
 arch=('aarch64')
 url='https://github.com/AsahiLinux/muvm'
 depends=('libkrun' 'socat' 'passt' 'dhcp-client')
 source=(
   "${pkgname}-${pkgver}.tar.gz::https://github.com/AsahiLinux/muvm/archive/refs/tags/${pkgname}-${pkgver}.tar.gz"
+  "guest-net-New-implementation-of-network-setup-with-S.patch"
 )
-sha256sums=('1f5eac567992b2c50c9c590cddc578058ef76c4591662bd351b4899b4d2d1411')
+sha256sums=('1f5eac567992b2c50c9c590cddc578058ef76c4591662bd351b4899b4d2d1411' 'SKIP')
 
 build() {
   cd "${srcdir}/${pkgname}-${pkgname}-${pkgver}"
+  patch -p1 < "${srcdir}/guest-net-New-implementation-of-network-setup-with-S.patch"
   cargo build --release
 }
 

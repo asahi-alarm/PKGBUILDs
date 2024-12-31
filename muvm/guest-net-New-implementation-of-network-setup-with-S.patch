@@ -1,0 +1,1420 @@
+diff --git a/Cargo.lock b/Cargo.lock
+index 8af7043..c2168a3 100644
+--- a/Cargo.lock
++++ b/Cargo.lock
+@@ -4,18 +4,18 @@ version = 3
+ 
+ [[package]]
+ name = "addr2line"
+-version = "0.22.0"
++version = "0.24.2"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "6e4503c46a5c0c7844e948c9a4d6acd9f50cccb4de1c48eb9e291ea17470c678"
++checksum = "dfbe277e56a376000877090da837660b4427aad530e3028d44e0bffe4f89a1c1"
+ dependencies = [
+  "gimli",
+ ]
+ 
+ [[package]]
+-name = "adler"
+-version = "1.0.2"
++name = "adler2"
++version = "2.0.0"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "f26201604c87b1e01bd3d98f8d5d9a8fcbb815e8cedb41ffccbeb4bf593a35fe"
++checksum = "512761e0bb2578dd7380c6baaa0f4ce03e84f95e960231d1dec8bf4d7d6e2627"
+ 
+ [[package]]
+ name = "aho-corasick"
+@@ -28,9 +28,9 @@ dependencies = [
+ 
+ [[package]]
+ name = "anstream"
+-version = "0.6.14"
++version = "0.6.18"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "418c75fa768af9c03be99d17643f93f79bbba589895012a80e3452a19ddda15b"
++checksum = "8acc5369981196006228e28809f761875c0327210a891e941f4c683b3a99529b"
+ dependencies = [
+  "anstyle",
+  "anstyle-parse",
+@@ -43,43 +43,43 @@ dependencies = [
+ 
+ [[package]]
+ name = "anstyle"
+-version = "1.0.7"
++version = "1.0.10"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "038dfcf04a5feb68e9c60b21c9625a54c2c0616e79b72b0fd87075a056ae1d1b"
++checksum = "55cc3b69f167a1ef2e161439aa98aed94e6028e5f9a59be9a6ffb47aef1651f9"
+ 
+ [[package]]
+ name = "anstyle-parse"
+-version = "0.2.4"
++version = "0.2.6"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "c03a11a9034d92058ceb6ee011ce58af4a9bf61491aa7e1e59ecd24bd40d22d4"
++checksum = "3b2d16507662817a6a20a9ea92df6652ee4f94f914589377d69f3b21bc5798a9"
+ dependencies = [
+  "utf8parse",
+ ]
+ 
+ [[package]]
+ name = "anstyle-query"
+-version = "1.0.3"
++version = "1.1.2"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "a64c907d4e79225ac72e2a354c9ce84d50ebb4586dee56c82b3ee73004f537f5"
++checksum = "79947af37f4177cfead1110013d678905c37501914fba0efea834c3fe9a8d60c"
+ dependencies = [
+- "windows-sys 0.52.0",
++ "windows-sys 0.59.0",
+ ]
+ 
+ [[package]]
+ name = "anstyle-wincon"
+-version = "3.0.3"
++version = "3.0.6"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "61a38449feb7068f52bb06c12759005cf459ee52bb4adc1d5a7c4322d716fb19"
++checksum = "2109dbce0e72be3ec00bed26e6a7479ca384ad226efdd66db8fa2e3a38c83125"
+ dependencies = [
+  "anstyle",
+- "windows-sys 0.52.0",
++ "windows-sys 0.59.0",
+ ]
+ 
+ [[package]]
+ name = "anyhow"
+-version = "1.0.91"
++version = "1.0.95"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "c042108f3ed77fd83760a5fd79b53be043192bb3b9dba91d8c574c0ada7850c8"
++checksum = "34ac096ce696dc2fcabef30516bb13c0a68a11d30131d3df6f04711467681b04"
+ 
+ [[package]]
+ name = "autocfg"
+@@ -89,24 +89,24 @@ checksum = "ace50bade8e6234aa140d9a2f552bbee1db4d353f69b8217bc503490fc1a9f26"
+ 
+ [[package]]
+ name = "backtrace"
+-version = "0.3.72"
++version = "0.3.74"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "17c6a35df3749d2e8bb1b7b21a976d82b15548788d2735b9d82f329268f71a11"
++checksum = "8d82cb332cdfaed17ae235a638438ac4d4839913cc2af585c3c6746e8f8bee1a"
+ dependencies = [
+  "addr2line",
+- "cc",
+  "cfg-if",
+  "libc",
+  "miniz_oxide",
+  "object",
+  "rustc-demangle",
++ "windows-targets 0.52.6",
+ ]
+ 
+ [[package]]
+ name = "bindgen"
+-version = "0.69.4"
++version = "0.69.5"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "a00dc851838a2120612785d195287475a3ac45514741da670b735818822129a0"
++checksum = "271383c67ccabffb7381723dea0672a673f292304fcb45c01cc648c7a8d58088"
+ dependencies = [
+  "bitflags",
+  "cexpr",
+@@ -119,20 +119,20 @@ dependencies = [
+  "regex",
+  "rustc-hash",
+  "shlex",
+- "syn",
++ "syn 2.0.93",
+ ]
+ 
+ [[package]]
+ name = "bitflags"
+-version = "2.5.0"
++version = "2.6.0"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "cf4b9d6a944f767f8e5e0db018570623c85f3d925ac718db4e06d0187adb21c1"
++checksum = "b048fb63fd8b5923fc5aa7b340d8e156aec7ec02f0c78fa8a6ddc2613f6f71de"
+ 
+ [[package]]
+ name = "bpaf"
+-version = "0.9.12"
++version = "0.9.15"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "3280efcf6d66bc77c2cf9b67dc8acee47a217d9be67dd590b3230dffe663724d"
++checksum = "50fd5174866dc2fa2ddc96e8fb800852d37f064f32a45c7b7c2f8fa2c64c77fa"
+ 
+ [[package]]
+ name = "byteorder"
+@@ -142,15 +142,9 @@ checksum = "1fd0f2584146f6f2ef48085050886acf353beff7305ebd1ae69500e27c67f64b"
+ 
+ [[package]]
+ name = "bytes"
+-version = "1.6.0"
++version = "1.9.0"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "514de17de45fdb8dc022b1a7975556c53c86f9f0aa5f534b98977b171857c2c9"
+-
+-[[package]]
+-name = "cc"
+-version = "1.0.99"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "96c51067fd44124faa7f870b4b1c969379ad32b2ba805aa959430ceaa384f695"
++checksum = "325918d6fe32f23b19878fe4b34794ae41fc19ddbe53b10571a4874d44ffd39b"
+ 
+ [[package]]
+ name = "cexpr"
+@@ -175,9 +169,9 @@ checksum = "613afe47fcd5fac7ccf1db93babcb082c5994d996f20b8b159f2ad1658eb5724"
+ 
+ [[package]]
+ name = "clang-sys"
+-version = "1.7.0"
++version = "1.8.1"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "67523a3b4be3ce1989d607a828d036249522dd9c1c8de7f4dd2dae43a37369d1"
++checksum = "0b023947811758c97c59bf9d1c188fd619ad4718dcaa767947df1cadb14f39f4"
+ dependencies = [
+  "glob",
+  "libc",
+@@ -185,30 +179,102 @@ dependencies = [
+ 
+ [[package]]
+ name = "colorchoice"
+-version = "1.0.1"
++version = "1.0.3"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "5b63caa9aa9397e2d9480a9b13673856c78d8ac123288526c37d7839f2a86990"
++
++[[package]]
++name = "const-str"
++version = "0.5.7"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "3618cccc083bb987a415d85c02ca6c9994ea5b44731ec28b9ecf09658655fba9"
++
++[[package]]
++name = "darling"
++version = "0.14.4"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "0b6a852b24ab71dffc585bcb46eaf7959d175cb865a7152e35b348d1b2960422"
++checksum = "7b750cb3417fd1b327431a470f388520309479ab0bf5e323505daf0290cd3850"
++dependencies = [
++ "darling_core",
++ "darling_macro",
++]
++
++[[package]]
++name = "darling_core"
++version = "0.14.4"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "109c1ca6e6b7f82cc233a97004ea8ed7ca123a9af07a8230878fcfda9b158bf0"
++dependencies = [
++ "fnv",
++ "ident_case",
++ "proc-macro2",
++ "quote",
++ "strsim",
++ "syn 1.0.109",
++]
++
++[[package]]
++name = "darling_macro"
++version = "0.14.4"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "a4aab4dbc9f7611d8b55048a3a16d2d010c2c8334e46304b40ac1cc14bf3b48e"
++dependencies = [
++ "darling_core",
++ "quote",
++ "syn 1.0.109",
++]
++
++[[package]]
++name = "derive_builder"
++version = "0.11.2"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "d07adf7be193b71cc36b193d0f5fe60b918a3a9db4dad0449f57bcfd519704a3"
++dependencies = [
++ "derive_builder_macro",
++]
++
++[[package]]
++name = "derive_builder_core"
++version = "0.11.2"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "1f91d4cfa921f1c05904dc3c57b4a32c38aed3340cce209f3a6fd1478babafc4"
++dependencies = [
++ "darling",
++ "proc-macro2",
++ "quote",
++ "syn 1.0.109",
++]
++
++[[package]]
++name = "derive_builder_macro"
++version = "0.11.2"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "8f0314b72bed045f3a68671b3c86328386762c93f82d98c65c3cb5e5f573dd68"
++dependencies = [
++ "derive_builder_core",
++ "syn 1.0.109",
++]
+ 
+ [[package]]
+ name = "either"
+-version = "1.11.0"
++version = "1.13.0"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "a47c1c47d2f5964e29c61246e81db715514cd532db6b5116a25ea3c03d6780a2"
++checksum = "60b1af1c220855b6ceac025d3f6ecdd2b7c4894bfe9cd9bda4fbb4bc7c0d4cf0"
+ 
+ [[package]]
+ name = "env_filter"
+-version = "0.1.0"
++version = "0.1.3"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "a009aa4810eb158359dda09d0c87378e4bbb89b5a801f016885a4707ba24f7ea"
++checksum = "186e05a59d4c50738528153b83b0b0194d3a29507dfec16eccd4b342903397d0"
+ dependencies = [
+  "log",
+ ]
+ 
+ [[package]]
+ name = "env_logger"
+-version = "0.11.3"
++version = "0.11.6"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "38b35839ba51819680ba087cd351788c9a3c476841207e0b8cee0b04722343b9"
++checksum = "dcaee3d8e3cfc3fd92428d477bc97fc29ec8716d180c0d74c643bb26166660e0"
+ dependencies = [
+  "anstream",
+  "anstyle",
+@@ -219,31 +285,37 @@ dependencies = [
+ 
+ [[package]]
+ name = "errno"
+-version = "0.3.8"
++version = "0.3.10"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "a258e46cdc063eb8519c00b9fc845fc47bcfca4130e2f08e88665ceda8474245"
++checksum = "33d852cb9b869c2a9b3df2f71a3074817f01e1844f839a144f5fcef059a4eb5d"
+ dependencies = [
+  "libc",
+- "windows-sys 0.52.0",
++ "windows-sys 0.59.0",
+ ]
+ 
+ [[package]]
+ name = "fastrand"
+-version = "2.1.0"
++version = "2.3.0"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "9fc0510504f03c51ada170672ac806f1f105a88aa97a5281117e1ddc3368e51a"
++checksum = "37909eebbb50d72f9059c3b6d82c0463f2ff062c9e95845c43a6c9c0355411be"
++
++[[package]]
++name = "fnv"
++version = "1.0.7"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "3f9eec918d3f24069decb9af1554cad7c880e2da24a9afd88aca000531ab82c1"
+ 
+ [[package]]
+ name = "futures-core"
+-version = "0.3.30"
++version = "0.3.31"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "dfc6580bb841c5a68e9ef15c77ccc837b40a7504914d52e47b8b0e9bbda25a1d"
++checksum = "05f29059c0c2090612e8d742178b0580d2dc940c837851ad723096f87af6663e"
+ 
+ [[package]]
+ name = "futures-sink"
+-version = "0.3.30"
++version = "0.3.31"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "9fb8e00e87438d937621c1c6269e53f536c14d3fbd6a042bb24879e57d474fb5"
++checksum = "e575fab7d1e0dcb8d0c7bcf9a63ee213816ab51902e6d244a95819acacf1d4f7"
+ 
+ [[package]]
+ name = "getrandom"
+@@ -256,17 +328,29 @@ dependencies = [
+  "wasi",
+ ]
+ 
++[[package]]
++name = "getset"
++version = "0.1.3"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "f636605b743120a8d32ed92fc27b6cde1a769f8f936c065151eb66f88ded513c"
++dependencies = [
++ "proc-macro-error2",
++ "proc-macro2",
++ "quote",
++ "syn 2.0.93",
++]
++
+ [[package]]
+ name = "gimli"
+-version = "0.29.0"
++version = "0.31.1"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "40ecd4077b5ae9fd2e9e169b102c6c330d0605168eb0e8bf79952b256dbefffd"
++checksum = "07e28edb80900c19c28f1072f2e8aeca7fa06b23cd4169cefe1af5aa3260783f"
+ 
+ [[package]]
+ name = "glob"
+-version = "0.3.1"
++version = "0.3.2"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "d2fabcfbdc87f4758337ca535fb41a6d701b65693ce38287d856d1674551ec9b"
++checksum = "a8d1add55171497b4705a648c6b583acafb01d58050a51727785f0b2c8e0a2b2"
+ 
+ [[package]]
+ name = "hermit-abi"
+@@ -286,6 +370,12 @@ version = "2.1.0"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+ checksum = "9a3a5bfb195931eeb336b2a7b4d761daec841b97f947d34394601737a7bba5e4"
+ 
++[[package]]
++name = "ident_case"
++version = "1.0.1"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "b9e0384b61958566e926dc50660321d12159025e767c18e043daf26b70104c39"
++
+ [[package]]
+ name = "input-linux"
+ version = "0.7.1"
+@@ -319,9 +409,9 @@ dependencies = [
+ 
+ [[package]]
+ name = "is_terminal_polyfill"
+-version = "1.70.0"
++version = "1.70.1"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "f8478577c03552c21db0e2724ffb8986a5ce7af88107e6be5d2ee6e158c12800"
++checksum = "7943c866cc5cd64cbc25b2e01621d07fa8eb2a1a23160ee81ce38704e97b8ecf"
+ 
+ [[package]]
+ name = "itertools"
+@@ -334,9 +424,9 @@ dependencies = [
+ 
+ [[package]]
+ name = "itoa"
+-version = "1.0.11"
++version = "1.0.14"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "49f1f14873335454500d59611f1cf4a4b0f786f9ac11f4312a78e4cf2566695b"
++checksum = "d75a2a4b1b190afb6f5425f10f6a8f959d2ea0b9c2b1d79553551850539e4674"
+ 
+ [[package]]
+ name = "krun-sys"
+@@ -347,9 +437,9 @@ dependencies = [
+ 
+ [[package]]
+ name = "lazy_static"
+-version = "1.4.0"
++version = "1.5.0"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "e2abad23fbc42b3700f2f279844dc832adb2b2eb069b2df918f455c4e18cc646"
++checksum = "bbd2bcb4c963f2ddae06a2efc7e9f3591312473c50c6685e1f298068316e66fe"
+ 
+ [[package]]
+ name = "lazycell"
+@@ -359,9 +449,9 @@ checksum = "830d08ce1d1d941e6b30645f1a0eb5643013d835ce3779a5fc208261dbe10f55"
+ 
+ [[package]]
+ name = "libc"
+-version = "0.2.161"
++version = "0.2.169"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "8e9489c2807c139ffd9c1794f4af0ebe86a828db53ecdc7fea2111d0fed085d1"
++checksum = "b5aba8db14291edd000dfcc4d620c7ebfb122c613afb886ca8803fa4e128a20a"
+ 
+ [[package]]
+ name = "libudev-sys"
+@@ -375,21 +465,31 @@ dependencies = [
+ 
+ [[package]]
+ name = "linux-raw-sys"
+-version = "0.4.13"
++version = "0.4.14"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "01cda141df6706de531b6c46c3a33ecca755538219bd484262fa09410c13539c"
++checksum = "78b3ae25bc7c8c38cec158d1f2757ee79e9b3740fbc7ccf0e59e4b08d793fa89"
++
++[[package]]
++name = "lock_api"
++version = "0.4.12"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "07af8b9cdd281b7915f413fa73f29ebd5d55d0d3f0155584dade1ff18cea1b17"
++dependencies = [
++ "autocfg",
++ "scopeguard",
++]
+ 
+ [[package]]
+ name = "log"
+-version = "0.4.21"
++version = "0.4.22"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "90ed8c1e510134f979dbc4f070f87d4313098b704861a105fe34231c70a3901c"
++checksum = "a7a70ba024b9dc04c27ea2f0c0548feb474ec5c54bba33a7f72f873a39d07b24"
+ 
+ [[package]]
+ name = "memchr"
+-version = "2.7.2"
++version = "2.7.4"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "6c8640c5d730cb13ebd907d8d04b52f55ac9a2eec55b440c8892f40d56c76c1d"
++checksum = "78ca9ab1a0babb1e7d5695e3530886289c18cf2f87ec19a575a0abdce112e3a3"
+ 
+ [[package]]
+ name = "memoffset"
+@@ -408,22 +508,22 @@ checksum = "68354c5c6bd36d73ff3feceb05efa59b6acb7626617f4962be322a825e61f79a"
+ 
+ [[package]]
+ name = "miniz_oxide"
+-version = "0.7.3"
++version = "0.8.2"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "87dfd01fe195c66b572b37921ad8803d010623c0aca821bea2302239d155cdae"
++checksum = "4ffbe83022cedc1d264172192511ae958937694cd57ce297164951b8b3568394"
+ dependencies = [
+- "adler",
++ "adler2",
+ ]
+ 
+ [[package]]
+ name = "mio"
+-version = "0.8.11"
++version = "1.0.3"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "a4a650543ca06a924e8b371db273b2756685faae30f8487da1b56505a8f78b0c"
++checksum = "2886843bf800fba2e3377cff24abf6379b4c4d5c6681eaf9ea5b0d15090450bd"
+ dependencies = [
+  "libc",
+  "wasi",
+- "windows-sys 0.48.0",
++ "windows-sys 0.52.0",
+ ]
+ 
+ [[package]]
+@@ -433,11 +533,13 @@ dependencies = [
+  "anyhow",
+  "bpaf",
+  "byteorder",
++ "const-str",
+  "env_logger",
+  "input-linux",
+  "input-linux-sys",
+  "krun-sys",
+  "log",
++ "neli",
+  "nix",
+  "procfs",
+  "rustix",
+@@ -450,6 +552,35 @@ dependencies = [
+  "uuid",
+ ]
+ 
++[[package]]
++name = "neli"
++version = "0.7.0-rc2"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "4de016d5ec13f40df05f92660c9322325d7e15e3ea6f9b365a6e0ecc7cb0b7f2"
++dependencies = [
++ "bitflags",
++ "byteorder",
++ "derive_builder",
++ "getset",
++ "libc",
++ "log",
++ "neli-proc-macros",
++ "parking_lot",
++]
++
++[[package]]
++name = "neli-proc-macros"
++version = "0.2.0-rc2"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "1ce2ca79a37046e8897da8e967f22d7a6c76b9d5ffafbc8d7c57185a63ffe9ff"
++dependencies = [
++ "either",
++ "proc-macro2",
++ "quote",
++ "serde",
++ "syn 1.0.109",
++]
++
+ [[package]]
+ name = "nix"
+ version = "0.29.0"
+@@ -474,29 +605,48 @@ dependencies = [
+ ]
+ 
+ [[package]]
+-name = "num_cpus"
+-version = "1.16.0"
++name = "object"
++version = "0.36.7"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "4161fcb6d602d4d2081af7c3a45852d875a03dd337a6bfdd6e06407b61342a43"
++checksum = "62948e14d923ea95ea2c7c86c71013138b66525b86bdc08d2dcc262bdb497b87"
+ dependencies = [
+- "hermit-abi",
+- "libc",
++ "memchr",
+ ]
+ 
+ [[package]]
+-name = "object"
+-version = "0.35.0"
++name = "once_cell"
++version = "1.20.2"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "b8ec7ab813848ba4522158d5517a6093db1ded27575b070f4177b8d12b41db5e"
++checksum = "1261fe7e33c73b354eab43b1273a57c8f967d0391e80353e51f764ac02cf6775"
++
++[[package]]
++name = "parking_lot"
++version = "0.12.3"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "f1bf18183cf54e8d6059647fc3063646a1801cf30896933ec2311622cc4b9a27"
+ dependencies = [
+- "memchr",
++ "lock_api",
++ "parking_lot_core",
++]
++
++[[package]]
++name = "parking_lot_core"
++version = "0.9.10"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "1e401f977ab385c9e4e3ab30627d6f26d00e2c73eef317493c4ec6d468726cf8"
++dependencies = [
++ "cfg-if",
++ "libc",
++ "redox_syscall",
++ "smallvec",
++ "windows-targets 0.52.6",
+ ]
+ 
+ [[package]]
+ name = "pin-project-lite"
+-version = "0.2.14"
++version = "0.2.15"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "bda66fc9667c18cb2758a2ac84d1167245054bcf85d5d1aaa6923f45801bdd02"
++checksum = "915a1e146535de9163f3987b8944ed8cf49a18bb0056bcebcdcece385cece4ff"
+ 
+ [[package]]
+ name = "pkg-config"
+@@ -504,11 +654,33 @@ version = "0.3.31"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+ checksum = "953ec861398dccce10c670dfeaf3ec4911ca479e9c02154b3a215178c5f566f2"
+ 
++[[package]]
++name = "proc-macro-error-attr2"
++version = "2.0.0"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "96de42df36bb9bba5542fe9f1a054b8cc87e172759a1868aa05c1f3acc89dfc5"
++dependencies = [
++ "proc-macro2",
++ "quote",
++]
++
++[[package]]
++name = "proc-macro-error2"
++version = "2.0.1"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "11ec05c52be0a07b08061f7dd003e7d7092e0472bc731b4af7bb1ef876109802"
++dependencies = [
++ "proc-macro-error-attr2",
++ "proc-macro2",
++ "quote",
++ "syn 2.0.93",
++]
++
+ [[package]]
+ name = "proc-macro2"
+-version = "1.0.82"
++version = "1.0.92"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "8ad3d49ab951a01fbaafe34f2ec74122942fe18a3f9814c3268f1bb72042131b"
++checksum = "37d3544b3f2748c54e147655edb5025752e2303145b5aefb3c3ea2c78b973bb0"
+ dependencies = [
+  "unicode-ident",
+ ]
+@@ -537,18 +709,27 @@ dependencies = [
+ 
+ [[package]]
+ name = "quote"
+-version = "1.0.36"
++version = "1.0.38"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "0fa76aaf39101c457836aec0ce2316dbdc3ab723cdda1c6bd4e6ad4208acaca7"
++checksum = "0e4dccaaaf89514f546c693ddc140f729f958c247918a13380cccc6078391acc"
+ dependencies = [
+  "proc-macro2",
+ ]
+ 
++[[package]]
++name = "redox_syscall"
++version = "0.5.8"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "03a862b389f93e68874fbf580b9de08dd02facb9a788ebadaf4a3fd33cf58834"
++dependencies = [
++ "bitflags",
++]
++
+ [[package]]
+ name = "regex"
+-version = "1.10.4"
++version = "1.11.1"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "c117dbdfde9c8308975b6a18d71f3f385c89461f7b3fb054288ecf2a2058ba4c"
++checksum = "b544ef1b4eac5dc2db33ea63606ae9ffcfac26c1416a2806ae0bf5f56b201191"
+ dependencies = [
+  "aho-corasick",
+  "memchr",
+@@ -558,9 +739,9 @@ dependencies = [
+ 
+ [[package]]
+ name = "regex-automata"
+-version = "0.4.6"
++version = "0.4.9"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "86b83b8b9847f9bf95ef68afb0b8e6cdb80f498442f5179a29fad448fcc1eaea"
++checksum = "809e8dc61f6de73b46c85f4c96486310fe304c434cfa43669d7b40f711150908"
+ dependencies = [
+  "aho-corasick",
+  "memchr",
+@@ -569,9 +750,9 @@ dependencies = [
+ 
+ [[package]]
+ name = "regex-syntax"
+-version = "0.8.3"
++version = "0.8.5"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "adad44e29e4c806119491a7f06f03de4d1af22c3a680dd47f1e6e179439d1f56"
++checksum = "2b15c43186be67a4fd63bee50d0303afffcef381492ebe2c5d87f324e1b8815c"
+ 
+ [[package]]
+ name = "rustc-demangle"
+@@ -587,16 +768,16 @@ checksum = "08d43f7aa6b08d49f382cde6a7982047c3426db949b1424bc4b7ec9ae12c6ce2"
+ 
+ [[package]]
+ name = "rustix"
+-version = "0.38.34"
++version = "0.38.42"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "70dc5ec042f7a43c4a73241207cecc9873a06d45debb38b329f8541d85c2730f"
++checksum = "f93dc38ecbab2eb790ff964bb77fa94faf256fd3e73285fd7ba0903b76bedb85"
+ dependencies = [
+  "bitflags",
+  "errno",
+  "itoa",
+  "libc",
+  "linux-raw-sys",
+- "windows-sys 0.52.0",
++ "windows-sys 0.59.0",
+ ]
+ 
+ [[package]]
+@@ -605,33 +786,40 @@ version = "1.0.18"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+ checksum = "f3cb5ba0dc43242ce17de99c180e96db90b235b8a9fdc9543c96d2209116bd9f"
+ 
++[[package]]
++name = "scopeguard"
++version = "1.2.0"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "94143f37725109f92c262ed2cf5e59bce7498c01bcc1502d7b9afe439a4e9f49"
++
+ [[package]]
+ name = "serde"
+-version = "1.0.203"
++version = "1.0.217"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "7253ab4de971e72fb7be983802300c30b5a7f0c2e56fab8abfc6a214307c0094"
++checksum = "02fc4265df13d6fa1d00ecff087228cc0a2b5f3c0e87e258d8b94a156e984c70"
+ dependencies = [
+  "serde_derive",
+ ]
+ 
+ [[package]]
+ name = "serde_derive"
+-version = "1.0.203"
++version = "1.0.217"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "500cbc0ebeb6f46627f50f3f5811ccf6bf00643be300b4c3eabc0ef55dc5b5ba"
++checksum = "5a9bf7cf98d04a2b28aead066b7496853d4779c9cc183c440dbac457641e19a0"
+ dependencies = [
+  "proc-macro2",
+  "quote",
+- "syn",
++ "syn 2.0.93",
+ ]
+ 
+ [[package]]
+ name = "serde_json"
+-version = "1.0.117"
++version = "1.0.134"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "455182ea6142b14f93f4bc5320a2b31c1f266b66a4a5c858b013302a5d8cbfc3"
++checksum = "d00f4175c42ee48b15416f6193a959ba3a0d67fc699a0db9ad12df9f83991c7d"
+ dependencies = [
+  "itoa",
++ "memchr",
+  "ryu",
+  "serde",
+ ]
+@@ -651,21 +839,44 @@ dependencies = [
+  "libc",
+ ]
+ 
++[[package]]
++name = "smallvec"
++version = "1.13.2"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "3c5e1a9a646d36c3599cd173a41282daf47c44583ad367b8e6837255952e5c67"
++
+ [[package]]
+ name = "socket2"
+-version = "0.5.7"
++version = "0.5.8"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "ce305eb0b4296696835b71df73eb912e0f1ffd2556a501fcede6e0c50349191c"
++checksum = "c970269d99b64e60ec3bd6ad27270092a5394c4e309314b18ae3fe575695fbe8"
+ dependencies = [
+  "libc",
+  "windows-sys 0.52.0",
+ ]
+ 
++[[package]]
++name = "strsim"
++version = "0.10.0"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "73473c0e59e6d5812c5dfe2a064a6444949f089e20eec9a2e5506596494e4623"
++
++[[package]]
++name = "syn"
++version = "1.0.109"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "72b64191b275b66ffe2469e8af2c1cfe3bafa67b529ead792a6d0160888b4237"
++dependencies = [
++ "proc-macro2",
++ "quote",
++ "unicode-ident",
++]
++
+ [[package]]
+ name = "syn"
+-version = "2.0.61"
++version = "2.0.93"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "c993ed8ccba56ae856363b1845da7266a7cb78e1d146c8a32d54b45a8b831fc9"
++checksum = "9c786062daee0d6db1132800e623df74274a0a87322d8e183338e01b3d98d058"
+ dependencies = [
+  "proc-macro2",
+  "quote",
+@@ -674,50 +885,50 @@ dependencies = [
+ 
+ [[package]]
+ name = "tempfile"
+-version = "3.10.1"
++version = "3.14.0"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "85b77fafb263dd9d05cbeac119526425676db3784113aa9295c88498cbf8bff1"
++checksum = "28cce251fcbc87fac86a866eeb0d6c2d536fc16d06f184bb61aeae11aa4cee0c"
+ dependencies = [
+  "cfg-if",
+  "fastrand",
++ "once_cell",
+  "rustix",
+- "windows-sys 0.52.0",
++ "windows-sys 0.59.0",
+ ]
+ 
+ [[package]]
+ name = "tokio"
+-version = "1.38.0"
++version = "1.42.0"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "ba4f4a02a7a80d6f274636f0aa95c7e383b912d41fe721a31f29e29698585a4a"
++checksum = "5cec9b21b0450273377fc97bd4c33a8acffc8c996c987a7c5b319a0083707551"
+ dependencies = [
+  "backtrace",
+  "bytes",
+  "libc",
+  "mio",
+- "num_cpus",
+  "pin-project-lite",
+  "signal-hook-registry",
+  "socket2",
+  "tokio-macros",
+- "windows-sys 0.48.0",
++ "windows-sys 0.52.0",
+ ]
+ 
+ [[package]]
+ name = "tokio-macros"
+-version = "2.3.0"
++version = "2.4.0"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "5f5ae998a069d4b5aba8ee9dad856af7d520c3699e6159b185c2acd48155d39a"
++checksum = "693d596312e88961bc67d7f1f97af8a70227d9f90c31bba5806eec004978d752"
+ dependencies = [
+  "proc-macro2",
+  "quote",
+- "syn",
++ "syn 2.0.93",
+ ]
+ 
+ [[package]]
+ name = "tokio-stream"
+-version = "0.1.15"
++version = "0.1.17"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "267ac89e0bec6e691e5813911606935d77c476ff49024f98abcea3e7b15e37af"
++checksum = "eca58d7bba4a75707817a2c44174253f9236b2d5fbd055602e9d5c07c139a047"
+ dependencies = [
+  "futures-core",
+  "pin-project-lite",
+@@ -727,9 +938,9 @@ dependencies = [
+ 
+ [[package]]
+ name = "tokio-util"
+-version = "0.7.11"
++version = "0.7.13"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "9cf6b47b3771c49ac75ad09a6162f53ad4b8088b76ac60e8ec1455b31a189fe1"
++checksum = "d7fcaa8d55a2bdd6b83ace262b016eca0d79ee02818c5c1bcdf0305114081078"
+ dependencies = [
+  "bytes",
+  "futures-core",
+@@ -752,21 +963,21 @@ dependencies = [
+ 
+ [[package]]
+ name = "unicode-ident"
+-version = "1.0.12"
++version = "1.0.14"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "3354b9ac3fae1ff6755cb6db53683adb661634f67557942dea4facebec0fee4b"
++checksum = "adb9e6ca4f869e1180728b7950e35922a7fc6397f7b641499e8f3ef06e50dc83"
+ 
+ [[package]]
+ name = "utf8parse"
+-version = "0.2.1"
++version = "0.2.2"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "711b9620af191e0cdc7468a8d14e709c3dcdb115b36f838e601583af800a370a"
++checksum = "06abde3611657adf66d383f00b093d7faecc7fa57071cce2578660c9f1010821"
+ 
+ [[package]]
+ name = "uuid"
+-version = "1.10.0"
++version = "1.11.0"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "81dfa00651efa65069b0b6b651f4aaa31ba9e3c3ce0137aaad053604ee7e0314"
++checksum = "f8c5f0a0af699448548ad1a2fbf920fb4bee257eae39953ba95cb84891a0446a"
+ dependencies = [
+  "getrandom",
+  "serde",
+@@ -793,7 +1004,16 @@ version = "0.52.0"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+ checksum = "282be5f36a8ce781fad8c8ae18fa3f9beff57ec1b52cb3de0789201425d9a33d"
+ dependencies = [
+- "windows-targets 0.52.5",
++ "windows-targets 0.52.6",
++]
++
++[[package]]
++name = "windows-sys"
++version = "0.59.0"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "1e38bc4d79ed67fd075bcc251a1c39b32a1776bbe92e5bef1f0bf1f8c531853b"
++dependencies = [
++ "windows-targets 0.52.6",
+ ]
+ 
+ [[package]]
+@@ -813,18 +1033,18 @@ dependencies = [
+ 
+ [[package]]
+ name = "windows-targets"
+-version = "0.52.5"
++version = "0.52.6"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "6f0713a46559409d202e70e28227288446bf7841d3211583a4b53e3f6d96e7eb"
++checksum = "9b724f72796e036ab90c1021d4780d4d3d648aca59e491e6b98e725b84e99973"
+ dependencies = [
+- "windows_aarch64_gnullvm 0.52.5",
+- "windows_aarch64_msvc 0.52.5",
+- "windows_i686_gnu 0.52.5",
++ "windows_aarch64_gnullvm 0.52.6",
++ "windows_aarch64_msvc 0.52.6",
++ "windows_i686_gnu 0.52.6",
+  "windows_i686_gnullvm",
+- "windows_i686_msvc 0.52.5",
+- "windows_x86_64_gnu 0.52.5",
+- "windows_x86_64_gnullvm 0.52.5",
+- "windows_x86_64_msvc 0.52.5",
++ "windows_i686_msvc 0.52.6",
++ "windows_x86_64_gnu 0.52.6",
++ "windows_x86_64_gnullvm 0.52.6",
++ "windows_x86_64_msvc 0.52.6",
+ ]
+ 
+ [[package]]
+@@ -835,9 +1055,9 @@ checksum = "2b38e32f0abccf9987a4e3079dfb67dcd799fb61361e53e2882c3cbaf0d905d8"
+ 
+ [[package]]
+ name = "windows_aarch64_gnullvm"
+-version = "0.52.5"
++version = "0.52.6"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "7088eed71e8b8dda258ecc8bac5fb1153c5cffaf2578fc8ff5d61e23578d3263"
++checksum = "32a4622180e7a0ec044bb555404c800bc9fd9ec262ec147edd5989ccd0c02cd3"
+ 
+ [[package]]
+ name = "windows_aarch64_msvc"
+@@ -847,9 +1067,9 @@ checksum = "dc35310971f3b2dbbf3f0690a219f40e2d9afcf64f9ab7cc1be722937c26b4bc"
+ 
+ [[package]]
+ name = "windows_aarch64_msvc"
+-version = "0.52.5"
++version = "0.52.6"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "9985fd1504e250c615ca5f281c3f7a6da76213ebd5ccc9561496568a2752afb6"
++checksum = "09ec2a7bb152e2252b53fa7803150007879548bc709c039df7627cabbd05d469"
+ 
+ [[package]]
+ name = "windows_i686_gnu"
+@@ -859,15 +1079,15 @@ checksum = "a75915e7def60c94dcef72200b9a8e58e5091744960da64ec734a6c6e9b3743e"
+ 
+ [[package]]
+ name = "windows_i686_gnu"
+-version = "0.52.5"
++version = "0.52.6"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "88ba073cf16d5372720ec942a8ccbf61626074c6d4dd2e745299726ce8b89670"
++checksum = "8e9b5ad5ab802e97eb8e295ac6720e509ee4c243f69d781394014ebfe8bbfa0b"
+ 
+ [[package]]
+ name = "windows_i686_gnullvm"
+-version = "0.52.5"
++version = "0.52.6"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "87f4261229030a858f36b459e748ae97545d6f1ec60e5e0d6a3d32e0dc232ee9"
++checksum = "0eee52d38c090b3caa76c563b86c3a4bd71ef1a819287c19d586d7334ae8ed66"
+ 
+ [[package]]
+ name = "windows_i686_msvc"
+@@ -877,9 +1097,9 @@ checksum = "8f55c233f70c4b27f66c523580f78f1004e8b5a8b659e05a4eb49d4166cca406"
+ 
+ [[package]]
+ name = "windows_i686_msvc"
+-version = "0.52.5"
++version = "0.52.6"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "db3c2bf3d13d5b658be73463284eaf12830ac9a26a90c717b7f771dfe97487bf"
++checksum = "240948bc05c5e7c6dabba28bf89d89ffce3e303022809e73deaefe4f6ec56c66"
+ 
+ [[package]]
+ name = "windows_x86_64_gnu"
+@@ -889,9 +1109,9 @@ checksum = "53d40abd2583d23e4718fddf1ebec84dbff8381c07cae67ff7768bbf19c6718e"
+ 
+ [[package]]
+ name = "windows_x86_64_gnu"
+-version = "0.52.5"
++version = "0.52.6"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "4e4246f76bdeff09eb48875a0fd3e2af6aada79d409d33011886d3e1581517d9"
++checksum = "147a5c80aabfbf0c7d901cb5895d1de30ef2907eb21fbbab29ca94c5b08b1a78"
+ 
+ [[package]]
+ name = "windows_x86_64_gnullvm"
+@@ -901,9 +1121,9 @@ checksum = "0b7b52767868a23d5bab768e390dc5f5c55825b6d30b86c844ff2dc7414044cc"
+ 
+ [[package]]
+ name = "windows_x86_64_gnullvm"
+-version = "0.52.5"
++version = "0.52.6"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "852298e482cd67c356ddd9570386e2862b5673c85bd5f88df9ab6802b334c596"
++checksum = "24d5b23dc417412679681396f2b49f3de8c1473deb516bd34410872eff51ed0d"
+ 
+ [[package]]
+ name = "windows_x86_64_msvc"
+@@ -913,6 +1133,6 @@ checksum = "ed94fce61571a4006852b7389a063ab983c02eb1bb37b47f8272ce92d06d9538"
+ 
+ [[package]]
+ name = "windows_x86_64_msvc"
+-version = "0.52.5"
++version = "0.52.6"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "bec47e5bfd1bff0eeaf6d8b485cc1074891a197ab4225d504cb7a1ab88b02bf0"
++checksum = "589f6da84c646204747d1270a2a5661ea66ed1cced2631d546fdfb155959f9ec"
+diff --git a/crates/muvm/Cargo.toml b/crates/muvm/Cargo.toml
+index 84dc2eb..d2329b3 100644
+--- a/crates/muvm/Cargo.toml
++++ b/crates/muvm/Cargo.toml
+@@ -3,7 +3,7 @@ name = "muvm"
+ version = "0.2.0"
+ authors = ["Sergio Lopez <slp@redhat.com>", "Teoh Han Hui <teohhanhui@gmail.com>", "Sasha Finkelstein <fnkl.kernel@gmail.com>", "Asahi Lina <lina@asahilina.net>"]
+ edition = "2021"
+-rust-version = "1.77.0"
++rust-version = "1.80.0"
+ description = "Run programs from your system in a microVM"
+ repository = "https://github.com/AsahiLinux/muvm"
+ license = "MIT"
+@@ -12,11 +12,13 @@ license = "MIT"
+ anyhow = { version = "1.0.82", default-features = false, features = ["std"] }
+ bpaf = { version = "0.9.11", default-features = false, features = [] }
+ byteorder = { version = "1.5.0", default-features = false, features = ["std"] }
++const-str = { version = "0.5.7", default-features = false, features = [] }
+ env_logger = { version = "0.11.3", default-features = false, features = ["auto-color", "humantime", "unstable-kv"] }
+ input-linux = { version = "0.7.0", default-features = false, features = [] }
+ input-linux-sys = { version = "0.9.0", default-features = false, features = [] }
+ krun-sys = { path = "../krun-sys", version = "1.9.1", default-features = false, features = [] }
+ log = { version = "0.4.21", default-features = false, features = ["kv"] }
++neli = { version = "0.7.0-rc2", default-features = false, features = ["sync"] }
+ nix = { version = "0.29.0", default-features = false, features = ["event", "fs", "ioctl", "mman", "ptrace", "signal", "socket", "uio", "user"] }
+ procfs = { version = "0.17.0", default-features = false, features = [] }
+ rustix = { version = "0.38.34", default-features = false, features = ["fs", "mount", "process", "pty", "std", "stdio", "system", "termios", "use-libc-auxv"] }
+diff --git a/crates/muvm/src/guest/net.rs b/crates/muvm/src/guest/net.rs
+index b47f2e1..dd83c6a 100644
+--- a/crates/muvm/src/guest/net.rs
++++ b/crates/muvm/src/guest/net.rs
+@@ -1,14 +1,239 @@
+ use std::fs;
+ use std::io::Write;
+-use std::os::unix::process::ExitStatusExt as _;
+-use std::process::Command;
++use std::net::{Ipv4Addr, UdpSocket};
++use std::time::Duration;
+ 
+-use anyhow::{anyhow, Context, Result};
+-use log::debug;
++use anyhow::{Context, Result};
++use neli::consts::nl::NlmF;
++use neli::consts::rtnl::{
++    Arphrd, Ifa, IfaF, Iff, RtAddrFamily, RtScope, RtTable, Rta, Rtm, RtmF, Rtn, Rtprot,
++};
++use neli::consts::socket::NlFamily;
++use neli::nl::{NlPayload, Nlmsghdr};
++use neli::router::synchronous::{NlRouter, NlRouterReceiverHandle};
++use neli::rtnl::{
++    Ifaddrmsg, IfaddrmsgBuilder, Ifinfomsg, IfinfomsgBuilder, RtattrBuilder, Rtmsg, RtmsgBuilder,
++};
++use neli::types::RtBuffer;
++use neli::utils::Groups;
+ use rustix::system::sethostname;
+ 
+-use crate::utils::env::find_in_path;
+-use crate::utils::fs::find_executable;
++/// Set interface flags for eth0 (interface index 2) with a given mask
++fn flags_eth0(rtnl: &NlRouter, mask: Iff, set: Iff) -> Result<()> {
++    let ifinfomsg = IfinfomsgBuilder::default()
++        .ifi_family(RtAddrFamily::Unspecified)
++        .ifi_type(Arphrd::Ether)
++        .ifi_index(2)
++        .ifi_change(mask)
++        .ifi_flags(set)
++        .build()?;
++
++    let _: NlRouterReceiverHandle<Rtm, Ifinfomsg> =
++        rtnl.send(Rtm::Newlink, NlmF::REQUEST, NlPayload::Payload(ifinfomsg))?;
++
++    Ok(())
++}
++
++/// Add or delete IPv4 routes for eth0 (interface index 2)
++fn route4_eth0(rtnl: &NlRouter, what: Rtm, gw: Ipv4Addr) -> Result<()> {
++    let rtmsg = RtmsgBuilder::default()
++        .rtm_family(RtAddrFamily::Inet)
++        .rtm_dst_len(0)
++        .rtm_src_len(0)
++        .rtm_tos(0)
++        .rtm_table(RtTable::Main)
++        .rtm_protocol(Rtprot::Boot)
++        .rtm_scope(RtScope::Universe)
++        .rtm_type(Rtn::Unicast)
++        .rtm_flags(RtmF::empty())
++        .rtattrs(RtBuffer::from_iter([
++            RtattrBuilder::default()
++                .rta_type(Rta::Oif)
++                .rta_payload(2)
++                .build()?,
++            RtattrBuilder::default()
++                .rta_type(Rta::Dst)
++                .rta_payload(Ipv4Addr::UNSPECIFIED.octets().to_vec())
++                .build()?,
++            RtattrBuilder::default()
++                .rta_type(Rta::Gateway)
++                .rta_payload(gw.octets().to_vec())
++                .build()?,
++        ]))
++        .build()?;
++
++    let _: NlRouterReceiverHandle<Rtm, Rtmsg> = rtnl.send(
++        what,
++        NlmF::CREATE | NlmF::REQUEST,
++        NlPayload::Payload(rtmsg),
++    )?;
++
++    Ok(())
++}
++
++/// Add or delete IPv4 addresses for eth0 (interface index 2)
++fn addr4_eth0(rtnl: &NlRouter, what: Rtm, addr: Ipv4Addr, prefix_len: u8) -> Result<()> {
++    let ifaddrmsg = IfaddrmsgBuilder::default()
++        .ifa_family(RtAddrFamily::Inet)
++        .ifa_prefixlen(prefix_len)
++        .ifa_scope(RtScope::Universe)
++        .ifa_index(2)
++        .rtattrs(RtBuffer::from_iter([
++            RtattrBuilder::default()
++                .rta_type(Ifa::Local)
++                .rta_payload(addr.octets().to_vec())
++                .build()?,
++            RtattrBuilder::default()
++                .rta_type(Ifa::Address)
++                .rta_payload(addr.octets().to_vec())
++                .build()?,
++        ]))
++        .build()?;
++
++    let _: NlRouterReceiverHandle<Rtm, Ifaddrmsg> = rtnl.send(
++        what,
++        NlmF::CREATE | NlmF::REQUEST,
++        NlPayload::Payload(ifaddrmsg),
++    )?;
++
++    Ok(())
++}
++
++/// Send DISCOVER with Rapid Commit, process ACK, configure address and route
++fn do_dhcp(rtnl: &NlRouter) -> Result<()> {
++    // Temporary link-local address and route avoid the need for raw sockets
++    route4_eth0(rtnl, Rtm::Newroute, Ipv4Addr::UNSPECIFIED)?;
++    addr4_eth0(rtnl, Rtm::Newaddr, Ipv4Addr::new(169, 254, 1, 1), 16)?;
++
++    // Send request (DHCPDISCOVER)
++    let socket = UdpSocket::bind("0.0.0.0:68").expect("Failed to bind");
++    let mut buf = [0; 576 /* RFC 2131, Section 2 */ ];
++
++    const REQUEST: &[u8; 300 /* From RFC 951: >= 60 B of options */ ] = const_str::concat_bytes!(
++        1, // BOOTREQUEST
++        0x01, // Hardware address type: Ethernet
++        6, // Hardware address length
++        0, // DHCP relay Hops
++        [1, 2, 3, 4], // Transaction ID: we're the only client, use a fixed one
++        [0, 0], // Seconds elapsed since beginning of acquisition or renewal
++        [0x80, 0x0], // DHCP message flags: Broadcast
++        [0; 16], // All-zero ciaddr, yiaddr, siaddr, giaddr
++        [0; 16], // Client hardware address, not set as we're the only client
++        [0; 64], // Server host name
++        [0; 128], // Boot file name
++        [0x63, 0x82, 0x53, 0x63], // Magic cookie prefix before options
++        // Options
++        [
++            53, 1, 1, // DHCPDISCOVER
++            80, 0, // Rapid Commit (RFC 4039)
++        ],
++        0xff, // End of options
++        [0; 54], // Pad (up to 300 bytes)
++    );
++
++    socket.set_broadcast(true)?;
++    socket.send_to(REQUEST, "255.255.255.255:67")?;
++
++    // Keep IPv6-only fast
++    let _ = socket.set_read_timeout(Some(Duration::from_millis(100)));
++
++    // Get and process response (DHCPACK) if any
++    if let Ok((len, _)) = socket.recv_from(&mut buf) {
++        let msg = &mut buf[..len];
++
++        let addr = Ipv4Addr::new(msg[16], msg[17], msg[18], msg[19]);
++        let mut netmask = Ipv4Addr::UNSPECIFIED;
++        let mut router = Ipv4Addr::UNSPECIFIED;
++        let mut p: usize = 240;
++        let mut resolv = fs::File::options()
++            .append(true)
++            .open("/etc/resolv.conf")
++            .context("Failed to open /etc/resolv.conf")?;
++
++        while p < len {
++            let o = msg[p];
++            let l: u8 = msg[p + 1];
++            p += 2; // Length doesn't include code and length field itself
++
++            if o == 1 {
++                // Option 1: Subnet Mask
++                netmask = Ipv4Addr::new(msg[p], msg[p + 1], msg[p + 1], msg[p + 3]);
++            } else if o == 3 {
++                // Option 3: Router
++                router = Ipv4Addr::new(msg[p], msg[p + 1], msg[p + 2], msg[p + 3]);
++            } else if o == 6 {
++                // Option 6: Domain Name Server
++                for dns_p in (p..p + l as usize).step_by(4) {
++                    let dns =
++                        Ipv4Addr::new(msg[dns_p], msg[dns_p + 1], msg[dns_p + 2], msg[dns_p + 3]);
++                    resolv
++                        .write_all(format!("nameserver {}\n", dns).as_bytes())
++                        .context("Failed to write to resolv.conf")?;
++                }
++            } else if o == 0xff {
++                // Option 255: End (of options)
++                break;
++            }
++
++            p += l as usize;
++        }
++
++        let prefix_len: u8 = netmask.to_bits().leading_ones() as u8;
++
++        // Drop temporary address and route, configure what we got instead
++        route4_eth0(rtnl, Rtm::Delroute, Ipv4Addr::UNSPECIFIED)?;
++        addr4_eth0(rtnl, Rtm::Deladdr, Ipv4Addr::new(169, 254, 1, 1), 16)?;
++
++        addr4_eth0(rtnl, Rtm::Newaddr, addr, prefix_len)?;
++        route4_eth0(rtnl, Rtm::Newroute, router)?;
++    } else {
++        // Clean up: we're clearly too cool for IPv4
++        route4_eth0(rtnl, Rtm::Delroute, Ipv4Addr::UNSPECIFIED)?;
++        addr4_eth0(rtnl, Rtm::Deladdr, Ipv4Addr::new(169, 254, 1, 1), 16)?;
++    }
++
++    Ok(())
++}
++
++/// Wait for SLAAC to complete or fail
++fn wait_for_slaac(rtnl: &NlRouter) -> Result<()> {
++    let mut global_seen = false;
++    let mut global_wait = true;
++    let mut ll_seen = false;
++
++    // Busy-netlink-loop until we see a link-local address, and a global unicast
++    // address as long as we might expect one (see below)
++    while !ll_seen || (global_wait && !global_seen) {
++        let ifaddrmsg = IfaddrmsgBuilder::default()
++            .ifa_family(RtAddrFamily::Inet6)
++            .ifa_prefixlen(0)
++            .ifa_scope(RtScope::Universe)
++            .ifa_index(2)
++            .build()?;
++
++        let recv = rtnl.send(Rtm::Getaddr, NlmF::ROOT, NlPayload::Payload(ifaddrmsg))?;
++
++        for response in recv {
++            let header: Nlmsghdr<Rtm, Ifaddrmsg> = response?;
++            if let NlPayload::Payload(p) = header.nl_payload() {
++                if p.ifa_scope() == &RtScope::Link {
++                    // A non-tentative link-local address implies we sent a
++                    // router solicitation that didn't get any response
++                    // (IPv4-only)? Stop waiting for the router in that case
++                    if *p.ifa_flags() & IfaF::TENTATIVE != IfaF::TENTATIVE {
++                        global_wait = false;
++                    }
++
++                    ll_seen = true;
++                } else if p.ifa_scope() == &RtScope::Universe {
++                    global_seen = true;
++                }
++            }
++        }
++    }
++
++    Ok(())
++}
+ 
+ pub fn configure_network() -> Result<()> {
+     // Allow unprivileged users to use ping, as most distros do by default.
+@@ -33,63 +258,29 @@ pub fn configure_network() -> Result<()> {
+         sethostname(hostname.as_bytes()).context("Failed to set hostname")?;
+     }
+ 
+-    let dhcpcd_path = find_in_path("dhcpcd").context("Failed to check existence of `dhcpcd`")?;
+-    let dhcpcd_path = if let Some(dhcpcd_path) = dhcpcd_path {
+-        Some(dhcpcd_path)
+-    } else {
+-        find_executable("/sbin/dhcpcd").context("Failed to check existence of `/sbin/dhcpcd`")?
+-    };
+-    if let Some(dhcpcd_path) = dhcpcd_path {
+-        let output = Command::new(dhcpcd_path)
+-            .args(["-M", "--nodev", "eth0"])
+-            .output()
+-            .context("Failed to execute `dhcpcd` as child process")?;
+-        debug!(output:?; "dhcpcd output");
+-        if !output.status.success() {
+-            let err = if let Some(code) = output.status.code() {
+-                anyhow!("`dhcpcd` process exited with status code: {code}")
+-            } else {
+-                anyhow!(
+-                    "`dhcpcd` process terminated by signal: {}",
+-                    output
+-                        .status
+-                        .signal()
+-                        .expect("either one of status code or signal should be set")
+-                )
+-            };
+-            Err(err)?;
+-        }
++    let (rtnl, _) = NlRouter::connect(NlFamily::Route, None, Groups::empty())?;
++    rtnl.enable_strict_checking(true)?;
+ 
+-        return Ok(());
++    // Disable neighbour solicitations (dodge DAD), bring up link to start SLAAC
++    {
++        // IFF_NOARP | IFF_UP in one shot delays router solicitations, avoid it
++        flags_eth0(&rtnl, Iff::NOARP, Iff::NOARP)?;
++        flags_eth0(&rtnl, Iff::UP, Iff::UP)?;
+     }
+ 
+-    let dhclient_path =
+-        find_in_path("dhclient").context("Failed to check existence of `dhclient`")?;
+-    let dhclient_path = if let Some(dhclient_path) = dhclient_path {
+-        Some(dhclient_path)
+-    } else {
+-        find_executable("/sbin/dhclient")
+-            .context("Failed to check existence of `/sbin/dhclient`")?
+-    };
+-    let dhclient_path =
+-        dhclient_path.ok_or_else(|| anyhow!("could not find required `dhcpcd` or `dhclient`"))?;
+-    let output = Command::new(dhclient_path)
+-        .output()
+-        .context("Failed to execute `dhclient` as child process")?;
+-    debug!(output:?; "dhclient output");
+-    if !output.status.success() {
+-        let err = if let Some(code) = output.status.code() {
+-            anyhow!("`dhclient` process exited with status code: {code}")
+-        } else {
+-            anyhow!(
+-                "`dhclient` process terminated by signal: {}",
+-                output
+-                    .status
+-                    .signal()
+-                    .expect("either one of status code or signal should be set")
+-            )
+-        };
+-        Err(err)?;
++    // Configure IPv4
++    {
++        do_dhcp(&rtnl)?;
++    }
++
++    // Ensure IPv6 setup is done, if available
++    {
++        wait_for_slaac(&rtnl)?;
++    }
++
++    // Re-enable neighbour solicitations and ARP requests
++    {
++        flags_eth0(&rtnl, Iff::NOARP, Iff::empty())?;
+     }
+ 
+     Ok(())
