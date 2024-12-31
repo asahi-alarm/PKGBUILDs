@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Steam
+Comment=Play games
+Icon=steam
+TryExec=steam
+Exec=steam %U
+Terminal=false
+Categories=Game;
+StartupWMClass=steam

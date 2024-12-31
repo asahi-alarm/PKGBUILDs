@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2017 Cosimo Cecchi -->
+<!-- Copyright 2021 Collabora Ltd. -->
+<!-- Copyright 2024 Fedora Asahi contributors -->
+<component type="desktop-application">
+  <id>io.pagure.fedora_asahi.steam.desktop</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <name>Steam</name>
+  <summary>Launcher for the Steam software distribution service</summary>
+  <description>
+    <p>Steam is a software distribution service with an online store, automated
+      installation, automatic updates, achievements, SteamCloud synchronized
+      savegame and screenshot functionality, and many social features.</p>
+  </description>
+  <categories>
+    <category>Game</category>
+    <category>PackageManager</category>
+  </categories>
+  <url type="homepage">https://pagure.io/fedora-asahi/steam</url>
+  <url type="bugtracker">https://pagure.io/fedora-asahi/steam/issues</url>
+  <project_license>MIT</project_license>
+  <developer_name>Fedora Asahi contributors</developer_name>
+  <screenshots>
+    <screenshot type="default">
+      <image type="source" width="1200" height="582">https://steamcdn-a.akamaihd.net/steamcommunity/public/images/clans/27766192/ac26dea63042eec4886d5fa27854517ce374b11e.jpg</image>
+    </screenshot>
+  </screenshots>
+  <launchable type="desktop-id">steam.desktop</launchable>
+  <releases>
+    <release version="1.0.0.81" date="2024-08-15"/>
+  </releases>
+</component>

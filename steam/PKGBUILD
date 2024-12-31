@@ -1,0 +1,60 @@
+# Maintainer: Jos Dehaes <jos.dehaes@gmail.com>
+# Maintainer: Matthias Kurz <m.kurz@irregular.at>
+
+pkgname=steam
+pkgver=20241231
+pkgrel=1
+pkgdesc="Steam wrapper for Asahi ALARM: This package provides a wrapper to download, install and run Steam."
+arch=('any')
+license=('MIT')
+depends=(
+    'bash'
+    #'dbus-x11' # todo, seems we don't need that as it does not exist (anymore) in arch
+    'FEX-Emu'
+    'grep'
+    'hicolor-icon-theme'
+    'lsb-release'
+    'muvm>=0.2'
+    'python'
+    'xorg-xwininfo'
+    #'mesa-asahi-fex-emu-i386-overlay'
+    'mesa-asahi-fex-emu-x86_64-overlay'
+    'virglrenderer-asahi'
+    'zenity'
+    'python-pyqt6'
+    'python-pexpect'
+    'python-requests'
+    'python-pyxdg'
+)
+makedepends=(
+    'coreutils'
+    'desktop-file-utils'
+    'appstream-glib'
+)
+source=(
+    "shim.py"
+    "LICENSE"
+    "steam.desktop"
+    "steam.svg"
+    #"io.pagure.fedora_asahi.steam.metainfo.xml"
+)
+sha256sums=( # TODO Replace SKIP with actual hashes
+    'SKIP'
+    'SKIP'
+    'SKIP'
+    'SKIP'
+    #'SKIP'
+)
+
+package() {
+    install -Dm0755 "$srcdir/shim.py" "$pkgdir/usr/bin/steam"
+    install -Dm0644 "$srcdir/steam.desktop" "$pkgdir/usr/share/applications/steam.desktop"
+    install -Dm0644 "$srcdir/steam.svg" "$pkgdir/usr/share/icons/hicolor/scalable/apps/steam.svg"
+    #install -Dm0644 "$srcdir/io.pagure.fedora_asahi.steam.metainfo.xml" "$pkgdir/usr/share/metainfo/io.pagure.fedora_asahi.steam.metainfo.xml"
+    install -Dm0644 "$srcdir/LICENSE" "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}
+
+# TODO
+#check() {
+#    appstream-util validate-relax --nonet "$pkgdir/usr/share/metainfo/io.pagure.fedora_asahi.steam.metainfo.xml"
+#}
