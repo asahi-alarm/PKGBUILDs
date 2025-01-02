@@ -16,7 +16,7 @@ makedepends=('python-mako' 'libxml2' 'libx11' 'xorgproto' 'libdrm' 'libxshmfence
   'libxdamage' 'libvdpau' 'libva' 'wayland' 'wayland-protocols' 'zstd' 'elfutils' 'llvm' 'spirv-llvm-translator'
   'libomxil-bellagio' 'libclc' 'clang' 'libglvnd' 'libunwind' 'lm_sensors' 'libxrandr'
   'systemd' 'valgrind' 'glslang' 'vulkan-icd-loader' 'directx-headers' 'cmake' 'meson' 'python-pycparser' 'python-packaging' 'python-pyaml'
-  'erofs-utils' 'lz4' 'patchelf')
+  'erofs-utils' 'lz4' 'patchelf' 'rust-bindgen')
 
 # to build the 32 bit overlay you need these on the host machine
 #    'lib32-llvm' 'lib32-llvm-libs' 'lib32-libpciaccess' 'lib32-libglvnd' 'lib32-libxrandr' 'lib32-spirv-tools'
