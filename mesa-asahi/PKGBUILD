@@ -5,21 +5,25 @@ highmem=1
 
 _suffix=-asahi
 
-pkgname=(mesa$_suffix mesa-asahi-fex-emu-x86_64-overlay)
+pkgname=(mesa$_suffix mesa-asahi-fex-emu-x86_64-overlay mesa-asahi-fex-emu-x86-overlay)
 pkgdesc="An open-source implementation of the OpenGL specification"
 _asahiver=20241211
 _commit=asahi-$_asahiver
 pkgver=25.0.0_pre$_asahiver
-pkgrel=3
+pkgrel=4
 arch=('x86' 'x86_64' 'aarch64')
 makedepends=('python-mako' 'libxml2' 'libx11' 'xorgproto' 'libdrm' 'libxshmfence' 'libxxf86vm'
   'libxdamage' 'libvdpau' 'libva' 'wayland' 'wayland-protocols' 'zstd' 'elfutils' 'llvm' 'spirv-llvm-translator'
   'libomxil-bellagio' 'libclc' 'clang' 'libglvnd' 'libunwind' 'lm_sensors' 'libxrandr'
   'systemd' 'valgrind' 'glslang' 'vulkan-icd-loader' 'directx-headers' 'cmake' 'meson' 'python-pycparser' 'python-packaging' 'python-pyaml'
   'erofs-utils' 'lz4' 'patchelf')
+
+# to build the 32 bit overlay you need these on the host machine
+#    'lib32-llvm' 'lib32-llvm-libs' 'lib32-libpciaccess' 'lib32-libglvnd' 'lib32-libxrandr' 'lib32-spirv-tools'
+#    'lib32-spirv-llvm-translator' 'lib32-clang' 'lib32-libxfixes' 'lib32-libvdpau' 'lib32-libva' 'lib32-xcb-util-keysyms'
+
 depends=('egl-wayland' 'libdrm' 'wayland' 'libxxf86vm' 'libxdamage' 'libxshmfence' 'libelf' 'libomxil-bellagio'
   'libunwind' 'llvm-libs' 'lm_sensors' 'libglvnd' 'zstd' 'vulkan-icd-loader')
-#depends+=('libsensors.so' 'libexpat.so' 'libvulkan.so')
 optdepends=('vulkan-mesa-layers: additional vulkan layers')
 url="https://www.mesa3d.org/"
 license=('custom')
@@ -188,4 +192,108 @@ package_mesa-asahi-fex-emu-x86_64-overlay() {
 
   mkfs.erofs -z lz4 mesa-x86_64.erofs fexov
   install -Dpm0644 -t ${pkgdir}/usr/share/fex-emu/overlays/  mesa-x86_64.erofs
+}
+
+package_mesa-asahi-fex-emu-x86-overlay() {
+  arch=(any)
+  provides=('mesa-asahi-fex-emu-x86-overlay')
+
+  if [[ "$CARCH" != "x86_64" ]]; then
+    return 0
+  fi
+
+  CFLAGS+=' -g1 -m32 -march=i686'
+  CXXFLAGS+=' -g1 -m32 -march=i686'
+
+  rm -rf buildx && mkdir -p buildx
+  rm -rf fexov
+  rm -rf $pkgdir/*
+
+  arch-meson mesa-$_commit buildx \
+    --libdir=/usr/lib32 \
+    --cross-file=../cross_x86 \
+    -D b_ndebug=false \
+    -D b_lto=false \
+    -D platforms=x11,wayland \
+    -D gallium-drivers=swrast,virgl,asahi,zink \
+    -D vulkan-drivers=swrast,asahi \
+    -D vulkan-layers=device-select \
+    -D egl=enabled \
+    -D gallium-extra-hud=true \
+    -D gallium-opencl=icd \
+    -D gallium-rusticl=false \
+    -D gallium-va=enabled \
+    -D gallium-vdpau=enabled \
+    -D gallium-xa=disabled \
+    -D gbm=enabled \
+    -D opengl=true \
+    -D gles1=enabled \
+    -D gles2=enabled \
+    -D glvnd=enabled \
+    -D glx=dri \
+    -D libunwind=disabled \
+    -D llvm=enabled \
+    -D lmsensors=enabled \
+    -D osmesa=true \
+    -D intel-rt=disabled \
+    -D shared-glapi=enabled \
+    -D microsoft-clc=disabled \
+    -D valgrind=disabled \
+    -D android-libbacktrace=disabled \
+    -D shared-llvm=enabled \
+    -D build-tests=false
+
+  # Print config
+  meson configure --no-pager build
+
+  ninja -C build
+  meson compile -C buildx
+
+  # fake installation to be seperated into packages
+  # outside of fakeroot but mesa doesn't need to chown/mod
+  DESTDIR="${srcdir}/fakeinstall" meson install -C buildx
+
+  #dri
+  install -Dpm0755 -s -t "fexov/usr/lib32" "$srcdir/fakeinstall/usr/lib32/libgallium-25.0.0-devel.so"
+  install -Dpm0755 -s -t "fexov/usr/lib32/ovl_dri" "$srcdir/fakeinstall/usr/lib32/dri/libdril_dri.so"
+  ln -s libdril_dri.so fexov/usr/lib32/ovl_dri/apple_dri.so
+  ln -s libdril_dri.so fexov/usr/lib32/ovl_dri/asahi_dri.so
+  ln -s ovl_dri fexov/usr/lib32/dri
+  # openGL
+  install -Dpm0755 -s -t "fexov/usr/lib32/" "$srcdir/fakeinstall/usr/lib32/libEGL_mesa.so.0.0.0" "$srcdir/fakeinstall/usr/lib32/libGLX_mesa.so.0.0.0" "$srcdir/fakeinstall/usr/lib32/libglapi.so.0.0.0"
+  ln -s libEGL_mesa.so.0.0.0 fexov/usr/lib32/libEGL_mesa.so.0
+  ln -s libGLX_mesa.so.0.0.0 fexov/usr/lib32/libGLX_mesa.so.0
+  ln -s libglapi.so.0.0.0 fexov/usr/lib32/libglapi.so.0
+  ln -s libGLX_mesa.so.0.0.0 fexov/usr/lib32/libGLX_system.so.0
+  #openCL
+  #install -Dpm0755 -s -t "fexov/usr/lib32/" "$srcdir/fakeinstall/usr/lib32/libRusticlOpenCL.so.1.0.0"
+  #ln -s libRusticlOpenCL.so.1.0.0 fexov/usr/lib32/libRusticlOpenCL.so.1
+  #install -Dpm0644 -t "fexov/etc/OpenCL/ovl_vendors/" $srcdir/fakeinstall/etc/OpenCL/vendors/rusticl.icd
+  #ln -s ovl_vendors fexov/etc/OpenCL/vendors
+
+  # vulkan
+  install -Dpm0755 -s -t "fexov/usr/lib32/" "$srcdir/fakeinstall/usr/lib32/libvulkan_asahi.so" "$srcdir/fakeinstall/usr/lib32/libVkLayer_MESA_device_select.so"
+
+  install -Dpm0644 -t "fexov/usr/share/vulkan/ovl_icd.d/"  "$srcdir/fakeinstall/usr/share/vulkan/icd.d/asahi_icd.i686.json"
+  install -Dpm0644 -t "fexov/usr/share/vulkan/implicit_layer.d/" "$srcdir/fakeinstall/usr/share/vulkan/implicit_layer.d/VkLayer_MESA_device_select.json"
+  ln -s ovl_icd.d "fexov/usr/share/vulkan/icd.d"
+
+  #gbm
+  install -Dpm0755 -s -t fexov/usr/lib32/ "$srcdir/fakeinstall/usr/lib32/libgbm.so.1.0.0"
+  install -Dpm0755 -s -t fexov/usr/lib32/gbm "$srcdir/fakeinstall/usr/lib32/gbm/dri_gbm.so"
+
+  #glvnd
+  install -Dpm0644 -t "fexov/usr/share/glvnd/ovl_egl_vendor.d/"  "$srcdir/fakeinstall/usr/share/glvnd/egl_vendor.d/50_mesa.json"
+  ln -s ovl_egl_vendor.d fexov/usr/share/glvnd/egl_vendor.d
+
+  # fedora packages this lib, for some reason it comes from rootfs
+  install -Dpm0755 -s -t fexov/usr/lib32/ "/usr/lib32/libLLVMSPIRVLib.so.18.1"
+
+  patchelf --add-rpath /usr/lib32 fexov/usr/lib32/gbm/dri_gbm.so
+  patchelf --add-rpath /usr/lib32 fexov/usr/lib32/libGLX_mesa.so.0.0.0
+  patchelf --add-rpath /usr/lib32 fexov/usr/lib32/libEGL_mesa.so.0.0.0
+  #patchelf --add-rpath /usr/lib32 fexov/usr/lib32/libRusticlOpenCL.so.1.0.0
+
+  mkfs.erofs -z lz4 mesa-i386.erofs fexov
+  install -Dpm0644 -t ${pkgdir}/usr/share/fex-emu/overlays/  mesa-i386.erofs
 }
