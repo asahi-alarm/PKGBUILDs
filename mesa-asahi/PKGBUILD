@@ -10,7 +10,7 @@ pkgdesc="An open-source implementation of the OpenGL specification"
 _asahiver=20241211
 _commit=asahi-$_asahiver
 pkgver=25.0.0_pre$_asahiver
-pkgrel=4
+pkgrel=5
 arch=('x86' 'x86_64' 'aarch64')
 makedepends=('python-mako' 'libxml2' 'libx11' 'xorgproto' 'libdrm' 'libxshmfence' 'libxxf86vm'
   'libxdamage' 'libvdpau' 'libva' 'wayland' 'wayland-protocols' 'zstd' 'elfutils' 'llvm' 'spirv-llvm-translator'
@@ -119,7 +119,7 @@ package_mesa-asahi() {
   _install fakeinstall/usr/lib/pkgconfig
 
   # there's a bug in the _install function, it fails for etc, it creates etc/etc
-  mv fakeinstall/etc ${pkgdir}/
+  mv -v fakeinstall/etc ${pkgdir}/
 
   # libglvnd support
   _install fakeinstall/usr/lib/libGL*
@@ -131,8 +131,9 @@ package_mesa-asahi() {
   _install fakeinstall/usr/lib/libgallium*
   _install fakeinstall/usr/lib/libVkLayer*
 
-  # indirect rendering
-  ln -s /usr/lib/libGLX_mesa.so.0 "${pkgdir}/usr/lib/libGLX_indirect.so.0"
+  # glvnd needs a default provider for indirect rendering where it cannot
+  # determine the vendor
+  ln -s /usr/lib/libGLX_mesa.so.0 "${pkgdir}/usr/lib/libGLX_system.so.0"
 
   # make sure there are no files left to install
   find fakeinstall -depth -print0 | xargs -0 rmdir
