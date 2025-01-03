@@ -5,7 +5,7 @@ highmem=1
 
 _suffix=-asahi
 
-pkgname=(mesa$_suffix mesa-asahi-fex-emu-x86_64-overlay mesa-asahi-fex-emu-x86-overlay)
+pkgname=(mesa$_suffix mesa-asahi-fex-emu-x86_64-overlay lib32-mesa-asahi mesa-asahi-fex-emu-x86-overlay)
 pkgdesc="An open-source implementation of the OpenGL specification"
 _asahiver=20241211
 _commit=asahi-$_asahiver
@@ -195,19 +195,13 @@ package_mesa-asahi-fex-emu-x86_64-overlay() {
   install -Dpm0644 -t ${pkgdir}/usr/share/fex-emu/overlays/  mesa-x86_64.erofs
 }
 
-package_mesa-asahi-fex-emu-x86-overlay() {
-  arch=(any)
-  provides=('mesa-asahi-fex-emu-x86-overlay')
-
-  if [[ "$CARCH" != "x86_64" ]]; then
-    return 0
-  fi
-
+build_x86() {
   CFLAGS+=' -g1 -m32 -march=i686'
   CXXFLAGS+=' -g1 -m32 -march=i686'
 
   rm -rf buildx && mkdir -p buildx
   rm -rf fexov
+  rm -rf fakeinstall
   rm -rf $pkgdir/*
 
   arch-meson mesa-$_commit buildx \
@@ -253,6 +247,57 @@ package_mesa-asahi-fex-emu-x86-overlay() {
   # fake installation to be seperated into packages
   # outside of fakeroot but mesa doesn't need to chown/mod
   DESTDIR="${srcdir}/fakeinstall" meson install -C buildx
+}
+
+package_lib32-mesa-asahi() {
+  arch=(x86_64)
+  provides=('lib32-mesa' 'lib32-mesa-asahi')
+
+  if [[ "$CARCH" != "x86_64" ]]; then
+    return 0
+  fi
+
+  build_x86
+
+  #install libs
+  _install fakeinstall/usr/lib32/dri/*.so
+  _install fakeinstall/usr/lib32/vdpau
+  _install fakeinstall/usr/lib32/gallium-pipe
+
+  _install fakeinstall/usr/lib32/libMesa*
+  # _install fakeinstall/usr/lib32/libRusticl*
+  _install fakeinstall/usr/lib32/lib{gbm,glapi}.so*
+  _install fakeinstall/usr/lib32/gbm/dri_gbm.so*
+  _install fakeinstall/usr/lib32/libOSMesa.so*
+
+  rm -f fakeinstall/usr/lib/pkgconfig/{egl,gl}.pc
+  _install fakeinstall/usr/lib32/pkgconfig
+
+  # libglvnd support
+  _install fakeinstall/usr/lib32/libGL*
+  _install fakeinstall/usr/lib32/libEG*
+
+  # vulkan support
+  _install fakeinstall/usr/lib32/libvulkan*
+  _install fakeinstall/usr/lib32/libgallium*
+  _install fakeinstall/usr/lib32/libVkLayer*
+
+  # glvnd needs a default provider for indirect rendering where it cannot
+  # determine the vendor
+  ln -s /usr/lib32/libGLX_mesa.so.0 "${pkgdir}/usr/lib32/libGLX_system.so.0"
+
+  install -m644 -Dt "${pkgdir}/usr/share/licenses/${pkgname}" LICENSE
+}
+
+package_mesa-asahi-fex-emu-x86-overlay() {
+  arch=(any)
+  provides=('mesa-asahi-fex-emu-x86-overlay')
+
+  if [[ "$CARCH" != "x86_64" ]]; then
+    return 0
+  fi
+
+  build_x86
 
   #dri
   install -Dpm0755 -s -t "fexov/usr/lib32" "$srcdir/fakeinstall/usr/lib32/libgallium-25.0.0-devel.so"
