@@ -3,7 +3,7 @@
 pkgname=vulkan-tools
 pkgver=1.4.304
 pkgrel=1
-arch=(x86_64)
+arch=(x86_64 aarch64)
 url="https://www.khronos.org/vulkan/"
 pkgdesc="Vulkan Utilities and Tools"
 license=('custom')
@@ -61,7 +61,7 @@ build() {
 
 package() {
   cd "${srcdir}"/Vulkan-Tools*/build
-  
+
   make DESTDIR="${pkgdir}" install
 
   install -m755 ../build-wayland/cube/vkcube "${pkgdir}"/usr/bin/vkcube-wayland
