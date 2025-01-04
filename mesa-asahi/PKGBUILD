@@ -252,6 +252,7 @@ build_x86() {
 package_lib32-mesa-asahi() {
   arch=(x86_64)
   provides=('lib32-mesa' 'lib32-mesa-asahi')
+  conflicts=('lib32-mesa')
 
   if [[ "$CARCH" != "x86_64" ]]; then
     return 0
