@@ -5,13 +5,13 @@ highmem=1
 
 _suffix=-asahi
 
-pkgname=(mesa$_suffix lib32-mesa-asahi)
+pkgname=(mesa$_suffix mesa-asahi-fex-emu-x86_64-overlay mesa-asahi-fex-emu-x86-overlay lib32-mesa-asahi)
 pkgdesc="An open-source implementation of the OpenGL specification"
 _asahiver=20241211
 _commit=asahi-$_asahiver
 pkgver=25.0.0_pre$_asahiver
-pkgrel=5
-arch=('x86' 'x86_64' 'aarch64')
+pkgrel=6
+arch=('x86_64' 'aarch64')
 makedepends=('python-mako' 'libxml2' 'libx11' 'xorgproto' 'libdrm' 'libxshmfence' 'libxxf86vm'
   'libxdamage' 'libvdpau' 'libva' 'wayland' 'wayland-protocols' 'zstd' 'elfutils' 'llvm' 'spirv-llvm-translator'
   'libomxil-bellagio' 'libclc' 'clang' 'libglvnd' 'libunwind' 'lm_sensors' 'libxrandr'
@@ -91,7 +91,7 @@ build() {
   CXXFLAGS+=' -g1'
   CROSS=''
   LIBDIR=lib
-  RUSTICL=true
+  RUSTICL='true'
   BUILDDIR=build
 
   meson_build
@@ -108,8 +108,12 @@ _install() {
 }
 
 package_mesa-asahi() {
-  provides=('mesa-libgl' 'opengl-driver' 'mesa' 'mesa-asahi' 'vulkan-asahi')
+  provides=('mesa-libgl' 'opengl-driver' 'mesa' 'mesa-asahi' 'vulkan-asahi' 'vulkan-driver')
   conflicts=('mesa-libgl' 'mesa' 'mesa-asahi-edge' 'vulkan-swrast')
+
+  if [[ "$CARCH" == "x86_64" ]]; then
+    return 0
+  fi
 
   LIBDIR=lib
 
@@ -154,7 +158,80 @@ package_mesa-asahi() {
   install -m644 -Dt "${pkgdir}/usr/share/licenses/${pkgname}" LICENSE
 }
 
-build_x86() {
+create_overlay() {
+  OVERLAY_NAME=$1
+  JSON_FILE=$2
+  #dri
+  install -Dpm0755 -s -t "fexov/usr/$LIBDIR" "$srcdir/fakeinstall/usr/$LIBDIR/libgallium-25.0.0-devel.so"
+  install -Dpm0755 -s -t "fexov/usr/$LIBDIR/ovl_dri" "$srcdir/fakeinstall/usr/$LIBDIR/dri/libdril_dri.so"
+  ln -s libdril_dri.so fexov/usr/$LIBDIR/ovl_dri/apple_dri.so
+  ln -s libdril_dri.so fexov/usr/$LIBDIR/ovl_dri/asahi_dri.so
+  ln -s ovl_dri fexov/usr/$LIBDIR/dri
+  # openGL
+  install -Dpm0755 -s -t "fexov/usr/$LIBDIR/" "$srcdir/fakeinstall/usr/$LIBDIR/libEGL_mesa.so.0.0.0" "$srcdir/fakeinstall/usr/$LIBDIR/libGLX_mesa.so.0.0.0" "$srcdir/fakeinstall/usr/$LIBDIR/libglapi.so.0.0.0"
+  ln -s libEGL_mesa.so.0.0.0 fexov/usr/$LIBDIR/libEGL_mesa.so.0
+  ln -s libGLX_mesa.so.0.0.0 fexov/usr/$LIBDIR/libGLX_mesa.so.0
+  ln -s libglapi.so.0.0.0 fexov/usr/$LIBDIR/libglapi.so.0
+  ln -s libGLX_mesa.so.0.0.0 fexov/usr/$LIBDIR/libGLX_system.so.0
+  ln -s libGLX_mesa.so.0.0.0 fexov/usr/$LIBDIR/libGLX_indirect.so.0
+  #openCL
+  if [ "$RUSTICL" == 'true' ]; then
+    install -Dpm0755 -s -t "fexov/usr/$LIBDIR/" "$srcdir/fakeinstall/usr/$LIBDIR/libRusticlOpenCL.so.1.0.0"
+    ln -s libRusticlOpenCL.so.1.0.0 fexov/usr/$LIBDIR/libRusticlOpenCL.so.1
+    install -Dpm0644 -t "fexov/etc/OpenCL/ovl_vendors/" $srcdir/fakeinstall/etc/OpenCL/vendors/rusticl.icd
+    ln -s ovl_vendors fexov/etc/OpenCL/vendors
+  fi
+
+  # vulkan
+  install -Dpm0755 -s -t "fexov/usr/$LIBDIR/" "$srcdir/fakeinstall/usr/$LIBDIR/libvulkan_asahi.so" "$srcdir/fakeinstall/usr/$LIBDIR/libVkLayer_MESA_device_select.so"
+
+  install -Dpm0644 -t "fexov/usr/share/vulkan/ovl_icd.d/" "$srcdir/fakeinstall/usr/share/vulkan/icd.d/$JSON_FILE"
+  install -Dpm0644 -t "fexov/usr/share/vulkan/implicit_layer.d/" "$srcdir/fakeinstall/usr/share/vulkan/implicit_layer.d/VkLayer_MESA_device_select.json"
+  ln -s ovl_icd.d "fexov/usr/share/vulkan/icd.d"
+
+  #gbm
+  install -Dpm0755 -s -t fexov/usr/$LIBDIR/ "$srcdir/fakeinstall/usr/$LIBDIR/libgbm.so.1.0.0"
+  install -Dpm0755 -s -t fexov/usr/$LIBDIR/gbm "$srcdir/fakeinstall/usr/$LIBDIR/gbm/dri_gbm.so"
+
+  #glvnd
+  install -Dpm0644 -t "fexov/usr/share/glvnd/ovl_egl_vendor.d/" "$srcdir/fakeinstall/usr/share/glvnd/egl_vendor.d/50_mesa.json"
+  ln -s ovl_egl_vendor.d fexov/usr/share/glvnd/egl_vendor.d
+
+  # fedora packages this lib, for some reason it comes from rootfs
+  install -Dpm0755 -s -t fexov/usr/$LIBDIR/ "/usr/$LIBDIR/libLLVMSPIRVLib.so.18.1"
+
+  patchelf --add-rpath /usr/$LIBDIR fexov/usr/$LIBDIR/gbm/dri_gbm.so
+  patchelf --add-rpath /usr/$LIBDIR fexov/usr/$LIBDIR/libGLX_mesa.so.0.0.0
+  patchelf --add-rpath /usr/$LIBDIR fexov/usr/$LIBDIR/libEGL_mesa.so.0.0.0
+  if [ "$RUSTICL" == 'true' ]; then
+    patchelf --add-rpath /usr/$LIBDIR fexov/usr/$LIBDIR/libRusticlOpenCL.so.1.0.0
+  fi
+
+  mkfs.erofs -z lz4 $OVERLAY_NAME fexov
+}
+
+package_mesa-asahi-fex-emu-x86_64-overlay() {
+  arch=(any)
+  provides=('mesa-asahi-fex-emu-x86_64-overlay')
+
+  if [[ "$CARCH" != "x86_64" ]]; then
+    return 0
+  fi
+
+  rm -rf fexov
+  LIBDIR=lib
+  create_overlay mesa-x86_64.erofs asahi_icd.x86_64.json
+  install -Dpm0644 -t ${pkgdir}/usr/share/fex-emu/overlays/ mesa-x86_64.erofs
+}
+
+package_mesa-asahi-fex-emu-x86-overlay() {
+  arch=(any)
+  provides=('mesa-asahi-fex-emu-x86-overlay')
+
+  if [[ "$CARCH" != "x86_64" ]]; then
+    return 0
+  fi
+
   rm -rf buildx && mkdir -p buildx
   rm -rf fexov
   rm -rf fakeinstall
@@ -164,48 +241,16 @@ build_x86() {
   CXXFLAGS+=' -g1 -m32 -march=i686'
   CROSS='--cross-file=../cross_x86'
   LIBDIR=lib32
-  RUSTICL=false
+  RUSTICL='false'
   BUILDDIR=buildx
 
   meson_build
+
+  create_overlay mesa-i386.erofs asahi_icd.i686.json
+  install -Dpm0644 -t ${pkgdir}/usr/share/fex-emu/overlays/ mesa-i386.erofs
 }
 
 package_lib32-mesa-asahi() {
-  arch=(x86_64)
-  provides=('lib32-mesa' 'lib32-mesa-asahi' 'lib32-opengl-driver')
-  conflicts=('lib32-mesa')
-
-  if [[ "$CARCH" != "x86_64" ]]; then
-    return 0
-  fi
-
-  build_x86
-
-  #install libs
-  _install fakeinstall/usr/$LIBDIR/dri/*.so
-  _install fakeinstall/usr/$LIBDIR/vdpau
-  _install fakeinstall/usr/$LIBDIR/gallium-pipe
-
-  _install fakeinstall/usr/$LIBDIR/libMesa*
-  # _install fakeinstall/usr/$LIBDIR/libRusticl*
-  _install fakeinstall/usr/$LIBDIR/lib{gbm,glapi}.so*
-  _install fakeinstall/usr/$LIBDIR/gbm/dri_gbm.so*
-  _install fakeinstall/usr/$LIBDIR/libOSMesa.so*
-
-  rm -f fakeinstall/usr/$LIBDIR/pkgconfig/{egl,gl}.pc
-  _install fakeinstall/usr/$LIBDIR/pkgconfig
-
-  # libglvnd support
-  _install fakeinstall/usr/$LIBDIR/libGL*
-  _install fakeinstall/usr/$LIBDIR/libEG*
-
-  # vulkan support
-  _install fakeinstall/usr/share/vulkan/icd.d
-  _install fakeinstall/usr/$LIBDIR/libvulkan*
-  _install fakeinstall/usr/$LIBDIR/libgallium*
-  _install fakeinstall/usr/$LIBDIR/libVkLayer*
-
-  # glvnd needs a default provider for indirect rendering where it cannot
-  # determine the vendor
-  ln -s /usr/$LIBDIR/libGLX_mesa.so.0 "${pkgdir}/usr/$LIBDIR/libGLX_system.so.0"
+  provides=('lib32-mesa-libgl' 'lib32-opengl-driver' 'lib32-mesa' 'lib32-mesa-asahi' 'lib32-vulkan-asahi' 'lib32-vulkan-driver')
+  conflicts=('lib32-mesa-libgl' 'lib32-mesa' 'lib32-mesa-asahi-edge')
 }
