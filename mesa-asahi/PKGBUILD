@@ -25,7 +25,7 @@ depends=('egl-wayland' 'libdrm' 'wayland' 'libxxf86vm' 'libxdamage' 'libxshmfenc
 optdepends=('vulkan-mesa-layers: additional vulkan layers')
 url="https://www.mesa3d.org/"
 license=('custom')
-options=('debug' '!lto')
+options=('!debug' '!lto')
 source=(https://gitlab.freedesktop.org/asahi/mesa/-/archive/$_commit/mesa-$_commit.tar.gz
   LICENSE)
 sha512sums=('3cffd24548a3303ad318f6ddf9a39d908c503090b1dcc389e4636565e27cdc69a7da28781d59bda092a07918863ac1938f34232b1554545ec5996cbcccaadab2'
