@@ -99,7 +99,8 @@ _install() {
   local src f dir
   for src; do
     f="${src#fakeinstall/}"
-    dir="${pkgdir}/${f%/*}"
+    # If $f contains no slash (=directly in the root), then return empty string, otherwise parent folder (removing last /*)
+    dir="${pkgdir}/$([[ "$f" == */* ]] && printf "%s" "${f%/*}" || printf "")"
     install -m755 -d "${dir}"
     mv -v "${src}" "${dir}/"
   done
@@ -133,8 +134,7 @@ package_mesa-asahi() {
   rm -f fakeinstall/usr/$LIBDIR/pkgconfig/{egl,gl}.pc
   _install fakeinstall/usr/$LIBDIR/pkgconfig
 
-  # there's a bug in the _install function, it fails for etc, it creates etc/etc
-  mv -v fakeinstall/etc ${pkgdir}/
+  _install fakeinstall/etc
 
   # libglvnd support
   _install fakeinstall/usr/$LIBDIR/libGL*
