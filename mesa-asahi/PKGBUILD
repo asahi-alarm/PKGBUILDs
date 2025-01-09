@@ -41,6 +41,14 @@ sha512sums=(
 
 prepare() {
   cd mesa-$_commit
+
+  chmod -Rf a+rX,u+w,g-w,o-w .
+
+  cat gnome-shell-glthread-disable.patch |
+  patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
+
+  # patch VERSION to contain the asahi tag name
+  sed -i "s/devel/asahi20241211/" VERSION
 }
 
 meson_build() {
