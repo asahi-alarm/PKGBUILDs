@@ -3,7 +3,7 @@
 
 highmem=1
 
-pkgname=(mesa-asahi mesa-asahi-fex-emu-x86_64-overlay mesa-asahi-fex-emu-x86-overlay lib32-mesa-asahi)
+pkgname=(mesa-asahi mesa-asahi-fex-emu-x86_64-overlay mesa-asahi-fex-emu-x86-overlay mesa-asahi-dummy)
 pkgdesc="An open-source implementation of the OpenGL specification"
 _asahiver=20241211
 _commit=asahi-$_asahiver
@@ -248,7 +248,13 @@ package_mesa-asahi-fex-emu-x86-overlay() {
   install -Dpm0644 -t ${pkgdir}/usr/share/fex-emu/overlays/ mesa-i386.erofs
 }
 
-package_lib32-mesa-asahi() {
-  provides=('lib32-mesa-libgl' 'lib32-opengl-driver' 'lib32-mesa' 'lib32-mesa-asahi' 'lib32-vulkan-asahi' 'lib32-vulkan-driver')
-  conflicts=('lib32-mesa-libgl' 'lib32-mesa' 'lib32-mesa-asahi-edge')
+package_mesa-asahi-dummy() {
+  arch=(any)
+  provides=(
+    'mesa' 'lib32-mesa'
+    'opengl-driver' 'lib32-opengl-driver'
+    'vulkan-driver' 'lib32-vulkan-driver'
+    'mesa-libgl' 'lib32-mesa-libgl'
+    'vulkan-swrast' 'lib32-vulkan-swrast'
+  )
 }
