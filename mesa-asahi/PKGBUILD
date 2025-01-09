@@ -3,9 +3,7 @@
 
 highmem=1
 
-_suffix=-asahi
-
-pkgname=(mesa$_suffix mesa-asahi-fex-emu-x86_64-overlay mesa-asahi-fex-emu-x86-overlay lib32-mesa-asahi)
+pkgname=(mesa-asahi mesa-asahi-fex-emu-x86_64-overlay mesa-asahi-fex-emu-x86-overlay lib32-mesa-asahi)
 pkgdesc="An open-source implementation of the OpenGL specification"
 _asahiver=20241211
 _commit=asahi-$_asahiver
