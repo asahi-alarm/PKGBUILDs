@@ -137,40 +137,155 @@ package_mesa-asahi() {
 
   LIBDIR=lib
 
-  _install fakeinstall/usr/share/drirc.d/00-mesa-defaults.conf
-  _install fakeinstall/usr/share/glvnd/egl_vendor.d/50_mesa.json
-
-  #install libs
-  _install fakeinstall/usr/$LIBDIR/dri/*.so
-  _install fakeinstall/usr/$LIBDIR/vdpau
-  _install fakeinstall/usr/$LIBDIR/gallium-pipe
-
-  _install fakeinstall/usr/$LIBDIR/libMesa*
-  _install fakeinstall/usr/$LIBDIR/libRusticl*
-  _install fakeinstall/usr/$LIBDIR/lib{gbm,glapi}.so*
-  _install fakeinstall/usr/$LIBDIR/gbm/dri_gbm.so*
-  _install fakeinstall/usr/$LIBDIR/libOSMesa.so*
-
-  _install fakeinstall/usr/include
-  rm -f fakeinstall/usr/$LIBDIR/pkgconfig/{egl,gl}.pc
-  _install fakeinstall/usr/$LIBDIR/pkgconfig
-
-  _install fakeinstall/etc
-
-  # libglvnd support
-  _install fakeinstall/usr/$LIBDIR/libGL*
-  _install fakeinstall/usr/$LIBDIR/libEG*
-
-  # vulkan support
-  _install fakeinstall/usr/share/vulkan
-  _install fakeinstall/usr/$LIBDIR/libvulkan*
-  _install fakeinstall/usr/$LIBDIR/libgallium*
-  _install fakeinstall/usr/$LIBDIR/libVkLayer*
+  # libvdpau opens the versioned name, don't bother including the unversioned
+  rm -vf fakeinstall/usr/lib/vdpau/*.so
+  # likewise glvnd
+  rm -vf fakeinstall/usr/lib/libGLX_mesa.so
+  rm -vf fakeinstall/usr/lib/libEGL_mesa.so
+  # XXX can we just not build this
+  rm -vf fakeinstall/usr/lib/libGLES*
 
   # glvnd needs a default provider for indirect rendering where it cannot
   # determine the vendor
-  ln -s /usr/$LIBDIR/libGLX_mesa.so.0 "${pkgdir}/usr/$LIBDIR/libGLX_system.so.0"
+  ln -s /usr/lib/libGLX_mesa.so.0 fakeinstall/usr/lib/libGLX_system.so.0
 
+  # this keeps breaking, check it early.  note that the exit from eu-ftr is odd.
+  pushd fakeinstall/usr/lib
+  for i in libOSMesa*.so libGL.so ; do
+      eu-findtextrel $i && exit 1
+  done
+  popd
+
+  # filesystem
+  install -Dpm0755 -t ${pkgdir}/usr/share/doc/mesa-asahi/ Mesa-MLAA-License-Clarification-Email.txt
+  install -m755 -d ${pkgdir}/usr/lib/dri
+  install -m755 -d ${pkgdir}/usr/share/drirc.d
+
+  # libGL
+  _install fakeinstall/usr/lib/libGLX_mesa.so.0*
+  _install fakeinstall/usr/lib/libGLX_system.so.0*
+  # libGL-devel
+  install -m755 -d ${pkgdir}/usr/include/GL
+  install -m755 -d ${pkgdir}/usr/include/GL/internal
+  _install fakeinstall/usr/include/GL/internal/dri_interface.h
+  _install fakeinstall/usr/lib/pkgconfig/dri.pc
+  _install fakeinstall/usr/lib/libglapi.so
+
+  # libEGL
+  _install fakeinstall/usr/share/glvnd/egl_vendor.d/50_mesa.json
+  _install fakeinstall/usr/lib/libEGL_mesa.so.0*
+  # libEGL-devel
+  install -m755 -d ${pkgdir}/usr/include/EGL
+  _install fakeinstall/usr/include/EGL/eglext_angle.h
+  _install fakeinstall/usr/include/EGL/eglmesaext.h
+
+  # libglapi
+  _install fakeinstall/usr/lib/libglapi.so.0
+  _install fakeinstall/usr/lib/libglapi.so.0.*
+
+  # libOSMesa
+  _install fakeinstall/usr/lib/libOSMesa.so.8*
+  # libOSMesa-devel
+  install -m755 -d ${pkgdir}/usr/include/GL
+  _install fakeinstall/usr/include/GL/osmesa.h
+  _install fakeinstall/usr/lib/libOSMesa.so
+  _install fakeinstall/usr/lib/pkgconfig/osmesa.pc
+
+  # libgbm
+  _install fakeinstall/usr/lib/libgbm.so.1
+  _install fakeinstall/usr/lib/libgbm.so.1.*
+  # libgbm-devel
+  _install fakeinstall/usr/lib/libgbm.so
+  _install fakeinstall/usr/include/gbm.h
+  _install fakeinstall/usr/lib/pkgconfig/gbm.pc
+
+  # libTeflon
+  _install fakeinstall/usr/lib/libteflon.so
+
+  # libOpenCL
+  _install fakeinstall/usr/lib/libMesaOpenCL.so.*
+  _install fakeinstall/usr/lib/libRusticlOpenCL.so.*
+  _install fakeinstall/etc/OpenCL/vendors/mesa.icd
+  _install fakeinstall/etc/OpenCL/vendors/rusticl.icd
+
+  # libOpenCL-devel
+  _install fakeinstall/usr/lib/libMesaOpenCL.so
+  _install fakeinstall/usr/lib/libRusticlOpenCL.so
+
+  # libd3d
+  install -m755 -d ${pkgdir}/usr/lib/d3d/
+  _install fakeinstall/usr/lib/d3d/*.so.*
+
+  # libd3d-devel
+  _install fakeinstall/usr/lib/pkgconfig/d3d.pc
+  _install fakeinstall/usr/include/d3dadapter/
+  _install fakeinstall/usr/lib/d3d/*.so
+
+  # dri-drivers
+  _install fakeinstall/usr/lib/gbm/dri_gbm.so
+  _install fakeinstall/usr/share/drirc.d/00-mesa-defaults.conf
+  _install fakeinstall/usr/lib/libgallium-*.so
+  _install fakeinstall/usr/lib/dri/kms_swrast_dri.so
+  _install fakeinstall/usr/lib/dri/libdril_dri.so
+  _install fakeinstall/usr/lib/dri/swrast_dri.so
+  _install fakeinstall/usr/lib/dri/virtio_gpu_dri.so
+
+  _install fakeinstall/usr/lib/dri/apple_dri.so
+  _install fakeinstall/usr/lib/dri/asahi_dri.so
+  _install fakeinstall/usr/lib/dri/ingenic-drm_dri.so
+  _install fakeinstall/usr/lib/dri/imx-drm_dri.so
+  _install fakeinstall/usr/lib/dri/imx-lcdif_dri.so
+  _install fakeinstall/usr/lib/dri/kirin_dri.so
+  _install fakeinstall/usr/lib/dri/komeda_dri.so
+  _install fakeinstall/usr/lib/dri/mali-dp_dri.so
+  _install fakeinstall/usr/lib/dri/mcde_dri.so
+  _install fakeinstall/usr/lib/dri/mxsfb-drm_dri.so
+  _install fakeinstall/usr/lib/dri/rcar-du_dri.so
+  _install fakeinstall/usr/lib/dri/stm_dri.so
+  install -m755 -d ${pkgdir}/usr/lib/gallium-pipe
+  _install fakeinstall/usr/lib/gallium-pipe/*.so
+  _install fakeinstall/usr/lib/dri/armada-drm_dri.so
+  _install fakeinstall/usr/lib/dri/exynos_dri.so
+  _install fakeinstall/usr/lib/dri/gm12u320_dri.so
+  _install fakeinstall/usr/lib/dri/hdlcd_dri.so
+  _install fakeinstall/usr/lib/dri/hx8357d_dri.so
+  _install fakeinstall/usr/lib/dri/ili9163_dri.so
+  _install fakeinstall/usr/lib/dri/ili9225_dri.so
+  _install fakeinstall/usr/lib/dri/ili9341_dri.so
+  _install fakeinstall/usr/lib/dri/ili9486_dri.so
+  _install fakeinstall/usr/lib/dri/imx-dcss_dri.so
+  _install fakeinstall/usr/lib/dri/mediatek_dri.so
+  _install fakeinstall/usr/lib/dri/meson_dri.so
+  _install fakeinstall/usr/lib/dri/mi0283qt_dri.so
+  _install fakeinstall/usr/lib/dri/panel-mipi-dbi_dri.so
+  _install fakeinstall/usr/lib/dri/pl111_dri.so
+  _install fakeinstall/usr/lib/dri/repaper_dri.so
+  _install fakeinstall/usr/lib/dri/rockchip_dri.so
+  _install fakeinstall/usr/lib/dri/rzg2l-du_dri.so
+  _install fakeinstall/usr/lib/dri/ssd130x_dri.so
+  _install fakeinstall/usr/lib/dri/st7586_dri.so
+  _install fakeinstall/usr/lib/dri/st7735r_dri.so
+  _install fakeinstall/usr/lib/dri/sti_dri.so
+  _install fakeinstall/usr/lib/dri/sun4i-drm_dri.so
+  _install fakeinstall/usr/lib/dri/udl_dri.so
+  _install fakeinstall/usr/lib/dri/vkms_dri.so
+  _install fakeinstall/usr/lib/dri/zynqmp-dpsub_dri.so
+  _install fakeinstall/usr/lib/dri/zink_dri.so
+
+  # va-drivers
+  _install fakeinstall/usr/lib/dri/virtio_gpu_drv_video.so
+
+  # vdpau-drivers
+  install -m755 -d ${pkgdir}/usr/lib/vdpau
+  _install fakeinstall/usr/lib/vdpau/libvdpau_virtio_gpu.so.1*
+
+  # vulkan-drivers
+  _install fakeinstall/usr/lib/libvulkan_lvp.so
+  _install fakeinstall/usr/share/vulkan/icd.d/lvp_icd.*.json
+  _install fakeinstall/usr/lib/libVkLayer_MESA_device_select.so
+  _install fakeinstall/usr/share/vulkan/implicit_layer.d/VkLayer_MESA_device_select.json
+  _install fakeinstall/usr/lib/libvulkan_asahi.so
+  _install fakeinstall/usr/share/vulkan/icd.d/asahi_icd.*.json
 }
 
 create_overlay() {
