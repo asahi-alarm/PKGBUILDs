@@ -333,13 +333,6 @@ create_overlay() {
     fakeinstall/usr/share/glvnd/egl_vendor.d/50_mesa.json
   ln -s ovl_egl_vendor.d "fexov/usr/share/glvnd/egl_vendor.d"
 
-  # Ship this with the mesa erofs since it needs to work with the rawhide
-  # rootfs and spirv-llvm-translator is not packaged for compat.
-  # Make sure to remove the License: override for the subpackage
-  # if this gets removed.
-  install -Dpm0755 -s -t "fexov/usr/$LIBDIR/" \
-    /usr/$LIBDIR/libLLVMSPIRVLib.so.18.1
-
   # Hack to work around libcapsule bug:
   # https://github.com/ValveSoftware/steam-runtime/issues/704
   #
