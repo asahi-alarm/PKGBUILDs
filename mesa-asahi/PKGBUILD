@@ -164,20 +164,10 @@ package_mesa-asahi() {
   # libGL
   _install fakeinstall/usr/lib/libGLX_mesa.so.0*
   _install fakeinstall/usr/lib/libGLX_system.so.0*
-  # libGL-devel
-  install -m755 -d ${pkgdir}/usr/include/GL
-  install -m755 -d ${pkgdir}/usr/include/GL/internal
-  _install fakeinstall/usr/include/GL/internal/dri_interface.h
-  _install fakeinstall/usr/lib/pkgconfig/dri.pc
-  _install fakeinstall/usr/lib/libglapi.so
 
   # libEGL
   _install fakeinstall/usr/share/glvnd/egl_vendor.d/50_mesa.json
   _install fakeinstall/usr/lib/libEGL_mesa.so.0*
-  # libEGL-devel
-  install -m755 -d ${pkgdir}/usr/include/EGL
-  _install fakeinstall/usr/include/EGL/eglext_angle.h
-  _install fakeinstall/usr/include/EGL/eglmesaext.h
 
   # libglapi
   _install fakeinstall/usr/lib/libglapi.so.0
@@ -185,19 +175,10 @@ package_mesa-asahi() {
 
   # libOSMesa
   _install fakeinstall/usr/lib/libOSMesa.so.8*
-  # libOSMesa-devel
-  install -m755 -d ${pkgdir}/usr/include/GL
-  _install fakeinstall/usr/include/GL/osmesa.h
-  _install fakeinstall/usr/lib/libOSMesa.so
-  _install fakeinstall/usr/lib/pkgconfig/osmesa.pc
 
   # libgbm
   _install fakeinstall/usr/lib/libgbm.so.1
   _install fakeinstall/usr/lib/libgbm.so.1.*
-  # libgbm-devel
-  _install fakeinstall/usr/lib/libgbm.so
-  _install fakeinstall/usr/include/gbm.h
-  _install fakeinstall/usr/lib/pkgconfig/gbm.pc
 
   # libTeflon
   _install fakeinstall/usr/lib/libteflon.so
@@ -208,18 +189,9 @@ package_mesa-asahi() {
   _install fakeinstall/etc/OpenCL/vendors/mesa.icd
   _install fakeinstall/etc/OpenCL/vendors/rusticl.icd
 
-  # libOpenCL-devel
-  _install fakeinstall/usr/lib/libMesaOpenCL.so
-  _install fakeinstall/usr/lib/libRusticlOpenCL.so
-
   # libd3d
   install -m755 -d ${pkgdir}/usr/lib/d3d/
   _install fakeinstall/usr/lib/d3d/*.so.*
-
-  # libd3d-devel
-  _install fakeinstall/usr/lib/pkgconfig/d3d.pc
-  _install fakeinstall/usr/include/d3dadapter/
-  _install fakeinstall/usr/lib/d3d/*.so
 
   # dri-drivers
   _install fakeinstall/usr/lib/gbm/dri_gbm.so
