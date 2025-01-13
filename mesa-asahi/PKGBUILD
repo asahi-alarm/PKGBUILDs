@@ -377,6 +377,13 @@ package_mesa-asahi-fex-emu-overlay-i386() {
   rm -rf fakeinstall
   rm -rf ${pkgdir:?}/*
 
+  # Work around meson cross-build issue (32-bit build only)
+  # https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-mesa/-/blob/1-24.3.3-2/PKGBUILD?ref_type=tags#L189
+  # https://bugs.gentoo.org/939803
+  # https://gitweb.gentoo.org/repo/gentoo.git/commit/?id=f3caa4db8e65ccf767a5b0b893ca3a28c1e39bea
+  # https://github.com/Frogging-Family/mesa-git/pull/50
+  export BINDGEN_EXTRA_CLANG_ARGS="-m32"
+
   CFLAGS+=' -g1 -m32 -march=i686'
   CXXFLAGS+=' -g1 -m32 -march=i686'
   CROSS='--cross-file=../cross_x86'
