@@ -48,7 +48,7 @@ prepare() {
   patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
 
   # patch VERSION to contain the asahi tag name
-  sed -i "s/devel/asahi20241211/" VERSION
+  sed -i "s/devel/asahi${_asahiver}/" VERSION
 }
 
 meson_build() {
