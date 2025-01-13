@@ -263,52 +263,97 @@ package_mesa-asahi() {
 create_overlay() {
   OVERLAY_NAME=$1
   JSON_FILE=$2
-  #dri
-  install -Dpm0755 -s -t "fexov/usr/$LIBDIR" "$srcdir/fakeinstall/usr/$LIBDIR/libgallium-25.0.0-devel.so"
-  install -Dpm0755 -s -t "fexov/usr/$LIBDIR/ovl_dri" "$srcdir/fakeinstall/usr/$LIBDIR/dri/libdril_dri.so"
-  ln -s libdril_dri.so fexov/usr/$LIBDIR/ovl_dri/apple_dri.so
-  ln -s libdril_dri.so fexov/usr/$LIBDIR/ovl_dri/asahi_dri.so
-  ln -s ovl_dri fexov/usr/$LIBDIR/dri
-  # openGL
-  install -Dpm0755 -s -t "fexov/usr/$LIBDIR/" "$srcdir/fakeinstall/usr/$LIBDIR/libEGL_mesa.so.0.0.0" "$srcdir/fakeinstall/usr/$LIBDIR/libGLX_mesa.so.0.0.0" "$srcdir/fakeinstall/usr/$LIBDIR/libglapi.so.0.0.0"
-  ln -s libEGL_mesa.so.0.0.0 fexov/usr/$LIBDIR/libEGL_mesa.so.0
-  ln -s libGLX_mesa.so.0.0.0 fexov/usr/$LIBDIR/libGLX_mesa.so.0
-  ln -s libglapi.so.0.0.0 fexov/usr/$LIBDIR/libglapi.so.0
-  ln -s libGLX_mesa.so.0.0.0 fexov/usr/$LIBDIR/libGLX_system.so.0
-  ln -s libGLX_mesa.so.0.0.0 fexov/usr/$LIBDIR/libGLX_indirect.so.0
-  #openCL
-  if [ "$RUSTICL" == 'true' ]; then
-    install -Dpm0755 -s -t "fexov/usr/$LIBDIR/" "$srcdir/fakeinstall/usr/$LIBDIR/libRusticlOpenCL.so.1.0.0"
-    ln -s libRusticlOpenCL.so.1.0.0 fexov/usr/$LIBDIR/libRusticlOpenCL.so.1
-    install -Dpm0644 -t "fexov/etc/OpenCL/ovl_vendors/" $srcdir/fakeinstall/etc/OpenCL/vendors/rusticl.icd
-    ln -s ovl_vendors fexov/etc/OpenCL/vendors
-  fi
 
-  # vulkan
-  install -Dpm0755 -s -t "fexov/usr/$LIBDIR/" "$srcdir/fakeinstall/usr/$LIBDIR/libvulkan_asahi.so" "$srcdir/fakeinstall/usr/$LIBDIR/libVkLayer_MESA_device_select.so"
+  # libvdpau opens the versioned name, don't bother including the unversioned
+  rm -vf fakeinstall/usr/$LIBDIR/vdpau/*.so
+  # likewise glvnd
+  rm -vf fakeinstall/usr/$LIBDIR/libGLX_mesa.so
+  rm -vf fakeinstall/usr/$LIBDIR/libEGL_mesa.so
+  # XXX can we just not build this
+  rm -vf fakeinstall/usr/$LIBDIR/libGLES*
 
-  install -Dpm0644 -t "fexov/usr/share/vulkan/ovl_icd.d/" "$srcdir/fakeinstall/usr/share/vulkan/icd.d/$JSON_FILE"
-  install -Dpm0644 -t "fexov/usr/share/vulkan/implicit_layer.d/" "$srcdir/fakeinstall/usr/share/vulkan/implicit_layer.d/VkLayer_MESA_device_select.json"
+  # glvnd needs a default provider for indirect rendering where it cannot
+  # determine the vendor
+  ln -s /usr/$LIBDIR/libGLX_mesa.so.0 fakeinstall/usr/$LIBDIR/libGLX_system.so.0
+
+  # this keeps breaking, check it early.  note that the exit from eu-ftr is odd.
+  pushd fakeinstall/usr/$LIBDIR
+  for i in libOSMesa*.so libGL.so ; do
+      eu-findtextrel $i && exit 1
+  done
+  popd
+
+  mkdir -p fexov
+
+  # Note: In order to effectively white-out the underlying RootFS Mesa's
+  # drivers, we install files into alternately named sub-directories and
+  # then symlink them to the original name. This hides the entire original
+  # directory in the underlying RootFS.
+
+  install -Dpm0755 -s -t "fexov/usr/$LIBDIR/" \
+    fakeinstall/usr/$LIBDIR/libgallium-*.so
+  install -Dpm0755 -s -t "fexov/usr/$LIBDIR/ovl_dri/" \
+    fakeinstall/usr/$LIBDIR/dri/libdril_dri.so
+  ln -s libdril_dri.so "fexov/usr/$LIBDIR/ovl_dri/apple_dri.so"
+  ln -s libdril_dri.so "fexov/usr/$LIBDIR/ovl_dri/asahi_dri.so"
+  ln -s ovl_dri "fexov/usr/$LIBDIR/dri"
+
+  install -Dpm0755 -s -t "fexov/usr/$LIBDIR/" \
+    fakeinstall/usr/$LIBDIR/libEGL_mesa.so.0.0.0 \
+    fakeinstall/usr/$LIBDIR/libGLX_mesa.so.0.0.0 \
+    fakeinstall/usr/$LIBDIR/libglapi.so.0.0.0
+  ln -s libEGL_mesa.so.0.0.0 "fexov/usr/$LIBDIR/libEGL_mesa.so.0"
+  ln -s libGLX_mesa.so.0.0.0 "fexov/usr/$LIBDIR/libGLX_mesa.so.0"
+  ln -s libglapi.so.0.0.0 "fexov/usr/$LIBDIR/libglapi.so.0"
+  ln -s libGLX_mesa.so.0 "fexov/usr/$LIBDIR/libGLX_system.so.0"
+
+  install -Dpm0755 -s -t "fexov/usr/$LIBDIR/" \
+    fakeinstall/usr/$LIBDIR/libRusticlOpenCL.so.1.0.0
+  ln -s libRusticlOpenCL.so.1.0.0 fexov/usr/$LIBDIR/libRusticlOpenCL.so.1
+  install -Dpm0644 -t "fexov/etc/OpenCL/ovl_vendors/" \
+    fakeinstall/etc/OpenCL/vendors/rusticl.icd
+  ln -s ovl_vendors "fexov/etc/OpenCL/vendors"
+
+  install -Dpm0755 -s -t "fexov/usr/$LIBDIR/" \
+    fakeinstall/usr/$LIBDIR/libvulkan_asahi.so \
+    fakeinstall/usr/$LIBDIR/libVkLayer_MESA_device_select.so
+
+  install -Dpm0644 -t "fexov/usr/share/vulkan/ovl_icd.d/" \
+    fakeinstall/usr/share/vulkan/icd.d/asahi_icd.*.json
+  install -Dpm0644 -t "fexov/usr/share/vulkan/implicit_layer.d/" \
+    fakeinstall/usr/share/vulkan/implicit_layer.d/VkLayer_MESA_device_select.json
   ln -s ovl_icd.d "fexov/usr/share/vulkan/icd.d"
 
-  #gbm
-  install -Dpm0755 -s -t fexov/usr/$LIBDIR/ "$srcdir/fakeinstall/usr/$LIBDIR/libgbm.so.1.0.0"
-  install -Dpm0755 -s -t fexov/usr/$LIBDIR/gbm "$srcdir/fakeinstall/usr/$LIBDIR/gbm/dri_gbm.so"
+  install -Dpm0755 -s -t "fexov/usr/$LIBDIR/" \
+    fakeinstall/usr/$LIBDIR/libgbm.so.1.0.0
+  install -Dpm0755 -s -t "fexov/usr/$LIBDIR/gbm/" \
+    fakeinstall/usr/$LIBDIR/gbm/dri_gbm.so
 
-  #glvnd
-  install -Dpm0644 -t "fexov/usr/share/glvnd/ovl_egl_vendor.d/" "$srcdir/fakeinstall/usr/share/glvnd/egl_vendor.d/50_mesa.json"
-  ln -s ovl_egl_vendor.d fexov/usr/share/glvnd/egl_vendor.d
+  install -Dpm0644 -t "fexov/usr/share/glvnd/ovl_egl_vendor.d/" \
+    fakeinstall/usr/share/glvnd/egl_vendor.d/50_mesa.json
+  ln -s ovl_egl_vendor.d "fexov/usr/share/glvnd/egl_vendor.d"
 
-  # fedora packages this lib, for some reason it comes from rootfs
-  install -Dpm0755 -s -t fexov/usr/$LIBDIR/ "/usr/$LIBDIR/libLLVMSPIRVLib.so.18.1"
+  # Ship this with the mesa erofs since it needs to work with the rawhide
+  # rootfs and spirv-llvm-translator is not packaged for compat.
+  # Make sure to remove the License: override for the subpackage
+  # if this gets removed.
+  install -Dpm0755 -s -t "fexov/usr/$LIBDIR/" \
+    /usr/$LIBDIR/libLLVMSPIRVLib.so.18.1
 
-  patchelf --add-rpath /usr/$LIBDIR fexov/usr/$LIBDIR/gbm/dri_gbm.so
-  patchelf --add-rpath /usr/$LIBDIR fexov/usr/$LIBDIR/libGLX_mesa.so.0.0.0
-  patchelf --add-rpath /usr/$LIBDIR fexov/usr/$LIBDIR/libEGL_mesa.so.0.0.0
-  if [ "$RUSTICL" == 'true' ]; then
-    patchelf --add-rpath /usr/$LIBDIR fexov/usr/$LIBDIR/libRusticlOpenCL.so.1.0.0
-  fi
+  # Hack to work around libcapsule bug:
+  # https://github.com/ValveSoftware/steam-runtime/issues/704
+  #
+  # The FEX overlays do not update ld.so.cache, so ld.so falls back
+  # to the system library paths. This works fine for ld.so since
+  # the dependencies are indeed in /usr/$LIBDIR[64], but libcapsule
+  # has the fallback harcoded to /lib:/usr/$LIBDIR, which fails on
+  # x86_64 systems.
+  patchelf --add-rpath /usr/$LIBDIR "fexov/usr/$LIBDIR/gbm/dri_gbm.so"
+  patchelf --add-rpath /usr/$LIBDIR "fexov/usr/$LIBDIR/libGLX_mesa.so.0.0.0"
+  patchelf --add-rpath /usr/$LIBDIR "fexov/usr/$LIBDIR/libEGL_mesa.so.0.0.0"
+  patchelf --add-rpath /usr/$LIBDIR "fexov/usr/$LIBDIR/libRusticlOpenCL.so.1.0.0"
 
+  #dnl erofs  ----------------------------
   mkfs.erofs -z lz4 $OVERLAY_NAME fexov
 }
 
@@ -324,6 +369,8 @@ package_mesa-asahi-fex-emu-overlay-x86_64() {
   LIBDIR=lib
   create_overlay mesa-x86_64.erofs asahi_icd.x86_64.json
   install -Dpm0644 -t ${pkgdir}/usr/share/fex-emu/overlays/ mesa-x86_64.erofs
+
+  install -Dpm0755 -t ${pkgdir}/usr/share/doc/mesa-asahi-fex-emu-overlay-x86_64/ Mesa-MLAA-License-Clarification-Email.txt
 }
 
 package_mesa-asahi-fex-emu-overlay-i386() {
@@ -352,6 +399,8 @@ package_mesa-asahi-fex-emu-overlay-i386() {
 
   create_overlay mesa-i386.erofs asahi_icd.i686.json
   install -Dpm0644 -t ${pkgdir}/usr/share/fex-emu/overlays/ mesa-i386.erofs
+
+  install -Dpm0755 -t ${pkgdir}/usr/share/doc/mesa-asahi-fex-emu-overlay-i386/ Mesa-MLAA-License-Clarification-Email.txt
 }
 
 package_mesa-asahi-dummy() {
