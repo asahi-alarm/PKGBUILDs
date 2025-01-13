@@ -108,7 +108,6 @@ build() {
   CXXFLAGS+=' -g1'
   CROSS=''
   LIBDIR=lib
-  RUSTICL='true'
   TEFLON='true'
   GLX_READ_ONLY_TEXT='false'
   BUILDDIR=build
@@ -382,7 +381,6 @@ package_mesa-asahi-fex-emu-overlay-i386() {
   CXXFLAGS+=' -g1 -m32 -march=i686'
   CROSS='--cross-file=../cross_x86'
   LIBDIR=lib32
-  RUSTICL='false'
   TEFLON='false'
   GLX_READ_ONLY_TEXT='true'
   BUILDDIR=buildx
