@@ -3,7 +3,7 @@
 
 highmem=1
 
-pkgname=(mesa-asahi mesa-asahi-fex-emu-x86_64-overlay mesa-asahi-fex-emu-x86-overlay mesa-asahi-dummy)
+pkgname=(mesa-asahi mesa-asahi-fex-emu-overlay-x86_64 mesa-asahi-fex-emu-overlay-x86 mesa-asahi-dummy)
 pkgdesc="An open-source implementation of the OpenGL specification"
 _asahiver=20241211
 _commit=asahi-$_asahiver
@@ -312,9 +312,9 @@ create_overlay() {
   mkfs.erofs -z lz4 $OVERLAY_NAME fexov
 }
 
-package_mesa-asahi-fex-emu-x86_64-overlay() {
+package_mesa-asahi-fex-emu-overlay-x86_64() {
   arch=(any)
-  provides=('mesa-asahi-fex-emu-x86_64-overlay')
+  provides=('mesa-asahi-fex-emu-overlay-x86_64')
 
   if [[ "$CARCH" != "x86_64" ]]; then
     return 0
@@ -326,9 +326,9 @@ package_mesa-asahi-fex-emu-x86_64-overlay() {
   install -Dpm0644 -t ${pkgdir}/usr/share/fex-emu/overlays/ mesa-x86_64.erofs
 }
 
-package_mesa-asahi-fex-emu-x86-overlay() {
+package_mesa-asahi-fex-emu-overlay-x86() {
   arch=(any)
-  provides=('mesa-asahi-fex-emu-x86-overlay')
+  provides=('mesa-asahi-fex-emu-overlay-x86')
 
   if [[ "$CARCH" != "x86_64" ]]; then
     return 0
