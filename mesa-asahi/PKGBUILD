@@ -24,17 +24,15 @@ depends=('egl-wayland' 'libdrm' 'wayland' 'libxxf86vm' 'libxdamage' 'libxshmfenc
   'libunwind' 'llvm-libs' 'lm_sensors' 'libglvnd' 'zstd' 'vulkan-icd-loader')
 optdepends=('vulkan-mesa-layers: additional vulkan layers')
 url="https://www.mesa3d.org/"
-license=('custom')
+license=('MIT AND BSD-3-Clause AND SGI-B-2.0')
 options=('!debug' '!lto')
 source=(
   https://gitlab.freedesktop.org/asahi/mesa/-/archive/$_commit/mesa-$_commit.tar.gz
-  LICENSE
   Mesa-MLAA-License-Clarification-Email.txt
   gnome-shell-glthread-disable.patch
 )
 sha512sums=(
   '3cffd24548a3303ad318f6ddf9a39d908c503090b1dcc389e4636565e27cdc69a7da28781d59bda092a07918863ac1938f34232b1554545ec5996cbcccaadab2'
-  'f9f0d0ccf166fe6cb684478b6f1e1ab1f2850431c06aa041738563eb1808a004e52cdec823c103c9e180f03ffc083e95974d291353f0220fe52ae6d4897fecc7'
   'ecdabad21a86f04d51ba709a90fbeccb3004c6e8af3546edc530dcb4727787ed5d6a63043b6ab50b4c0a46de0894b6f3c594101b4d25f7831dee9f33fd2a7e31'
   'db08a07a6ee8cc09ae827688089e1e1e7aa2c43f9a1a9260012206052bcb9432d1c1a90657bc86618719632ba6cbb4502003c181321bc01c713f4e02dae8b4f1'
 )
@@ -173,7 +171,6 @@ package_mesa-asahi() {
   # determine the vendor
   ln -s /usr/$LIBDIR/libGLX_mesa.so.0 "${pkgdir}/usr/$LIBDIR/libGLX_system.so.0"
 
-  install -m644 -Dt "${pkgdir}/usr/share/licenses/${pkgname}" LICENSE
 }
 
 create_overlay() {
