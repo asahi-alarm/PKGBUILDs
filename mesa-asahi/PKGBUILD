@@ -173,9 +173,6 @@ package_mesa-asahi() {
   # determine the vendor
   ln -s /usr/$LIBDIR/libGLX_mesa.so.0 "${pkgdir}/usr/$LIBDIR/libGLX_system.so.0"
 
-  # make sure there are no files left to install
-  find fakeinstall -depth -print0 | xargs -0 rmdir
-
   install -m644 -Dt "${pkgdir}/usr/share/licenses/${pkgname}" LICENSE
 }
 
