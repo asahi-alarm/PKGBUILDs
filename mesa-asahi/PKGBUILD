@@ -52,6 +52,7 @@ meson_build() {
     --libdir=$LIBDIR \
     --libexecdir=$LIBDIR \
     --sbindir=bin \
+    --buildtype=release \
     -Db_ndebug=true \
     -Db_lto=false \
     -Dplatforms=x11,wayland \
