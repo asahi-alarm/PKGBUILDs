@@ -61,7 +61,7 @@ meson_build() {
     -Dgallium-va=enabled \
     -Dgallium-xa=disabled \
     -Dgallium-nine=true \
-    -Dteflon=true \
+    -Dteflon=$TEFLON \
     -Dgallium-opencl=icd \
     -Dgallium-rusticl=true \
     -Dvulkan-drivers=swrast,asahi \
@@ -82,6 +82,7 @@ meson_build() {
     -Dbuild-tests=false \
     -Dselinux=true \
     -Dandroid-libbacktrace=disabled \
+    -Dglx-read-only-text=$GLX_READ_ONLY_TEXT \
 
   # Print config
   meson configure --no-pager $BUILDDIR
@@ -101,6 +102,8 @@ build() {
   CROSS=''
   LIBDIR=lib
   RUSTICL='true'
+  TEFLON='true'
+  GLX_READ_ONLY_TEXT='false'
   BUILDDIR=build
 
   meson_build
@@ -251,6 +254,8 @@ package_mesa-asahi-fex-emu-x86-overlay() {
   CROSS='--cross-file=../cross_x86'
   LIBDIR=lib32
   RUSTICL='false'
+  TEFLON='false'
+  GLX_READ_ONLY_TEXT='true'
   BUILDDIR=buildx
 
   meson_build
