@@ -52,7 +52,7 @@ meson_build() {
     --libdir=$LIBDIR \
     --libexecdir=$LIBDIR \
     --sbindir=bin \
-    -Db_ndebug=false \
+    -Db_ndebug=true \
     -Db_lto=false \
     -Dplatforms=x11,wayland \
     -Dosmesa=true \
