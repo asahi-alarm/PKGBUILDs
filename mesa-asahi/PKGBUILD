@@ -44,6 +44,9 @@ prepare() {
 }
 
 meson_build() {
+  # We've gotten a report that enabling LTO for mesa breaks some games. See
+  # https://bugzilla.redhat.com/show_bug.cgi?id=1862771 for details.
+  # Disable LTO for now (b_lto)
   meson mesa-$_commit $BUILDDIR $CROSS \
     --prefix=/usr \
     --libdir=$LIBDIR \
@@ -53,12 +56,14 @@ meson_build() {
     -Db_lto=false \
     -Dplatforms=x11,wayland \
     -Dosmesa=true \
-    -Dgallium-drivers=swrast,virgl,asahi,zink \
+    -Dgallium-drivers=swrast,virgl,zink,asahi \
     -Dgallium-vdpau=enabled \
     -Dgallium-va=enabled \
     -Dgallium-xa=disabled \
+    -Dgallium-nine=true \
+    -Dteflon=true \
     -Dgallium-opencl=icd \
-    -Dgallium-rusticl=$RUSTICL \
+    -Dgallium-rusticl=true \
     -Dvulkan-drivers=swrast,asahi \
     -Dvulkan-layers=device-select \
     -Dshared-glapi=enabled \
@@ -75,10 +80,8 @@ meson_build() {
     -Dshared-llvm=enabled \
     -Dvalgrind=disabled \
     -Dbuild-tests=false \
+    -Dselinux=true \
     -Dandroid-libbacktrace=disabled \
-    -Dgallium-extra-hud=true \
-    -Dlmsensors=enabled \
-    -Dlibunwind=disabled \
 
   # Print config
   meson configure --no-pager $BUILDDIR
