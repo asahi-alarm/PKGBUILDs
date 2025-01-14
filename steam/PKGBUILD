@@ -3,7 +3,7 @@
 
 pkgname=steam
 pkgver=20241231
-pkgrel=1
+pkgrel=2
 pkgdesc="Steam wrapper for Asahi ALARM: This package provides a wrapper to download, install and run Steam."
 arch=('any')
 license=('MIT')
@@ -17,8 +17,8 @@ depends=(
     'muvm>=0.2'
     'python'
     'xorg-xwininfo'
-    #'mesa-asahi-fex-emu-i386-overlay'
-    'mesa-asahi-fex-emu-x86_64-overlay'
+    'mesa-asahi-fex-emu-overlay-i386'
+    'mesa-asahi-fex-emu-overlay-x86_64'
     'virglrenderer-asahi'
     'zenity'
     'python-pyqt6'
