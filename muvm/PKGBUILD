@@ -10,8 +10,12 @@ url='https://github.com/AsahiLinux/muvm'
 depends=('libkrun' 'socat' 'passt' 'dhcp-client')
 source=(
   "${pkgname}-${pkgver}.tar.gz::https://github.com/AsahiLinux/muvm/archive/refs/tags/${pkgname}-${pkgver}.tar.gz"
+  LICENSE
 )
-sha256sums=('1f5eac567992b2c50c9c590cddc578058ef76c4591662bd351b4899b4d2d1411')
+sha256sums=(
+  '1f5eac567992b2c50c9c590cddc578058ef76c4591662bd351b4899b4d2d1411'
+  'bd61ba908048f45e22a02784e3c9bd595307d8a3d838346dab9ca4a1b1217b93'
+)
 
 build() {
   cd "${srcdir}/${pkgname}-${pkgname}-${pkgver}"
@@ -20,6 +24,7 @@ build() {
 
 package() {
   cd "${srcdir}/${pkgname}-${pkgname}-${pkgver}"
+  install -Dpm0755 -t "$pkgdir"/usr/share/licenses/muvm/ ${srcdir}/LICENSE
   install -Dm755 target/release/muvm "$pkgdir"/usr/bin/muvm
   install -Dm755 target/release/muvm-guest "$pkgdir"/usr/bin/muvm-guest
   install -Dm755 target/release/muvm-hidpipe "$pkgdir"/usr/bin/muvm-hidpipe
