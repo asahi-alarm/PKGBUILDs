@@ -20,7 +20,7 @@ source=("default.erofs.xz")
 sha256sums=('SKIP')
 
 prepare() {
-  unxz -c default.erofs.xz >default.erofs
+  unxz -c default.erofs.xz > default.erofs
 }
 
 package() {
