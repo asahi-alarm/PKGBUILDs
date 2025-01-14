@@ -412,4 +412,7 @@ package_mesa-asahi-dummy() {
     'opencl-rusticl-mesa' 'lib32-opencl-rusticl-mesa'
     'vulkan-virtio' 'lib32-vulkan-virtio'
   )
+  #makedepends=() # not allowed to set here
+  depends=()
+  optdepends=()
 }
