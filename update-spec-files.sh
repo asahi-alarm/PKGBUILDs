@@ -61,6 +61,7 @@ declare -A PACKAGES=(
     #["vulkan-tools"]=""
     #["widevine"]=""
     #["xkeyboard-config-asahi"]=""
+    ["fex-emu-rootfs-arch"]="fsrc+rpms/fex-emu-rootfs-fedora,fex-emu-rootfs-fedora.spec|aarch64"
 )
 
 echo "Working... Be patient, I also have to download stuff..."
