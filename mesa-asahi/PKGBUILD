@@ -127,7 +127,7 @@ _install() {
 }
 
 package_mesa-asahi() {
-  provides=('mesa-libgl' 'opengl-driver' 'mesa' 'mesa-asahi' 'vulkan-asahi' 'vulkan-driver')
+  provides=('mesa-libgl' 'opengl-driver' 'mesa' 'mesa-asahi' 'vulkan-asahi' 'vulkan-driver' 'opencl-driver' 'opencl-rusticl-mesa')
   conflicts=('mesa-libgl' 'mesa' 'mesa-asahi-edge' 'vulkan-swrast')
 
   if [[ "$CARCH" == "x86_64" ]]; then
@@ -408,5 +408,8 @@ package_mesa-asahi-dummy() {
     'vulkan-driver' 'lib32-vulkan-driver'
     'mesa-libgl' 'lib32-mesa-libgl'
     'vulkan-swrast' 'lib32-vulkan-swrast'
+    'opencl-driver' 'lib32-opencl-driver'
+    'opencl-rusticl-mesa' 'lib32-opencl-rusticl-mesa'
+    'vulkan-virtio' 'lib32-vulkan-virtio'
   )
 }
