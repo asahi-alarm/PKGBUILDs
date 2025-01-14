@@ -1,0 +1,28 @@
+From 49da261c1b3b5fda73dc735c989ac259071c6658 Mon Sep 17 00:00:00 2001
+From: Asahi Lina <lina@asahilina.net>
+Date: Sat, 14 Dec 2024 22:22:57 +0900
+Subject: [PATCH] x11: Fix XAUTHORITY handling for wildcard DISPLAY
+
+Apparently GNOME does this (empty display field)...
+
+Signed-off-by: Asahi Lina <lina@asahilina.net>
+---
+ crates/muvm/src/guest/x11.rs | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/crates/muvm/src/guest/x11.rs b/crates/muvm/src/guest/x11.rs
+index 3caaf090435c..8141f30e53fc 100644
+--- a/src/guest/x11.rs
++++ b/src/guest/x11.rs
+@@ -65,7 +65,7 @@ where
+             }
+ 
+             // Check for the correct host display
+-            if display != host_display.as_bytes() {
++            if !display.is_empty() && display != host_display.as_bytes() {
+                 continue;
+             }
+ 
+-- 
+2.47.1
+
