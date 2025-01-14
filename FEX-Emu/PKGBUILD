@@ -3,10 +3,10 @@
 
 pkgbase=FEX-Emu
 pkgname=FEX-Emu
-pkgver=2412
-pkgrel=3
+pkgver=2501
+pkgrel=1
 pkgdesc="Fast x86 emulation frontend"
-arch=(x86_64 aarch64)
+arch=(aarch64)
 url="https://github.com/FEX-Emu/FEX"
 license=(MIT)
 makedepends=(
@@ -42,17 +42,17 @@ build() {
   mkdir -p build || true
   cd build
   CC=clang CXX=clang++ cmake \
-      -G Ninja \
-      -DENABLE_OFFLINE_TELEMETRY=OFF \
-      -DUSE_FEXCONFIG_TOOLKIT=qt \
-      -DCMAKE_INSTALL_PREFIX=/usr \
-      -DCMAKE_BUILD_TYPE=Release \
-      -DUSE_LINKER=lld \
-      -DENABLE_LTO=ON \
-      -DBUILD_TESTS=OFF \
-      -DBUILD_FEX_LINUX_TESTS=OFF \
-      -DENABLE_ASSERTIONS=ON \
-      ..
+    -G Ninja \
+    -DENABLE_OFFLINE_TELEMETRY=OFF \
+    -DUSE_FEXCONFIG_TOOLKIT=qt \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DUSE_LINKER=lld \
+    -DENABLE_LTO=ON \
+    -DBUILD_TESTS=OFF \
+    -DBUILD_FEX_LINUX_TESTS=OFF \
+    -DENABLE_ASSERTIONS=ON \
+    ..
   ninja
 }
 
