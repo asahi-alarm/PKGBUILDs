@@ -20,7 +20,7 @@ jobs:
         with:
           image: josdehaes/asahi-alarm-pkgbuild:latest
           options: >
-            -v ${{ github.workspace }}:/home/user/PKGBUILDs --user 1001:1001
+            -v ${{ github.workspace }}:/home/user/PKGBUILDs --user 1001:116
 
           run: |
             ./build.sh asahi-scripts
