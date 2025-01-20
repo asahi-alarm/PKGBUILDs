@@ -25,8 +25,6 @@ if [ $# -ge 1 ]; then
   PKGS=("$@")
 fi
 
-rm -rf packages && mkdir packages
-
 # Build packages
 for srcpkg in $PKGS; do
   pushd $srcpkg
