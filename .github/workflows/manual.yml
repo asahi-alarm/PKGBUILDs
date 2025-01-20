@@ -1,25 +1,19 @@
-# This is a basic workflow that is manually triggered
-
 name: build
-
-# Controls when the action will run. Workflow runs when manually triggered using the UI
-# or API.
 on:
   workflow_dispatch:
-
 jobs:
   compile:
-     name: build packages
-     runs-on: ubuntu-24.04-arm
-        steps:
-          - name: Check out the repo
-            uses: actions/checkout@v2
-          - name: Run the build process with Docker
-            uses: addnab/docker-run-action@v3
-            with:
-                image: menci/archlinuxarm:base-devel
-                options: -v ${{ github.workspace }}:/PKGBUILDs
-                run: |
-                    cd /PKGBUILDs      
-                    cd asahi-scripts
-                    makepkg -Cs --noconfirm
+    name: build packages
+    runs-on: ubuntu-24.04-arm
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v2
+      - name: Run the build process with Docker
+        uses: addnab/docker-run-action@v3
+        with:
+          image: menci/archlinuxarm:base-devel
+          options: -v ${{ github.workspace }}:/PKGBUILDs
+          run: |
+            cd /PKGBUILDs
+            cd asahi-scripts
+            makepkg -Cs --noconfirm
