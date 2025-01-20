@@ -11,9 +11,12 @@ jobs:
       - name: Run the build process with Docker
         uses: addnab/docker-run-action@v3
         with:
-          image: menci/archlinuxarm:base-devel
+          image: josdehaes/asahi-alarm-pkgbuild:latest
           options: -v ${{ github.workspace }}:/PKGBUILDs
           run: |
-            cd /PKGBUILDs
-            cd asahi-scripts
-            makepkg -Cs --noconfirm
+            ./build.sh asahi-scripts
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          path: |
+            packages/*.pkg.tar.xz
