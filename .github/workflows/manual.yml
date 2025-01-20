@@ -23,7 +23,7 @@ jobs:
             -v ${{ github.workspace }}:/home/user/PKGBUILDs --user 1001:116
 
           run: |
-            ./build.sh asahi-scripts
+            ./build.sh
       - name: Upload build artifacts
         uses: actions/upload-artifact@v3
         with:
