@@ -12,7 +12,7 @@ jobs:
         uses: addnab/docker-run-action@v3
         with:
           image: josdehaes/asahi-alarm-pkgbuild:latest
-          options: -v ${{ github.workspace }}:/PKGBUILDs
+          options: -v ${{ github.workspace }}:/home/user/PKGBUILDs
           run: |
             ./build.sh asahi-scripts
       - name: Upload build artifacts
