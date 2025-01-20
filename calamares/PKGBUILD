@@ -1,8 +1,8 @@
 # Maintainer: Philip Müller <philm[at]manjaro[dog]org>
 
 pkgname=calamares
-pkgver=3.3.12
-pkgrel=5
+pkgver=3.3.13
+pkgrel=1
 pkgdesc='Distribution-independent installer framework'
 arch=('i686' 'x86_64' 'aarch64')
 license=('BSD-2-Clause AND CC0-1.0 AND CC-BY-4.0 AND GPL-3.0-or-later AND LGPL-2.0-only AND LGPL-2.1-only AND LGPL-3.0-or-later AND MIT')
@@ -16,8 +16,8 @@ backup=('usr/share/calamares/modules/bootloader.conf'
         'usr/share/calamares/modules/initcpio.conf'
         'usr/share/calamares/modules/unpackfs.conf')
 
-source+=("$pkgname-$pkgver.tar.gz::$url/-/archive/v$pkgver/calamares-v$pkgver.tar.gz")
-sha256sums=('f44110a91a4394f34728042136af4b906541babc37e72b3b33664888b3220f2d')
+source+=("$pkgname-$pkgver.tar.gz::$url//archive/refs/tags/v$pkgver.tar.gz")
+sha256sums=('18094f5dd473c67ff1098a906f8bec4875852026c278dfd911c2819e3656625b')
 
 prepare() {
 	cd ${srcdir}/calamares-${pkgver}
@@ -55,16 +55,16 @@ build() {
                               dummyprocess dummypython \
                               dummycpp dummypythonqt \
                               services-openrc"
-        make
+        make -j $(nproc)
 }
 
 package() {
 	cd ${srcdir}/calamares-${pkgver}/build
 	make DESTDIR="$pkgdir" install
-	install -Dm644 "../data/calamares.desktop" "$pkgdir/usr/share/applications/calamares.desktop"
-	install -Dm755 "../data/calamares_polkit" "$pkgdir/usr/bin/calamares_polkit"
-	install -Dm644 "../data/49-nopasswd-calamares.rules" "$pkgdir/etc/polkit-1/rules.d/49-nopasswd-calamares.rules"
-	chmod 750      "$pkgdir"/etc/polkit-1/rules.d
+	# install -Dm644 "../data/calamares.desktop" "$pkgdir/usr/share/applications/calamares.desktop"
+	# install -Dm755 "../data/calamares_polkit" "$pkgdir/usr/bin/calamares_polkit"
+	# install -Dm644 "../data/49-nopasswd-calamares.rules" "$pkgdir/etc/polkit-1/rules.d/49-nopasswd-calamares.rules"
+	# chmod 750      "$pkgdir"/etc/polkit-1/rules.d
 
 	# rename services-systemd back to services
 	mv "$pkgdir/usr/lib/calamares/modules/services-systemd" "$pkgdir/usr/lib/calamares/modules/services"
