@@ -1,18 +1,17 @@
 # Maintainer: Jos Dehaes <jos.dehaes@gmail.com>
 # Maintainer: Matthias Kurz <m.kurz@irregular.at>
 
-
 pkgname=virglrenderer-asahi
 pkgver=20241205.2
 pkgrel=3
 pkgdesc="Asahi Linux fork of virglrenderer, a virtual 3D GPU for QEMU"
-arch=('x86_64' 'aarch64')  # Adjust if necessary
+arch=('x86_64' 'aarch64') # Adjust if necessary
 url="https://gitlab.freedesktop.org/asahi/virglrenderer"
-license=('MIT')  # The upstream license; verify and adjust if needed
+license=('MIT') # The upstream license; verify and adjust if needed
 
 # Most basic dependencies. Add or remove as needed:
-depends=('libepoxy')
-makedepends=('git' 'meson' 'ninja')  # Tools for building from Git
+depends=('libepoxy' 'libva')
+makedepends=('git' 'meson' 'ninja') # Tools for building from Git
 
 provides=('virglrenderer')
 conflicts=('virglrenderer')
@@ -42,4 +41,3 @@ package() {
   cd "${srcdir}/${pkgname}"
   DESTDIR="${pkgdir}" meson install -C build
 }
-

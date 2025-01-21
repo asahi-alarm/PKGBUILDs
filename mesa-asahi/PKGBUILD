@@ -43,7 +43,7 @@ prepare() {
   chmod -Rf a+rX,u+w,g-w,o-w .
 
   cat ../gnome-shell-glthread-disable.patch |
-  patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
+    patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
 
   # patch VERSION to contain the asahi tag name
   sed -i "s/devel/asahi${_asahiver}/" VERSION
@@ -89,7 +89,7 @@ meson_build() {
     -Dbuild-tests=false \
     -Dselinux=true \
     -Dandroid-libbacktrace=disabled \
-    -Dglx-read-only-text=$GLX_READ_ONLY_TEXT \
+    -Dglx-read-only-text=$GLX_READ_ONLY_TEXT
 
   # Print config
   meson configure --no-pager $BUILDDIR
@@ -128,8 +128,7 @@ _install() {
 
 package_mesa-asahi() {
   provides=('mesa-libgl' 'opengl-driver' 'mesa' 'vulkan-asahi' 'vulkan-driver' 'opencl-driver' 'opencl-rusticl-mesa')
-  conflicts=('mesa-libgl' 'mesa' 'mesa-asahi-edge' 'vulkan-swrast')
-  replaces=('mesa-asahi-edge')
+  replaces=('mesa-asahi-edge' 'mesa' 'mesa-libgl' 'mesa-asahi-edge' 'vulkan-swrast')
 
   if [[ "$CARCH" == "x86_64" ]]; then
     return 0
@@ -151,8 +150,8 @@ package_mesa-asahi() {
 
   # this keeps breaking, check it early.  note that the exit from eu-ftr is odd.
   pushd fakeinstall/usr/lib
-  for i in libOSMesa*.so libGL.so ; do
-      eu-findtextrel $i && exit 1
+  for i in libOSMesa*.so libGL.so; do
+    eu-findtextrel $i && exit 1
   done
   popd
 
@@ -277,8 +276,8 @@ create_overlay() {
 
   # this keeps breaking, check it early.  note that the exit from eu-ftr is odd.
   pushd fakeinstall/usr/$LIBDIR
-  for i in libOSMesa*.so libGL.so ; do
-      eu-findtextrel $i && exit 1
+  for i in libOSMesa*.so libGL.so; do
+    eu-findtextrel $i && exit 1
   done
   popd
 
