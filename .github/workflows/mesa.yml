@@ -23,7 +23,7 @@ jobs:
             -v ${{ github.workspace }}:/home/user/PKGBUILDs --user 1001:116
 
           run: |
-            cd mesa-asahi && makepkg -sC
+            cd mesa-asahi && makepkg -sC --noconfirm
       - name: Upload build artifacts
         uses: actions/upload-artifact@v3
         with:
