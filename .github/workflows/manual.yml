@@ -2,34 +2,6 @@ name: build
 on:
   workflow_dispatch:
 jobs:
-  compile:
-    name: build packages
-    runs-on: ubuntu-24.04-arm
-    steps:
-      - name: Check out the repo
-        uses: actions/checkout@v2
-      - name: Display runner UID and GID
-        run: |
-          echo "Runner UID: $(id -u)"
-          echo "Runner GID: $(id -g)"
-        id: get_ids
-      - name: create packages folder
-        run: mkdir -p "${{ github.workspace }}"/packages
-      - name: Run the build process with Docker
-        uses: addnab/docker-run-action@v3
-        with:
-          image: josdehaes/asahi-alarm-pkgbuild:latest
-          options: >
-            -v ${{ github.workspace }}:/home/user/PKGBUILDs --user 1001:116
-
-          run: |
-            ./build.sh
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: packages
-          path: |
-            packages/*.pkg.tar.xz
   mesa:
     name: build mesa overlay packages
     runs-on: ubuntu-24.04
@@ -41,8 +13,6 @@ jobs:
           echo "Runner UID: $(id -u)"
           echo "Runner GID: $(id -g)"
         id: get_ids
-      - name: create packages folder
-        run: mkdir -p "${{ github.workspace }}"/packages
       - name: Run the build process with Docker
         uses: addnab/docker-run-action@v3
         with:
@@ -53,55 +23,49 @@ jobs:
           run: |
             cd mesa-asahi && makepkg -sC --noconfirm
       - name: Upload build artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          name: mesa-overlays
+          name: overlays
           path: |
             mesa-asahi/mesa-asahi-fex-emu-overlay-i386*
             mesa-asahi/mesa-asahi-fex-emu-overlay-x86_64*
-  sign:
-    name: sign the packages
-    runs-on: ubuntu-24.04
+  compile:
+    name: build packages
+    runs-on: ubuntu-24.04-arm
+    needs: [mesa]
     steps:
-      - name: Import GPG key
-        env:
-          GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+      - name: Check out the repo
+        uses: actions/checkout@v2
+      - name: Display runner UID and GID
         run: |
-          mkdir -p ~/.gnupg
-          chmod 700 ~/.gnupg
-          echo "$GPG_PRIVATE_KEY" | gpg --import
-          KEY_ID=$(gpg --list-secret-keys --with-colons | awk -F: '/^sec/{print $5; exit}')
-          echo -e "5\ny\n" | gpg --command-fd 0 --expert --edit-key "$KEY_ID" trust
-          gpg --list-secret-keys
-      - name: Set up environment variables
-        run: echo "GPG_PASSPHRASE=${{ secrets.GPG_PASSPHRASE }}" >> $GITHUB_ENV
-      - name: download packages
+          echo "Runner UID: $(id -u)"
+          echo "Runner GID: $(id -g)"
+        id: get_ids
+      - name: download overlays
         uses: actions/download-artifact@v4
+        with:
+          name: overlays
+          path: packages
+      - name: Run the build process with Docker
+        uses: addnab/docker-run-action@v3
+        with:
+          image: josdehaes/asahi-alarm-pkgbuild:latest
+          options: >
+            -v ${{ github.workspace }}:/home/user/PKGBUILDs --user 1001:116 -e B64=${{ secrets.B64 }} -e GPG_PASSPHRASE=${{ secrets.GPG_PASSPHRASE }}
+
+          run: |
+            printf "%s" "$B64" | base64 -d | gpg --batch --no-tty --import
+            ./build.sh
+            cd packages
+            ls
+            for file in *; do
+              echo "$GPG_PASSPHRASE" | gpg --local-user 12CE6799A94A3F1B5DDFFE88F576553597FB8FEB --pinentry-mode loopback --passphrase-fd 0 --detach-sign "$file"
+              repo-add --key 12CE6799A94A3F1B5DDFFE88F576553597FB8FEB --sign asahi-alarm.db.tar.gz "$file"
+            done
+            ls
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
         with:
           name: packages
-          path: packages_artifacts
-      - name: download packages
-        uses: actions/download-artifact@v4
-        with:
-          name: mesa-overlays
-          path: mesa-overlays-artifacts
-      - name: sign
-        run: |
-          mkdir signed
-          for artifact_dir in packages_artifacts mesa_overlays_artifacts; do
-            echo "Processing directory: $artifact_dir"
-            find "$artifact_dir" -type f \( -name "*.pkg.tar.xz" -o -name "mesa-asahi-*" \) | while read -r file; do
-              echo "Signing $file"
-              gpg --batch --pinentry-mode loopback --passphrase "$GPG_PASSPHRASE" \
-                  --detach-sign --armor "$file"
-              cp "$file" "$file.sig" signed/
-            done
-          done
-        env:
-          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: aarch64
           path: |
-            signed/*
+            packages/*
