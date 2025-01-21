@@ -257,6 +257,12 @@ package_mesa-asahi() {
   _install fakeinstall/usr/share/vulkan/implicit_layer.d/VkLayer_MESA_device_select.json
   _install fakeinstall/usr/lib/libvulkan_asahi.so
   _install fakeinstall/usr/share/vulkan/icd.d/asahi_icd.*.json
+
+  # headers
+  _install fakeinstall/usr/include
+
+  # pkg-config files
+  _install fakeinstall/usr/lib/pkgconfig
 }
 
 create_overlay() {
