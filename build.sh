@@ -37,8 +37,8 @@ for srcpkg in $PKGS; do
   rm -f -- *.pkg.tar.xz
   makepkg -Cs --noconfirm
   if [ "$srcpkg" == "mesa-asahi" ]; then
-    # HACK: remove the unwanted mesa packages to avoid failing the build due to conflict
-    rm -f mesa-asahi-fex-emu-overlay-x86_64* mesa-asahi-fex-emu-overlay-i386* mesa-asahi-dummy*
+    # HACK: remove the unwanted mesa-dummy package since it conflicts with mesa-asahi
+    rm -f mesa-asahi-dummy*
     # we need to remove mesa to avoid conflicts, not sure why -U --noconfirm isn't enough
     sudo pacman -Rdd --noconfirm mesa
   fi
