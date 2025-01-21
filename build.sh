@@ -25,6 +25,10 @@ if [ $# -ge 1 ]; then
   PKGS=("$@")
 fi
 
+if [ ! -d packages ]; then
+  mkdir packages
+fi
+
 # Build packages
 for srcpkg in $PKGS; do
   pushd "$srcpkg"
