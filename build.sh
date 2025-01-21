@@ -17,8 +17,8 @@ set -xe
 # NOTE fex-emu-rootfs-arch needs the rootfs to be placed in the same folder as the PKGBUILD as
 # default.erofs.xz to work.
 
-PKGS="m1n1 uboot-asahi linux-asahi lsp-plugins alsa-ucm-conf-asahi bankstown speakersafetyd asahi-audio calamares \
- asahi-calamares-configs asahi-configs asahi-scripts lzfse asahi-fwextract asahi-alarm-keyring \
+PKGS="asahi-scripts m1n1 uboot-asahi linux-asahi lsp-plugins alsa-ucm-conf-asahi bankstown speakersafetyd asahi-audio calamares \
+ asahi-calamares-configs asahi-configs lzfse asahi-fwextract asahi-alarm-keyring \
  virglrenderer-asahi mesa-asahi tiny-dfr widevine \
  libkrunfw libkrun muvm FEX-Emu vulkan-tools asahi-bless steam \
  asahi-desktop-meta asahi-meta"
