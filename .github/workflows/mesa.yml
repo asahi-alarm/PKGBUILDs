@@ -1,0 +1,32 @@
+name: build
+on:
+  workflow_dispatch:
+jobs:
+  mesa:
+    name: build mesa overlay packages
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v2
+      - name: Display runner UID and GID
+        run: |
+          echo "Runner UID: $(id -u)"
+          echo "Runner GID: $(id -g)"
+        id: get_ids
+      - name: create packages folder
+        run: mkdir -p "${{ github.workspace }}"/packages
+      - name: Run the build process with Docker
+        uses: addnab/docker-run-action@v3
+        with:
+          image: josdehaes/asahi-alarm-pkgbuild-mesa:latest
+          options: >
+            -v ${{ github.workspace }}:/home/user/PKGBUILDs --user 1001:116
+
+          run: |
+            cd mesa-asahi && makepkg -sC
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          path: |
+            mesa-asahi/mesa-asahi-fex-emu-overlay-i386*
+            mesa-asahi/mesa-asahi-fex-emu-overlay-x86_64*
