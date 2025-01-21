@@ -13,13 +13,13 @@ set -xe
 # This also requires the github-cli tool to be installed and logged in
 
 # default packages, can be overridden on command line
-# TODO: remove lsp-plugins once a new version is released
+# PKGS="asahi-scripts m1n1 uboot-asahi linux-asahi alsa-ucm-conf-asahi bankstown speakersafetyd asahi-audio calamares \
+#  asahi-calamares-configs asahi-configs lzfse asahi-fwextract asahi-alarm-keyring \
+#  virglrenderer-asahi mesa-asahi tiny-dfr widevine \
+#  libkrunfw libkrun muvm FEX-Emu vulkan-tools asahi-bless fex-emu-rootfs-arch steam \
+#  asahi-desktop-meta asahi-meta"
 
-PKGS="asahi-scripts m1n1 uboot-asahi linux-asahi lsp-plugins alsa-ucm-conf-asahi bankstown speakersafetyd asahi-audio calamares \
- asahi-calamares-configs asahi-configs lzfse asahi-fwextract asahi-alarm-keyring \
- virglrenderer-asahi mesa-asahi tiny-dfr widevine \
- libkrunfw libkrun muvm FEX-Emu vulkan-tools asahi-bless fex-emu-rootfs-arch steam \
- asahi-desktop-meta asahi-meta"
+PKGS="asahi-scripts"
 
 if [ $# -ge 1 ]; then
   PKGS=("$@")
@@ -39,8 +39,9 @@ for srcpkg in $PKGS; do
   rm -f -- *.pkg.tar.xz
   makepkg -Cs --noconfirm
   if [ "$srcpkg" == "mesa-asahi" ]; then
-    # HACK: remove the unwanted mesa-dummy package since it conflicts with mesa-asahi
-    rm -f mesa-asahi-dummy*
+    # HACK: move the unwanted mesa-dummy package out of the way so it doesn't get picked up by 'ls'
+    # we DO want it in packages though, but not install it since it conflicts with mesa-asahi
+    mv mesa-asahi-dummy* ../packages/
     # we need to remove mesa to avoid conflicts, not sure why -U --noconfirm isn't enough
     sudo pacman -Rdd --noconfirm mesa
   fi
