@@ -77,12 +77,12 @@ jobs:
         run: echo "GPG_PASSPHRASE=${{ secrets.GPG_PASSPHRASE }}" >> $GITHUB_ENV
       - name: download packages
         uses: actions/download-artifact@v4
-        with: |
+        with:
           name: packages
           path: packages_artifacts
       - name: download packages
         uses: actions/download-artifact@v4
-        with: |
+        with:
           name: mesa-overlays
           path: mesa-overlays-artifacts
       - name: sign
