@@ -13,13 +13,11 @@ set -xe
 # This also requires the github-cli tool to be installed and logged in
 
 # default packages, can be overridden on command line
-# PKGS="asahi-scripts m1n1 uboot-asahi linux-asahi alsa-ucm-conf-asahi bankstown speakersafetyd asahi-audio calamares \
-#  asahi-calamares-configs asahi-configs lzfse asahi-fwextract asahi-alarm-keyring \
-#  virglrenderer-asahi mesa-asahi tiny-dfr widevine \
-#  libkrunfw libkrun muvm FEX-Emu vulkan-tools asahi-bless fex-emu-rootfs-arch steam \
-#  asahi-desktop-meta asahi-meta"
-
-PKGS="asahi-scripts"
+PKGS="asahi-scripts m1n1 uboot-asahi linux-asahi alsa-ucm-conf-asahi bankstown speakersafetyd asahi-audio calamares \
+ asahi-calamares-configs asahi-configs lzfse asahi-fwextract asahi-alarm-keyring \
+ virglrenderer-asahi mesa-asahi tiny-dfr widevine \
+ libkrunfw libkrun muvm FEX-Emu vulkan-tools asahi-bless fex-emu-rootfs-arch steam \
+ asahi-desktop-meta asahi-meta"
 
 if [ $# -ge 1 ]; then
   PKGS=("$@")
@@ -35,7 +33,7 @@ for srcpkg in $PKGS; do
   echo "Building $srcpkg"
   # remove src andn pkg folders
   rm -rf src pkg
-  # Remove any previous created packages
+  # Remove any previously created packages
   rm -f -- *.pkg.tar.xz
   makepkg -Cs --noconfirm
   if [ "$srcpkg" == "mesa-asahi" ]; then
