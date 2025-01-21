@@ -1,4 +1,4 @@
-name: build
+name: build mesa
 on:
   workflow_dispatch:
 jobs:
