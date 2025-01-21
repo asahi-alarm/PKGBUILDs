@@ -3,6 +3,7 @@
 *.tar.bz2
 *.tar.zst
 *.sig
+*.erofs.xz
 pkg
 src
 log
