@@ -14,13 +14,11 @@ set -xe
 
 # default packages, can be overridden on command line
 # TODO: remove lsp-plugins once a new version is released
-# NOTE fex-emu-rootfs-arch needs the rootfs to be placed in the same folder as the PKGBUILD as
-# default.erofs.xz to work.
 
 PKGS="asahi-scripts m1n1 uboot-asahi linux-asahi lsp-plugins alsa-ucm-conf-asahi bankstown speakersafetyd asahi-audio calamares \
  asahi-calamares-configs asahi-configs lzfse asahi-fwextract asahi-alarm-keyring \
  virglrenderer-asahi mesa-asahi tiny-dfr widevine \
- libkrunfw libkrun muvm FEX-Emu vulkan-tools asahi-bless steam \
+ libkrunfw libkrun muvm FEX-Emu vulkan-tools asahi-bless fex-emu-rootfs-arch steam \
  asahi-desktop-meta asahi-meta"
 
 if [ $# -ge 1 ]; then
