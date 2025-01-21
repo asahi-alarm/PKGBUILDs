@@ -8,13 +8,22 @@ jobs:
     steps:
       - name: Check out the repo
         uses: actions/checkout@v2
+      - name: Display runner UID and GID
+        run: |
+          echo "Runner UID: $(id -u)"
+          echo "Runner GID: $(id -g)"
+        id: get_ids
+      - name: create packages folder
+        run: mkdir -p "${{ github.workspace }}"/packages
       - name: Run the build process with Docker
         uses: addnab/docker-run-action@v3
         with:
           image: josdehaes/asahi-alarm-pkgbuild:latest
-          options: -v ${{ github.workspace }}:/home/user/PKGBUILDs
+          options: >
+            -v ${{ github.workspace }}:/home/user/PKGBUILDs --user 1001:116
+
           run: |
-            ./build.sh asahi-scripts
+            ./build.sh
       - name: Upload build artifacts
         uses: actions/upload-artifact@v3
         with:

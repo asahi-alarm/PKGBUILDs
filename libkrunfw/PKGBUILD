@@ -20,7 +20,7 @@ options=(!debug)  # suppress empty debug package
 
 build() {
     cd "$srcdir/$_pkgname-$pkgver"
-    mkdir tarballs
+    rm -rf tarballs && mkdir tarballs
     cp -s "$srcdir/linux-${_kver}.tar.xz" tarballs/
     make -j $(nproc)
 }

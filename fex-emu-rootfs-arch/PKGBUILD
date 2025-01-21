@@ -16,8 +16,8 @@ depends=(
   FEX-Emu
   muvm
 )
-source=("default.erofs.xz")
-sha256sums=('SKIP')
+source=("https://github.com/asahi-alarm/asahi-alarm/releases/download/rootfs/default.erofs.xz")
+sha256sums=('3fb8bdd21722ee1a6ac23b9c1b2204d452441038e2b634211bd9f1ef65906097')
 
 prepare() {
   unxz -c default.erofs.xz > default.erofs

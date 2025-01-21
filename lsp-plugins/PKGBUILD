@@ -58,7 +58,7 @@ build() {
   )
 
   make "${config_options[@]}"
-  make VERBOSE=1 -C $_dir
+  make VERBOSE=1 -C $_dir -j $(nproc)
 }
 
 check() {

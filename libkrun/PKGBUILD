@@ -7,20 +7,19 @@ pkgdesc="A dynamic library providing Virtualization-based process isolation capa
 url='https://github.com/containers/libkrun'
 arch=('x86_64' 'aarch64')
 license=('Apache')
-makedepends=('cargo' 'patchelf' 'virglrenderer')
-depends=('glibc' 'gcc-libs' 'libkrunfw' 'virglrenderer')
+makedepends=('cargo' 'patchelf' 'virglrenderer-asahi')
+depends=('glibc' 'gcc-libs' 'libkrunfw' 'virglrenderer-asahi')
 source=("https://github.com/containers/libkrun/archive/refs/tags/v$pkgver/$pkgname-$pkgver.tar.gz")
 
 build() {
-    cd "$srcdir/$pkgname-$pkgver"
-    # TODO: should we set VIRGL_RESOURCE_MAP2=1 ?
-    BLK=1 SND=1 GPU=1 NET=1 make
-    patchelf --set-soname libkrun.so.1 --output target/release/libkrun.so.%{version} target/release/libkrun.so
+  cd "$srcdir/$pkgname-$pkgver"
+  # TODO: should we set VIRGL_RESOURCE_MAP2=1 ?
+  BLK=1 SND=1 GPU=1 NET=1 make
+  patchelf --set-soname libkrun.so.1 --output target/release/libkrun.so.%{version} target/release/libkrun.so
 }
 
 package() {
-    cd "$srcdir/$pkgname-$pkgver"
-    make DESTDIR="$pkgdir" PREFIX=/usr LIBDIR_Linux=lib install
+  cd "$srcdir/$pkgname-$pkgver"
+  make DESTDIR="$pkgdir" PREFIX=/usr LIBDIR_Linux=lib install
 }
 sha256sums=('bfea4af88b0ae06675441248af3f2b18f034d838521c3de7f1c98cf98303dc2f')
-
