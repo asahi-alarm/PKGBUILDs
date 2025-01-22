@@ -15,7 +15,7 @@ jobs:
       - name: Store the changed files
         id: store
         run: |
-          CHANGED=$(git show --name-only --pretty="" HEAD~5.. | grep PKGBUILD | sed 's!/PKGBUILD!!' | xargs)
+          CHANGED=$(git show --name-only --pretty="" HEAD | grep PKGBUILD | sed 's!/PKGBUILD!!' | xargs)
           echo "changed=$CHANGED"
           echo "changed=$CHANGED" >> "$GITHUB_OUTPUT"
   mesa:
@@ -87,7 +87,7 @@ jobs:
               echo "update alarm packages"
               sudo pacman -Syu --noconfirm
               echo "mesa x86 overlays"
-              ls overlays
+              ls overlays || true
               if [ ! -d packages ]; then
                 mkdir packages
               fi
@@ -97,9 +97,9 @@ jobs:
               cd ..
               echo "starting build"
               ./build.sh $CHANGED
-              # overwrite the mesa overlays
               ls -l packages
-              mv overlays/* packages/
+              # overwrite the mesa overlays if any
+              mv overlays/* packages/ || true
               cd packages
               ls -l
               for file in *.pkg.tar.xz; do
@@ -110,6 +110,7 @@ jobs:
                 echo "uploading $file"
                 gh release upload aarch64 --repo asahi-alarm/asahi-alarm --clobber "$file" "${file}.sig"
               done
+              echo "uploading database files"
               gh release upload aarch64 --repo asahi-alarm/asahi-alarm --clobber asahi-alarm.db* asahi-alarm.files*
               ls
             else
