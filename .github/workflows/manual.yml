@@ -56,7 +56,10 @@ jobs:
           run: |
             set -e
             printf "%s" "$B64" | base64 -d | gpg --batch --no-tty --import
-            sudo pacman -Syu
+            sudo pacman -Syu --noconfirm
+            echo "mesa x86 overlays"
+            ls overlays
+            echo "starting build"
             ./build.sh
             # overwrite the mesa overlays
             mv overlays/* packages/
