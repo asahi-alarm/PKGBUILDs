@@ -54,7 +54,9 @@ jobs:
             -v ${{ github.workspace }}:/home/user/PKGBUILDs --user 1001:116 -e B64=${{ secrets.B64 }} -e GPG_PASSPHRASE=${{ secrets.GPG_PASSPHRASE }}
 
           run: |
+            set -e
             printf "%s" "$B64" | base64 -d | gpg --batch --no-tty --import
+            sudo pacman -Syu
             ./build.sh
             cd packages
             ls
