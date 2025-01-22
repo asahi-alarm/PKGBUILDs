@@ -2,11 +2,29 @@ name: build
 on:
   workflow_dispatch:
 jobs:
+  changed:
+    name: changed
+    runs-on: ubuntu-24.04
+    outputs:
+      output1: ${{ steps.store.outputs.changed }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 10 # Fetch enough history for diff; adjust as needed.
+      - name: Store the changed files
+        id: store
+        run: |
+          CHANGED=$(git show --name-only --pretty="" HEAD~5.. | grep PKGBUILD | sed 's!/PKGBUILD!!' | xargs)
+          echo "changed=$CHANGED"
+          echo "changed=$CHANGED" >> "$GITHUB_OUTPUT"
   mesa:
     name: build mesa overlay packages
     runs-on: ubuntu-24.04
+    needs: [changed]
     steps:
       - name: Check out the repo
+        if: contains(needs.changed.outputs.output1, 'mesa-asahi')
         uses: actions/checkout@v2
       - name: Display runner UID and GID
         run: |
@@ -14,6 +32,7 @@ jobs:
           echo "Runner GID: $(id -g)"
         id: get_ids
       - name: Run the build process with Docker
+        if: contains(needs.changed.outputs.output1, 'mesa-asahi')
         uses: addnab/docker-run-action@v3
         with:
           image: josdehaes/asahi-alarm-pkgbuild-mesa:latest
@@ -23,6 +42,7 @@ jobs:
           run: |
             cd mesa-asahi && makepkg -sC --noconfirm
       - name: Upload build artifacts
+        if: contains(needs.changed.outputs.output1, 'mesa-asahi')
         uses: actions/upload-artifact@v4
         with:
           name: overlays
@@ -32,9 +52,10 @@ jobs:
   compile:
     name: build packages
     runs-on: ubuntu-24.04-arm
-    needs: [mesa]
+    needs: [changed, mesa]
     steps:
       - name: Check out the repo
+        if: needs.changed.outputs.output1 != ''
         uses: actions/checkout@v2
       - name: Display runner UID and GID
         run: |
@@ -42,35 +63,60 @@ jobs:
           echo "Runner GID: $(id -g)"
         id: get_ids
       - name: download overlays
+        if: needs.changed.outputs.output1 != ''
         uses: actions/download-artifact@v4
+        continue-on-error: true
         with:
           name: overlays
           path: overlays
       - name: Run the build process with Docker
+        if: needs.changed.outputs.output1 != ''
         uses: addnab/docker-run-action@v3
         with:
           image: josdehaes/asahi-alarm-pkgbuild:latest
           options: >
-            -v ${{ github.workspace }}:/home/user/PKGBUILDs --user 1001:116 -e B64=${{ secrets.B64 }} -e GPG_PASSPHRASE=${{ secrets.GPG_PASSPHRASE }}
+            -v ${{ github.workspace }}:/home/user/PKGBUILDs --user 1001:116 -e B64=${{ secrets.B64 }} -e GPG_PASSPHRASE=${{ secrets.GPG_PASSPHRASE }} -e GH_TOKEN=${{ secrets.GH_TOKEN }}
 
           run: |
             set -e
-            printf "%s" "$B64" | base64 -d | gpg --batch --no-tty --import
-            sudo pacman -Syu --noconfirm
-            echo "mesa x86 overlays"
-            ls overlays
-            echo "starting build"
-            ./build.sh
-            # overwrite the mesa overlays
-            mv overlays/* packages/
-            cd packages
-            ls
-            for file in *; do
-              echo "$GPG_PASSPHRASE" | gpg --local-user 12CE6799A94A3F1B5DDFFE88F576553597FB8FEB --pinentry-mode loopback --passphrase-fd 0 --detach-sign "$file"
-              repo-add --key 12CE6799A94A3F1B5DDFFE88F576553597FB8FEB --sign asahi-alarm.db.tar.gz "$file"
-            done
-            ls
+            CHANGED=${{ needs.changed.outputs.output1 }}
+            echo "changed=$CHANGED"
+            if [ -n "$CHANGED" ]; then
+              echo "import GPG key"
+              printf "%s" "$B64" | base64 -d | gpg --batch --no-tty --import
+              echo "update alarm packages"
+              sudo pacman -Syu --noconfirm
+              echo "mesa x86 overlays"
+              ls overlays
+              if [ ! -d packages ]; then
+                mkdir packages
+              fi
+              cd packages
+              echo "download current release databases"
+              gh release download aarch64 --repo asahi-alarm/asahi-alarm --pattern asahi-alarm.db* --pattern asahi-alarm.files*
+              cd ..
+              echo "starting build"
+              ./build.sh $CHANGED
+              # overwrite the mesa overlays
+              ls -l packages
+              mv overlays/* packages/
+              cd packages
+              ls -l
+              for file in *.pkg.tar.xz; do
+                echo "signing $file"
+                echo "$GPG_PASSPHRASE" | gpg --batch --no-tty --local-user 12CE6799A94A3F1B5DDFFE88F576553597FB8FEB --pinentry-mode loopback --passphrase-fd 0 --detach-sign "$file"
+                echo "adding $file"
+                repo-add --key 12CE6799A94A3F1B5DDFFE88F576553597FB8FEB --sign asahi-alarm.db.tar.gz "$file"
+                echo "uploading $file"
+                gh release upload aarch64 --repo asahi-alarm/asahi-alarm --clobber "$file" "${file}.sig"
+              done
+              gh release upload aarch64 --repo asahi-alarm/asahi-alarm --clobber asahi-alarm.db* asahi-alarm.files*
+              ls
+            else
+              echo "nothing to build"
+            fi
       - name: Upload build artifacts
+        if: needs.changed.outputs.output1 != ''
         uses: actions/upload-artifact@v4
         with:
           name: packages
