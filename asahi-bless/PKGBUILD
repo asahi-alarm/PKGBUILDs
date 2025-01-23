@@ -7,7 +7,7 @@ pkgrel=3
 pkgdesc='Tool to select active boot partition on ARM Macs'
 arch=('aarch64')
 url="https://crates.io/crates/$pkgname"
-makedepends=('rust' 'cargo')
+makedepends=('rustup' 'cargo')
 license=('MIT')
 source=(
   "asahi-bless-${pkgver}.tar.gz::https://crates.io/api/v1/crates/asahi-bless/0.4.1/download"
