@@ -7,7 +7,7 @@ pkgdesc="A dynamic library providing Virtualization-based process isolation capa
 url='https://github.com/containers/libkrun'
 arch=('x86_64' 'aarch64')
 license=('Apache')
-makedepends=('cargo' 'patchelf' 'virglrenderer-asahi')
+makedepends=('rustup' 'patchelf' 'virglrenderer-asahi')
 depends=('glibc' 'gcc-libs' 'libkrunfw' 'virglrenderer-asahi')
 source=("https://github.com/containers/libkrun/archive/refs/tags/v$pkgver/$pkgname-$pkgver.tar.gz")
 
