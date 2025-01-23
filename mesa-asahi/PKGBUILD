@@ -8,7 +8,7 @@ pkgdesc="An open-source implementation of the OpenGL specification"
 _asahiver=20241211
 _commit=asahi-$_asahiver
 pkgver=25.0.0_pre$_asahiver
-pkgrel=7
+pkgrel=8
 arch=('x86_64' 'aarch64')
 makedepends=('python-mako' 'libxml2' 'libx11' 'xorgproto' 'libdrm' 'libxshmfence' 'libxxf86vm'
   'libxdamage' 'libvdpau' 'libva' 'wayland' 'wayland-protocols' 'zstd' 'elfutils' 'llvm' 'spirv-llvm-translator'
@@ -176,6 +176,7 @@ package_mesa-asahi() {
   _install fakeinstall/usr/lib/libOSMesa.so.8*
 
   # libgbm
+  _install fakeinstall/usr/lib/libgbm.so
   _install fakeinstall/usr/lib/libgbm.so.1
   _install fakeinstall/usr/lib/libgbm.so.1.*
 

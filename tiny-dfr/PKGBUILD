@@ -3,7 +3,7 @@
 
 pkgname=tiny-dfr
 pkgver=0.3.3
-pkgrel=3
+pkgrel=4
 pkgdesc='Apple silicon touch bar input / display daemon'
 arch=('aarch64')
 url=https://github.com/WhatAmISupposedToPutHere/tiny-dfr

@@ -3,7 +3,7 @@
 
 pkgname=muvm
 pkgver=0.2.0
-pkgrel=3
+pkgrel=4
 pkgdesc='run programs from your system in a microVM'
 arch=('aarch64')
 url='https://github.com/AsahiLinux/muvm'
