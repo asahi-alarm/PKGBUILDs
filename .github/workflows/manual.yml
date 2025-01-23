@@ -79,7 +79,7 @@ jobs:
 
           run: |
             set -e
-            CHANGED=${{ needs.changed.outputs.output1 }}
+            CHANGED="${{ needs.changed.outputs.output1 }}"
             echo "changed=$CHANGED"
             if [ -n "$CHANGED" ]; then
               echo "import GPG key"

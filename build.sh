@@ -20,7 +20,7 @@ PKGS="asahi-scripts m1n1 uboot-asahi linux-asahi alsa-ucm-conf-asahi bankstown s
  asahi-desktop-meta asahi-meta"
 
 if [ $# -ge 1 ]; then
-  PKGS=("$@")
+  PKGS="$*"
 fi
 
 if [ ! -d packages ]; then
