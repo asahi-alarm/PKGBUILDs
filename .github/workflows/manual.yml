@@ -116,10 +116,9 @@ jobs:
             else
               echo "nothing to build"
             fi
-      - name: Upload build artifacts
-        if: needs.changed.outputs.output1 != ''
-        uses: actions/upload-artifact@v4
+      - name: delete build artifacts
+        uses: geekyeggo/delete-artifact@v5
+        continue-on-error: true
         with:
-          name: packages
-          path: |
-            packages/*
+          name: overlays
+          failOnError: false
