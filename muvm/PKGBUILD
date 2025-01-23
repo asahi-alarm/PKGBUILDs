@@ -7,6 +7,7 @@ pkgrel=3
 pkgdesc='run programs from your system in a microVM'
 arch=('aarch64')
 url='https://github.com/AsahiLinux/muvm'
+makedepends=('rustup')
 depends=('libkrun' 'socat' 'passt' 'dhcp-client')
 source=(
   "${pkgname}-${pkgver}.tar.gz::https://github.com/AsahiLinux/muvm/archive/refs/tags/${pkgname}-${pkgver}.tar.gz"
