@@ -8,7 +8,7 @@ pkgdesc="An open-source implementation of the OpenGL specification"
 _asahiver=20241211
 _commit=asahi-$_asahiver
 pkgver=25.0.0_pre$_asahiver
-pkgrel=8
+pkgrel=9
 arch=('x86_64' 'aarch64')
 makedepends=('python-mako' 'libxml2' 'libx11' 'xorgproto' 'libdrm' 'libxshmfence' 'libxxf86vm'
   'libxdamage' 'libvdpau' 'libva' 'wayland' 'wayland-protocols' 'zstd' 'elfutils' 'llvm' 'spirv-llvm-translator'
@@ -127,7 +127,7 @@ _install() {
 }
 
 package_mesa() {
-  provides=('mesa-libgl' 'opengl-driver' 'vdpau-driver' 'libva-mesa-driver'  'vulkan-asahi' 'vulkan-driver' 'opencl-driver' 'opencl-rusticl-mesa')
+  provides=('mesa-libgl' 'opengl-driver' 'vdpau-driver' 'libva-mesa-driver' 'vulkan-asahi' 'vulkan-driver' 'opencl-driver' 'opencl-rusticl-mesa')
   conflicts=('mesa-asahi' 'mesa-asahi-edge' 'mesa-libgl' 'vulkan-swrast')
   replaces=('mesa-asahi' 'mesa-asahi-edge' 'mesa-libgl' 'vulkan-swrast')
 
@@ -359,6 +359,8 @@ create_overlay() {
 package_mesa-fex-emu-overlay-x86_64() {
   arch=(any)
   provides=('mesa-fex-emu-overlay-x86_64')
+  conflicts=('mesa-asahi-fex-emu-overlay-x86_64')
+  replaces=('mesa-asahi-fex-emu-overlay-x86_64')
 
   if [[ "$CARCH" != "x86_64" ]]; then
     return 0
@@ -375,6 +377,8 @@ package_mesa-fex-emu-overlay-x86_64() {
 package_mesa-fex-emu-overlay-i386() {
   arch=(any)
   provides=('mesa-fex-emu-overlay-i386')
+  conflicts=('mesa-asahi-fex-emu-overlay-i386')
+  replaces=('mesa-asahi-fex-emu-overlay-i386')
 
   if [[ "$CARCH" != "x86_64" ]]; then
     return 0
