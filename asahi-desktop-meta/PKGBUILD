@@ -12,7 +12,7 @@ install=asahi-desktop-meta.install
 
 package() {
   # Put depends in package() to avoid unecessary build dependencies
-  depends=(calamares asahi-calamares-configs bluedevil bluez-utils bluez-tools pipewire pipewire-audio pipewire-pulse pipewire-alsa wireplumber asahi-audio bankstown speakersafetyd mesa-asahi widevine virglrenderer-asahi)
+  depends=(bluedevil bluez-utils bluez-tools pipewire pipewire-audio pipewire-pulse pipewire-alsa wireplumber asahi-audio bankstown speakersafetyd mesa widevine virglrenderer)
 }
 
 # vim: ts=2 sw=2 et:

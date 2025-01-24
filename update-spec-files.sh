@@ -51,13 +51,13 @@ declare -A PACKAGES=(
     #["lsp-plugins"]=""
     #["lzfse"]=""
     #["m1n1"]=""
-    ["mesa-asahi"]="copr+mesa/mesa.git,mesa.spec|aarch64,x86_64,i386"
+    ["mesa"]="copr+mesa/mesa.git,mesa.spec|aarch64,x86_64,i386"
     ["muvm"]="fsrc+rpms/rust-muvm,rust-muvm.spec|aarch64"
     #["speakersafetyd"]=""
     #["steam"]=""
     #["tiny-dfr"]=""
     #["uboot-asahi"]=""
-    #["virglrenderer-asahi"]=""
+    #["virglrenderer"]=""
     #["vulkan-tools"]=""
     #["widevine"]=""
     #["xkeyboard-config-asahi"]=""
@@ -223,7 +223,7 @@ for ASAHI_PACKAGE in "${!PACKAGES[@]}"; do
         # Here you can implement package specific quirks                                               #
         ################################################################################################
 
-        if [ "$ASAHI_PACKAGE" == "mesa-asahi" ]; then
+        if [ "$ASAHI_PACKAGE" == "mesa" ]; then
           if [ "$SPEC_ARCH" != "aarch64" ]; then
             # /usr/lib[32] -> /usr/$LIBDIR
             # ATTENTION: DO NOT CHANGE THE ORDER OF THE NEXT LINES!

@@ -1,6 +1,11 @@
 name: build
 on:
   workflow_dispatch:
+    inputs:
+      packages:
+        description: packages to build, in order, if not provided, the action will try to figure it out from the HEAD commit
+        required: false
+        type: string
 jobs:
   changed:
     name: changed
@@ -15,7 +20,11 @@ jobs:
       - name: Store the changed files
         id: store
         run: |
-          CHANGED=$(git show --name-only --pretty="" HEAD | grep PKGBUILD | sed 's!/PKGBUILD!!' | xargs)
+          if [ "${{ github.event.inputs.packages }}" != "" ]; then
+            CHANGED="${{ github.event.inputs.packages }}"
+          else
+            CHANGED=$(git show --name-only --pretty="" HEAD | grep PKGBUILD | sed 's!/PKGBUILD!!' | xargs)
+          fi
           echo "changed=$CHANGED"
           echo "changed=$CHANGED" >> "$GITHUB_OUTPUT"
   mesa:
@@ -24,7 +33,7 @@ jobs:
     needs: [changed]
     steps:
       - name: Check out the repo
-        if: contains(needs.changed.outputs.output1, 'mesa-asahi')
+        if: contains(needs.changed.outputs.output1, 'mesa')
         uses: actions/checkout@v2
       - name: Display runner UID and GID
         run: |
@@ -32,7 +41,7 @@ jobs:
           echo "Runner GID: $(id -g)"
         id: get_ids
       - name: Run the build process with Docker
-        if: contains(needs.changed.outputs.output1, 'mesa-asahi')
+        if: contains(needs.changed.outputs.output1, 'mesa')
         uses: addnab/docker-run-action@v3
         with:
           image: josdehaes/asahi-alarm-pkgbuild-mesa:latest
@@ -40,15 +49,17 @@ jobs:
             -v ${{ github.workspace }}:/home/user/PKGBUILDs --user 1001:116
 
           run: |
-            cd mesa-asahi && makepkg -sC --noconfirm
+            echo "update alarm packages"
+            sudo pacman -Syu --noconfirm
+            cd mesa && makepkg -sC --noconfirm
       - name: Upload build artifacts
-        if: contains(needs.changed.outputs.output1, 'mesa-asahi')
+        if: contains(needs.changed.outputs.output1, 'mesa')
         uses: actions/upload-artifact@v4
         with:
           name: overlays
           path: |
-            mesa-asahi/mesa-asahi-fex-emu-overlay-i386*
-            mesa-asahi/mesa-asahi-fex-emu-overlay-x86_64*
+            mesa/mesa-fex-emu-overlay-i386*
+            mesa/mesa-fex-emu-overlay-x86_64*
   compile:
     name: build packages
     runs-on: ubuntu-24.04-arm

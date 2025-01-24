@@ -1,7 +1,7 @@
 # Maintainer: Jos Dehaes <jos.dehaes@gmail.com>
 # Maintainer: Matthias Kurz <m.kurz@irregular.at>
 
-pkgname=virglrenderer-asahi
+pkgname=virglrenderer
 pkgver=20241205.2
 pkgrel=3
 pkgdesc="Asahi Linux fork of virglrenderer, a virtual 3D GPU for QEMU"
@@ -10,11 +10,10 @@ url="https://gitlab.freedesktop.org/asahi/virglrenderer"
 license=('MIT') # The upstream license; verify and adjust if needed
 
 # Most basic dependencies. Add or remove as needed:
-depends=('mesa-asahi' 'libepoxy' 'libva')
+depends=('mesa' 'libepoxy' 'libva')
 makedepends=('git' 'meson' 'ninja') # Tools for building from Git
-
-provides=('virglrenderer')
-conflicts=('virglrenderer')
+conflicts=('virglrenderer-asahi')
+replaces=('virglrenderer-asahi')
 
 source=("${pkgname}::git+https://gitlab.freedesktop.org/asahi/virglrenderer.git#tag=asahi-${pkgver}")
 sha256sums=('SKIP')
@@ -27,7 +26,6 @@ prepare() {
 
 build() {
   cd "${srcdir}/${pkgname}"
-  # Create a separate build directory
   mkdir -p build
   meson setup build \
     --prefix=/usr \
@@ -40,4 +38,5 @@ build() {
 package() {
   cd "${srcdir}/${pkgname}"
   DESTDIR="${pkgdir}" meson install -C build
+  install -D -m644 COPYING "$pkgdir/usr/share/licenses/$pkgname/COPYING"
 }
