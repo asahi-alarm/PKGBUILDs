@@ -2,7 +2,7 @@
 
 pkgname=libkrun
 pkgver=1.9.8
-pkgrel=5
+pkgrel=6
 pkgdesc="A dynamic library providing Virtualization-based process isolation capabilities"
 url='https://github.com/containers/libkrun'
 arch=('x86_64' 'aarch64')

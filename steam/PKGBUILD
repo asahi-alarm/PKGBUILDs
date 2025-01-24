@@ -3,7 +3,7 @@
 
 pkgname=steam
 pkgver=20241231
-pkgrel=3
+pkgrel=4
 pkgdesc="Steam wrapper for Asahi ALARM: This package provides a wrapper to download, install and run Steam."
 arch=('any')
 license=('MIT')

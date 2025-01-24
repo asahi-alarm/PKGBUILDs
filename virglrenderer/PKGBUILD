@@ -3,7 +3,7 @@
 
 pkgname=virglrenderer
 pkgver=20241205.2
-pkgrel=3
+pkgrel=4
 pkgdesc="Asahi Linux fork of virglrenderer, a virtual 3D GPU for QEMU"
 arch=('x86_64' 'aarch64') # Adjust if necessary
 url="https://gitlab.freedesktop.org/asahi/virglrenderer"
