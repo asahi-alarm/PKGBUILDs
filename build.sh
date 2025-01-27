@@ -17,7 +17,7 @@ PKGS="asahi-scripts m1n1 uboot-asahi linux-asahi alsa-ucm-conf-asahi bankstown s
  asahi-calamares-configs asahi-configs lzfse asahi-fwextract asahi-alarm-keyring \
  virglrenderer mesa tiny-dfr widevine \
  libkrunfw libkrun muvm FEX-Emu vulkan-tools asahi-bless fex-emu-rootfs-arch steam \
- asahi-desktop-meta asahi-meta"
+ xkeyboard-config asahi-desktop-meta asahi-meta"
 
 if [ $# -ge 1 ]; then
   PKGS="$*"
