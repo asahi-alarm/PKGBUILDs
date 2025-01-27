@@ -3,7 +3,7 @@
 
 pkgname=asahi-desktop-meta
 pkgver=4
-pkgrel=5
+pkgrel=6
 pkgdesc='Asahi Linux desktop support meta package'
 url='https://www.asahilinux.org'
 arch=('any')
@@ -12,7 +12,6 @@ install=asahi-desktop-meta.install
 
 package() {
   depends=(
-    bluedevil
     bluez-utils
     bluez-tools
     pipewire
