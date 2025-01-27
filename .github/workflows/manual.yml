@@ -108,6 +108,7 @@ jobs:
               cd packages
               echo "download current release databases"
               gh release download aarch64 --repo asahi-alarm/asahi-alarm --pattern asahi-alarm.db* --pattern asahi-alarm.files*
+              TO_REMOVE=()
               cd ..
               echo "starting build"
               ./build.sh $CHANGED
@@ -121,11 +122,23 @@ jobs:
                 echo "$GPG_PASSPHRASE" | gpg --batch --no-tty --local-user 12CE6799A94A3F1B5DDFFE88F576553597FB8FEB --pinentry-mode loopback --passphrase-fd 0 --detach-sign "$file"
                 echo "adding $file"
                 repo-add --key 12CE6799A94A3F1B5DDFFE88F576553597FB8FEB --sign asahi-alarm.db.tar.gz "$file"
+                # fetch filenames of previous versions of this package so we can remove them from
+                # the release later. Note this will contain the package file and the signature file
+                BASE=$(echo $file | sed 's/\([a-z-]*\)-[0-9].*/\1/')
+                TO_REMOVE+="$(gh release view aarch64 --repo asahi-alarm/asahi-alarm | grep "${BASE}-" | awk '{ print $2 }') "
                 echo "uploading $file"
                 gh release upload aarch64 --repo asahi-alarm/asahi-alarm --clobber "$file" "${file}.sig"
               done
               echo "uploading database files"
               gh release upload aarch64 --repo asahi-alarm/asahi-alarm --clobber asahi-alarm.db* asahi-alarm.files*
+              # once the database files are uploaded, we can remove the old versions
+              for old in $TO_REMOVE; do
+                # first check if we this is not a package we just uploaded
+                if [ ! -f "$old" ]; then
+                  echo "removing $old from release"
+                  gh release delete-asset aarch64 --repo asahi-alarm/asahi-alarm -y $old || true
+                fi
+              done
               ls
             else
               echo "nothing to build"
