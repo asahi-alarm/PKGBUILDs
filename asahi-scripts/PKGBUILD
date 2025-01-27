@@ -10,8 +10,8 @@ url='http://asahilinux.org'
 license=('MIT')
 source=("${pkgname}-${pkgver}.tar.gz::https://github.com/asahi-alarm/${pkgname}/archive/refs/tags/${pkgver}.tar.gz")
 install=asahi-scripts.install
-sha256sums=('24023903c1341d6867d9a2baa494bbae90ca27b6cf64fa19218ef87d471304fc')
-b2sums=('945bd549a768beb86b69bbdeae088df7d687a534d7003e62574349e40fcb84f37306e96aade89d2fd45882add0d1b31e99b647f38debce4f6fb9185ec848d2a8')
+sha256sums=('f572f2796274c6d6dffc07997f03b847684967fe16dc58a12d4c876d019ba069')
+b2sums=('6c4e535aadc6a0edeeaea7751d5e9a423b8b9dcad5566b4125b0cfcc044f25b76929fe2d9d331712855f181cc52690b685d61638aa8852afcc9d30bbb293c886')
 backup=(etc/m1n1.conf)
 
 build() {
