@@ -1,0 +1,25 @@
+# Maintainer: Jos Dehaes <jos.dehaes@gmail.com>
+# Maintainer: Matthias Kurz <m.kurz@irregular.at>
+
+pkgname=triforce-lv2
+pkgver=0.1.1
+pkgrel=2
+pkgdesc='a beamformer for Apple Silicon laptops'
+arch=('aarch64')
+url='http://asahilinux.org'
+depends=('lv2')
+license=('MIT')
+source=(
+  "triforce-lv2-${pkgver}.tar.gz::https://github.com/chadmed/triforce/archive/refs/tags/${pkgver}.tar.gz"
+)
+sha256sums=('870563e93a852df728cafcc8fd0e5b3d9132c5ed98101773457a8b9776fdf741')
+
+build() {
+  cd "${srcdir}/triforce-${pkgver}"
+  make
+}
+
+package() {
+  cd "${srcdir}/triforce-${pkgver}"
+  make LIBDIR=/usr/lib DESTDIR="${pkgdir}" install
+}
