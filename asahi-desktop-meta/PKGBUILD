@@ -3,7 +3,7 @@
 
 pkgname=asahi-desktop-meta
 pkgver=4
-pkgrel=4
+pkgrel=5
 pkgdesc='Asahi Linux desktop support meta package'
 url='https://www.asahilinux.org'
 arch=('any')
@@ -11,8 +11,22 @@ license=('MIT')
 install=asahi-desktop-meta.install
 
 package() {
-  # Put depends in package() to avoid unecessary build dependencies
-  depends=(bluedevil bluez-utils bluez-tools pipewire pipewire-audio pipewire-pulse pipewire-alsa wireplumber asahi-audio bankstown speakersafetyd mesa widevine virglrenderer)
+  depends=(
+    bluedevil
+    bluez-utils
+    bluez-tools
+    pipewire
+    pipewire-audio
+    pipewire-pulse
+    pipewire-alsa
+    wireplumber
+    asahi-audio
+    bankstown
+    speakersafetyd
+    mesa
+    widevine
+    virglrenderer
+    xkeyboard-config)
 }
 
 # vim: ts=2 sw=2 et:
