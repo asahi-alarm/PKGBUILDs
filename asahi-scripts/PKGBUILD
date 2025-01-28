@@ -2,7 +2,7 @@
 # Maintainer: Matthias Kurz <m.kurz@irregular.at>
 
 pkgname=asahi-scripts
-pkgver=20250124
+pkgver=20250128
 pkgrel=1
 pkgdesc='Asahi Linux maintenance scripts'
 arch=('any')
@@ -10,8 +10,8 @@ url='http://asahilinux.org'
 license=('MIT')
 source=("${pkgname}-${pkgver}.tar.gz::https://github.com/asahi-alarm/${pkgname}/archive/refs/tags/${pkgver}.tar.gz")
 install=asahi-scripts.install
-sha256sums=('f572f2796274c6d6dffc07997f03b847684967fe16dc58a12d4c876d019ba069')
-b2sums=('6c4e535aadc6a0edeeaea7751d5e9a423b8b9dcad5566b4125b0cfcc044f25b76929fe2d9d331712855f181cc52690b685d61638aa8852afcc9d30bbb293c886')
+sha256sums=('7b13b7ab5242d66ee9cce3f65811285a6ff5786269c37d0ccf4bf66f2bc17245')
+b2sums=('0385284b8de4253370523c696ca6346ba7bf7a75392ffdb6b1939b3a1e19f00cd003802f332445774585327e719b2a0360c09bbe9b9fe4f31402ed2938b3fe97')
 backup=(etc/m1n1.conf)
 
 build() {
@@ -24,7 +24,8 @@ package() {
   cd "${srcdir}/${pkgname}-${pkgver}"
 
   make PREFIX=/usr DESTDIR=${pkgdir} install-arch
-
+  # re-add DTBS variable
+  sed -i -e '/${CONFIG/i : ${DTBS:=$(/bin/ls -d /lib/modules/*-ARCH | sort -rV | head -1)/dtbs/*.dtb}' "$pkgdir/usr/bin/update-m1n1"
   install -Dm644 "$srcdir/${pkgname}-${pkgver}/LICENSE" \
     "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
 }
