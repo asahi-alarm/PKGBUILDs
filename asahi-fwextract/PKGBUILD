@@ -1,18 +1,18 @@
 # Maintainer: Jos Dehaes <jos.dehaes@gmail.com>
 # Maintainer: Matthias Kurz <m.kurz@irregular.at>
 
-_name=asahi-installer
+_name=asahi-alarm-installer
 pkgname=asahi-fwextract
-pkgver=0.6.9
+pkgver=0.7.9
 pkgrel=1
 pkgdesc='Asahi Linux firmware extractor'
 arch=('any')
 url='http://asahilinux.org'
 license=('MIT')
-source=("${pkgname}-${pkgver}.tar.gz::https://github.com/AsahiLinux/${_name}/archive/refs/tags/v${pkgver}.tar.gz")
+source=("${pkgname}-${pkgver}.tar.gz::https://github.com/asahi-alarm/${_name}/archive/refs/tags/v${pkgver}.tar.gz")
 install=asahi-fwextract.install
-sha256sums=('def0c0ad698fcdc8b8efaac4df6822ce16e1266ea7b8e774bcb414248dc4a618')
-b2sums=('7e3cf000f92081169ba937fb03455d902b1d14fd1b7bce55718cb037e75e02fa984bf7d4e549dcb64bc01fddaa7977f3b3f6bfa5ceef357babb98820899f6f41')
+sha256sums=('1f8728dd5d206855cc5ecac045dc4de03c9e22583663c907061d275d2da3b05d')
+b2sums=('794ac1682a82a191da28aa62cac943228a36ed1fec99881c08f404f5fa491374e185803376dd102fa3b104ab0505de59d1efe311ed69ef527a61b0eb5524574b')
 depends=(python "asahi-scripts>=20230606-1" lzfse)
 makedepends=(python-build python-installer python-wheel python-setuptools)
 
