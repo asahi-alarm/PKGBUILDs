@@ -2,12 +2,12 @@
 # Maintainer: Jos Dehaes <jos.dehaes@gmail.com>
 # Maintainer: Matthias Kurz <m.kurz@irregular.at>
 
-_rcver=6.12.10
+_rcver=6.12.12
 #_rcrel=3
-_asahirel=2
+_asahirel=1
 pkgrel=1
 
-_m1n1_version=1.4.17
+_m1n1_version=1.4.21
 
 pkgbase=linux-asahi
 #_commit_id=asahi-${_nextver}-${_asahirel}
@@ -28,9 +28,9 @@ source=(
   https://github.com/AsahiLinux/linux/archive/${_commit_id}.tar.gz
   config         # the main kernel config file
 )
-sha256sums=('86d1742a6e05852f190abb74466a76982af5a59e15b8b273fed8686d46deb7d1'
+sha256sums=('a77cbc2ab61ce5c7ed135c7e53a378b426c28a7b2ba4f0d8a83bb1e11fa34433'
             'cb757c587f30db566e3e59b82876c140d9621c15e868be00a98143e94d337042')
-b2sums=('f7ba3d9a6843c6639219d83f0b38036eb12b91e707dbf27a575f474762217510df2fbf4401164067574ec4b535dd426c3db9b94d2d4b881f206a37e056b681fd'
+b2sums=('799a809d723ffe37aa9ca4a0d240793c04ce6285913cf7061bcc1ca9b97f70cf19aabdeb338a47b549160e139084535016ef68186d9ee8835f808c0fb1b3beb1'
         'd902a67ab874e577e01c353c57f6f7d5f085814d2c2587c5aa8c8208a3694f2e7487d1cee9f228fa6554ae33d7488c330468ff5648e2c502bc9990140dc93851')
 export KBUILD_BUILD_HOST=archlinux
 export KBUILD_BUILD_USER=$pkgbase
