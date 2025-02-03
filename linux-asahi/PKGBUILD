@@ -2,8 +2,6 @@
 # Maintainer: Jos Dehaes <jos.dehaes@gmail.com>
 # Maintainer: Matthias Kurz <m.kurz@irregular.at>
 
-buildarch=8
-
 _rcver=6.12.10
 #_rcrel=3
 _asahirel=2
