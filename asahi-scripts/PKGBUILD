@@ -3,16 +3,15 @@
 
 pkgname=asahi-scripts
 pkgver=20250130
-pkgrel=1
+pkgrel=2
 pkgdesc='Asahi Linux maintenance scripts'
 arch=('any')
 url='http://asahilinux.org'
 license=('MIT')
 source=("${pkgname}-${pkgver}.tar.gz::https://github.com/asahi-alarm/${pkgname}/archive/refs/tags/${pkgver}.tar.gz")
 install=asahi-scripts.install
-sha256sums=('3a53115d6c79dbc77949a2744cbb3bc08dbeead7ae1c0c6c3f6e30a584e8c0c5')
-b2sums=('fc51d44ccd8e01985f01c3d33be9888ea95eeff1200ad1f32c2cb416d47fbaa2cf4a65348af7227644dd4bada71bc697c3a1f441160248f55b668972494f5634')
-backup=(etc/m1n1.conf)
+sha256sums=('73fabf21fa9dc592cb3e226d9cbfb56bfeca0643500d96486c910daefb0b1024')
+b2sums=('510e125f3a6433a9db7afa3ef6b8d50e11bcad7a4a90bfc0a546fd40a4765cd957dafe9808c0a6fad4803bf0f57471541edaeb6ce14212ae4218ae99d5a2b456')
 
 build() {
   cd "${srcdir}/${pkgname}-${pkgver}"
