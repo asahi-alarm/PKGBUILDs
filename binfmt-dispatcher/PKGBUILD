@@ -1,0 +1,25 @@
+# Maintainer: Jos Dehaes <jos.dehaes@gmail.com>
+# Maintainer: Matthias Kurz <m.kurz@irregular.at>
+
+pkgname=binfmt-dispatcher
+pkgver=0.1.0
+pkgrel=0
+pkgdesc='a simple dispatcher for binfmt-misc'
+arch=('aarch64')
+url='http://asahilinux.org'
+depends=('rustup')
+license=('MIT')
+source=(
+  "binfmt-dispatcher-${pkgver}.tar.gz::https://github.com/asahilinux/binfmt-dispatcher/archive/refs/tags/${pkgver}.tar.gz"
+)
+sha256sums=('bd733af83515c1fc54ab93e7d5177be412f4347248edd94c9ae70fd52d5cd84c')
+
+build() {
+  cd "${srcdir}/binfmt-dispatcher-${pkgver}"
+  cargo build --release
+}
+
+package() {
+  cd "${srcdir}/binfmt-dispatcher-${pkgver}"
+  make LIBDIR=/usr/lib DESTDIR="${pkgdir}" install
+}
