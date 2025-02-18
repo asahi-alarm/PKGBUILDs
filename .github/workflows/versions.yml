@@ -1,8 +1,7 @@
 name: Version Comparison
 on:
-  workflow_dispatch:
-  # schedule:
-  #   - cron: "0 0 * * *" # Runs daily at midnight UTC
+  schedule:
+    - cron: "0 0 * * *" # Runs daily at midnight UTC
 permissions:
   contents: write
 jobs:
