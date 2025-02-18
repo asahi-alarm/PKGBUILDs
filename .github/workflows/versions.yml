@@ -1,0 +1,25 @@
+name: Version Comparison
+on:
+  workflow_dispatch:
+  # schedule:
+  #   - cron: "0 0 * * *" # Runs daily at midnight UTC
+permissions:
+  contents: write
+jobs:
+  update-page:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Run version script
+        run: |
+          bash ./check-version.sh | tee -a versions.txt
+      - name: Set up Git user
+        run: |
+          git config --global user.email "action@github.com"
+          git config --global user.name "GitHub Action"
+      - name: Commit
+        run: |
+          git add versions.txt
+          git diff-index --quiet HEAD || git commit -m "Automated update"
+          git push origin HEAD:main
