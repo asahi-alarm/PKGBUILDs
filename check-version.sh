@@ -56,9 +56,7 @@ for P in $PKGS; do
   fi
 
   F=$(curl -s "https://bodhi.fedoraproject.org/updates/?search=$B&status=stable&releases=$REPO" | jq -r '[ first(.updates[] | { nvr: .builds.[].nvr } | select(.nvr | contains("'$B'"))) ]' | jq -r '.[].nvr' | sed "s/$B-\([0-9].*\)/\1/" | sed 's/.[^.]*$//')
-  if [[ -n $F ]]; then
-    F=$(echo $F | sed "s/$B-\([0-9].*\)/\1/")
-  else
+  if [[ -z $F ]]; then
     F="/"
   fi
   printf "%-30s %-30s %-30s\n" "$O" "$F" "$V"
