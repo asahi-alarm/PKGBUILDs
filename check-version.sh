@@ -32,6 +32,7 @@ mappings["asahi-calamares-configs"]="fedora-remix-scripts"
 
 copr["kernel"]="kernel"
 copr["mesa"]="mesa"
+copr["virglrenderer"]="mesa"
 copr["steam"]="steam"
 copr["u-boot"]="uboot-tools"
 copr["fedora-remix-scripts"]="calamares-firstboot-config"
@@ -65,7 +66,11 @@ for P in $PKGS; do
   if [[ -n "${copr[$B]}" ]]; then
     # search in copr
     PACKAGE=${copr[$B]}
-    F=$(curl -s -X 'GET' "https://copr.fedorainfracloud.org/api_3/package/?ownername=%40asahi&projectname=$B&packagename=$PACKAGE&with_latest_build=false&with_latest_succeeded_build=false"  -H 'accept: application/json' | jq -r '.builds.latest.source_package.version')
+    if [ "$B" == "virglrenderer" ]; then
+      F=$(curl -s -X 'GET' "https://copr.fedorainfracloud.org/api_3/package/?ownername=%40asahi&projectname=mesa&packagename=$B&with_latest_build=false&with_latest_succeeded_build=false"  -H 'accept: application/json' | jq -r '.builds.latest.source_package.version')
+    else
+      F=$(curl -s -X 'GET' "https://copr.fedorainfracloud.org/api_3/package/?ownername=%40asahi&projectname=$B&packagename=$PACKAGE&with_latest_build=false&with_latest_succeeded_build=false"  -H 'accept: application/json' | jq -r '.builds.latest.source_package.version')
+    fi
   else
     F=$(curl -s "https://bodhi.fedoraproject.org/updates/?search=$B&status=stable&releases=$REPO" | jq -r '[ first(.updates[] | { nvr: .builds.[].nvr } | select(.nvr | contains("'$B'"))) ]' | jq -r '.[].nvr' | sed "s/$B-\([0-9].*\)/\1/" | sed 's/.[^.]*$//')
   fi
