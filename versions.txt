@@ -28,7 +28,7 @@ steam                          0-13                           20241231-4
 tiny-dfr                       0.3.2-1                        0.3.3-4                       
 triforce-lv2                   /                              0.2.0-1                       
 uboot-asahi                    1:2024.10-5                    2024.10.asahi1-1              
-virglrenderer                  /                              20241205.2-4                  
+virglrenderer                  1.0.1^asahipost20241205.2-1    20241205.2-4                  
 vulkan-tools                   1.4.304.0-1                    1.4.304-1                     
 widevine                       0^20240812giteab8c66-1         4.10.2710.0-7                 
 xkeyboard-config               2.42-1                         2.43-2                        
