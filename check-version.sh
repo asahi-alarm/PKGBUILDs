@@ -2,6 +2,7 @@
 
 declare -A mappings
 declare -A mappings_fedora_repo
+declare -A copr
 
 mappings_fedora_repo["bankstown"]="EPEL-10.0"
 mappings_fedora_repo["alsa-ucm-conf-asahi"]="EPEL-10.0"
@@ -11,9 +12,9 @@ mappings["widevine"]="widevine-installer"
 mappings["lzfse"]="lzfse-libs"
 mappings["FEX-Emu"]="fex-emu"
 mappings["fex-emu-rootfs-arch"]="fex-emu-rootfs-fedora"
-mappings["linux-asahi"]="kernel-16k"
-mappings["linux-asahi-headers"]="kernel-headers"
-mappings["mesa"]="mesa-vulkan-drivers"
+mappings["linux-asahi"]="kernel"
+mappings["linux-asahi-headers"]="kernel"
+mappings["uboot-asahi"]="u-boot"
 mappings["alsa-ucm-conf-asahi"]="alsa-ucm-asahi"
 mappings["asahi-bless"]="rust-asahi-bless"
 mappings["asahi-scripts"]="asahi-scripts"
@@ -27,6 +28,13 @@ mappings["virglrenderer"]="virglrenderer"
 mappings["muvm"]="rust-muvm"
 mappings["speakersafetyd"]="rust-speakersafetyd"
 mappings["alsa-ucm-conf-asahi"]="alsa-ucm-asahi"
+mappings["asahi-calamares-configs"]="fedora-remix-scripts"
+
+copr["kernel"]="kernel"
+copr["mesa"]="mesa"
+copr["steam"]="steam"
+copr["u-boot"]="uboot-tools"
+copr["fedora-remix-scripts"]="calamares-firstboot-config"
 
 DB=asahi-alarm.db.tar.gz
 
@@ -40,7 +48,7 @@ printf "%-30s %-30s %-30s\n" "Package" "Fedora Version" "ALARM Version"
 for P in $PKGS; do
   B=$(echo $P | sed 's/\([A-Za-z-]*\)-[0-9].*/\1/')
   V=$(echo $P | sed "s/$B-\([0-9].*\)/\1/")
-  if [[ "$B" == *overlay* ]]; then
+  if [[ "$B" == *overlay* || "$B" == *dummy* ]]; then
     continue
   fi
   O=$B
@@ -54,8 +62,13 @@ for P in $PKGS; do
   if [[ -n "${mappings[$B]}" ]]; then
     B=${mappings[$B]}
   fi
-
-  F=$(curl -s "https://bodhi.fedoraproject.org/updates/?search=$B&status=stable&releases=$REPO" | jq -r '[ first(.updates[] | { nvr: .builds.[].nvr } | select(.nvr | contains("'$B'"))) ]' | jq -r '.[].nvr' | sed "s/$B-\([0-9].*\)/\1/" | sed 's/.[^.]*$//')
+  if [[ -n "${copr[$B]}" ]]; then
+    # search in copr
+    PACKAGE=${copr[$B]}
+    F=$(curl -s -X 'GET' "https://copr.fedorainfracloud.org/api_3/package/?ownername=%40asahi&projectname=$B&packagename=$PACKAGE&with_latest_build=false&with_latest_succeeded_build=false"  -H 'accept: application/json' | jq -r '.builds.latest.source_package.version')
+  else
+    F=$(curl -s "https://bodhi.fedoraproject.org/updates/?search=$B&status=stable&releases=$REPO" | jq -r '[ first(.updates[] | { nvr: .builds.[].nvr } | select(.nvr | contains("'$B'"))) ]' | jq -r '.[].nvr' | sed "s/$B-\([0-9].*\)/\1/" | sed 's/.[^.]*$//')
+  fi
   if [[ -z $F ]]; then
     F="/"
   fi
