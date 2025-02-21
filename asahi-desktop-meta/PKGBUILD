@@ -3,7 +3,7 @@
 
 pkgname=asahi-desktop-meta
 pkgver=4
-pkgrel=6
+pkgrel=7
 pkgdesc='Asahi Linux desktop support meta package'
 url='https://www.asahilinux.org'
 arch=('any')
@@ -25,6 +25,7 @@ package() {
     mesa
     widevine
     virglrenderer
+    startup-disk
     xkeyboard-config)
 }
 
