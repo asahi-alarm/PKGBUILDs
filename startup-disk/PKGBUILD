@@ -1,0 +1,27 @@
+# Maintainer: Jos Dehaes <jos.dehaes@gmail.com>
+# Maintainer: Matthias Kurz <m.kurz@irregular.at>
+
+pkgname=startup-disk
+pkgver=0.1.5
+pkgrel=2
+pkgdesc='Interface to choose the startup volume on Apple Silicon systems'
+arch=('aarch64')
+url="https://crates.io/crates/$pkgname"
+makedepends=('rustup')
+depends=('gtk4' 'libadwaita')
+license=('MIT')
+source=(
+  "${pkgname}-${pkgver}.tar.gz::https://crates.io/api/v1/crates/${pkgname}/${pkgver}/download"
+)
+sha256sums=('57e75ccee520233ad2b2eaedc253aff3b17949bbcc2ce0ea5e598db32c93a86f')
+
+build() {
+  cd "${srcdir}/$pkgname-${pkgver}"
+  cargo build --release
+}
+
+package() {
+  cd "${srcdir}/$pkgname-${pkgver}"
+  make DESTDIR=${pkgdir} install-bin
+  make DESTDIR=${pkgdir} install-data
+}
