@@ -1,0 +1,7 @@
+post_install() {
+  systemctl enable asahi-btsync.service
+}
+
+post_uninstall() {
+  systemctl disable asahi-btsync.service
+}
