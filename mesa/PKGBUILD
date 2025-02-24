@@ -169,10 +169,6 @@ package_mesa() {
   _install fakeinstall/usr/share/glvnd/egl_vendor.d/50_mesa.json
   _install fakeinstall/usr/lib/libEGL_mesa.so.0*
 
-  # libglapi
-  _install fakeinstall/usr/lib/libglapi.so.0
-  _install fakeinstall/usr/lib/libglapi.so.0.*
-
   # libOSMesa
   _install fakeinstall/usr/lib/libOSMesa.so.8*
 
