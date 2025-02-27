@@ -3,7 +3,7 @@ Package                        Fedora Version                 ALARM Version
 alsa-ucm-conf-asahi            5-4                            5-1                           
 asahi-alarm-keyring            /                              20241216-1                    
 asahi-audio                    2.6-1                          2.6-1                         
-asahi-bless                    0.4.2-1                        0.4.1-4                       
+asahi-bless                    0.4.2-1                        0.4.2-1                       
 asahi-btsync                   rust-0.2.4-2                   0.2.4-1                       
 asahi-calamares-configs        20240509-2                     20250221-1                    
 asahi-configs                  /                              20230517-1                    
