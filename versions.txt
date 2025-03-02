@@ -5,7 +5,7 @@ asahi-alarm-keyring            /                              20241216-1
 asahi-audio                    2.6-1                          2.6-1                         
 asahi-bless                    0.4.2-1                        0.4.2-1                       
 asahi-btsync                   rust-0.2.4-2                   0.2.4-1                       
-asahi-calamares-configs        20240509-2                     20250221-1                    
+asahi-calamares-configs        20240509-6                     20250221-1                    
 asahi-configs                  /                              20230517-1                    
 asahi-desktop-meta             /                              4-7                           
 asahi-fwextract                /                              0.7.9-1                       
@@ -24,7 +24,7 @@ linux-asahi-headers            6.12.12-400.asahi              6.12.12.asahi1-1
 lzfse                          /                              1.0-1                         
 m1n1                           1.4.21-4                       1.4.21-1                      
 mesa                           25.1.0~asahipre20250221-1      25.1.0_pre20250221-1          
-muvm                           0.2.0-3                        0.2.0-4                       
+muvm                           0.3.1-2                        0.2.0-4                       
 speakersafetyd                 1.0.2-1                        1.0.2-1                       
 startup-disk                   rust-0.1.5-1                   0.1.5-2                       
 steam                          0-13                           20241231-4                    
