@@ -7,14 +7,15 @@
 %global crate muvm
 
 Name:           rust-muvm
-Version:        0.2.0
+Version:        0.3.1
 Release:        %autorelease
 Summary:        Run programs from your system in a microVM
 
 License:        MIT
 URL:            https://crates.io/crates/muvm
 Source:         %{crates_source}
-Patch1:         0001-x11-Fix-XAUTHORITY-handling-for-wildcard-DISPLAY.patch
+Source2:        50-muvm-access.conf
+Source3:        access-muvm.lua
 
 BuildRequires:  cargo-rpm-macros >= 26
 
@@ -49,7 +50,7 @@ Requires:       dhcp-client
 Requires:       libkrun >= 1.9.8-1
 Requires:       passt
 Requires:       socat
-Requires:       sommelier
+Requires:       (wireplumber if pipewire)
 
 %description -n %{crate} %{_description}
 
@@ -58,9 +59,8 @@ Requires:       sommelier
 %license LICENSE.dependencies
 %{_bindir}/muvm
 %{_bindir}/muvm-guest
-%{_bindir}/muvm-hidpipe
-%{_bindir}/muvm-server
-%{_bindir}/muvm-x11bridge
+%{_datadir}/wireplumber/wireplumber.conf.d/50-muvm-access.conf
+%{_datadir}/wireplumber/scripts/client/access-muvm.lua
 
 %prep
 %autosetup -n %{crate}-%{version} -p1
@@ -76,6 +76,10 @@ Requires:       sommelier
 
 %install
 %cargo_install
+mkdir -p %{buildroot}%{_datadir}/wireplumber/wireplumber.conf.d
+mkdir -p %{buildroot}%{_datadir}/wireplumber/scripts/client
+cp -p %SOURCE2 %{buildroot}%{_datadir}/wireplumber/wireplumber.conf.d
+cp -p %SOURCE3 %{buildroot}%{_datadir}/wireplumber/scripts/client
 
 %if %{with check}
 %check

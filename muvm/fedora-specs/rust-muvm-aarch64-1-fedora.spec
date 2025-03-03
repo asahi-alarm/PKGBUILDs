@@ -1,13 +1,14 @@
 
 Name:           rust-muvm
-Version:        0.2.0
+Version:        0.3.1
 Release:        1
 Summary:        Run programs from your system in a microVM
 
 License:        MIT
 URL:            https://crates.io/crates/muvm
 Source:         %{crates_source}
-Patch1:         0001-x11-Fix-XAUTHORITY-handling-for-wildcard-DISPLAY.patch
+Source2:        50-muvm-access.conf
+Source3:        access-muvm.lua
 
 BuildRequires:  cargo-rpm-macros >= 26
 
@@ -27,7 +28,7 @@ Requires:       dhcp-client
 Requires:       libkrun >= 1.9.8-1
 Requires:       passt
 Requires:       socat
-Requires:       sommelier
+Requires:       (wireplumber if pipewire)
 
 %description -n muvm
 Run programs from your system in a microVM.
@@ -37,24 +38,20 @@ Run programs from your system in a microVM.
 %license LICENSE.dependencies
 /usr/bin/muvm
 /usr/bin/muvm-guest
-/usr/bin/muvm-hidpipe
-/usr/bin/muvm-server
-/usr/bin/muvm-x11bridge
+/usr/share/wireplumber/wireplumber.conf.d/50-muvm-access.conf
+/usr/share/wireplumber/scripts/client/access-muvm.lua
 
 %prep
 
 cd './'
-rm -rf 'muvm-0.2.0'
+rm -rf 'muvm-0.3.1'
 rpmuncompress -x '%{crates_source}'
 STATUS=$?
 if [ $STATUS -ne 0 ]; then
   exit $STATUS
 fi
-cd 'muvm-0.2.0'
+cd 'muvm-0.3.1'
 chmod -Rf a+rX,u+w,g-w,o-w .
-
-rpmuncompress 0001-x11-Fix-XAUTHORITY-handling-for-wildcard-DISPLAY.patch | 
-patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
 
 %cargo_prep
 
@@ -68,6 +65,10 @@ patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
 
 %install
 %cargo_install
+mkdir -p fakeinstall/usr/share/wireplumber/wireplumber.conf.d
+mkdir -p fakeinstall/usr/share/wireplumber/scripts/client
+cp -p 50-muvm-access.conf fakeinstall/usr/share/wireplumber/wireplumber.conf.d
+cp -p access-muvm.lua fakeinstall/usr/share/wireplumber/scripts/client
 
 %check
 %cargo_test
