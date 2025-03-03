@@ -2,8 +2,8 @@
 # Maintainer: Matthias Kurz <m.kurz@irregular.at>
 
 pkgname=muvm
-pkgver=0.2.0
-pkgrel=4
+pkgver=0.3.1
+pkgrel=1
 pkgdesc='run programs from your system in a microVM'
 arch=('aarch64')
 url='https://github.com/AsahiLinux/muvm'
@@ -12,21 +12,11 @@ depends=('libkrun' 'socat' 'passt' 'dhcp-client')
 source=(
   "${pkgname}-${pkgver}.tar.gz::https://github.com/AsahiLinux/muvm/archive/refs/tags/${pkgname}-${pkgver}.tar.gz"
   LICENSE
-  0001-x11-Fix-XAUTHORITY-handling-for-wildcard-DISPLAY.patch
 )
 sha256sums=(
-  '1f5eac567992b2c50c9c590cddc578058ef76c4591662bd351b4899b4d2d1411'
+  '888df928ad576b3a7f4691659bf6aafd1c262aa7885f38f0c11effe0b07cb153'
   'bd61ba908048f45e22a02784e3c9bd595307d8a3d838346dab9ca4a1b1217b93'
-  '843bd4d7634141f760fb70bc9e73d01c2df133de6c41a7b6e0b9be3169af1364'
 )
-
-prepare() {
-  cd "${srcdir}/${pkgname}-${pkgname}-${pkgver}"
-
-  cat ${srcdir}/0001-x11-Fix-XAUTHORITY-handling-for-wildcard-DISPLAY.patch |
-  patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f -d crates/muvm
-
-}
 
 build() {
   cd "${srcdir}/${pkgname}-${pkgname}-${pkgver}"
@@ -38,7 +28,6 @@ package() {
   install -Dpm0755 -t "$pkgdir"/usr/share/licenses/muvm/ ${srcdir}/LICENSE
   install -Dm755 target/release/muvm "$pkgdir"/usr/bin/muvm
   install -Dm755 target/release/muvm-guest "$pkgdir"/usr/bin/muvm-guest
-  install -Dm755 target/release/muvm-hidpipe "$pkgdir"/usr/bin/muvm-hidpipe
-  install -Dm755 target/release/muvm-server "$pkgdir"/usr/bin/muvm-server
-  install -Dm755 target/release/muvm-x11bridge "$pkgdir"/usr/bin/muvm-x11bridge
+  install -Dm644 share/wireplumber/wireplumber.conf.d/50-muvm-access.conf "$pkgdir"/usr/share/wireplumber/wireplumber.conf.d/50-muvm-access.conf
+  install -Dm644 share/wireplumber/scripts/client/access-muvm.lua "$pkgdir"/usr/share/wireplumber/scripts/client/access-muvm.lua
 }
