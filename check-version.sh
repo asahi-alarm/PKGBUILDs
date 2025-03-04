@@ -39,6 +39,12 @@ copr["fedora-remix-scripts"]="calamares-firstboot-config"
 
 DB=asahi-alarm.db.tar.gz
 
+FEDORA_REPO="F41"
+
+if [ $# == 1 ]; then
+  FEDORA_REPO=$1
+fi
+
 wget -O $DB -q https://github.com/asahi-alarm/asahi-alarm/releases/download/aarch64/$DB
 PKGS=$(tar tvf $DB | grep -v .sig | grep -v desc | awk '{ print $6}' | sed 's!/$!!g')
 rm $DB
@@ -57,7 +63,7 @@ for P in $PKGS; do
   if [[ -n "${mappings_fedora_repo[$B]}" ]]; then
     REPO=${mappings_fedora_repo[$B]}
   else
-    REPO="F41"
+    REPO=$FEDORA_REPO
   fi
 
   if [[ -n "${mappings[$B]}" ]]; then
