@@ -5,7 +5,7 @@
 _rcver=6.12.12
 #_rcrel=3
 _asahirel=1
-pkgrel=2
+pkgrel=3
 
 _m1n1_version=1.4.21
 
@@ -21,7 +21,7 @@ url="http://www.kernel.org/"
 license=('GPL2')
 
 makedepends=(
-  base-devel bc dtc kmod libelf pahole cpio perl rustup rust-bindgen tar xz xmlto
+  base-devel bc dtc kmod libelf pahole cpio perl rustup rust-bindgen tar xz xmlto python
 )
 options=('!strip')
 source=(
