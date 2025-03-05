@@ -51,6 +51,8 @@ prepare() {
     patch -Np1 < "../$src"
   done
 
+  rustup component add rust-src
+
   echo "Creating build directories..."
   mkdir -p build/base
 
