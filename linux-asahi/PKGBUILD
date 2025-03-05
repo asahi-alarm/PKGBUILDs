@@ -51,6 +51,7 @@ prepare() {
     patch -Np1 < "../$src"
   done
 
+  rustup toolchain install 1.83.0
   rustup component add rust-src
 
   echo "Creating build directories..."
