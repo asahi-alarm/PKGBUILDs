@@ -2,10 +2,10 @@
 # Maintainer: Jos Dehaes <jos.dehaes@gmail.com>
 # Maintainer: Matthias Kurz <m.kurz@irregular.at>
 
-_rcver=6.12.12
+_rcver=6.13.5
 #_rcrel=3
-_asahirel=1
-pkgrel=3
+_asahirel=4
+pkgrel=1
 
 _m1n1_version=1.4.21
 
@@ -28,10 +28,10 @@ source=(
   https://github.com/AsahiLinux/linux/archive/${_commit_id}.tar.gz
   config         # the main kernel config file
 )
-sha256sums=('a77cbc2ab61ce5c7ed135c7e53a378b426c28a7b2ba4f0d8a83bb1e11fa34433'
-            '0b11e7b69141ff48bd6903e4c2de3e3ad842ddd3b339475dd710bbdd6892a780')
-b2sums=('799a809d723ffe37aa9ca4a0d240793c04ce6285913cf7061bcc1ca9b97f70cf19aabdeb338a47b549160e139084535016ef68186d9ee8835f808c0fb1b3beb1'
-        'b7d6b36fd3fc2862393daaeb1fef56b203c72e7d82c7213638a90cd5da10690177d309e8246b1061ee1c4005aaa5062d6bfc6cd74702365b803174680dc964fe')
+sha256sums=('361935f6bd78fcc3287c59e20874e388543772d74e99fe2929e16bfe120dcc97'
+            'be3cf5d9ca88890cf121e4a707ef07bf8c7660d0170c699ba5d8eda9503c1145')
+b2sums=('c808b296026a34a5aaf276019582f11b6b71ebe6e8353b4d7f67129261720dc2f35f999bd28473d526b2003a74a43a929757453f20acb7c56599aba33313a83f'
+  'd69512ce34ad5de9f57133ff926fd5cab2142404592894d5f63c3c1b26905f04395006dd8db6b12af7a2bd229c626b7ab8c5434e846b15bd11582cf697aa688d')
 export KBUILD_BUILD_HOST=archlinux
 export KBUILD_BUILD_USER=$pkgbase
 export KBUILD_BUILD_TIMESTAMP="$(date -Ru${SOURCE_DATE_EPOCH:+d @$SOURCE_DATE_EPOCH})"
@@ -51,7 +51,7 @@ prepare() {
     patch -Np1 < "../$src"
   done
 
-  rustup toolchain install 1.83.0
+  rustup toolchain install 1.85.0
   rustup component add rust-src
 
   echo "Creating build directories..."
