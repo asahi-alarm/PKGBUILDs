@@ -2,7 +2,7 @@
 Package                        Fedora Version                 ALARM Version                 
 alsa-ucm-conf-asahi            5-4                            5-1                           
 asahi-alarm-keyring            /                              20241216-1                    
-asahi-audio                    2.6-1                          2.6-1                         
+asahi-audio                    3.1-2                          3.1-1                         
 asahi-bless                    0.4.2-1                        0.4.2-1                       
 asahi-btsync                   rust-0.2.4-2                   0.2.4-1                       
 asahi-calamares-configs        20240509-6                     20250221-1                    
@@ -29,7 +29,7 @@ speakersafetyd                 1.0.2-1                        1.0.2-1
 startup-disk                   rust-0.1.5-1                   0.1.5-2                       
 steam                          0-13                           20241231-4                    
 tiny-dfr                       0.3.3-1                        0.3.3-4                       
-triforce-lv2                   /                              0.2.0-1                       
+triforce-lv2                   0.2.0-1                        0.2.0-1                       
 uboot-asahi                    1:2024.10-5                    2024.10.asahi1-1              
 virglrenderer                  1.0.1^asahipost20241205.2-1    20241205.2-4                  
 vulkan-tools                   1.4.304.0-1                    1.4.304-1                     
