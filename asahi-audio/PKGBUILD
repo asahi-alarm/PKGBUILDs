@@ -2,7 +2,7 @@
 # Maintainer: Matthias Kurz <m.kurz@irregular.at>
 
 pkgname=asahi-audio
-pkgver=3.0
+pkgver=3.1
 pkgrel=1
 pkgdesc='Linux Userspace Audio Configuration'
 arch=('aarch64')
@@ -13,7 +13,7 @@ depends=('wireplumber>=0.5.1' 'pipewire>=1.0' 'bankstown>=1.1.0' 'lsp-plugins-lv
 source=(
   "${pkgname}-${pkgver}.tar.gz::https://github.com/AsahiLinux/${pkgname}/archive/refs/tags/v${pkgver}.tar.gz"
 )
-sha256sums=('8fc53e1ca976ed572e5ee9cc39dd682c2542057a0fedb650f5bc66c87805a7ae')
+sha256sums=('6c0c48df9585fd67c2582ca3c1ea33125cd83c7611ac34db0fb140705a4d9786')
 
 build() {
   cd "${srcdir}/${pkgname}-${pkgver}"
