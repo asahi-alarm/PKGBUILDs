@@ -5,7 +5,6 @@ declare -A mappings_fedora_repo
 declare -A copr
 
 mappings_fedora_repo["bankstown"]="EPEL-10.0"
-mappings_fedora_repo["alsa-ucm-conf-asahi"]="EPEL-10.0"
 
 mappings["bankstown"]="rust-bankstown-lv2"
 mappings["widevine"]="widevine-installer"
