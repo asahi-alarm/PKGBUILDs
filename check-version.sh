@@ -73,15 +73,17 @@ for P in $PKGS; do
     # search in copr
     PACKAGE=${copr[$B]}
     if [ "$B" == "virglrenderer" ]; then
-      F=$(curl -s -X 'GET' "https://copr.fedorainfracloud.org/api_3/package/?ownername=%40asahi&projectname=mesa&packagename=$B&with_latest_build=false&with_latest_succeeded_build=false"  -H 'accept: application/json' | jq -r '.builds.latest.source_package.version')
+      F=$(curl -s -X 'GET' "https://copr.fedorainfracloud.org/api_3/package/?ownername=%40asahi&projectname=mesa&packagename=$B&with_latest_build=false&with_latest_succeeded_build=false" -H 'accept: application/json' | jq -r '.builds.latest.source_package.version')
     else
-      F=$(curl -s -X 'GET' "https://copr.fedorainfracloud.org/api_3/package/?ownername=%40asahi&projectname=$B&packagename=$PACKAGE&with_latest_build=false&with_latest_succeeded_build=false"  -H 'accept: application/json' | jq -r '.builds.latest.source_package.version')
+      F=$(curl -s -X 'GET' "https://copr.fedorainfracloud.org/api_3/package/?ownername=%40asahi&projectname=$B&packagename=$PACKAGE&with_latest_build=false&with_latest_succeeded_build=false" -H 'accept: application/json' | jq -r '.builds.latest.source_package.version')
     fi
   else
     F=$(curl -s "https://bodhi.fedoraproject.org/updates/?search=$B&status=stable&releases=$REPO" | jq -r '[ first(.updates[] | { nvr: .builds.[].nvr } | select(.nvr | contains("'$B'"))) ]' | jq -r '.[].nvr' | sed "s/$B-\([0-9].*\)/\1/" | sed 's/.[^.]*$//')
   fi
   if [[ -z $F ]]; then
     F="/"
+  else
+    F=${F#rust-}
   fi
   printf "%-30s %-30s %-30s\n" "$O" "$F" "$V"
 done
