@@ -2,6 +2,7 @@ name: Version Comparison
 on:
   schedule:
     - cron: "0 10 * * *" # Runs daily at 10
+  workflow_dispatch:
 permissions:
   contents: write
 jobs:
