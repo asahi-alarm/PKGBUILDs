@@ -2,8 +2,8 @@
 # Maintainer: Matthias Kurz <m.kurz@irregular.at>
 
 pkgname=binfmt-dispatcher
-pkgver=0.1.0
-pkgrel=0
+pkgver=0.1.2
+pkgrel=1
 pkgdesc='a simple dispatcher for binfmt-misc'
 arch=('aarch64')
 url='http://asahilinux.org'
@@ -12,7 +12,7 @@ license=('MIT')
 source=(
   "binfmt-dispatcher-${pkgver}.tar.gz::https://github.com/asahilinux/binfmt-dispatcher/archive/refs/tags/${pkgver}.tar.gz"
 )
-sha256sums=('bd733af83515c1fc54ab93e7d5177be412f4347248edd94c9ae70fd52d5cd84c')
+sha256sums=('c56e0948a02deb5793bc80cc3894670dc09465c558a84d8513d0afcdecbd96bb')
 
 build() {
   cd "${srcdir}/binfmt-dispatcher-${pkgver}"
