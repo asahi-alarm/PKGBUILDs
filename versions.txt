@@ -24,7 +24,7 @@ linux-asahi-headers            6.13.8-400.asahi               6.13.8.asahi1-1
 lzfse                          /                              1.0-1                         
 m1n1                           1.4.21-4                       1.4.21-1                      
 mesa                           25.1.0~asahipre20250221-1      25.1.0_pre20250221-1          
-muvm                           0.3.1-2                        0.3.1-1                       
+muvm                           0.3.1-3                        0.3.1-1                       
 speakersafetyd                 1.0.2-1                        1.0.2-1                       
 startup-disk                   0.1.5-1                        0.1.5-2                       
 steam                          0-13                           20241231-4                    
@@ -32,6 +32,6 @@ tiny-dfr                       0.3.4-1                        0.3.4-1
 triforce-lv2                   0.2.0-1                        0.2.0-1                       
 uboot-asahi                    1:2024.10-5                    2024.10.asahi1-1              
 virglrenderer                  1.0.1^asahipost20241205.2-1    20241205.2-4                  
-vulkan-tools                   1.4.304.0-1                    1.4.304-1                     
+vulkan-tools                   1.4.309.0-1                    1.4.304-1                     
 widevine                       0^20240812giteab8c66-1         4.10.2710.0-7                 
 xkeyboard-config               2.42-1                         2.43-2                        
