@@ -1,7 +1,7 @@
 name: Version Comparison
 on:
   schedule:
-    - cron: "0 10 * * *" # Runs daily at 10
+    - cron: "0 6 * * *" # Runs daily at 6
   workflow_dispatch:
 permissions:
   contents: write
