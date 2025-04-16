@@ -1,0 +1,43 @@
+From 13715148e5c82b98dc95305530d2d4ea8e3eb312 Mon Sep 17 00:00:00 2001
+From: Janne Grunau <j@jannau.net>
+Date: Sun, 13 Apr 2025 14:54:30 +0200
+Subject: [PATCH 1/1] Backlight: Support upstreamed mipi panel driver
+
+I do not understand why `KERNEL=="228600000.dsi.0"` does not work.
+`udevadm info -a -p /sys/class/backlight/228600000.dsi.0` clearly lists
+that for the backlight device.
+
+Signed-off-by: Janne Grunau <j@jannau.net>
+---
+ etc/udev/rules.d/99-touchbar-tiny-dfr.rules | 1 +
+ src/backlight.rs                            | 2 +-
+ 2 files changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/etc/udev/rules.d/99-touchbar-tiny-dfr.rules b/etc/udev/rules.d/99-touchbar-tiny-dfr.rules
+index cb75401..e07958d 100644
+--- a/etc/udev/rules.d/99-touchbar-tiny-dfr.rules
++++ b/etc/udev/rules.d/99-touchbar-tiny-dfr.rules
+@@ -8,6 +8,7 @@ SUBSYSTEM=="drm", KERNEL=="card[0-9]*", DRIVERS=="adp|appletbdrm", TAG+="systemd
+ 
+ SUBSYSTEM=="backlight", KERNEL=="appletb_backlight", DRIVERS=="hid-appletb-bl", TAG+="systemd", ENV{SYSTEMD_ALIAS}="/dev/tiny_dfr_backlight"
+ SUBSYSTEM=="backlight", KERNEL=="228200000.display-pipe.0", DRIVERS=="panel-summit", TAG+="systemd", ENV{SYSTEMD_ALIAS}="/dev/tiny_dfr_backlight"
++SUBSYSTEM=="backlight", KERNELS=="228600000.dsi.0", DRIVERS=="panel-summit", TAG+="systemd", ENV{SYSTEMD_ALIAS}="/dev/tiny_dfr_backlight"
+ 
+ SUBSYSTEM=="backlight", KERNEL=="apple-panel-bl", TAG+="systemd", ENV{SYSTEMD_ALIAS}="/dev/tiny_dfr_display_backlight"
+ SUBSYSTEM=="backlight", KERNEL=="gmux_backlight", TAG+="systemd", ENV{SYSTEMD_ALIAS}="/dev/tiny_dfr_display_backlight"
+diff --git a/src/backlight.rs b/src/backlight.rs
+index dd1b345..a5e143f 100644
+--- a/src/backlight.rs
++++ b/src/backlight.rs
+@@ -33,7 +33,7 @@ fn find_backlight() -> Result<PathBuf> {
+         let file_name = entry.file_name();
+         let name = file_name.to_string_lossy();
+ 
+-        if ["display-pipe", "appletb_backlight"]
++        if ["display-pipe", "228600000.dsi.0", "appletb_backlight"]
+             .iter()
+             .any(|s| name.contains(s))
+         {
+-- 
+2.49.0
+
