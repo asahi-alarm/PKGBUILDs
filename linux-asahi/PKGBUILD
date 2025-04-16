@@ -4,7 +4,7 @@
 
 _rcver=6.14.2
 #_rcrel=3
-_asahirel=1
+_asahirel=2
 pkgrel=1
 
 _m1n1_version=1.4.21
@@ -28,9 +28,9 @@ source=(
   https://github.com/AsahiLinux/linux/archive/${_commit_id}.tar.gz
   config         # the main kernel config file
 )
-sha256sums=('9fd99cf1bb864154c6bbcd5d90e78f03f13861c4dacd1bf55aa612ed4fbff774'
+sha256sums=('874cabc922acb547f5fd322ff500c3bbc6c0316231cc8c647f8f1bedaf3694c2'
             '799553d16b07c903e77108241468db32edee6bb2996353c82d5edec8f12fc35c')
-b2sums=('29a5176e31ea04f09944c7706c1a3ddf12ef244b2b38d4bf1ed400feb5f8eabb572bb8f66d31e2162c0338ad78a070777016566c45622748224417656c1e8bf2'
+b2sums=('5bf4fc2b79d1c384e7c5765bf550af6c280a95f8772ad9778e648a5c8de91706c01766f01884a6bd1ddadb6f0f114dfcf9bd1603540c555d5444a1fd7cc020d7'
         '9b9403e82bf27e51448b54957519d655a9c326b8946594e67041378b5f1ff5fc242f0e9fb74b16cebcc8e1f3197970fbd39c1c2994a25b7a1f7650c1bdece98c')
 export KBUILD_BUILD_HOST=archlinux
 export KBUILD_BUILD_USER=$pkgbase
