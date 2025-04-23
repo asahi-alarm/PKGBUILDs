@@ -19,6 +19,8 @@ makedepends=(
   libepoxy
   python
   qt6-declarative
+  python-packaging
+  python-setuptools
 )
 depends=(
   passt
