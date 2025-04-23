@@ -16,7 +16,7 @@ set -xe
 PKGS="asahi-scripts m1n1 uboot-asahi linux-asahi alsa-ucm-conf-asahi bankstown speakersafetyd asahi-audio calamares \
  asahi-calamares-configs asahi-configs lzfse asahi-fwextract asahi-alarm-keyring \
  virglrenderer mesa tiny-dfr widevine \
- libkrunfw libkrun muvm FEX-Emu vulkan-tools asahi-bless fex-emu-rootfs-arch steam \
+ libkrunfw libkrun muvm FEX-Emu asahi-bless fex-emu-rootfs-arch steam \
  xkeyboard-config asahi-desktop-meta asahi-meta"
 
 if [ $# -ge 1 ]; then
