@@ -3,7 +3,7 @@
 
 pkgbase=FEX-Emu
 pkgname=FEX-Emu
-pkgver=2501
+pkgver=2502
 pkgrel=1
 pkgdesc="Fast x86 emulation frontend"
 arch=(aarch64)
