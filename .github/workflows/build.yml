@@ -118,6 +118,10 @@ jobs:
               cd packages
               ls -l
               for file in *.pkg.tar.xz; do
+                if [[ $file == linux-asahi* && $file != linux-asahi-headers* ]]; then
+                  # check if AOP driver is present, will fail the build if not (this probably means kernel was built without rust)
+                  tar tvf "$file" | grep apple/aop.ko
+                fi
                 echo "signing $file"
                 echo "$GPG_PASSPHRASE" | gpg --batch --no-tty --local-user 12CE6799A94A3F1B5DDFFE88F576553597FB8FEB --pinentry-mode loopback --passphrase-fd 0 --detach-sign "$file"
                 echo "adding $file"
