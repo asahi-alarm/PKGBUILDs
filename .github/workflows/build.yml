@@ -120,6 +120,7 @@ jobs:
               for file in *.pkg.tar.xz; do
                 if [[ $file == linux-asahi* && $file != linux-asahi-headers* ]]; then
                   # check if AOP driver is present, will fail the build if not (this probably means kernel was built without rust)
+                  echo "checking aop.ko"
                   tar tvf "$file" | grep apple/aop.ko
                 fi
                 echo "signing $file"
