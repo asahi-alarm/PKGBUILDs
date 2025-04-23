@@ -61,7 +61,7 @@ jobs:
             mesa/mesa-fex-emu-overlay-i386*
             mesa/mesa-fex-emu-overlay-x86_64*
   compile:
-    name: build packages
+    name: building ${{ needs.changed.outputs.output1 }}
     runs-on: ubuntu-24.04-arm
     needs: [changed, mesa]
     steps:
@@ -80,7 +80,7 @@ jobs:
         with:
           name: overlays
           path: overlays
-      - name: Run the build process with Docker
+      - name: building ${{ needs.changed.outputs.output1 }}
         if: needs.changed.outputs.output1 != ''
         uses: addnab/docker-run-action@v3
         with:
