@@ -32,6 +32,5 @@ tiny-dfr                       0.3.4-2                        0.3.4-2
 triforce-lv2                   0.2.0-1                        0.2.0-1                       
 uboot-asahi                    1:2025.04-103                  2025.04.asahi1-1              
 virglrenderer                  1.0.1^asahipost20241205.2-1    20241205.2-4                  
-vulkan-tools                   1.4.309.0-1                    1.4.304-1                     
 widevine                       /                              4.10.2710.0-7                 
-xkeyboard-config               2.44-1                         2.43-2                        
+xkeyboard-config               2.44-1                         2.44-1                        
