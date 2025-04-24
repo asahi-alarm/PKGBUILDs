@@ -51,7 +51,7 @@ build() {
   rm -rf build
   mkdir -p build || true
   cd build
-  CC=clang CXX=clang++ cmake \
+  CC=clang CXX=clang++ TUNE_CPU=apple-m1 TUNE_ARCH=generic cmake \
     -G Ninja \
     -DENABLE_OFFLINE_TELEMETRY=OFF \
     -DCMAKE_INSTALL_PREFIX=/usr \
