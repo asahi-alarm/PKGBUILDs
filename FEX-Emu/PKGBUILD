@@ -46,7 +46,6 @@ build() {
   CC=clang CXX=clang++ cmake \
     -G Ninja \
     -DENABLE_OFFLINE_TELEMETRY=OFF \
-    -DUSE_FEXCONFIG_TOOLKIT=qt \
     -DCMAKE_INSTALL_PREFIX=/usr \
     -DCMAKE_BUILD_TYPE=Release \
     -DUSE_LINKER=lld \
