@@ -4,12 +4,13 @@
 pkgbase=FEX-Emu
 pkgname=FEX-Emu
 pkgver=2502
-pkgrel=3
+pkgrel=4
 pkgdesc="Fast x86 emulation frontend"
 arch=(aarch64)
 url="https://github.com/FEX-Emu/FEX"
 license=(MIT)
 makedepends=(
+  pkgconf
   cmake
   ninja
   git
