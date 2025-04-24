@@ -26,6 +26,9 @@ makedepends=(
   xxhash
   libepoxy
   sdl2-compat
+  libx11
+  libxrandr
+  wayland
 )
 depends=(
   passt
