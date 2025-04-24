@@ -1,0 +1,13 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 45a6ddd12..6e2be8862 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -408,6 +408,8 @@ else()
+     message(FATAL_ERROR "Trying to compile cpu type '${TUNE_CPU}' but the compiler doesn't support this")
+   endif()
+ endif()
++message(STATUS "Trying to compile cpu type '${TUNE_CPU}'")
++message(STATUS "Trying to compile arch type '${TUNE_ARCH}'")
+
+ if (ENABLE_IWYU)
+   find_program(IWYU_EXE "iwyu")

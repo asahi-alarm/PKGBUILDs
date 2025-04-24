@@ -3,8 +3,8 @@
 
 pkgbase=FEX-Emu
 pkgname=FEX-Emu
-pkgver=2502
-pkgrel=4
+pkgver=2504
+pkgrel=1
 pkgdesc="Fast x86 emulation frontend"
 arch=(aarch64)
 url="https://github.com/FEX-Emu/FEX"
@@ -36,8 +36,10 @@ depends=(
   squashfs-tools
   erofs-utils
 )
-source=("git+https://github.com/FEX-Emu/FEX.git#tag=FEX-${pkgver}")
-sha256sums=('SKIP')
+source=("git+https://github.com/FEX-Emu/FEX.git#tag=FEX-${pkgver}"
+        "cmake.patch")
+sha256sums=('SKIP'
+            'SKIP')
 install=FEX-Emu.install
 
 prepare() {
@@ -48,10 +50,11 @@ prepare() {
 
 build() {
   cd ${srcdir}/FEX
+  patch -p1 < ../../cmake.patch
   rm -rf build
   mkdir -p build || true
   cd build
-  CC=clang CXX=clang++ TUNE_CPU=apple-m1 TUNE_ARCH=generic cmake \
+  CC=clang CXX=clang++ cmake \
     -G Ninja \
     -DENABLE_OFFLINE_TELEMETRY=OFF \
     -DCMAKE_INSTALL_PREFIX=/usr \
@@ -61,8 +64,14 @@ build() {
     -DBUILD_TESTS=OFF \
     -DBUILD_FEX_LINUX_TESTS=OFF \
     -DENABLE_ASSERTIONS=ON \
+    -DTUNE_CPU=apple-m1 \
+    -DTUNE_ARCH=armv8-a \
     ..
   ninja
+  if objdump -d Bin/FEXInterpreter | grep cnth; then
+      echo "::error file=fex-emu::Found illegal instruction 'cnth'"
+      exit 1
+  fi
 }
 
 package() {
