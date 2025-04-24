@@ -1,0 +1,131 @@
+name: check build
+on:
+  workflow_dispatch:
+    inputs:
+      packages:
+        description: packages to build, in order, if not provided, the action will try to figure it out from the HEAD commit
+        required: false
+        type: string
+jobs:
+  changed:
+    name: changed
+    runs-on: ubuntu-24.04
+    outputs:
+      output1: ${{ steps.store.outputs.changed }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 10 # Fetch enough history for diff; adjust as needed.
+      - name: Store the changed files
+        id: store
+        run: |
+          if [ "${{ github.event.inputs.packages }}" != "" ]; then
+            CHANGED="${{ github.event.inputs.packages }}"
+          else
+            CHANGED=$(git show --name-only --pretty="" HEAD | grep PKGBUILD | sed 's!/PKGBUILD!!' | xargs)
+          fi
+          echo "changed=$CHANGED"
+          echo "changed=$CHANGED" >> "$GITHUB_OUTPUT"
+  mesa:
+    name: build mesa overlay packages
+    runs-on: ubuntu-24.04
+    needs: [changed]
+    steps:
+      - name: Check out the repo
+        if: contains(needs.changed.outputs.output1, 'mesa')
+        uses: actions/checkout@v2
+      - name: Display runner UID and GID
+        run: |
+          echo "Runner UID: $(id -u)"
+          echo "Runner GID: $(id -g)"
+        id: get_ids
+      - name: Run the build process with Docker
+        if: contains(needs.changed.outputs.output1, 'mesa')
+        uses: addnab/docker-run-action@v3
+        with:
+          image: josdehaes/asahi-alarm-pkgbuild-mesa:latest
+          options: >
+            -v ${{ github.workspace }}:/home/user/PKGBUILDs --user 1001:116
+
+          run: |
+            echo "update alarm packages"
+            sudo pacman -Syu --noconfirm
+            cd mesa && makepkg -sC --noconfirm
+      - name: Upload build artifacts
+        if: contains(needs.changed.outputs.output1, 'mesa')
+        uses: actions/upload-artifact@v4
+        with:
+          name: overlays
+          path: |
+            mesa/mesa-fex-emu-overlay-i386*
+            mesa/mesa-fex-emu-overlay-x86_64*
+  compile:
+    name: building ${{ needs.changed.outputs.output1 }}
+    runs-on: ubuntu-24.04-arm
+    needs: [changed, mesa]
+    steps:
+      - name: Check out the repo
+        if: needs.changed.outputs.output1 != ''
+        uses: actions/checkout@v2
+      - name: Display runner UID and GID
+        run: |
+          echo "Runner UID: $(id -u)"
+          echo "Runner GID: $(id -g)"
+        id: get_ids
+      - name: download overlays
+        if: needs.changed.outputs.output1 != ''
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: overlays
+          path: overlays
+      - name: building ${{ needs.changed.outputs.output1 }}
+        if: needs.changed.outputs.output1 != ''
+        uses: addnab/docker-run-action@v3
+        with:
+          image: josdehaes/asahi-alarm-pkgbuild:latest
+          options: >
+            -v ${{ github.workspace }}:/home/user/PKGBUILDs --user 1001:116 -e B64=${{ secrets.B64 }} -e GPG_PASSPHRASE=${{ secrets.GPG_PASSPHRASE }} -e GH_TOKEN=${{ secrets.GH_TOKEN }}
+
+          run: |
+            set -e
+            CHANGED="${{ needs.changed.outputs.output1 }}"
+            echo "changed=$CHANGED"
+            if [ -n "$CHANGED" ]; then
+              echo "import GPG key"
+              printf "%s" "$B64" | base64 -d | gpg --batch --no-tty --import
+              echo "update alarm packages"
+              sudo pacman -Syu --noconfirm
+              echo "mesa x86 overlays"
+              ls overlays || true
+              if [ ! -d packages ]; then
+                mkdir packages
+              fi
+              # import gpg key to build xkeyboard-config - this can be removed once we don't include
+              # it ourselves anymore
+              gpg --recv-keys 0661D98FC933A145
+              cd packages
+              echo "download current release databases"
+              gh release download aarch64 --repo asahi-alarm/asahi-alarm --pattern asahi-alarm.db* --pattern asahi-alarm.files*
+              TO_REMOVE=()
+              cd ..
+              echo "starting build"
+              ./build.sh $CHANGED
+              ls -l packages
+              # overwrite the mesa overlays if any
+              mv overlays/* packages/ || true
+            else
+              echo "nothing to build"
+            fi
+      - name: upload artefacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: packages
+          path: packages/*.xz
+      - name: delete build artifacts
+        uses: geekyeggo/delete-artifact@v5
+        continue-on-error: true
+        with:
+          name: overlays
+          failOnError: false
