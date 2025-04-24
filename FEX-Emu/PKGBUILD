@@ -13,6 +13,7 @@ makedepends=(
   cmake
   ninja
   git
+  sed
   lld
   llvm
   clang
@@ -21,6 +22,9 @@ makedepends=(
   qt6-declarative
   python-packaging
   python-setuptools
+  xxhash
+  libepoxy
+  sdl2-compat
 )
 depends=(
   passt
