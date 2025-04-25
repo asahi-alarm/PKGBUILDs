@@ -2,22 +2,20 @@
 # Maintainer: Matthias Kurz <m.kurz@irregular.at>
 
 pkgname=tiny-dfr
-pkgver=0.3.4
-pkgrel=2
+pkgver=0.3.5
+pkgrel=1
 pkgdesc='Apple silicon touch bar input / display daemon'
 arch=('aarch64')
 url=https://github.com/WhatAmISupposedToPutHere/tiny-dfr
 license=('MIT' 'APACHE')
 makedepends=('rustup')
 depends=('pango' 'libinput' 'gdk-pixbuf2' 'librsvg')
-source=("$pkgname-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz" "0001-Backlight-Support-upstreamed-mipi-panel-driver.patch")
-sha512sums=('ad40de68d073205a4be65ffbec4e97aea6b0c52b8c6d4b47258ef28a377dc7933d23aca60f02f4ef070b880f6cad0fe2d783628b2a6a872dbc80d46548cd7732'
-            'aa9a5eb27d725ba4280075e1057421362496fbd346efedc9dfdcc6b9563469d67db0b86f6e82af0f52a3fe5b46d46f23b17090c096fa8ecf963a2a44b5849ee9')
+source=("$pkgname-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
+sha512sums=('6c24dc8e82dc19bb6c2f5d0459c759a3497340574706a4f7f92ebc945e089b02d147825b897661cdf35c454e3b517c46f71703c20155775a4a4588754e61b12d')
 
 prepare() {
   cd $pkgname-$pkgver
   cargo fetch --locked --target "$CARCH-unknown-linux-gnu"
-  patch -Np1 < "${srcdir}/0001-Backlight-Support-upstreamed-mipi-panel-driver.patch"
 }
 
 build() {

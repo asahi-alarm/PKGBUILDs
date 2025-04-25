@@ -2,25 +2,28 @@
 # Maintainer: Matthias Kurz <m.kurz@irregular.at>
 
 pkgname=muvm
-pkgver=0.3.1
+pkgver=0.4.1
 pkgrel=1
 pkgdesc='run programs from your system in a microVM'
 arch=('aarch64')
 url='https://github.com/AsahiLinux/muvm'
 makedepends=('rustup')
-depends=('libkrun' 'socat' 'passt' 'dhcp-client')
+depends=('libkrun' 'socat' 'passt')
 source=(
   "${pkgname}-${pkgver}.tar.gz::https://github.com/AsahiLinux/muvm/archive/refs/tags/${pkgname}-${pkgver}.tar.gz"
   LICENSE
 )
 sha256sums=(
-  '888df928ad576b3a7f4691659bf6aafd1c262aa7885f38f0c11effe0b07cb153'
+  'e60b104e7d85e2dcc1b70521060524384cd91d6a1dbc6923d591d00efa276e5f'
   'bd61ba908048f45e22a02784e3c9bd595307d8a3d838346dab9ca4a1b1217b93'
 )
 
 build() {
   cd "${srcdir}/${pkgname}-${pkgname}-${pkgver}"
+  export RUSTFLAGS="-C debuginfo=0 --remap-path-prefix=${srcdir}=."
   cargo build --release
+  strip --strip-unneeded target/release/muvm
+  strip --strip-unneeded target/release/muvm-guest
 }
 
 package() {
