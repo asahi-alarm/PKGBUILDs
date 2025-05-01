@@ -23,7 +23,7 @@ linux-asahi                    6.14.4-400.asahi               6.14.2.asahi2-3
 linux-asahi-headers            6.14.4-400.asahi               6.14.2.asahi2-3               
 lzfse                          /                              1.0-1                         
 m1n1                           1.4.21-4                       1.4.21-1                      
-mesa                           25.1.0~asahipre20250425-2      25.1.0_pre20250221-1          
+mesa                           25.1.0~asahipre20250425-3      25.1.0_pre20250221-1          
 muvm                           0.4.1-1                        0.3.1-1                       
 speakersafetyd                 1.0.2-1                        1.0.2-1                       
 startup-disk                   0.1.5-1                        0.1.5-2                       
