@@ -23,12 +23,12 @@ linux-asahi                    6.14.4-400.asahi               6.14.2.asahi2-3
 linux-asahi-headers            6.14.4-400.asahi               6.14.2.asahi2-3               
 lzfse                          /                              1.0-1                         
 m1n1                           1.4.21-4                       1.4.21-1                      
-mesa                           25.1.0~asahipre20250425-3      25.1.0_pre20250221-1          
+mesa                           25.1.0~asahipre20250425-4      25.1.0_pre20250221-1          
 muvm                           0.4.1-1                        0.3.1-1                       
 speakersafetyd                 1.0.2-1                        1.0.2-1                       
 startup-disk                   0.1.5-1                        0.1.5-2                       
 steam                          0-13                           20241231-4                    
-tiny-dfr                       0.3.4-2                        0.3.4-2                       
+tiny-dfr                       0.3.5-1                        0.3.4-2                       
 triforce-lv2                   0.2.1-1                        0.2.0-1                       
 uboot-asahi                    1:2025.04-103                  2025.04.asahi1-1              
 virglrenderer                  1.1.1^asahipost20250424-1      20241205.2-4                  
