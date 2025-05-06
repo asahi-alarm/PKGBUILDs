@@ -7,7 +7,7 @@
 %global crate muvm
 
 Name:           rust-muvm
-Version:        0.3.1
+Version:        0.4.1
 Release:        %autorelease
 Summary:        Run programs from your system in a microVM
 
@@ -44,9 +44,6 @@ License:        Apache-2.0 AND (Apache-2.0 OR BSL-1.0) AND (Apache-2.0 OR MIT) A
 # conflict. This should be removed once f42 is EOL.
 Obsoletes:      krun < 0.1.0-2
 
-# dhcpcd support is broken in upstream
-# https://github.com/AsahiLinux/muvm/issues/77
-Requires:       dhcp-client
 Requires:       libkrun >= 1.9.8-1
 Requires:       passt
 Requires:       socat

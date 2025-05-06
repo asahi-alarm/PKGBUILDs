@@ -1,12 +1,12 @@
 
 Name:           mesa
 Summary:        Mesa graphics libraries
-Version:        25.0.0~asahipre20241211
+Version:        25.1.0~asahipre20250425
 Release:        1
 License:        MIT AND BSD-3-Clause AND SGI-B-2.0
 URL:            http://www.mesa3d.org
 
-Source0:        https://gitlab.freedesktop.org/asahi/mesa/-/archive/asahi-20241211/mesa-asahi-20241211.tar.gz
+Source0:        https://gitlab.freedesktop.org/asahi/mesa/-/archive/asahi-20250425/mesa-asahi-20250425.tar.gz
 
 Source1:        Mesa-MLAA-License-Clarification-Email.txt
 
@@ -19,7 +19,7 @@ BuildRequires:  gettext
 
 BuildRequires:  kernel-headers
 
-BuildRequires:  pkgconfig(libdrm) >= 2.4.121
+BuildRequires:  pkgconfig(libdrm) >= 2.4.122
 
 BuildRequires:  pkgconfig(libunwind)
 
@@ -28,7 +28,7 @@ BuildRequires:  pkgconfig(zlib) >= 1.2.3
 BuildRequires:  pkgconfig(libzstd)
 BuildRequires:  pkgconfig(libselinux)
 BuildRequires:  pkgconfig(wayland-scanner)
-BuildRequires:  pkgconfig(wayland-protocols) >= 1.38
+BuildRequires:  pkgconfig(wayland-protocols) >= 1.41
 BuildRequires:  pkgconfig(wayland-client) >= 1.11
 BuildRequires:  pkgconfig(wayland-server) >= 1.11
 BuildRequires:  pkgconfig(wayland-egl-backend) >= 3
@@ -61,16 +61,16 @@ BuildRequires:  pkgconfig(libva) >= 0.38.0
 
 BuildRequires:  pkgconfig(libelf)
 BuildRequires:  pkgconfig(libglvnd) >= 1.3.2
-BuildRequires:  llvm18-devel >= 7.0.0
+BuildRequires:  llvm-devel >= 7.0.0
 
 BuildRequires:  flatbuffers-devel
 BuildRequires:  flatbuffers-compiler
 BuildRequires:  xtensor-devel
 
-BuildRequires:  clang18-devel
+BuildRequires:  clang-devel
 BuildRequires:  pkgconfig(libclc)
 BuildRequires:  pkgconfig(SPIRV-Tools)
-BuildRequires:  pkgconfig(LLVMSPIRVLib) < 19
+BuildRequires:  pkgconfig(LLVMSPIRVLib)
 
 BuildRequires:  bindgen
 BuildRequires:  rust-packaging
@@ -85,31 +85,28 @@ BuildRequires:  glslang
 
 BuildRequires:  pkgconfig(vulkan)
 
-BuildRequires:  patchelf
-
 %description
 Mesa graphics libraries.
 
 %package filesystem
 Summary:        Mesa driver filesystem
-Provides:       mesa-dri-filesystem = 25.0.0~asahipre20241211-1
-Obsoletes:      mesa-omx-drivers < 25.0.0~asahipre20241211-1
+Provides:       mesa-dri-filesystem = 25.1.0~asahipre20250425-1
+Obsoletes:      mesa-omx-drivers < 25.1.0~asahipre20250425-1
 
 %description filesystem
 Mesa driver filesystem.
 
 %package libGL
 Summary:        Mesa libGL runtime libraries
-Requires:       mesa-libglapi(x86-64) = 25.0.0~asahipre20241211-1
 Requires:       libglvnd-glx(x86-64) >= 1:1.3.2
-Recommends:     mesa-dri-drivers(x86-64) = 25.0.0~asahipre20241211-1
+Requires:       mesa-dri-drivers(x86-64) = 25.1.0~asahipre20250425-1
 
 %description libGL
 Mesa libGL runtime libraries.
 
 %package libGL-devel
 Summary:        Mesa libGL development package
-Requires:       mesa-libGL(x86-64) = 25.0.0~asahipre20241211-1
+Requires:       (mesa-libGL(x86-64) = 25.1.0~asahipre20250425-1 if mesa-libGL(x86-64))
 Requires:       libglvnd-devel(x86-64) >= 1:1.3.2
 Provides:       libGL-devel
 Provides:       libGL-devel(x86-64)
@@ -121,16 +118,15 @@ Mesa libGL development package.
 %package libEGL
 Summary:        Mesa libEGL runtime libraries
 Requires:       libglvnd-egl(x86-64) >= 1:1.3.2
-Requires:       mesa-libgbm(x86-64) = 25.0.0~asahipre20241211-1
-Requires:       mesa-libglapi(x86-64) = 25.0.0~asahipre20241211-1
-Recommends:     mesa-dri-drivers(x86-64) = 25.0.0~asahipre20241211-1
+Requires:       mesa-libgbm(x86-64) = 25.1.0~asahipre20250425-1
+Requires:       mesa-dri-drivers(x86-64) = 25.1.0~asahipre20250425-1
 
 %description libEGL
 Mesa libEGL runtime libraries.
 
 %package libEGL-devel
 Summary:        Mesa libEGL development package
-Requires:       mesa-libEGL(x86-64) = 25.0.0~asahipre20241211-1
+Requires:       (mesa-libEGL(x86-64) = 25.1.0~asahipre20250425-1 if mesa-libEGL(x86-64))
 Requires:       libglvnd-devel(x86-64) >= 1:1.3.2
 Requires:       mesa-khr-devel(x86-64)
 Provides:       libEGL-devel
@@ -141,17 +137,18 @@ Mesa libEGL development package.
 
 %package dri-drivers
 Summary:        Mesa-based DRI drivers
-Requires:       mesa-filesystem(x86-64) = 25.0.0~asahipre20241211-1
-Requires:       mesa-libglapi(x86-64) = 25.0.0~asahipre20241211-1
+Requires:       mesa-filesystem(x86-64) = 25.1.0~asahipre20250425-1
 
 Recommends:     mesa-va-drivers(x86-64)
+
+Obsoletes:      mesa-libglapi < 25.0.0~rc2-1
 
 %description dri-drivers
 Mesa-based DRI drivers.
 
 %package        va-drivers
 Summary:        Mesa-based VA-API video acceleration drivers
-Requires:       mesa-filesystem(x86-64) = 25.0.0~asahipre20241211-1
+Requires:       mesa-filesystem(x86-64) = 25.1.0~asahipre20250425-1
 Obsoletes:      mesa-vaapi-drivers < 22.2.0-5
 
 %description va-drivers
@@ -159,62 +156,36 @@ Mesa-based VA-API video acceleration drivers.
 
 %package        vdpau-drivers
 Summary:        Mesa-based VDPAU drivers
-Requires:       mesa-filesystem(x86-64) = 25.0.0~asahipre20241211-1
+Requires:       mesa-filesystem(x86-64) = 25.1.0~asahipre20250425-1
 
 %description vdpau-drivers
 Mesa-based VDPAU drivers.
-
-%package libOSMesa
-Summary:        Mesa offscreen rendering libraries
-Requires:       mesa-libglapi(x86-64) = 25.0.0~asahipre20241211-1
-Provides:       libOSMesa
-Provides:       libOSMesa(x86-64)
-
-%description libOSMesa
-Mesa offscreen rendering libraries.
-
-%package libOSMesa-devel
-Summary:        Mesa offscreen rendering development package
-Requires:       mesa-libOSMesa(x86-64) = 25.0.0~asahipre20241211-1
-
-%description libOSMesa-devel
-Mesa offscreen rendering development package.
 
 %package libgbm
 Summary:        Mesa gbm runtime library
 Provides:       libgbm
 Provides:       libgbm(x86-64)
-Recommends:     mesa-dri-drivers(x86-64) = 25.0.0~asahipre20241211-1
+Recommends:     mesa-dri-drivers(x86-64) = 25.1.0~asahipre20250425-1
 
-Requires:       (mesa-dri-drivers(x86-64) = 25.0.0~asahipre20241211-1 if mesa-dri-drivers(x86-64))
+Requires:       (mesa-dri-drivers(x86-64) = 25.1.0~asahipre20250425-1 if mesa-dri-drivers(x86-64))
 
 %description libgbm
 Mesa gbm runtime library.
 
 %package libgbm-devel
 Summary:        Mesa libgbm development package
-Requires:       mesa-libgbm(x86-64) = 25.0.0~asahipre20241211-1
+Requires:       mesa-libgbm(x86-64) = 25.1.0~asahipre20250425-1
 Provides:       libgbm-devel
 Provides:       libgbm-devel(x86-64)
 
 %description libgbm-devel
 Mesa libgbm development package.
 
-%package libglapi
-Summary:        Mesa shared glapi
-Provides:       libglapi
-Provides:       libglapi(x86-64)
-
-Requires:       (mesa-dri-drivers(x86-64) = 25.0.0~asahipre20241211-1 if mesa-dri-drivers(x86-64))
-
-%description libglapi
-Mesa shared glapi.
-
 %package libOpenCL
 Summary:        Mesa OpenCL runtime library
-Requires:       ocl-icd(x86-64)
+Requires:       (ocl-icd(x86-64) or OpenCL-ICD-Loader(x86-64))
 Requires:       libclc(x86-64)
-Requires:       mesa-libgbm(x86-64) = 25.0.0~asahipre20241211-1
+Requires:       mesa-libgbm(x86-64) = 25.1.0~asahipre20250425-1
 Requires:       opencl-filesystem
 
 %description libOpenCL
@@ -222,7 +193,7 @@ Mesa OpenCL runtime library.
 
 %package libOpenCL-devel
 Summary:        Mesa OpenCL development package
-Requires:       mesa-libOpenCL(x86-64) = 25.0.0~asahipre20241211-1
+Requires:       mesa-libOpenCL(x86-64) = 25.1.0~asahipre20250425-1
 
 %description libOpenCL-devel
 Mesa OpenCL development package.
@@ -241,7 +212,7 @@ Mesa Direct3D9 state tracker.
 
 %package libd3d-devel
 Summary:        Mesa Direct3D9 state tracker development package
-Requires:       mesa-libd3d(x86-64) = 25.0.0~asahipre20241211-1
+Requires:       mesa-libd3d(x86-64) = 25.1.0~asahipre20250425-1
 
 %description libd3d-devel
 Mesa Direct3D9 state tracker development package.
@@ -249,8 +220,8 @@ Mesa Direct3D9 state tracker development package.
 %package vulkan-drivers
 Summary:        Mesa Vulkan drivers
 Requires:       vulkan(x86-64)
-Requires:       mesa-filesystem(x86-64) = 25.0.0~asahipre20241211-1
-Obsoletes:      mesa-vulkan-devel < 25.0.0~asahipre20241211-1
+Requires:       mesa-filesystem(x86-64) = 25.1.0~asahipre20250425-1
+Obsoletes:      mesa-vulkan-devel < 25.1.0~asahipre20250425-1
 
 %description vulkan-drivers
 The drivers with support for the Vulkan API.
@@ -259,11 +230,11 @@ The drivers with support for the Vulkan API.
 Summary:        Mesa driver overlay for FEX-emu
 BuildArch: noarch
 BuildRequires:  erofs-utils
+BuildRequires:  patchelf
 Requires:       fex-emu
 Supplements:    fex-emu-rootfs-fedora
-Provides:       fex-emu-overlay(x86_64)(mesa) = 25.0.0~asahipre20241211-1
-Provides:       bundled(mesa) = 25.0.0~asahipre20241211-1
-License:        MIT AND BSD-3-Clause AND SGI-B-2.0 AND NCSA
+Provides:       fex-emu-overlay(x86_64)(mesa) = 25.1.0~asahipre20250425-1
+Provides:       bundled(mesa) = 25.1.0~asahipre20250425-1
 
 %description fex-emu-overlay-x86_64
 Mesa EGL/GL libraries and Gallium/OpenCL/Vulkan drivers for FEX-emu roots file system images.
@@ -271,13 +242,13 @@ Mesa EGL/GL libraries and Gallium/OpenCL/Vulkan drivers for FEX-emu roots file s
 %prep
 
 cd './'
-rm -rf 'mesa-asahi-20241211'
-rpmuncompress -x 'mesa-asahi-20241211.tar.gz'
+rm -rf 'mesa-asahi-20250425'
+rpmuncompress -x 'mesa-asahi-20250425.tar.gz'
 STATUS=$?
 if [ $STATUS -ne 0 ]; then
   exit $STATUS
 fi
-cd 'mesa-asahi-20241211'
+cd 'mesa-asahi-20250425'
 chmod -Rf a+rX,u+w,g-w,o-w .
 
 rpmuncompress gnome-shell-glthread-disable.patch | 
@@ -286,7 +257,7 @@ patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
 cp Mesa-MLAA-License-Clarification-Email.txt docs/
 
 # patch VERSION to contain the asahi tag name
-sed -i "s/devel/asahi20241211/" VERSION
+echo 25.1.0-asahi20250425 > VERSION
 
 %build
 # ensure standard Rust compiler flags are set
@@ -296,12 +267,9 @@ export RUSTFLAGS="%build_rustflags"
 # https://bugzilla.redhat.com/show_bug.cgi?id=1862771 for details.
 # Disable LTO for now
 
-export LLVM_CONFIG=llvm-config-18
-
 %meson \
   -Dplatforms=x11,wayland \
-  -Dosmesa=true \
-  -Dgallium-drivers=swrast,virgl,zink,asahi \
+  -Dgallium-drivers=llvmpipe,virgl,zink,asahi \
   -Dgallium-vdpau=enabled \
   -Dgallium-va=enabled \
   -Dgallium-xa=disabled \
@@ -309,7 +277,7 @@ export LLVM_CONFIG=llvm-config-18
   -Dteflon=true \
   -Dgallium-opencl=icd \
   -Dgallium-rusticl=true \
-  -Dvulkan-drivers=swrast,asahi \
+  -Dvulkan-drivers=swrast,virtio,asahi \
   -Dvulkan-layers=device-select \
   -Dshared-glapi=enabled \
   -Dgles1=enabled \
@@ -343,11 +311,11 @@ rm -vf fakeinstall/usr/lib/libGLES*
 
 # glvnd needs a default provider for indirect rendering where it cannot
 # determine the vendor
-ln -s /usr/lib/libGLX_mesa.so.0 fakeinstall/usr/lib/libGLX_system.so.0
+ln -s libGLX_mesa.so.0 fakeinstall/usr/lib/libGLX_system.so.0
 
 # this keeps breaking, check it early.  note that the exit from eu-ftr is odd.
 pushd fakeinstall/usr/lib
-for i in libOSMesa*.so libGL.so ; do
+for i in libGL.so ; do
     eu-findtextrel $i && exit 1
 done
 popd
@@ -369,11 +337,9 @@ ln -s ovl_dri "fexov/usr/lib/dri"
 
 install -Dpm0755 -s -t "fexov/usr/lib/" \
   fakeinstall/usr/lib/libEGL_mesa.so.0.0.0 \
-  fakeinstall/usr/lib/libGLX_mesa.so.0.0.0 \
-  fakeinstall/usr/lib/libglapi.so.0.0.0
+  fakeinstall/usr/lib/libGLX_mesa.so.0.0.0
 ln -s libEGL_mesa.so.0.0.0 "fexov/usr/lib/libEGL_mesa.so.0"
 ln -s libGLX_mesa.so.0.0.0 "fexov/usr/lib/libGLX_mesa.so.0"
-ln -s libglapi.so.0.0.0 "fexov/usr/lib/libglapi.so.0"
 ln -s libGLX_mesa.so.0 "fexov/usr/lib/libGLX_system.so.0"
 
 install -Dpm0755 -s -t "fexov/usr/lib/" \
@@ -397,17 +363,9 @@ install -Dpm0755 -s -t "fexov/usr/lib/" \
   fakeinstall/usr/lib/libgbm.so.1.0.0
 install -Dpm0755 -s -t "fexov/usr/lib/gbm/" \
   fakeinstall/usr/lib/gbm/dri_gbm.so
-
 install -Dpm0644 -t "fexov/usr/share/glvnd/ovl_egl_vendor.d/" \
   fakeinstall/usr/share/glvnd/egl_vendor.d/50_mesa.json
 ln -s ovl_egl_vendor.d "fexov/usr/share/glvnd/egl_vendor.d"
-
-# Ship this with the mesa erofs since it needs to work with the rawhide
-# rootfs and spirv-llvm-translator is not packaged for compat.
-# Make sure to remove the License: override for the subpackage
-# if this gets removed.
-install -Dpm0755 -s -t "fexov/usr/lib/" \
-  /usr/lib/libLLVMSPIRVLib.so.18.1
 
 # Hack to work around libcapsule bug:
 # https://github.com/ValveSoftware/steam-runtime/issues/704
@@ -440,7 +398,6 @@ install -Dpm0644 -t fakeinstall/usr/share/fex-emu/overlays/ mesa-x86_64.erofs
 %dir /usr/include/GL/internal
 /usr/include/GL/internal/dri_interface.h
 /usr/lib/pkgconfig/dri.pc
-/usr/lib/libglapi.so
 
 %files libEGL
 /usr/share/glvnd/egl_vendor.d/50_mesa.json
@@ -450,24 +407,13 @@ install -Dpm0644 -t fakeinstall/usr/share/fex-emu/overlays/ mesa-x86_64.erofs
 /usr/include/EGL/eglext_angle.h
 /usr/include/EGL/eglmesaext.h
 
-%files libglapi
-/usr/lib/libglapi.so.0
-/usr/lib/libglapi.so.0.*
-
-%files libOSMesa
-/usr/lib/libOSMesa.so.8*
-%files libOSMesa-devel
-%dir /usr/include/GL
-/usr/include/GL/osmesa.h
-/usr/lib/libOSMesa.so
-/usr/lib/pkgconfig/osmesa.pc
-
 %files libgbm
 /usr/lib/libgbm.so.1
 /usr/lib/libgbm.so.1.*
 %files libgbm-devel
 /usr/lib/libgbm.so
 /usr/include/gbm.h
+/usr/include/gbm_backend_abi.h
 /usr/lib/pkgconfig/gbm.pc
 
 %files libTeflon
@@ -493,9 +439,9 @@ install -Dpm0644 -t fakeinstall/usr/share/fex-emu/overlays/ mesa-x86_64.erofs
 /usr/lib/d3d/*.so
 
 %files dri-drivers
-/usr/lib/gbm/dri_gbm.so
 /usr/share/drirc.d/00-mesa-defaults.conf
 /usr/lib/libgallium-*.so
+/usr/lib/gbm/dri_gbm.so
 /usr/lib/dri/kms_swrast_dri.so
 /usr/lib/dri/libdril_dri.so
 /usr/lib/dri/swrast_dri.so
@@ -553,6 +499,8 @@ install -Dpm0644 -t fakeinstall/usr/share/fex-emu/overlays/ mesa-x86_64.erofs
 %files vulkan-drivers
 /usr/lib/libvulkan_lvp.so
 /usr/share/vulkan/icd.d/lvp_icd.*.json
+/usr/lib/libvulkan_virtio.so
+/usr/share/vulkan/icd.d/virtio_icd.*.json
 /usr/lib/libVkLayer_MESA_device_select.so
 /usr/share/vulkan/implicit_layer.d/VkLayer_MESA_device_select.json
 /usr/lib/libvulkan_asahi.so

@@ -12,9 +12,6 @@
 %global asahi_platform_vulkan %{?with_vulkan_hw:,asahi}%{!?with_vulkan_hw:%{nil}}
 
 %global with_opencl 1
-%if (0%{?fedora} && 0%{?fedora} >= 40)
-%global with_rusticl 1
-%endif
 
 %dnl keep kmsro to package all unconditionally created dri driver symlinks
 %global with_kmsro  1
@@ -47,9 +44,6 @@
 %global with_nvk %{with_vulkan_hw}
 %endif
 %global with_opencl 1
-%if (0%{?fedora} && 0%{?fedora} >= 40)
-%global with_rusticl 1
-%endif
 %endif
 %global with_base_vulkan 1
 %global base_vulkan %{?with_vulkan_hw:,amd}%{!?with_vulkan_hw:%{nil}}
@@ -78,20 +72,22 @@
 %ifarch aarch64 x86_64 %{ix86}
 %global with_kmsro     1
 %if !0%{?rhel}
-%global with_asahi     1
-%ifarch x86_64 %{ix86}
-%global with_asahi_fex_emu_overlay 1
-%endif
-%global asahi_platform_vulkan %{?with_vulkan_hw:,asahi}%{!?with_vulkan_hw:%{nil}}
 %global with_lima      1
 %global with_vc4       1
 %global with_etnaviv   1
 %global with_tegra     1
 %endif
+%global with_asahi     1
 %global with_freedreno 1
 %global with_panfrost  1
 %global with_v3d       1
 %global with_xa        1
+%if 0%{?with_asahi}
+%ifarch x86_64 %{ix86}
+%global with_asahi_fex_emu_overlay 1
+%endif
+%global asahi_platform_vulkan %{?with_vulkan_hw:,asahi}%{!?with_vulkan_hw:%{nil}}
+%endif
 %global extra_platform_vulkan %{?with_vulkan_hw:,broadcom,freedreno,panfrost,imagination-experimental}%{!?with_vulkan_hw:%{nil}}
 %endif
 %endif
@@ -108,23 +104,18 @@
 %bcond_with valgrind
 %endif
 
-%if (0%{?fedora} && 0%{?fedora} >= 41)
-%global llvm_compat 18
-%global spirv_ver < 19
-%endif
+%global vulkan_drivers swrast,virtio%{?base_vulkan}%{?intel_platform_vulkan}%{?asahi_platform_vulkan}%{?extra_platform_vulkan}%{?with_nvk:,nouveau}
 
-%global vulkan_drivers swrast%{?base_vulkan}%{?asahi_platform_vulkan}%{?intel_platform_vulkan}%{?extra_platform_vulkan}%{?with_nvk:,nouveau}
-
-%global asahi_mesa_ver 20241211
+%global asahi_mesa_ver 20250425
 %global git_tag asahi-%{asahi_mesa_ver}
-%global basever 25.0.0
+%global basever 25.1.0
 %global ver %{basever}-asahipre%{asahi_mesa_ver}
 
 
 Name:           mesa
 Summary:        Mesa graphics libraries
 Version:        %{lua:ver = string.gsub(rpm.expand("%{ver}"), "-", "~"); print(ver)}
-Release:        %autorelease
+Release:        %autorelease -b 4
 License:        MIT AND BSD-3-Clause AND SGI-B-2.0
 URL:            http://www.mesa3d.org
 
@@ -147,7 +138,7 @@ BuildRequires:  kernel-headers
 # We only check for the minimum version of pkgconfig(libdrm) needed so that the
 # SRPMs for each arch still have the same build dependencies. See:
 # https://bugzilla.redhat.com/show_bug.cgi?id=1859515
-BuildRequires:  pkgconfig(libdrm) >= 2.4.121
+BuildRequires:  pkgconfig(libdrm) >= 2.4.122
 %if 0%{?with_libunwind}
 BuildRequires:  pkgconfig(libunwind)
 %endif
@@ -156,7 +147,7 @@ BuildRequires:  pkgconfig(zlib) >= 1.2.3
 BuildRequires:  pkgconfig(libzstd)
 BuildRequires:  pkgconfig(libselinux)
 BuildRequires:  pkgconfig(wayland-scanner)
-BuildRequires:  pkgconfig(wayland-protocols) >= 1.38
+BuildRequires:  pkgconfig(wayland-protocols) >= 1.41
 BuildRequires:  pkgconfig(wayland-client) >= 1.11
 BuildRequires:  pkgconfig(wayland-server) >= 1.11
 BuildRequires:  pkgconfig(wayland-egl-backend) >= 3
@@ -191,19 +182,19 @@ BuildRequires:  pkgconfig(libva) >= 0.38.0
 %endif
 BuildRequires:  pkgconfig(libelf)
 BuildRequires:  pkgconfig(libglvnd) >= 1.3.2
-BuildRequires:  llvm%{?llvm_compat}-devel >= 7.0.0
+BuildRequires:  llvm-devel >= 7.0.0
 %if 0%{?with_teflon}
 BuildRequires:  flatbuffers-devel
 BuildRequires:  flatbuffers-compiler
 BuildRequires:  xtensor-devel
 %endif
-%if 0%{?with_opencl} || 0%{?with_rusticl} || 0%{?with_asahi} || 0%{?with_nvk} || 0%{?with_intel_clc}
-BuildRequires:  clang%{?llvm_compat}-devel
+%if 0%{?with_opencl} || 0%{?with_nvk} || 0%{?with_intel_clc} || 0%{?with_asahi}
+BuildRequires:  clang-devel
 BuildRequires:  pkgconfig(libclc)
 BuildRequires:  pkgconfig(SPIRV-Tools)
-BuildRequires:  pkgconfig(LLVMSPIRVLib) %{?spirv_ver}
+BuildRequires:  pkgconfig(LLVMSPIRVLib)
 %endif
-%if 0%{?with_rusticl} || 0%{?with_nvk}
+%if 0%{?with_opencl} || 0%{?with_nvk}
 BuildRequires:  bindgen
 BuildRequires:  rust-packaging
 %endif
@@ -211,10 +202,10 @@ BuildRequires:  rust-packaging
 BuildRequires:  cbindgen
 BuildRequires:  rustfmt
 BuildRequires:  (crate(paste) >= 1.0.14 with crate(paste) < 2)
-BuildRequires:  (crate(proc-macro2) >= 1.0.56 with crate(proc-macro2) < 2)
-BuildRequires:  (crate(quote) >= 1.0.25 with crate(quote) < 2)
-BuildRequires:  (crate(syn/clone-impls) >= 2.0.15 with crate(syn/clone-impls) < 3)
-BuildRequires:  (crate(unicode-ident) >= 1.0.6 with crate(unicode-ident) < 2)
+BuildRequires:  (crate(proc-macro2) >= 1.0.86 with crate(proc-macro2) < 2)
+BuildRequires:  (crate(quote) >= 1.0.33 with crate(quote) < 2)
+BuildRequires:  (crate(syn/clone-impls) >= 2.0.86 with crate(syn/clone-impls) < 3)
+BuildRequires:  (crate(unicode-ident) >= 1.0.12 with crate(unicode-ident) < 2)
 %endif
 %if %{with valgrind}
 BuildRequires:  pkgconfig(valgrind)
@@ -231,7 +222,6 @@ BuildRequires:  glslang
 %if 0%{?with_vulkan_hw}
 BuildRequires:  pkgconfig(vulkan)
 %endif
-BuildRequires:  patchelf
 
 %description
 %{summary}.
@@ -246,16 +236,15 @@ Obsoletes:      mesa-omx-drivers < %{?epoch:%{epoch}:}%{version}-%{release}
 
 %package libGL
 Summary:        Mesa libGL runtime libraries
-Requires:       %{name}-libglapi%{?_isa} = %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:       libglvnd-glx%{?_isa} >= 1:1.3.2
-Recommends:     %{name}-dri-drivers%{?_isa} = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       %{name}-dri-drivers%{?_isa} = %{?epoch:%{epoch}:}%{version}-%{release}
 
 %description libGL
 %{summary}.
 
 %package libGL-devel
 Summary:        Mesa libGL development package
-Requires:       %{name}-libGL%{?_isa} = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       (%{name}-libGL%{?_isa} = %{?epoch:%{epoch}:}%{version}-%{release} if %{name}-libGL%{?_isa})
 Requires:       libglvnd-devel%{?_isa} >= 1:1.3.2
 Provides:       libGL-devel
 Provides:       libGL-devel%{?_isa}
@@ -268,15 +257,14 @@ Recommends:     gl-manpages
 Summary:        Mesa libEGL runtime libraries
 Requires:       libglvnd-egl%{?_isa} >= 1:1.3.2
 Requires:       %{name}-libgbm%{?_isa} = %{?epoch:%{epoch}:}%{version}-%{release}
-Requires:       %{name}-libglapi%{?_isa} = %{?epoch:%{epoch}:}%{version}-%{release}
-Recommends:     %{name}-dri-drivers%{?_isa} = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       %{name}-dri-drivers%{?_isa} = %{?epoch:%{epoch}:}%{version}-%{release}
 
 %description libEGL
 %{summary}.
 
 %package libEGL-devel
 Summary:        Mesa libEGL development package
-Requires:       %{name}-libEGL%{?_isa} = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:       (%{name}-libEGL%{?_isa} = %{?epoch:%{epoch}:}%{version}-%{release} if %{name}-libEGL%{?_isa})
 Requires:       libglvnd-devel%{?_isa} >= 1:1.3.2
 Requires:       %{name}-khr-devel%{?_isa}
 Provides:       libEGL-devel
@@ -288,10 +276,10 @@ Provides:       libEGL-devel%{?_isa}
 %package dri-drivers
 Summary:        Mesa-based DRI drivers
 Requires:       %{name}-filesystem%{?_isa} = %{?epoch:%{epoch}:}%{version}-%{release}
-Requires:       %{name}-libglapi%{?_isa} = %{?epoch:%{epoch}:}%{version}-%{release}
 %if 0%{?with_va}
 Recommends:     %{name}-va-drivers%{?_isa}
 %endif
+Obsoletes:      %{name}-libglapi < 25.0.0~rc2-1
 
 %description dri-drivers
 %{summary}.
@@ -314,22 +302,6 @@ Requires:       %{name}-filesystem%{?_isa} = %{?epoch:%{epoch}:}%{version}-%{rel
 %description vdpau-drivers
 %{summary}.
 %endif
-
-%package libOSMesa
-Summary:        Mesa offscreen rendering libraries
-Requires:       %{name}-libglapi%{?_isa} = %{?epoch:%{epoch}:}%{version}-%{release}
-Provides:       libOSMesa
-Provides:       libOSMesa%{?_isa}
-
-%description libOSMesa
-%{summary}.
-
-%package libOSMesa-devel
-Summary:        Mesa offscreen rendering development package
-Requires:       %{name}-libOSMesa%{?_isa} = %{?epoch:%{epoch}:}%{version}-%{release}
-
-%description libOSMesa-devel
-%{summary}.
 
 %package libgbm
 Summary:        Mesa gbm runtime library
@@ -372,22 +344,10 @@ Provides:       libxatracker-devel%{?_isa}
 %{summary}.
 %endif
 
-%package libglapi
-Summary:        Mesa shared glapi
-Provides:       libglapi
-Provides:       libglapi%{?_isa}
-# If mesa-dri-drivers are installed, they must match in version. This is here to prevent using
-# older mesa-dri-drivers together with a newer mesa-libglapi or its dependants.
-# See https://bugzilla.redhat.com/show_bug.cgi?id=2193135 .
-Requires:       (%{name}-dri-drivers%{?_isa} = %{?epoch:%{epoch}:}%{version}-%{release} if %{name}-dri-drivers%{?_isa})
-
-%description libglapi
-%{summary}.
-
 %if 0%{?with_opencl}
 %package libOpenCL
 Summary:        Mesa OpenCL runtime library
-Requires:       ocl-icd%{?_isa}
+Requires:       (ocl-icd%{?_isa} or OpenCL-ICD-Loader%{?_isa})
 Requires:       libclc%{?_isa}
 Requires:       %{name}-libgbm%{?_isa} = %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:       opencl-filesystem
@@ -440,11 +400,11 @@ The drivers with support for the Vulkan API.
 Summary:        Mesa driver overlay for FEX-emu
 BuildArch: noarch
 BuildRequires:  erofs-utils
+BuildRequires:  patchelf
 Requires:       fex-emu
 Supplements:    fex-emu-rootfs-fedora
 Provides:       fex-emu-overlay(%{_arch})(mesa) = %{version}-%{release}
 Provides:       bundled(mesa) = %{version}-%{release}
-License:        MIT AND BSD-3-Clause AND SGI-B-2.0 AND NCSA
 
 %description fex-emu-overlay-%{_arch}
 Mesa EGL/GL libraries and Gallium/OpenCL/Vulkan drivers for FEX-emu roots file system images.
@@ -455,7 +415,7 @@ Mesa EGL/GL libraries and Gallium/OpenCL/Vulkan drivers for FEX-emu roots file s
 cp %{SOURCE1} docs/
 
 # patch VERSION to contain the asahi tag name
-sed -i "s/devel/asahi%{asahi_mesa_ver}/" VERSION
+echo %{basever}-asahi%{asahi_mesa_ver} > VERSION
 
 %build
 # ensure standard Rust compiler flags are set
@@ -479,17 +439,12 @@ export MESON_PACKAGE_CACHE_DIR="%{cargo_registry}/"
 # Disable LTO for now
 %define _lto_cflags %{nil}
 
-%if 0%{?llvm_compat}
-export LLVM_CONFIG=llvm-config-%{?llvm_compat}
-%endif
-
 %meson \
   -Dplatforms=x11,wayland \
-  -Dosmesa=true \
 %if 0%{?with_hardware}
-  -Dgallium-drivers=swrast,virgl%{?with_nouveau:,nouveau}%{?with_r300:,r300}%{?with_crocus:,crocus}%{?with_i915:,i915}%{?with_iris:,iris}%{?with_vmware:,svga}%{?with_radeonsi:,radeonsi}%{?with_r600:,r600}%{?with_freedreno:,freedreno}%{?with_etnaviv:,etnaviv}%{?with_tegra:,tegra}%{?with_vc4:,vc4}%{?with_v3d:,v3d}%{?with_lima:,lima}%{?with_panfrost:,panfrost}%{?with_vulkan_hw:,zink}%{?with_asahi:,asahi} \
+  -Dgallium-drivers=llvmpipe,virgl%{?with_nouveau:,nouveau}%{?with_r300:,r300}%{?with_crocus:,crocus}%{?with_i915:,i915}%{?with_iris:,iris}%{?with_vmware:,svga}%{?with_radeonsi:,radeonsi}%{?with_r600:,r600}%{?with_freedreno:,freedreno}%{?with_etnaviv:,etnaviv}%{?with_tegra:,tegra}%{?with_vc4:,vc4}%{?with_v3d:,v3d}%{?with_lima:,lima}%{?with_panfrost:,panfrost}%{?with_vulkan_hw:,zink}%{?with_asahi:,asahi} \
 %else
-  -Dgallium-drivers=swrast,virgl \
+  -Dgallium-drivers=llvmpipe,virgl \
 %endif
   -Dgallium-vdpau=%{?with_vdpau:enabled}%{!?with_vdpau:disabled} \
   -Dgallium-va=%{?with_va:enabled}%{!?with_va:disabled} \
@@ -497,7 +452,7 @@ export LLVM_CONFIG=llvm-config-%{?llvm_compat}
   -Dgallium-nine=%{?with_nine:true}%{!?with_nine:false} \
   -Dteflon=%{?with_teflon:true}%{!?with_teflon:false} \
   -Dgallium-opencl=%{?with_opencl:icd}%{!?with_opencl:disabled} \
-%if 0%{?with_rusticl}
+%if 0%{?with_opencl}
   -Dgallium-rusticl=true \
 %endif
   -Dvulkan-drivers=%{?vulkan_drivers} \
@@ -546,11 +501,11 @@ rm -vf %{buildroot}%{_libdir}/libGLES*
 
 # glvnd needs a default provider for indirect rendering where it cannot
 # determine the vendor
-ln -s %{_libdir}/libGLX_mesa.so.0 %{buildroot}%{_libdir}/libGLX_system.so.0
+ln -s libGLX_mesa.so.0 %{buildroot}%{_libdir}/libGLX_system.so.0
 
 # this keeps breaking, check it early.  note that the exit from eu-ftr is odd.
 pushd %{buildroot}%{_libdir}
-for i in libOSMesa*.so libGL.so ; do
+for i in libGL.so ; do
     eu-findtextrel $i && exit 1
 done
 popd
@@ -575,23 +530,19 @@ ln -s ovl_dri "fexov/%{_libdir}/dri"
 %dnl GL/EGL ----------------------------
 install -Dpm0755 -s -t "fexov/%{_libdir}/" \
   %{buildroot}%{_libdir}/libEGL_mesa.so.0.0.0 \
-  %{buildroot}%{_libdir}/libGLX_mesa.so.0.0.0 \
-  %{buildroot}%{_libdir}/libglapi.so.0.0.0
+  %{buildroot}%{_libdir}/libGLX_mesa.so.0.0.0
 ln -s libEGL_mesa.so.0.0.0 "fexov/%{_libdir}/libEGL_mesa.so.0"
 ln -s libGLX_mesa.so.0.0.0 "fexov/%{_libdir}/libGLX_mesa.so.0"
-ln -s libglapi.so.0.0.0 "fexov/%{_libdir}/libglapi.so.0"
 ln -s libGLX_mesa.so.0 "fexov/%{_libdir}/libGLX_system.so.0"
 
 %dnl OpenCL ----------------------------
 %if 0%{?with_opencl}
-%if 0%{?with_rusticl}
 install -Dpm0755 -s -t "fexov/%{_libdir}/" \
   %{buildroot}%{_libdir}/libRusticlOpenCL.so.1.0.0
 ln -s libRusticlOpenCL.so.1.0.0 fexov/%{_libdir}/libRusticlOpenCL.so.1
 install -Dpm0644 -t "fexov/%{_sysconfdir}/OpenCL/ovl_vendors/" \
   %{buildroot}%{_sysconfdir}/OpenCL/vendors/rusticl.icd
 ln -s ovl_vendors "fexov/%{_sysconfdir}/OpenCL/vendors"
-%endif
 %endif
 
 %dnl vulkan ----------------------------
@@ -612,21 +563,10 @@ install -Dpm0755 -s -t "fexov/%{_libdir}/" \
   %{buildroot}%{_libdir}/libgbm.so.1.0.0
 install -Dpm0755 -s -t "fexov/%{_libdir}/gbm/" \
   %{buildroot}%{_libdir}/gbm/dri_gbm.so
-
 %dnl glvnd  ----------------------------
 install -Dpm0644 -t "fexov/%{_datadir}/glvnd/ovl_egl_vendor.d/" \
   %{buildroot}%{_datadir}/glvnd/egl_vendor.d/50_mesa.json
 ln -s ovl_egl_vendor.d "fexov/%{_datadir}/glvnd/egl_vendor.d"
-
-%dnl deps   ----------------------------
-# Ship this with the mesa erofs since it needs to work with the rawhide
-# rootfs and spirv-llvm-translator is not packaged for compat.
-# Make sure to remove the License: override for the subpackage
-# if this gets removed.
-%if 0%{?with_rusticl}
-install -Dpm0755 -s -t "fexov/%{_libdir}/" \
-  %{_libdir}/libLLVMSPIRVLib.so.18.1
-%endif
 
 # Hack to work around libcapsule bug:
 # https://github.com/ValveSoftware/steam-runtime/issues/704
@@ -661,7 +601,6 @@ install -Dpm0644 -t %{buildroot}%{_datadir}/fex-emu/overlays/ mesa-%{_arch}.erof
 %dir %{_includedir}/GL/internal
 %{_includedir}/GL/internal/dri_interface.h
 %{_libdir}/pkgconfig/dri.pc
-%{_libdir}/libglapi.so
 
 %files libEGL
 %{_datadir}/glvnd/egl_vendor.d/50_mesa.json
@@ -671,24 +610,13 @@ install -Dpm0644 -t %{buildroot}%{_datadir}/fex-emu/overlays/ mesa-%{_arch}.erof
 %{_includedir}/EGL/eglext_angle.h
 %{_includedir}/EGL/eglmesaext.h
 
-%files libglapi
-%{_libdir}/libglapi.so.0
-%{_libdir}/libglapi.so.0.*
-
-%files libOSMesa
-%{_libdir}/libOSMesa.so.8*
-%files libOSMesa-devel
-%dir %{_includedir}/GL
-%{_includedir}/GL/osmesa.h
-%{_libdir}/libOSMesa.so
-%{_libdir}/pkgconfig/osmesa.pc
-
 %files libgbm
 %{_libdir}/libgbm.so.1
 %{_libdir}/libgbm.so.1.*
 %files libgbm-devel
 %{_libdir}/libgbm.so
 %{_includedir}/gbm.h
+%{_includedir}/gbm_backend_abi.h
 %{_libdir}/pkgconfig/gbm.pc
 
 %if 0%{?with_xa}
@@ -716,19 +644,13 @@ install -Dpm0644 -t %{buildroot}%{_datadir}/fex-emu/overlays/ mesa-%{_arch}.erof
 %if 0%{?with_opencl}
 %files libOpenCL
 %{_libdir}/libMesaOpenCL.so.*
-%if 0%{?with_rusticl}
 %{_libdir}/libRusticlOpenCL.so.*
-%endif
 %{_sysconfdir}/OpenCL/vendors/mesa.icd
-%if 0%{?with_rusticl}
 %{_sysconfdir}/OpenCL/vendors/rusticl.icd
-%endif
 
 %files libOpenCL-devel
 %{_libdir}/libMesaOpenCL.so
-%if 0%{?with_rusticl}
 %{_libdir}/libRusticlOpenCL.so
-%endif
 %endif
 
 %if 0%{?with_nine}
@@ -743,9 +665,9 @@ install -Dpm0644 -t %{buildroot}%{_datadir}/fex-emu/overlays/ mesa-%{_arch}.erof
 %endif
 
 %files dri-drivers
-%{_libdir}/gbm/dri_gbm.so
 %{_datadir}/drirc.d/00-mesa-defaults.conf
 %{_libdir}/libgallium-*.so
+%{_libdir}/gbm/dri_gbm.so
 %{_libdir}/dri/kms_swrast_dri.so
 %{_libdir}/dri/libdril_dri.so
 %{_libdir}/dri/swrast_dri.so
@@ -888,6 +810,8 @@ install -Dpm0644 -t %{buildroot}%{_datadir}/fex-emu/overlays/ mesa-%{_arch}.erof
 %files vulkan-drivers
 %{_libdir}/libvulkan_lvp.so
 %{_datadir}/vulkan/icd.d/lvp_icd.*.json
+%{_libdir}/libvulkan_virtio.so
+%{_datadir}/vulkan/icd.d/virtio_icd.*.json
 %{_libdir}/libVkLayer_MESA_device_select.so
 %{_datadir}/vulkan/implicit_layer.d/VkLayer_MESA_device_select.json
 %if 0%{?with_vulkan_hw}
