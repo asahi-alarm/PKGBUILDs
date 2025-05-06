@@ -1,0 +1,4 @@
+M1N1="/usr/lib64/m1n1/m1n1.bin"
+U_BOOT="/usr/share/uboot/apple_m1/u-boot-nodtb.bin"
+# limit DTBS to Mx and Mx Pro/Max/Ultra
+DTBS="/boot/dtb/apple/t6*.dtb /boot/dtb/apple/t81*.dtb"
