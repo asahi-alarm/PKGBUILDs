@@ -12,8 +12,10 @@
 #TODO: set -o pipefail and/or similiar?
 
 FEDORA_VERSION=42
-SPEC_COPR_CGIT_URL=https://copr-dist-git.fedorainfracloud.org/cgit/@asahi/
+SPEC_COPR_CGIT_URL=https://copr-dist-git.fedorainfracloud.org/git/@asahi/
 SPEC_FEDORA_SRC_URL=https://src.fedoraproject.org/
+
+TMP_CLONE_FOLDER=/tmp/asahi_spec_files_tmp
 
 echo ""
 echo "Fetching files for Fedora Asahi Remix version $FEDORA_VERSION"
@@ -95,7 +97,10 @@ for ASAHI_PACKAGE in "${!PACKAGES[@]}"; do
         ARCH_LIB_DIR="/usr/$ARCH_LIB"
 
         if [[ "$FEDORA_GIT_REPO" == copr+* ]]; then
-           FINAL_SPEC_URL="${SPEC_COPR_CGIT_URL}${FEDORA_GIT_REPO:5}/plain/${SPEC_FILE}?h=f${FEDORA_VERSION}"
+           rm -rf "$TMP_CLONE_FOLDER"
+           mkdir -p "$TMP_CLONE_FOLDER"
+           git clone -o upstream -b f${FEDORA_VERSION} "${SPEC_COPR_CGIT_URL}${FEDORA_GIT_REPO:5}" "$TMP_CLONE_FOLDER"/
+           FINAL_SPEC_URL="$TMP_CLONE_FOLDER"/"${SPEC_FILE}"
         elif [[ "$FEDORA_GIT_REPO" == fsrc+* ]]; then
            FINAL_SPEC_URL="${SPEC_FEDORA_SRC_URL}${FEDORA_GIT_REPO:5}/raw/f${FEDORA_VERSION}/f/${SPEC_FILE}"
         else
@@ -105,7 +110,12 @@ for ASAHI_PACKAGE in "${!PACKAGES[@]}"; do
 
         echo "Processing ${FINAL_SPEC_URL} for ${SPEC_ARCH} (+ removing changelog)..."
 
-        curl -s -o "${SPEC_FILE_DEST_TMPL}" "${FINAL_SPEC_URL}"
+        if [[ "$FEDORA_GIT_REPO" == copr+* ]]; then
+          cp "${FINAL_SPEC_URL}" "${SPEC_FILE_DEST_TMPL}"
+          rm -rf "$TMP_CLONE_FOLDER"
+        else
+          curl -s -o "${SPEC_FILE_DEST_TMPL}" "${FINAL_SPEC_URL}"
+        fi
 
         cp "${SPEC_FILE_DEST_TMPL}" "${SPEC_FILE_DEST_TMPL}.tmp"
 
