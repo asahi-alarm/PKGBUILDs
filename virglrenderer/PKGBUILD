@@ -2,8 +2,8 @@
 # Maintainer: Matthias Kurz <m.kurz@irregular.at>
 
 pkgname=virglrenderer
-pkgver=20241205.2
-pkgrel=4
+pkgver=20250424
+pkgrel=1
 pkgdesc="Asahi Linux fork of virglrenderer, a virtual 3D GPU for QEMU"
 arch=('x86_64' 'aarch64') # Adjust if necessary
 url="https://gitlab.freedesktop.org/asahi/virglrenderer"
