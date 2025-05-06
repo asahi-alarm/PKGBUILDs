@@ -4,7 +4,7 @@
 pkgbase=fex-emu-rootfs-arch
 pkgname=fex-emu-rootfs-arch
 pkgver=20250506
-pkgrel=1
+pkgrel=2
 pkgdesc="Arch based rootfs for FEX-Emu"
 arch=(aarch64)
 url="https://github.com/FEX-Emu/FEX"
@@ -17,7 +17,7 @@ depends=(
   muvm
 )
 source=("https://github.com/asahi-alarm/asahi-alarm/releases/download/rootfs/default.erofs.xz")
-sha256sums=('3fee42b85b37954f6bc38bdda7d386d2421faacdbc0de12259b09589dc40f095')
+sha256sums=('b632050b91e04a1b1d258c270d72a515d222a8c3ce904c0252f27c5dc6565d66')
 
 prepare() {
   unxz -c default.erofs.xz > default.erofs
