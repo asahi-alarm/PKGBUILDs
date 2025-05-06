@@ -1,6 +1,6 @@
 
   Name:           rust-muvm
-  Version:        0.3.1
+  Version:        0.4.1
   Release:        1
   Summary:        Run programs from your system in a microVM
 
@@ -24,7 +24,6 @@
 
   Obsoletes:      krun < 0.1.0-2
 
-  Requires:       dhcp-client
   Requires:       libkrun >= 1.9.8-1
   Requires:       passt
   Requires:       socat
@@ -36,13 +35,13 @@
 prepare() {
 
   cd './'
-  rm -rf 'muvm-0.3.1'
+  rm -rf 'muvm-0.4.1'
   tar -xf '%{crates_source}'
   STATUS=$?
   if [ $STATUS -ne 0 ]; then
     exit $STATUS
   fi
-  cd 'muvm-0.3.1'
+  cd 'muvm-0.4.1'
   chmod -Rf a+rX,u+w,g-w,o-w .
 
   %cargo_prep
