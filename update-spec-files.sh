@@ -128,6 +128,10 @@ for ASAHI_PACKAGE in "${!PACKAGES[@]}"; do
         # it does not make sense to render copy commands that try to copy from base to base folder
         sed -i -E 's/^cp (.*)%SOURCE(.+) \.$//g' "${SPEC_FILE_DEST_TMPL}.tmp"
 
+        # Seems the Fedora rpmspec tool uses some other macros, which the Arch rpmspec can not handle or has not installed
+        # "error: line 118: Tag takes single token only: Release:        1 -b 4"
+        sed -i -E 's/autorelease -b 4/autorelease/g' "${SPEC_FILE_DEST_TMPL}.tmp"
+
         # We force with_asahi_minimal, no matter which architecture we are on. This also will set "with_asahi 1".
         # BTW: It seems Fedora devs build the asahi mesa packages with `-D"with_asahi_minimal 0" -D"with_asahi 1"`,
         #      which just adds more gallium and vulkan drivers. I could reproduce that 1:1. We do not need those driver however,
