@@ -2,7 +2,7 @@
 # Maintainer: Matthias Kurz <m.kurz@irregular.at>
 
 pkgname=triforce-lv2
-pkgver=0.2.0
+pkgver=0.2.1
 pkgrel=1
 pkgdesc='a beamformer for Apple Silicon laptops'
 arch=('aarch64')
@@ -12,7 +12,7 @@ license=('MIT')
 source=(
   "triforce-lv2-${pkgver}.tar.gz::https://github.com/chadmed/triforce/archive/refs/tags/${pkgver}.tar.gz"
 )
-sha256sums=('b2b60a0b89c104fcc7f2d86801b715abdc6972eebde8d67a9a7b95ec713f0b46')
+sha256sums=('cfd3e8da2d099defae46a4176d53f14e3ec0b0ed12e4fcbe72b15d900c6b49e9')
 
 build() {
   cd "${srcdir}/triforce-${pkgver}"
