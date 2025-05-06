@@ -5,7 +5,7 @@ highmem=1
 
 pkgname=(mesa mesa-fex-emu-overlay-x86_64 mesa-fex-emu-overlay-i386 mesa-dummy)
 pkgdesc="An open-source implementation of the OpenGL specification"
-_asahiver=20250221
+_asahiver=20250425
 _commit=asahi-$_asahiver
 pkgver=25.1.0_pre$_asahiver
 pkgrel=1
@@ -32,7 +32,7 @@ source=(
   gnome-shell-glthread-disable.patch
 )
 sha512sums=(
-  '2d2070582a2a5be90bbc437a51106aa677c191717877150e1351f714dd140a698326149b140f25216e8071202dba7a99cbda40299e9414f40b6ae01e41289d89'
+  '0017eff794de820798fedbed7874b7efde365b468472a15ace6a07bab76d50cdfd08fda7d57a59699823eb99bf5aacd37214b85dbb99d6b0135c5b69185b51b2'
   'ecdabad21a86f04d51ba709a90fbeccb3004c6e8af3546edc530dcb4727787ed5d6a63043b6ab50b4c0a46de0894b6f3c594101b4d25f7831dee9f33fd2a7e31'
   'db08a07a6ee8cc09ae827688089e1e1e7aa2c43f9a1a9260012206052bcb9432d1c1a90657bc86618719632ba6cbb4502003c181321bc01c713f4e02dae8b4f1'
 )
@@ -62,8 +62,7 @@ meson_build() {
     -Db_ndebug=true \
     -Db_lto=false \
     -Dplatforms=x11,wayland \
-    -Dosmesa=true \
-    -Dgallium-drivers=swrast,virgl,zink,asahi \
+    -Dgallium-drivers=llvmpipe,virgl,zink,asahi \
     -Dgallium-vdpau=enabled \
     -Dgallium-va=enabled \
     -Dgallium-xa=disabled \
@@ -151,7 +150,7 @@ package_mesa() {
 
   # this keeps breaking, check it early.  note that the exit from eu-ftr is odd.
   pushd fakeinstall/usr/lib
-  for i in libOSMesa*.so libGL.so; do
+  for i in libGL.so; do
     eu-findtextrel $i && exit 1
   done
   popd
@@ -168,9 +167,6 @@ package_mesa() {
   # libEGL
   _install fakeinstall/usr/share/glvnd/egl_vendor.d/50_mesa.json
   _install fakeinstall/usr/lib/libEGL_mesa.so.0*
-
-  # libOSMesa
-  _install fakeinstall/usr/lib/libOSMesa.so.8*
 
   # libgbm
   _install fakeinstall/usr/lib/libgbm.so
@@ -280,7 +276,7 @@ create_overlay() {
 
   # this keeps breaking, check it early.  note that the exit from eu-ftr is odd.
   pushd fakeinstall/usr/$LIBDIR
-  for i in libOSMesa*.so libGL.so; do
+  for i in libGL.so; do
     eu-findtextrel $i && exit 1
   done
   popd
