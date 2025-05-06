@@ -7,8 +7,9 @@ pkgname=(mesa mesa-fex-emu-overlay-x86_64 mesa-fex-emu-overlay-i386 mesa-dummy)
 pkgdesc="An open-source implementation of the OpenGL specification"
 _asahiver=20250425
 _commit=asahi-$_asahiver
-pkgver=25.1.0_pre$_asahiver
-pkgrel=1
+_mesa_version=25.1.0
+pkgver=${_mesa_version}_pre${_asahiver}
+pkgrel=2
 arch=('x86_64' 'aarch64')
 makedepends=('python-mako' 'libxml2' 'libx11' 'xorgproto' 'libdrm' 'libxshmfence' 'libxxf86vm'
   'libxdamage' 'libvdpau' 'libva' 'wayland' 'wayland-protocols' 'zstd' 'elfutils' 'llvm' 'spirv-llvm-translator'
@@ -46,7 +47,7 @@ prepare() {
     patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
 
   # patch VERSION to contain the asahi tag name
-  sed -i "s/devel/asahi${_asahiver}/" VERSION
+  echo ${_mesa_version}-asahi${_asahiver} > VERSION
 }
 
 meson_build() {
@@ -70,7 +71,7 @@ meson_build() {
     -Dteflon=$TEFLON \
     -Dgallium-opencl=icd \
     -Dgallium-rusticl=true \
-    -Dvulkan-drivers=swrast,asahi \
+    -Dvulkan-drivers=swrast,virtio,asahi \
     -Dvulkan-layers=device-select \
     -Dshared-glapi=enabled \
     -Dgles1=enabled \
@@ -146,7 +147,7 @@ package_mesa() {
 
   # glvnd needs a default provider for indirect rendering where it cannot
   # determine the vendor
-  ln -s /usr/lib/libGLX_mesa.so.0 fakeinstall/usr/lib/libGLX_system.so.0
+  ln -s libGLX_mesa.so.0 fakeinstall/usr/lib/libGLX_system.so.0
 
   # this keeps breaking, check it early.  note that the exit from eu-ftr is odd.
   pushd fakeinstall/usr/lib
@@ -156,7 +157,7 @@ package_mesa() {
   popd
 
   # filesystem
-  install -Dpm0755 -t ${pkgdir}/usr/share/doc/mesa-asahi/ Mesa-MLAA-License-Clarification-Email.txt
+  install -Dpm0755 -t ${pkgdir}/usr/share/doc/mesa/ Mesa-MLAA-License-Clarification-Email.txt
   install -m755 -d ${pkgdir}/usr/lib/dri
   install -m755 -d ${pkgdir}/usr/share/drirc.d
 
@@ -247,6 +248,8 @@ package_mesa() {
   # vulkan-drivers
   _install fakeinstall/usr/lib/libvulkan_lvp.so
   _install fakeinstall/usr/share/vulkan/icd.d/lvp_icd.*.json
+  _install fakeinstall/usr/lib/libvulkan_virtio.so
+  _install fakeinstall/usr/share/vulkan/icd.d/virtio_icd.*.json
   _install fakeinstall/usr/lib/libVkLayer_MESA_device_select.so
   _install fakeinstall/usr/share/vulkan/implicit_layer.d/VkLayer_MESA_device_select.json
   _install fakeinstall/usr/lib/libvulkan_asahi.so
