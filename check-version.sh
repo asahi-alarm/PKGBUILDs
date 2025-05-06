@@ -28,6 +28,7 @@ mappings["muvm"]="rust-muvm"
 mappings["speakersafetyd"]="rust-speakersafetyd"
 mappings["alsa-ucm-conf-asahi"]="alsa-ucm-asahi"
 mappings["asahi-calamares-configs"]="fedora-remix-scripts"
+mappings["m1n1"]="m1n1"
 
 copr["kernel"]="kernel"
 copr["mesa"]="mesa"
