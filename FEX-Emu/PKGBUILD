@@ -3,7 +3,7 @@
 
 pkgbase=FEX-Emu
 pkgname=FEX-Emu
-pkgver=2502
+pkgver=2505
 pkgrel=1
 pkgdesc="Fast x86 emulation frontend"
 arch=(aarch64)
@@ -12,6 +12,8 @@ license=(MIT)
 makedepends=(
   pkgconf
   cmake
+  catch2
+  fmt
   ninja
   git
   sed
@@ -46,11 +48,14 @@ prepare() {
   cd "${srcdir}/FEX"
   # Needed because the repo has submodules
   git submodule update --init --recursive
+  patch -p1 < ../../cmake.patch
+  git cherry-pick a37def2c22e528477f64296747228400ddc40222
+  git cherry-pick 8eaf45414c05c9e7ef6f74a323d95fe7e0d883c1
+  git cherry-pick c326e2d669fd5e9356f6107e188413a449cc1fd7
 }
 
 build() {
   cd ${srcdir}/FEX
-  patch -p1 < ../../cmake.patch
   rm -rf build
   mkdir -p build || true
   cd build
