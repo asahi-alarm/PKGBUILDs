@@ -4,7 +4,7 @@
 pkgbase=FEX-Emu
 pkgname=FEX-Emu
 pkgver=2505
-pkgrel=1
+pkgrel=2
 pkgdesc="Fast x86 emulation frontend"
 arch=(aarch64)
 url="https://github.com/FEX-Emu/FEX"
@@ -37,6 +37,7 @@ depends=(
   squashfuse
   squashfs-tools
   erofs-utils
+  fmt
 )
 source=("git+https://github.com/FEX-Emu/FEX.git#tag=FEX-${pkgver}"
         "cmake.patch")
