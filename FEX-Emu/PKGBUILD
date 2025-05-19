@@ -13,7 +13,6 @@ makedepends=(
   pkgconf
   cmake
   catch2
-  fmt
   ninja
   git
   sed
