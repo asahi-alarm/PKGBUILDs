@@ -1,6 +1,6 @@
 
   Name:           rust-triforce-lv2
-  Version:        0.3.0
+  Version:        0.3.2
   Release:        1
   Summary:        Minimum variance distortionless response beamformer for Apple mic arrays
 
@@ -24,8 +24,8 @@
 
   Requires:       lv2
 
-  Provides:       triforce-lv2 = 0.3.0-1
-  Provides:       triforce-lv2(aarch-64) = 0.3.0-1
+  Provides:       triforce-lv2 = 0.3.2-1
+  Provides:       triforce-lv2(aarch-64) = 0.3.2-1
   Obsoletes:      triforce-lv2 < 0.1.1-2
 
   %description -n lv2-triforce
@@ -35,13 +35,13 @@
 prepare() {
 
   cd './'
-  rm -rf 'triforce-lv2-0.3.0'
+  rm -rf 'triforce-lv2-0.3.2'
   tar -xf '%{crates_source}'
   STATUS=$?
   if [ $STATUS -ne 0 ]; then
     exit $STATUS
   fi
-  cd 'triforce-lv2-0.3.0'
+  cd 'triforce-lv2-0.3.2'
   chmod -Rf a+rX,u+w,g-w,o-w .
 
   %cargo_prep
