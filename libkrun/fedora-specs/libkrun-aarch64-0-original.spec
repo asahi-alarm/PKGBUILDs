@@ -9,7 +9,7 @@
 %endif
 
 Name:           libkrun
-Version:        1.11.2
+Version:        1.13.0
 Release:        1%{?dist}
 Summary:        Dynamic library providing Virtualization-based process isolation capabilities
 
@@ -69,7 +69,7 @@ BuildRequires:  crate(vmm-sys-util/default) >= 0.12.0
 BuildRequires:  crate(vm-fdt/default) >= 0.2.0
 BuildRequires:  (crate(virtio-bindings/default) >= 0.2.0 with crate(virtio-bindings/default) < 0.3.0~)
 BuildRequires:  (crate(bitflags/default) >= 1.2.0 with crate(bitflags/default) < 2.0.0~)
-BuildRequires:  (crate(env_logger/default) >= 0.9.0 with crate(env_logger/default) < 0.10.0~)
+BuildRequires:  (crate(env_logger/default) >= 0.11.0 with crate(env_logger/default) < 0.12.0~)
 BuildRequires:  (crate(log/default) >= 0.4.0 with crate(log/default) < 0.5.0~)
 BuildRequires:  (crate(nix/default) >= 0.24.1 with crate(nix/default) < 0.25.0~)
 BuildRequires:  (crate(nix/default) >= 0.26.1 with crate(nix/default) < 0.27.0~)
@@ -90,14 +90,14 @@ BuildRequires:  (crate(flate2/default) >= 1.0.0 with crate(flate2/default) < 2.0
 
 %ifarch x86_64
 # SEV variant dependencies
-BuildRequires:  (crate(kbs-types/default) >= 0.8.0 with crate(kbs-types/default) < 0.9.0~)
-BuildRequires:  (crate(kbs-types/tee-sev) >= 0.8.0 with crate(kbs-types/tee-sev) < 0.9.0~)
-BuildRequires:  (crate(kbs-types/tee-snp) >= 0.8.0 with crate(kbs-types/tee-snp) < 0.9.0~)
+BuildRequires:  (crate(kbs-types/default) >= 0.11.0 with crate(kbs-types/default) < 0.12.0~)
+BuildRequires:  (crate(kbs-types/tee-sev) >= 0.11.0 with crate(kbs-types/tee-sev) < 0.12.0~)
+BuildRequires:  (crate(kbs-types/tee-snp) >= 0.11.0 with crate(kbs-types/tee-snp) < 0.12.0~)
 BuildRequires:  (crate(codicon/default) >= 3.0.0 with crate(codicon/default) < 4.0.0~)
 BuildRequires:  (crate(curl/default) >= 0.4.0 with crate(curl/default) < 0.5.0~)
 BuildRequires:  (crate(procfs/default) >= 0.12.0 with crate(procfs/default) < 0.13.0~)
-BuildRequires:  (crate(sev/default) >= 4.0.0 with crate(sev/default) < 5.0.0~)
-BuildRequires:  (crate(sev/openssl) >= 4.0.0 with crate(sev/openssl) < 5.0.0~)
+BuildRequires:  (crate(sev/default) >= 6.0.0 with crate(sev/default) < 7.0.0~)
+BuildRequires:  (crate(sev/openssl) >= 6.0.0 with crate(sev/openssl) < 7.0.0~)
 BuildRequires:  (crate(serde/default) >= 1.0.0 with crate(serde/default) < 2.0.0~)
 BuildRequires:  (crate(serde/derive) >= 1.0.0 with crate(serde/derive) < 2.0.0~)
 BuildRequires:  (crate(serde_json/default) >= 1.0.0 with crate(serde_json/default) < 2.0.0~)
@@ -210,6 +210,12 @@ capabilities.
 %endif
 
 %changelog
+* Wed Jun 04 2025 Sergio Lopez <slp@redhat.com> - 1.13.0-1
+- Update to version 1.13.0
+
+* Tue May 20 2025 Sergio Lopez <slp@redhat.com> - 1.12.2-1
+- Update to version 1.12.2
+
 * Mon Apr 21 2025 Sergio Lopez <slp@redhat.com> - 1.11.2-1
 - Update to version 1.11.2
 - Re-enable debuginfo, fixed by dropping the use of patchelf.

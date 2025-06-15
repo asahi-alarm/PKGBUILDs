@@ -1,12 +1,12 @@
 
   Name:           libkrun
-  Version:        1.11.2
+  Version:        1.13.0
   Release:        1
   Summary:        Dynamic library providing Virtualization-based process isolation capabilities
 
   License:        Apache-2.0
   URL:            https://github.com/containers/libkrun
-  Source:         https://github.com/containers/libkrun/archive/refs/tags/v1.11.2.tar.gz
+  Source:         https://github.com/containers/libkrun/archive/refs/tags/v1.13.0.tar.gz
 
   Patch0:         libkrun-remove-unused-deps.diff
 
@@ -39,7 +39,7 @@
   BuildRequires:  crate(vm-fdt/default) >= 0.2.0
   BuildRequires:  (crate(virtio-bindings/default) >= 0.2.0 with crate(virtio-bindings/default) < 0.3.0~)
   BuildRequires:  (crate(bitflags/default) >= 1.2.0 with crate(bitflags/default) < 2.0.0~)
-  BuildRequires:  (crate(env_logger/default) >= 0.9.0 with crate(env_logger/default) < 0.10.0~)
+  BuildRequires:  (crate(env_logger/default) >= 0.11.0 with crate(env_logger/default) < 0.12.0~)
   BuildRequires:  (crate(log/default) >= 0.4.0 with crate(log/default) < 0.5.0~)
   BuildRequires:  (crate(nix/default) >= 0.24.1 with crate(nix/default) < 0.25.0~)
   BuildRequires:  (crate(nix/default) >= 0.26.1 with crate(nix/default) < 0.27.0~)
@@ -63,7 +63,7 @@
 
   %package devel
   Summary: Header files and libraries for libkrun development
-  Requires:       libkrun(aarch-64) = 1.11.2-1
+  Requires:       libkrun(aarch-64) = 1.13.0-1
 
   %description devel
   The libkrun-devel package containes the libraries and headers needed to
@@ -73,7 +73,7 @@
 prepare() {
   cd './'
   rm -rf 'libkrun-%{version_no_tilde}'
-  tar -xf 'v1.11.2.tar.gz'
+  tar -xf 'v1.13.0.tar.gz'
   STATUS=$?
   if [ $STATUS -ne 0 ]; then
     exit $STATUS
@@ -104,7 +104,7 @@ package() {
   # A spec %files section (it could be that part of the next lines duplicate part of the package() function)
   install -Dpm0755 -t ${pkgdir}/usr/share/licenses/libkrun/ LICENSE
   install -Dpm0755 -t ${pkgdir}/usr/share/doc/libkrun/  README.md
-  _install fakeinstall/usr/lib/libkrun.so.1.11.2
+  _install fakeinstall/usr/lib/libkrun.so.1.13.0
   _install fakeinstall/usr/lib/libkrun.so.1
 
   # devel
