@@ -10,7 +10,7 @@ license=('Apache')
 makedepends=('rustup' 'patchelf' 'virglrenderer')
 depends=('glibc' 'gcc-libs' 'libkrunfw' 'virglrenderer' 'pipewire' 'libva')
 source=("https://github.com/containers/libkrun/archive/refs/tags/v$pkgver/$pkgname-$pkgver.tar.gz")
-sha256sums=('86bb8cc6d14dd30b2ed9d1d8fd3180bdef662952f40c91e75e0d4b03181237ee')
+sha256sums=('f769ba4c4baa29bf3402008a85577dc34489a68d395a7ed6d2d6557f3686280f')
 
 build() {
   cd "$srcdir/$pkgname-$pkgver"
