@@ -1,12 +1,12 @@
 
   Name:           asahi-audio
-  Version:        3.3
+  Version:        3.4
   Release:        1
   Summary:        PipeWire DSP profiles for Apple Silicon machines
   License:        MIT
   URL:            https://github.com/AsahiLinux/asahi-audio
 
-  Source:         https://github.com/AsahiLinux/asahi-audio/archive/v3.3/asahi-audio-3.3.tar.gz
+  Source:         https://github.com/AsahiLinux/asahi-audio/archive/v3.4/asahi-audio-3.4.tar.gz
 
   BuildArch:      noarch
 
@@ -16,7 +16,9 @@
   Requires:       pipewire-module-filter-chain-lv2
   Requires:       lsp-plugins-lv2 >= 1.2.13-2
   Requires:       lv2-bankstown >= 1.1.0
+
   Requires:       lv2-triforce >= 0.2.0
+
   Recommends:     speakersafetyd
 
   %description
@@ -26,13 +28,13 @@
 prepare() {
 
   cd './'
-  rm -rf 'asahi-audio-3.3'
-  tar -xf 'asahi-audio-3.3.tar.gz'
+  rm -rf 'asahi-audio-3.4'
+  tar -xf 'asahi-audio-3.4.tar.gz'
   STATUS=$?
   if [ $STATUS -ne 0 ]; then
     exit $STATUS
   fi
-  cd 'asahi-audio-3.3'
+  cd 'asahi-audio-3.4'
   chmod -Rf a+rX,u+w,g-w,o-w .
 
 }
