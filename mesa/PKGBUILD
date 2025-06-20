@@ -9,7 +9,7 @@ _asahiver=20250425
 _commit=asahi-$_asahiver
 _mesa_version=25.1.0
 pkgver=${_mesa_version}_pre${_asahiver}
-pkgrel=2
+pkgrel=3
 arch=('x86_64' 'aarch64')
 makedepends=('python-mako' 'libxml2' 'libx11' 'xorgproto' 'libdrm' 'libxshmfence' 'libxxf86vm'
   'libxdamage' 'libvdpau' 'libva' 'wayland' 'wayland-protocols' 'zstd' 'elfutils' 'llvm' 'spirv-llvm-translator'
