@@ -2,7 +2,7 @@
 Package                        Fedora Version                 ALARM Version                 
 alsa-ucm-conf-asahi            8-1                            8-1                           
 asahi-alarm-keyring            /                              20241216-1                    
-asahi-audio                    /                              3.4-1                         
+asahi-audio                    3.4-1                          3.4-1                         
 asahi-bless                    0.4.2-1                        0.4.2-1                       
 asahi-btsync                   0.2.4-1                        0.2.4-1                       
 asahi-calamares-configs        20240509-6                     20250509-2                    
@@ -11,13 +11,13 @@ asahi-desktop-meta             /                              4-7
 asahi-fwextract                /                              0.7.9-1                       
 asahi-meta                     /                              5-4                           
 asahi-nvram                    0.2.3-1                        0.2.3-1                       
-asahi-scripts                  /                              20250426.1-1                  
-asahi-wifisync                 /                              0.2.2-1                       
-bankstown                      /                              1.1.0-2                       
+asahi-scripts                  20250426.1-1                   20250426.1-1                  
+asahi-wifisync                 0.2.2-1                        0.2.2-1                       
+bankstown                      1.1.0-3                        1.1.0-2                       
 binfmt-dispatcher              0.1.2-1                        0.1.2-1                       
 calamares                      3.3.14-1                       3.3.14-1                      
 FEX-Emu                        2505-1                         2505-2                        
-fex-emu-rootfs-arch            /                              20250624-1                    
+fex-emu-rootfs-arch            42^1.1-1                       20250624-1                    
 libkrun                        1.13.0-1                       1.13.0-1                      
 libkrunfw                      4.9.0-1                        4.9.0-1                       
 linux-asahi                    6.14.8-400.asahi               6.14.8.asahi1-1               
@@ -26,7 +26,7 @@ lzfse                          /                              1.0-1
 m1n1                           1.4.21-5                       1.4.21-1                      
 mesa                           25.1.0~asahipre20250425-4      25.1.0_pre20250425-3          
 muvm                           0.4.1-1                        0.4.1-1                       
-speakersafetyd                 /                              1.0.2-1                       
+speakersafetyd                 1.0.2-1                        1.0.2-1                       
 startup-disk                   0.1.5-1                        0.1.5-2                       
 steam                          0-13                           20241231-4                    
 tiny-dfr                       0.3.5-1                        0.3.5-1                       
