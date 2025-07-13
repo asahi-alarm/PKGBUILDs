@@ -2,10 +2,10 @@
 # the VM's memory, so no useful debug info can be generated from it.
 %global debug_package %{nil}
 
-%global kernel linux-6.12.20
+%global kernel linux-6.12.34
 
 Name:           libkrunfw
-Version:        4.9.0
+Version:        4.10.0
 Release:        1%{?dist}
 Summary:        A dynamic library bundling the guest payload consumed by libkrun
 # Automatically converted from old format: LGPLv2 and GPLv2 - review is highly recommended.
@@ -114,6 +114,9 @@ cp %{SOURCE1} tarballs/
 %endif
 
 %changelog
+* Fri Jun 27 2025 Sergio Lopez <slp@redhat.com> - 4.10.0-1
+- Update to 4.10.0 which bundles a 6.12.34 kernel
+
 * Mon Mar 24 2025 Sergio Lopez <slp@redhat.com> - 4.9.0-1
 - Update to 4.9.0 which bundles a 6.12.20 kernel
 
