@@ -1,0 +1,20 @@
+#!/usr/bin/sh
+# SPDX-License-Identifier: MIT
+# thin wrapper to execute `update-m1n1` on kernel updates
+
+COMMAND="$1"
+
+# exit early on non Apple sislicon systems
+if ! grep -q "apple,arm-platforms" /proc/device-tree/compatible; then
+    exit 0
+fi
+
+case "${COMMAND}" in
+    # always run update-m1n1 and rely on its no change detection for removals
+    # of old kernels.
+    add|remove)
+        exec /usr/bin/update-m1n1
+        ;;
+esac
+
+exit 0
