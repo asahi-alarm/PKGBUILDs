@@ -1,13 +1,13 @@
 
 Name:       fex-emu
-Version:    2505
+Version:    2507.1
 Release:    1
 Summary:    Fast usermode x86 and x86-64 emulator for ARM64
 
 License:    MIT AND Apache-2.0 AND BSD-3-Clause AND GPL-2.0-only
 URL:        https://fex-emu.com
 
-Source0:    https://github.com/FEX-Emu/FEX/archive/FEX-2505/FEX-FEX-2505.tar.gz
+Source0:    https://github.com/FEX-Emu/FEX/archive/FEX-2507.1/FEX-FEX-2507.1.tar.gz
 
 Source1:    README.fedora
 
@@ -31,12 +31,6 @@ Source105: https://github.com/FEX-Emu/robin-map/archive/d5683d9/robin-map-d5683d
 Provides: bundled(robin-map) = 1.3.0
 Source106: https://github.com/KhronosGroup/Vulkan-Headers/archive/cacef30/Vulkan-Headers-cacef30.tar.gz
 Provides: bundled(vulkan-headers) = 1.4.310
-
-Patch:          https://github.com/FEX-Emu/FEX/commit/a37def2c22e528477f64296747228400ddc40222.patch
-
-Patch:          https://github.com/FEX-Emu/FEX/commit/8eaf45414c05c9e7ef6f74a323d95fe7e0d883c1.patch
-
-Patch:          https://github.com/FEX-Emu/FEX/commit/c326e2d669fd5e9356f6107e188413a449cc1fd7.patch
 
 ExclusiveArch:  aarch64
 
@@ -75,9 +69,9 @@ BuildRequires:  cmake(Qt6Quick)
 BuildRequires:  cmake(Qt6Widgets)
 
 Requires:       systemd-udev
-Requires:       fex-emu-filesystem = 2505-1
+Requires:       fex-emu-filesystem = 2507.1-1
 
-Recommends:     fex-emu-thunks = 2505-1
+Recommends:     fex-emu-thunks = 2507.1-1
 
 Recommends:     fex-emu-rootfs-fedora
 Recommends:     erofs-fuse
@@ -86,7 +80,7 @@ Recommends:     squashfs-tools
 Recommends:     squashfuse
 
 Obsoletes:      fex-emu-gdb < 2409-4
-Provides:       fex-emu-gdb = 2505-1
+Provides:       fex-emu-gdb = 2507.1-1
 
 %description
 FEX allows you to run x86 and x86-64 binaries on an AArch64 host, similar to
@@ -105,34 +99,34 @@ FEX rootfs and overlay filesystem.
 
 %package        devel
 Summary:        Development headers and libraries for fex-emu
-Requires:       fex-emu(aarch-64) = 2505-1
+Requires:       fex-emu(aarch-64) = 2507.1-1
 
 %description    devel
 This package provides development headers and libraries for fex-emu.
 
 %package        utils
 Summary:        Utility tools for fex-emu
-Requires:       fex-emu(aarch-64) = 2505-1
+Requires:       fex-emu(aarch-64) = 2507.1-1
 
 %description    utils
 This package provides utility tools for fex-emu for advanced users.
 
 %package        thunks
 Summary:        Thunk libraries for fex-emu
-Requires:       fex-emu(aarch-64) = 2505-1
+Requires:       fex-emu(aarch-64) = 2507.1-1
 
 %description    thunks
 This package provides host library thunks for fex-emu.
 
 %prep
 cd './'
-rm -rf 'FEX-FEX-2505'
-rpmuncompress -x 'FEX-FEX-2505.tar.gz'
+rm -rf 'FEX-FEX-2507.1'
+rpmuncompress -x 'FEX-FEX-2507.1.tar.gz'
 STATUS=$?
 if [ $STATUS -ne 0 ]; then
   exit $STATUS
 fi
-cd 'FEX-FEX-2505'
+cd 'FEX-FEX-2507.1'
 chmod -Rf a+rX,u+w,g-w,o-w .
 
 # Copy in our README.fedora
@@ -152,19 +146,11 @@ mkdir -p External/Vulkan-Headers
 tar -xzf Vulkan-Headers-cacef30.tar.gz --strip-components=1 -C External/Vulkan-Headers
 
 # This is done after so we can patch the bundled libraries if needed
-
-rpmuncompress a37def2c22e528477f64296747228400ddc40222.patch | 
-patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
-
-rpmuncompress 8eaf45414c05c9e7ef6f74a323d95fe7e0d883c1.patch | 
-patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
-
-rpmuncompress c326e2d669fd5e9356f6107e188413a449cc1fd7.patch | 
-patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
+#autopatch -p1
 
 # Ensure library soversion is set
 sed -i FEXCore/Source/CMakeLists.txt \
-  -e '/PROPERTIES OUTPUT_NAME/aset_target_properties(${Name} PROPERTIES VERSION 2505)'
+  -e '/PROPERTIES OUTPUT_NAME/aset_target_properties(${Name} PROPERTIES VERSION 2507.1)'
 
 # Set up sysroot and toolchain files
 
@@ -212,7 +198,7 @@ fi
 /usr/bin/FEXLoader
 /usr/bin/FEXpidof
 /usr/bin/FEXServer
-/usr/lib/libFEXCore.so.2505
+/usr/lib/libFEXCore.so.2507.1
 %{_binfmtdir}/FEX-x86.conf
 %{_binfmtdir}/FEX-x86_64.conf
 /usr/share/fex-emu/AppConfig/

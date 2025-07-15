@@ -1,12 +1,13 @@
   Name:           asahi-scripts
-  Version:        20250426.1
+  Version:        20250713
   Release:        1
   Summary:        Miscellaneous admin scripts for Asahi Linux
 
   License:        MIT
   URL:            https://github.com/AsahiLinux/asahi-scripts
-  Source:         https://github.com/AsahiLinux/asahi-scripts/archive/20250426.1/asahi-scripts-20250426.1.tar.gz
+  Source:         https://github.com/AsahiLinux/asahi-scripts/archive/20250713/asahi-scripts-20250713.tar.gz
   Source:         update-m1n1.sysconfig
+  Source2:        15-update-m1n1.install
 
   BuildArch:      noarch
 
@@ -28,7 +29,7 @@
   %package -n     asahi-fwupdate
   Summary:        Asahi Linux firmware extractor
 
-  Requires:       asahi-scripts = 20250426.1-1
+  Requires:       asahi-scripts = 20250713-1
 
   Requires:       python3-asahi_firmware >= 0.5.4
 
@@ -39,7 +40,7 @@
   Summary:        Dracut config for Apple Silicon Macs
 
   Requires:       dracut
-  Requires:       linux-firmware-vendor = 20250426.1-1
+  Requires:       linux-firmware-vendor = 20250713-1
 
   %description -n dracut-asahi
   Dracut config for Apple Silicon Macs.
@@ -55,11 +56,13 @@
   %package -n     update-m1n1
   Summary:        Keep m1n1 up to date
 
-  Requires:       asahi-scripts = 20250426.1-1
+  Requires:       asahi-scripts = 20250713-1
   Requires:       bash
   Requires:       gzip
   Requires:       m1n1
   Requires:       uboot-images-armv8
+
+  Requires:       grubby
 
   %description -n update-m1n1
   Keep m1n1 up to date on Apple Silicon systems.
@@ -67,7 +70,7 @@
   %package -n     asahi-battery
   Summary:        Asahi Linux battery charge control scripts
 
-  Requires:       asahi-scripts = 20250426.1-1
+  Requires:       asahi-scripts = 20250713-1
   Requires:       systemd
   Requires:       systemd-udev
 
@@ -78,13 +81,13 @@
 prepare() {
 
   cd './'
-  rm -rf 'asahi-scripts-20250426.1'
-  tar -xf 'asahi-scripts-20250426.1.tar.gz'
+  rm -rf 'asahi-scripts-20250713'
+  tar -xf 'asahi-scripts-20250713.tar.gz'
   STATUS=$?
   if [ $STATUS -ne 0 ]; then
     exit $STATUS
   fi
-  cd 'asahi-scripts-20250426.1'
+  cd 'asahi-scripts-20250713'
   chmod -Rf a+rX,u+w,g-w,o-w .
 
 }
@@ -102,6 +105,8 @@ package() {
 
   install -Ddpm0755 fakeinstall/usr/lib/firmware/vendor
   install -Dpm0644 update-m1n1.sysconfig fakeinstall/etc/sysconfig/update-m1n1
+  # Install kernel-install script
+  install -Dpm0755 -t fakeinstall%{_kernel_install_dir} 15-update-m1n1.install
 
   %transfiletriggerin -n asahi-fwupdate -- /usr/bin/asahi-fwupdate /usr/bin/asahi-fwextract
   /usr/bin/asahi-fwupdate || :
@@ -111,7 +116,7 @@ package() {
   grep -q 'asahi_firmware' && /usr/bin/asahi-fwupdate || :
 
   # We can't use _libdir here because it gets incorrectly expanded to /usr/lib
-  %transfiletriggerin -n update-m1n1 -- /usr/lib/m1n1 /usr/lib64/m1n1 /usr/share/uboot/apple_m1 /boot/dtb- /etc/m1n1.conf
+  %transfiletriggerin -n update-m1n1 -- /usr/lib/m1n1 /usr/lib64/m1n1 /usr/share/uboot/apple_m1 /etc/m1n1.conf
   /usr/bin/update-m1n1 || :
 
   # A spec %files section (it could be that part of the next lines duplicate part of the package() function)
@@ -137,10 +142,12 @@ package() {
   # -n update-m1n1
   install -Dpm0755 -t ${pkgdir}/usr/share/licenses/asahi-scripts/ LICENSE
   %config(noreplace) /etc/sysconfig/update-m1n1
+  %{_kernel_install_dir}/15-update-m1n1.install
   _install fakeinstall/usr/bin/update-m1n1
 
   # -n asahi-battery
   %{_unitdir}/macsmc-battery-charge-control-end-threshold.path
   %{_unitdir}/macsmc-battery-charge-control-end-threshold.service
   %{_udevrulesdir}/93-macsmc-battery-charge-control.rules
+  %ghost %config(noreplace) /etc/udev/macsmc-battery.conf
 }

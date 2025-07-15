@@ -32,7 +32,7 @@
 %bcond x86_debug 0
 
 Name:       fex-emu
-Version:    2505%{?commit:^%{date}git%{commit}}
+Version:    2507.1%{?commit:^%{date}git%{commit}}
 Release:    %autorelease
 Summary:    Fast usermode x86 and x86-64 emulator for ARM64
 
@@ -93,13 +93,6 @@ function print_setup_externals()
   end
 end
 }
-
-# LinuxEmulation: Implement custom longjump that is fortification safe
-Patch:          %{forgeurl}/commit/a37def2c22e528477f64296747228400ddc40222.patch
-# Async: Add run_one interface to enable more fine-grained event loop control
-Patch:          %{forgeurl}/commit/8eaf45414c05c9e7ef6f74a323d95fe7e0d883c1.patch
-# FEXServer: Don't time out while clients are still connected
-Patch:          %{forgeurl}/commit/c326e2d669fd5e9356f6107e188413a449cc1fd7.patch
 
 # FEX upstream only supports these architectures
 %if %{with x86_debug}
@@ -224,7 +217,7 @@ cp -p %SOURCE1 .
 %{lua: print_setup_externals()}
 
 # This is done after so we can patch the bundled libraries if needed
-%autopatch -p1
+#autopatch -p1
 
 # Ensure library soversion is set
 sed -i FEXCore/Source/CMakeLists.txt \
