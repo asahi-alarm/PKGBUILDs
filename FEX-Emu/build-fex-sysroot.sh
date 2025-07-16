@@ -10,6 +10,9 @@ PACKAGES="
 glibc-devel.i686
 glibc-devel.x86_64
 kernel-headers.x86_64
+libstdc++.i686
+libstdc++.x86_64
+libstdc++-devel.i686
 libstdc++-devel.x86_64
 "
 
@@ -64,6 +67,9 @@ done
 GCCBASE="$(ls -d "${WORKDIR}/sysroot/usr/lib/gcc/x86_64-redhat-linux/"* )"
 mkdir -p "${GCCBASE}/32"
 touch "${GCCBASE}/crtbegin.o" "${GCCBASE}/32/crtbegin.o"
+
+ln -sr "${WORKDIR}/sysroot/usr/lib/libstdc++.so.6" "${GCCBASE}/32/libstdc++.so"
+ln -sr "${WORKDIR}/sysroot/usr/lib64/libstdc++.so.6" "${GCCBASE}/libstdc++.so"
 
 echo
 echo "### Extracting license"
