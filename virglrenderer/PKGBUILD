@@ -2,41 +2,43 @@
 # Maintainer: Matthias Kurz <m.kurz@irregular.at>
 
 pkgname=virglrenderer
-pkgver=20250424
-pkgrel=2
-pkgdesc="Asahi Linux fork of virglrenderer, a virtual 3D GPU for QEMU"
-arch=('x86_64' 'aarch64') # Adjust if necessary
-url="https://gitlab.freedesktop.org/asahi/virglrenderer"
-license=('MIT') # The upstream license; verify and adjust if needed
-
-# Most basic dependencies. Add or remove as needed:
-depends=('mesa' 'libepoxy' 'libva')
+_commit=b997bc18fafdcb8e563b7b07b54412ea61e12082
+_shortcommit=${_commit:0:7}
+pkgver=1.1.1^git20250806.${_shortcommit}
+pkgrel=1
+pkgdesc='A virtual 3D GPU library, that allows the guest operating system to use the host GPU to accelerate 3D rendering'
+arch=('x86_64' 'aarch64')
+url="https://virgil3d.github.io/"
+license=('MIT')
+depends=(libepoxy mesa libva vulkan-icd-loader)
 makedepends=('git' 'meson' 'ninja' 'python-yaml') # Tools for building from Git
 conflicts=('virglrenderer-asahi')
 replaces=('virglrenderer-asahi')
 
-source=("${pkgname}::git+https://gitlab.freedesktop.org/asahi/virglrenderer.git#tag=asahi-${pkgver}")
-sha256sums=('SKIP')
+source=("${pkgname}-${_commit}.tar.bz2::https://gitlab.freedesktop.org/virgl/virglrenderer/-/archive/${_commit}/virglrenderer-${_commit}.tar.bz2")
+sha256sums=('682aeabab96848fa8e3cc06dfa2c76875f937be7a3f07e689f18a86222738ccc')
 
 prepare() {
-  cd "${srcdir}/${pkgname}"
+  cd "${srcdir}/${pkgname}-${_commit}"
   # If there are submodules (unlikely here), uncomment:
   # git submodule update --init --recursive
 }
 
 build() {
-  cd "${srcdir}/${pkgname}"
+  cd "${srcdir}/${pkgname}-${_commit}"
   mkdir -p build
   meson setup build \
     --prefix=/usr \
-    -Ddrm-renderers=asahi-experimental \
-    -Dvideo=true
+    --libexecdir=lib/$pkgname \
+    -Dvideo=true \
+    -Ddrm-renderers=asahi \
+    -Dvenus=true
 
   meson compile -C build
 }
 
 package() {
-  cd "${srcdir}/${pkgname}"
+  cd "${srcdir}/${pkgname}-${_commit}"
   DESTDIR="${pkgdir}" meson install -C build
   install -D -m644 COPYING "$pkgdir/usr/share/licenses/$pkgname/COPYING"
 }
