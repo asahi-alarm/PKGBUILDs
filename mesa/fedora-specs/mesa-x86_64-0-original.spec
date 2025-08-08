@@ -1,3 +1,6 @@
+# prevent builds for Fedora 43 and later
+%if 0%{?fedora} && 0%{?fedora} < 43
+
 %dnl optionally do a minimal asahi specific build
 %bcond asahi_minimal %["%{_arch}" != "aarch64"]
 
@@ -16,10 +19,9 @@
 %dnl keep kmsro to package all unconditionally created dri driver symlinks
 %global with_kmsro  1
 
-%dnl build va/vdpau/xa/teflon/nine to avoid issues with vanished packages
+%dnl build va/vdpau/teflon to avoid issues with vanished packages
 %global with_vdpau  1
 %global with_va     1
-%global with_nine   1
 
 %ifnarch %{ix86}
 %global with_teflon 1
@@ -38,7 +40,6 @@
 %if !0%{?rhel}
 %global with_r300 1
 %global with_r600 1
-%global with_nine 1
 %global with_nouveau 1
 %if 0%{?with_vulkan_hw}
 %global with_nvk %{with_vulkan_hw}
@@ -57,11 +58,12 @@
 
 %ifarch %{ix86} x86_64
 %global with_crocus 1
-%global with_i915   1
 %global with_iris   1
-%global with_xa     1
 %global with_intel_clc 1
 %global intel_platform_vulkan %{?with_vulkan_hw:,intel,intel_hasvk}%{!?with_vulkan_hw:%{nil}}
+%if !0%{?rhel}
+%global with_i915   1
+%endif
 %endif
 %ifarch x86_64
 %if !0%{?with_vulkan_hw}
@@ -70,18 +72,18 @@
 %endif
 
 %ifarch aarch64 x86_64 %{ix86}
-%global with_kmsro     1
 %if !0%{?rhel}
-%global with_lima      1
-%global with_vc4       1
-%global with_etnaviv   1
-%global with_tegra     1
-%endif
 %global with_asahi     1
-%global with_freedreno 1
-%global with_panfrost  1
+%global with_d3d12     1
+%global with_etnaviv   1
+%global with_lima      1
+%global with_tegra     1
+%global with_vc4       1
 %global with_v3d       1
-%global with_xa        1
+%endif
+%global with_freedreno 1
+%global with_kmsro     1
+%global with_panfrost  1
 %if 0%{?with_asahi}
 %ifarch x86_64 %{ix86}
 %global with_asahi_fex_emu_overlay 1
@@ -106,21 +108,15 @@
 
 %global vulkan_drivers swrast,virtio%{?base_vulkan}%{?intel_platform_vulkan}%{?asahi_platform_vulkan}%{?extra_platform_vulkan}%{?with_nvk:,nouveau}
 
-%global asahi_mesa_ver 20250425
-%global git_tag asahi-%{asahi_mesa_ver}
-%global basever 25.1.0
-%global ver %{basever}-asahipre%{asahi_mesa_ver}
-
-
 Name:           mesa
 Summary:        Mesa graphics libraries
+%global ver 25.2.0
 Version:        %{lua:ver = string.gsub(rpm.expand("%{ver}"), "-", "~"); print(ver)}
-Release:        %autorelease -b 4
+Release:        2%{?dist}
 License:        MIT AND BSD-3-Clause AND SGI-B-2.0
 URL:            http://www.mesa3d.org
 
-# update rpkg.conf as well with the download URL path
-Source0:        https://gitlab.freedesktop.org/asahi/mesa/-/archive/%{git_tag}/mesa-%{git_tag}.tar.gz
+Source0:        https://archive.mesa3d.org/mesa-%{ver}.tar.xz
 # src/gallium/auxiliary/postprocess/pp_mlaa* have an ... interestingly worded license.
 # Source1 contains email correspondence clarifying the license terms.
 # Fedora opts to ignore the optional part of clause 2 and treat that code as 2 clause BSD.
@@ -128,7 +124,14 @@ Source1:        Mesa-MLAA-License-Clarification-Email.txt
 
 Patch10:        gnome-shell-glthread-disable.patch
 
-BuildRequires:  meson >= 1.3.0
+Patch20:        meson_1.5_rust_build.patch
+Patch21:        do_not_use_wl_display_dispatch_queue_timeout.diff
+
+%if 0%{?fedora} && 0%{?fedora} < 42
+BuildRequires:  meson >= 1.5.0
+%else
+BuildRequires:  meson >= 1.7.0
+%endif
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
 BuildRequires:  gettext
@@ -188,7 +191,7 @@ BuildRequires:  flatbuffers-devel
 BuildRequires:  flatbuffers-compiler
 BuildRequires:  xtensor-devel
 %endif
-%if 0%{?with_opencl} || 0%{?with_nvk} || 0%{?with_intel_clc} || 0%{?with_asahi}
+%if 0%{?with_opencl} || 0%{?with_nvk} || 0%{?with_intel_clc} || 0%{?with_asahi} || 0%{?with_panfrost}
 BuildRequires:  clang-devel
 BuildRequires:  pkgconfig(libclc)
 BuildRequires:  pkgconfig(SPIRV-Tools)
@@ -204,6 +207,7 @@ BuildRequires:  rustfmt
 BuildRequires:  (crate(paste) >= 1.0.14 with crate(paste) < 2)
 BuildRequires:  (crate(proc-macro2) >= 1.0.86 with crate(proc-macro2) < 2)
 BuildRequires:  (crate(quote) >= 1.0.33 with crate(quote) < 2)
+BuildRequires:  (crate(rustc-hash) >= 2.1.1 with crate(rustc-hash) < 3)
 BuildRequires:  (crate(syn/clone-impls) >= 2.0.86 with crate(syn/clone-impls) < 3)
 BuildRequires:  (crate(unicode-ident) >= 1.0.12 with crate(unicode-ident) < 2)
 %endif
@@ -222,6 +226,9 @@ BuildRequires:  glslang
 %if 0%{?with_vulkan_hw}
 BuildRequires:  pkgconfig(vulkan)
 %endif
+%if 0%{?with_d3d12}
+BuildRequires:  pkgconfig(DirectX-Headers) >= 1.614.1
+%endif
 
 %description
 %{summary}.
@@ -238,6 +245,7 @@ Obsoletes:      mesa-omx-drivers < %{?epoch:%{epoch}:}%{version}-%{release}
 Summary:        Mesa libGL runtime libraries
 Requires:       libglvnd-glx%{?_isa} >= 1:1.3.2
 Requires:       %{name}-dri-drivers%{?_isa} = %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      %{name}-libOSMesa < 25.1.0~rc2-1
 
 %description libGL
 %{summary}.
@@ -249,6 +257,7 @@ Requires:       libglvnd-devel%{?_isa} >= 1:1.3.2
 Provides:       libGL-devel
 Provides:       libGL-devel%{?_isa}
 Recommends:     gl-manpages
+Obsoletes:      %{name}-libOSMesa-devel < 25.1.0~rc2-1
 
 %description libGL-devel
 %{summary}.
@@ -280,6 +289,7 @@ Requires:       %{name}-filesystem%{?_isa} = %{?epoch:%{epoch}:}%{version}-%{rel
 Recommends:     %{name}-va-drivers%{?_isa}
 %endif
 Obsoletes:      %{name}-libglapi < 25.0.0~rc2-1
+Provides:       %{name}-libglapi >= 25.0.0~rc2-1
 
 %description dri-drivers
 %{summary}.
@@ -325,25 +335,6 @@ Provides:       libgbm-devel%{?_isa}
 %description libgbm-devel
 %{summary}.
 
-%if 0%{?with_xa}
-%package libxatracker
-Summary:        Mesa XA state tracker
-Provides:       libxatracker
-Provides:       libxatracker%{?_isa}
-
-%description libxatracker
-%{summary}.
-
-%package libxatracker-devel
-Summary:        Mesa XA state tracker development package
-Requires:       %{name}-libxatracker%{?_isa} = %{?epoch:%{epoch}:}%{version}-%{release}
-Provides:       libxatracker-devel
-Provides:       libxatracker-devel%{?_isa}
-
-%description libxatracker-devel
-%{summary}.
-%endif
-
 %if 0%{?with_opencl}
 %package libOpenCL
 Summary:        Mesa OpenCL runtime library
@@ -368,21 +359,6 @@ Requires:       %{name}-libOpenCL%{?_isa} = %{?epoch:%{epoch}:}%{version}-%{rele
 Summary:        Mesa TensorFlow Lite delegate
 
 %description libTeflon
-%{summary}.
-%endif
-
-%if 0%{?with_nine}
-%package libd3d
-Summary:        Mesa Direct3D9 state tracker
-
-%description libd3d
-%{summary}.
-
-%package libd3d-devel
-Summary:        Mesa Direct3D9 state tracker development package
-Requires:       %{name}-libd3d%{?_isa} = %{?epoch:%{epoch}:}%{version}-%{release}
-
-%description libd3d-devel
 %{summary}.
 %endif
 
@@ -411,11 +387,8 @@ Mesa EGL/GL libraries and Gallium/OpenCL/Vulkan drivers for FEX-emu roots file s
 %endif
 
 %prep
-%autosetup -n %{name}-%{git_tag} -p1
+%autosetup -n %{name}-%{ver} -p1
 cp %{SOURCE1} docs/
-
-# patch VERSION to contain the asahi tag name
-echo %{basever}-asahi%{asahi_mesa_ver} > VERSION
 
 %build
 # ensure standard Rust compiler flags are set
@@ -442,16 +415,14 @@ export MESON_PACKAGE_CACHE_DIR="%{cargo_registry}/"
 %meson \
   -Dplatforms=x11,wayland \
 %if 0%{?with_hardware}
-  -Dgallium-drivers=llvmpipe,virgl%{?with_nouveau:,nouveau}%{?with_r300:,r300}%{?with_crocus:,crocus}%{?with_i915:,i915}%{?with_iris:,iris}%{?with_vmware:,svga}%{?with_radeonsi:,radeonsi}%{?with_r600:,r600}%{?with_freedreno:,freedreno}%{?with_etnaviv:,etnaviv}%{?with_tegra:,tegra}%{?with_vc4:,vc4}%{?with_v3d:,v3d}%{?with_lima:,lima}%{?with_panfrost:,panfrost}%{?with_vulkan_hw:,zink}%{?with_asahi:,asahi} \
+  -Dgallium-drivers=llvmpipe,virgl%{?with_nouveau:,nouveau}%{?with_r300:,r300}%{?with_crocus:,crocus}%{?with_i915:,i915}%{?with_iris:,iris}%{?with_vmware:,svga}%{?with_radeonsi:,radeonsi}%{?with_r600:,r600}%{?with_asahi:,asahi}%{?with_freedreno:,freedreno}%{?with_etnaviv:,etnaviv}%{?with_tegra:,tegra}%{?with_vc4:,vc4}%{?with_v3d:,v3d}%{?with_lima:,lima}%{?with_panfrost:,panfrost}%{?with_vulkan_hw:,zink}%{?with_d3d12:,d3d12} \
 %else
   -Dgallium-drivers=llvmpipe,virgl \
 %endif
   -Dgallium-vdpau=%{?with_vdpau:enabled}%{!?with_vdpau:disabled} \
   -Dgallium-va=%{?with_va:enabled}%{!?with_va:disabled} \
-  -Dgallium-xa=%{?with_xa:enabled}%{!?with_xa:disabled} \
-  -Dgallium-nine=%{?with_nine:true}%{!?with_nine:false} \
+  -Dgallium-mediafoundation=disabled \
   -Dteflon=%{?with_teflon:true}%{!?with_teflon:false} \
-  -Dgallium-opencl=%{?with_opencl:icd}%{!?with_opencl:disabled} \
 %if 0%{?with_opencl}
   -Dgallium-rusticl=true \
 %endif
@@ -499,9 +470,15 @@ rm -vf %{buildroot}%{_libdir}/libEGL_mesa.so
 # XXX can we just not build this
 rm -vf %{buildroot}%{_libdir}/libGLES*
 
+%if ! 0%{?with_asahi}
+# This symlink is unconditionally created when any kmsro driver is enabled
+# We don't want this one so delete it
+rm -vf %{buildroot}%{_libdir}/dri/apple_dri.so
+%endif
+
 # glvnd needs a default provider for indirect rendering where it cannot
 # determine the vendor
-ln -s libGLX_mesa.so.0 %{buildroot}%{_libdir}/libGLX_system.so.0
+ln -s %{_libdir}/libGLX_mesa.so.0 %{buildroot}%{_libdir}/libGLX_system.so.0
 
 # this keeps breaking, check it early.  note that the exit from eu-ftr is odd.
 pushd %{buildroot}%{_libdir}
@@ -619,23 +596,6 @@ install -Dpm0644 -t %{buildroot}%{_datadir}/fex-emu/overlays/ mesa-%{_arch}.erof
 %{_includedir}/gbm_backend_abi.h
 %{_libdir}/pkgconfig/gbm.pc
 
-%if 0%{?with_xa}
-%files libxatracker
-%if 0%{?with_hardware}
-%{_libdir}/libxatracker.so.2
-%{_libdir}/libxatracker.so.2.*
-%endif
-
-%files libxatracker-devel
-%if 0%{?with_hardware}
-%{_libdir}/libxatracker.so
-%{_includedir}/xa_tracker.h
-%{_includedir}/xa_composite.h
-%{_includedir}/xa_context.h
-%{_libdir}/pkgconfig/xatracker.pc
-%endif
-%endif
-
 %if 0%{?with_teflon}
 %files libTeflon
 %{_libdir}/libteflon.so
@@ -643,25 +603,11 @@ install -Dpm0644 -t %{buildroot}%{_datadir}/fex-emu/overlays/ mesa-%{_arch}.erof
 
 %if 0%{?with_opencl}
 %files libOpenCL
-%{_libdir}/libMesaOpenCL.so.*
 %{_libdir}/libRusticlOpenCL.so.*
-%{_sysconfdir}/OpenCL/vendors/mesa.icd
 %{_sysconfdir}/OpenCL/vendors/rusticl.icd
 
 %files libOpenCL-devel
-%{_libdir}/libMesaOpenCL.so
 %{_libdir}/libRusticlOpenCL.so
-%endif
-
-%if 0%{?with_nine}
-%files libd3d
-%dir %{_libdir}/d3d/
-%{_libdir}/d3d/*.so.*
-
-%files libd3d-devel
-%{_libdir}/pkgconfig/d3d.pc
-%{_includedir}/d3dadapter/
-%{_libdir}/d3d/*.so
 %endif
 
 %files dri-drivers
@@ -683,24 +629,25 @@ install -Dpm0644 -t %{buildroot}%{_datadir}/fex-emu/overlays/ mesa-%{_arch}.erof
 %endif
 %{_libdir}/dri/radeonsi_dri.so
 %endif
-%ifarch %{ix86} x86_64 aarch64
-%if 0%{?with_asahi}
-%{_libdir}/dri/apple_dri.so
-%{_libdir}/dri/asahi_dri.so
-%endif
-%endif
 %ifarch %{ix86} x86_64
 %if 0%{?with_crocus}
 %{_libdir}/dri/crocus_dri.so
 %endif
-%if 0%{?with_i915}
-%{_libdir}/dri/i915_dri.so
-%endif
 %if 0%{?with_iris}
 %{_libdir}/dri/iris_dri.so
 %endif
+%if 0%{?with_i915}
+%{_libdir}/dri/i915_dri.so
+%endif
 %endif
 %ifarch aarch64 x86_64 %{ix86}
+%if 0%{?with_asahi}
+%{_libdir}/dri/apple_dri.so
+%{_libdir}/dri/asahi_dri.so
+%endif
+%if 0%{?with_d3d12}
+%{_libdir}/dri/d3d12_dri.so
+%endif
 %{_libdir}/dri/ingenic-drm_dri.so
 %{_libdir}/dri/imx-drm_dri.so
 %{_libdir}/dri/imx-lcdif_dri.so
@@ -741,10 +688,6 @@ install -Dpm0644 -t %{buildroot}%{_datadir}/fex-emu/overlays/ mesa-%{_arch}.erof
 %if 0%{?with_vmware}
 %{_libdir}/dri/vmwgfx_dri.so
 %endif
-%endif
-%if 0%{?with_opencl}
-%dir %{_libdir}/gallium-pipe
-%{_libdir}/gallium-pipe/*.so
 %endif
 %if 0%{?with_kmsro}
 %{_libdir}/dri/armada-drm_dri.so
@@ -789,6 +732,9 @@ install -Dpm0644 -t %{buildroot}%{_datadir}/fex-emu/overlays/ mesa-%{_arch}.erof
 %if 0%{?with_radeonsi}
 %{_libdir}/dri/radeonsi_drv_video.so
 %endif
+%if 0%{?with_d3d12}
+%{_libdir}/dri/d3d12_drv_video.so
+%endif
 %{_libdir}/dri/virtio_gpu_drv_video.so
 %endif
 
@@ -804,16 +750,19 @@ install -Dpm0644 -t %{buildroot}%{_datadir}/fex-emu/overlays/ mesa-%{_arch}.erof
 %if 0%{?with_radeonsi}
 %{_libdir}/vdpau/libvdpau_radeonsi.so.1*
 %endif
+%if 0%{?with_d3d12}
+%{_libdir}/vdpau/libvdpau_d3d12.so.1*
+%endif
 %{_libdir}/vdpau/libvdpau_virtio_gpu.so.1*
 %endif
 
 %files vulkan-drivers
 %{_libdir}/libvulkan_lvp.so
 %{_datadir}/vulkan/icd.d/lvp_icd.*.json
-%{_libdir}/libvulkan_virtio.so
-%{_datadir}/vulkan/icd.d/virtio_icd.*.json
 %{_libdir}/libVkLayer_MESA_device_select.so
 %{_datadir}/vulkan/implicit_layer.d/VkLayer_MESA_device_select.json
+%{_libdir}/libvulkan_virtio.so
+%{_datadir}/vulkan/icd.d/virtio_icd.*.json
 %if 0%{?with_vulkan_hw}
 %if "%{?base_vulkan}" != ""
 %{_libdir}/libvulkan_radeon.so
@@ -855,6 +804,9 @@ install -Dpm0644 -t %{buildroot}%{_datadir}/fex-emu/overlays/ mesa-%{_arch}.erof
 %files fex-emu-overlay-%{_arch}
 %{_datadir}/fex-emu/overlays/mesa-%{_arch}.erofs
 %doc docs/Mesa-MLAA-License-Clarification-Email.txt
+%endif
+
+# end of the Fedora 43+ condition, changelog must stay outside of it
 %endif
 
 %changelog

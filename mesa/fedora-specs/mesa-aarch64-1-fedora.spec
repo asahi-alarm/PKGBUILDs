@@ -1,18 +1,23 @@
 
 Name:           mesa
 Summary:        Mesa graphics libraries
-Version:        25.1.0~asahipre20250425
-Release:        1
+
+Version:        25.2.0
+Release:        2
 License:        MIT AND BSD-3-Clause AND SGI-B-2.0
 URL:            http://www.mesa3d.org
 
-Source0:        https://gitlab.freedesktop.org/asahi/mesa/-/archive/asahi-20250425/mesa-asahi-20250425.tar.gz
+Source0:        https://archive.mesa3d.org/mesa-25.2.0.tar.xz
 
 Source1:        Mesa-MLAA-License-Clarification-Email.txt
 
 Patch10:        gnome-shell-glthread-disable.patch
 
-BuildRequires:  meson >= 1.3.0
+Patch20:        meson_1.5_rust_build.patch
+Patch21:        do_not_use_wl_display_dispatch_queue_timeout.diff
+
+BuildRequires:  meson >= 1.7.0
+
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
 BuildRequires:  gettext
@@ -90,8 +95,8 @@ Mesa graphics libraries.
 
 %package filesystem
 Summary:        Mesa driver filesystem
-Provides:       mesa-dri-filesystem = 25.1.0~asahipre20250425-1
-Obsoletes:      mesa-omx-drivers < 25.1.0~asahipre20250425-1
+Provides:       mesa-dri-filesystem = 25.2.0-2
+Obsoletes:      mesa-omx-drivers < 25.2.0-2
 
 %description filesystem
 Mesa driver filesystem.
@@ -99,18 +104,20 @@ Mesa driver filesystem.
 %package libGL
 Summary:        Mesa libGL runtime libraries
 Requires:       libglvnd-glx(aarch-64) >= 1:1.3.2
-Requires:       mesa-dri-drivers(aarch-64) = 25.1.0~asahipre20250425-1
+Requires:       mesa-dri-drivers(aarch-64) = 25.2.0-2
+Obsoletes:      mesa-libOSMesa < 25.1.0~rc2-1
 
 %description libGL
 Mesa libGL runtime libraries.
 
 %package libGL-devel
 Summary:        Mesa libGL development package
-Requires:       (mesa-libGL(aarch-64) = 25.1.0~asahipre20250425-1 if mesa-libGL(aarch-64))
+Requires:       (mesa-libGL(aarch-64) = 25.2.0-2 if mesa-libGL(aarch-64))
 Requires:       libglvnd-devel(aarch-64) >= 1:1.3.2
 Provides:       libGL-devel
 Provides:       libGL-devel(aarch-64)
 Recommends:     gl-manpages
+Obsoletes:      mesa-libOSMesa-devel < 25.1.0~rc2-1
 
 %description libGL-devel
 Mesa libGL development package.
@@ -118,15 +125,15 @@ Mesa libGL development package.
 %package libEGL
 Summary:        Mesa libEGL runtime libraries
 Requires:       libglvnd-egl(aarch-64) >= 1:1.3.2
-Requires:       mesa-libgbm(aarch-64) = 25.1.0~asahipre20250425-1
-Requires:       mesa-dri-drivers(aarch-64) = 25.1.0~asahipre20250425-1
+Requires:       mesa-libgbm(aarch-64) = 25.2.0-2
+Requires:       mesa-dri-drivers(aarch-64) = 25.2.0-2
 
 %description libEGL
 Mesa libEGL runtime libraries.
 
 %package libEGL-devel
 Summary:        Mesa libEGL development package
-Requires:       (mesa-libEGL(aarch-64) = 25.1.0~asahipre20250425-1 if mesa-libEGL(aarch-64))
+Requires:       (mesa-libEGL(aarch-64) = 25.2.0-2 if mesa-libEGL(aarch-64))
 Requires:       libglvnd-devel(aarch-64) >= 1:1.3.2
 Requires:       mesa-khr-devel(aarch-64)
 Provides:       libEGL-devel
@@ -137,18 +144,19 @@ Mesa libEGL development package.
 
 %package dri-drivers
 Summary:        Mesa-based DRI drivers
-Requires:       mesa-filesystem(aarch-64) = 25.1.0~asahipre20250425-1
+Requires:       mesa-filesystem(aarch-64) = 25.2.0-2
 
 Recommends:     mesa-va-drivers(aarch-64)
 
 Obsoletes:      mesa-libglapi < 25.0.0~rc2-1
+Provides:       mesa-libglapi >= 25.0.0~rc2-1
 
 %description dri-drivers
 Mesa-based DRI drivers.
 
 %package        va-drivers
 Summary:        Mesa-based VA-API video acceleration drivers
-Requires:       mesa-filesystem(aarch-64) = 25.1.0~asahipre20250425-1
+Requires:       mesa-filesystem(aarch-64) = 25.2.0-2
 Obsoletes:      mesa-vaapi-drivers < 22.2.0-5
 
 %description va-drivers
@@ -156,7 +164,7 @@ Mesa-based VA-API video acceleration drivers.
 
 %package        vdpau-drivers
 Summary:        Mesa-based VDPAU drivers
-Requires:       mesa-filesystem(aarch-64) = 25.1.0~asahipre20250425-1
+Requires:       mesa-filesystem(aarch-64) = 25.2.0-2
 
 %description vdpau-drivers
 Mesa-based VDPAU drivers.
@@ -165,16 +173,16 @@ Mesa-based VDPAU drivers.
 Summary:        Mesa gbm runtime library
 Provides:       libgbm
 Provides:       libgbm(aarch-64)
-Recommends:     mesa-dri-drivers(aarch-64) = 25.1.0~asahipre20250425-1
+Recommends:     mesa-dri-drivers(aarch-64) = 25.2.0-2
 
-Requires:       (mesa-dri-drivers(aarch-64) = 25.1.0~asahipre20250425-1 if mesa-dri-drivers(aarch-64))
+Requires:       (mesa-dri-drivers(aarch-64) = 25.2.0-2 if mesa-dri-drivers(aarch-64))
 
 %description libgbm
 Mesa gbm runtime library.
 
 %package libgbm-devel
 Summary:        Mesa libgbm development package
-Requires:       mesa-libgbm(aarch-64) = 25.1.0~asahipre20250425-1
+Requires:       mesa-libgbm(aarch-64) = 25.2.0-2
 Provides:       libgbm-devel
 Provides:       libgbm-devel(aarch-64)
 
@@ -185,7 +193,7 @@ Mesa libgbm development package.
 Summary:        Mesa OpenCL runtime library
 Requires:       (ocl-icd(aarch-64) or OpenCL-ICD-Loader(aarch-64))
 Requires:       libclc(aarch-64)
-Requires:       mesa-libgbm(aarch-64) = 25.1.0~asahipre20250425-1
+Requires:       mesa-libgbm(aarch-64) = 25.2.0-2
 Requires:       opencl-filesystem
 
 %description libOpenCL
@@ -193,7 +201,7 @@ Mesa OpenCL runtime library.
 
 %package libOpenCL-devel
 Summary:        Mesa OpenCL development package
-Requires:       mesa-libOpenCL(aarch-64) = 25.1.0~asahipre20250425-1
+Requires:       mesa-libOpenCL(aarch-64) = 25.2.0-2
 
 %description libOpenCL-devel
 Mesa OpenCL development package.
@@ -204,24 +212,11 @@ Summary:        Mesa TensorFlow Lite delegate
 %description libTeflon
 Mesa TensorFlow Lite delegate.
 
-%package libd3d
-Summary:        Mesa Direct3D9 state tracker
-
-%description libd3d
-Mesa Direct3D9 state tracker.
-
-%package libd3d-devel
-Summary:        Mesa Direct3D9 state tracker development package
-Requires:       mesa-libd3d(aarch-64) = 25.1.0~asahipre20250425-1
-
-%description libd3d-devel
-Mesa Direct3D9 state tracker development package.
-
 %package vulkan-drivers
 Summary:        Mesa Vulkan drivers
 Requires:       vulkan(aarch-64)
-Requires:       mesa-filesystem(aarch-64) = 25.1.0~asahipre20250425-1
-Obsoletes:      mesa-vulkan-devel < 25.1.0~asahipre20250425-1
+Requires:       mesa-filesystem(aarch-64) = 25.2.0-2
+Obsoletes:      mesa-vulkan-devel < 25.2.0-2
 
 %description vulkan-drivers
 The drivers with support for the Vulkan API.
@@ -229,22 +224,25 @@ The drivers with support for the Vulkan API.
 %prep
 
 cd './'
-rm -rf 'mesa-asahi-20250425'
-rpmuncompress -x 'mesa-asahi-20250425.tar.gz'
+rm -rf 'mesa-25.2.0'
+rpmuncompress -x 'mesa-25.2.0.tar.xz'
 STATUS=$?
 if [ $STATUS -ne 0 ]; then
   exit $STATUS
 fi
-cd 'mesa-asahi-20250425'
+cd 'mesa-25.2.0'
 chmod -Rf a+rX,u+w,g-w,o-w .
 
 rpmuncompress gnome-shell-glthread-disable.patch | 
 patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
 
-cp Mesa-MLAA-License-Clarification-Email.txt docs/
+rpmuncompress meson_1.5_rust_build.patch | 
+patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
 
-# patch VERSION to contain the asahi tag name
-echo 25.1.0-asahi20250425 > VERSION
+rpmuncompress do_not_use_wl_display_dispatch_queue_timeout.diff | 
+patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
+
+cp Mesa-MLAA-License-Clarification-Email.txt docs/
 
 %build
 # ensure standard Rust compiler flags are set
@@ -256,13 +254,11 @@ export RUSTFLAGS="%build_rustflags"
 
 %meson \
   -Dplatforms=x11,wayland \
-  -Dgallium-drivers=llvmpipe,virgl,zink,asahi \
+  -Dgallium-drivers=llvmpipe,virgl,asahi,zink \
   -Dgallium-vdpau=enabled \
   -Dgallium-va=enabled \
-  -Dgallium-xa=disabled \
-  -Dgallium-nine=true \
+  -Dgallium-mediafoundation=disabled \
   -Dteflon=true \
-  -Dgallium-opencl=icd \
   -Dgallium-rusticl=true \
   -Dvulkan-drivers=swrast,virtio,asahi \
   -Dvulkan-layers=device-select \
@@ -298,7 +294,7 @@ rm -vf fakeinstall/usr/lib/libGLES*
 
 # glvnd needs a default provider for indirect rendering where it cannot
 # determine the vendor
-ln -s libGLX_mesa.so.0 fakeinstall/usr/lib/libGLX_system.so.0
+ln -s /usr/lib/libGLX_mesa.so.0 fakeinstall/usr/lib/libGLX_system.so.0
 
 # this keeps breaking, check it early.  note that the exit from eu-ftr is odd.
 pushd fakeinstall/usr/lib
@@ -342,23 +338,11 @@ popd
 /usr/lib/libteflon.so
 
 %files libOpenCL
-/usr/lib/libMesaOpenCL.so.*
 /usr/lib/libRusticlOpenCL.so.*
-/etc/OpenCL/vendors/mesa.icd
 /etc/OpenCL/vendors/rusticl.icd
 
 %files libOpenCL-devel
-/usr/lib/libMesaOpenCL.so
 /usr/lib/libRusticlOpenCL.so
-
-%files libd3d
-%dir /usr/lib/d3d/
-/usr/lib/d3d/*.so.*
-
-%files libd3d-devel
-/usr/lib/pkgconfig/d3d.pc
-/usr/include/d3dadapter/
-/usr/lib/d3d/*.so
 
 %files dri-drivers
 /usr/share/drirc.d/00-mesa-defaults.conf
@@ -381,8 +365,6 @@ popd
 /usr/lib/dri/mxsfb-drm_dri.so
 /usr/lib/dri/rcar-du_dri.so
 /usr/lib/dri/stm_dri.so
-%dir /usr/lib/gallium-pipe
-/usr/lib/gallium-pipe/*.so
 /usr/lib/dri/armada-drm_dri.so
 /usr/lib/dri/exynos_dri.so
 /usr/lib/dri/gm12u320_dri.so
@@ -421,10 +403,10 @@ popd
 %files vulkan-drivers
 /usr/lib/libvulkan_lvp.so
 /usr/share/vulkan/icd.d/lvp_icd.*.json
-/usr/lib/libvulkan_virtio.so
-/usr/share/vulkan/icd.d/virtio_icd.*.json
 /usr/lib/libVkLayer_MESA_device_select.so
 /usr/share/vulkan/implicit_layer.d/VkLayer_MESA_device_select.json
+/usr/lib/libvulkan_virtio.so
+/usr/share/vulkan/icd.d/virtio_icd.*.json
 /usr/lib/libvulkan_asahi.so
 /usr/share/vulkan/icd.d/asahi_icd.*.json
 
