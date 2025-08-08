@@ -1,15 +1,14 @@
-%global asahi_virglrenderer_ver 20250424
-%global tag asahi-%{asahi_virglrenderer_ver}
-%global baseversion 1.1.1
+%global commit b997bc18fafdcb8e563b7b07b54412ea61e12082
+%{?commit:%global shortcommit %(c=%{commit}; echo ${c:0:7})}
 
 Name:		virglrenderer
-Version:	%{baseversion}^asahipost%{asahi_virglrenderer_ver}
+Version:	1.1.1^git20250806.%{shortcommit}
 Release:	1%{?dist}
 
 Summary:	Virgl Rendering library.
 License:	MIT
 
-Source0: https://gitlab.freedesktop.org/asahi/virglrenderer/-/archive/%{tag}/virglrenderer-%{tag}.tar.bz2
+Source0: https://gitlab.freedesktop.org/virgl/virglrenderer/-/archive/%{commit}/virglrenderer-%{commit}.tar.bz2
 
 BuildRequires:  meson
 BuildRequires:  gcc
@@ -47,9 +46,9 @@ that can be used along with the mesa virgl
 driver to test virgl rendering without GL.
 
 %prep
-%autosetup -n %{name}-%{tag} -p1
+%autosetup -n %{name}-%{commit} -p1
 %build
-%meson -Dvideo=true -Ddrm-renderers=asahi-experimental
+%meson -Dvideo=true -Ddrm-renderers=asahi -Dvenus=true
 %meson_build
 
 %install
@@ -60,6 +59,7 @@ driver to test virgl rendering without GL.
 %files
 %license COPYING
 %{_libdir}/lib*.so.*
+%{_libexecdir}/virgl_render_server
 
 %files devel
 %dir %{_includedir}/virgl/
@@ -71,6 +71,9 @@ driver to test virgl rendering without GL.
 %{_bindir}/virgl_test_server
 
 %changelog
+* Wed Aug 06 2025 Janne Grunau <janne-fdr@jannau.net> - 1.1.1^git20250806.b997bc1-1
+- Bump to virglrenderer-1.1.1^git20250806.b997bc1
+
 * Wed Dec 04 2024 Asahi Lina <lina@asahilina.net> - 1.0.1^asahipost20241205.2-1
 - Bump to virglrenderer-asahi-20241205.2
 
