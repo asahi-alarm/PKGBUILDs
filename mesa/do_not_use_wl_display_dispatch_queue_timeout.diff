@@ -1,0 +1,13 @@
+diff --git c/meson.build i/meson.build
+index aa485a262f5..1dd8f395c6c 100644
+--- c/meson.build
++++ i/meson.build
+@@ -2017,7 +2017,7 @@ if with_platform_wayland
+   endif
+   pre_args += '-DWL_HIDE_DEPRECATED'
+   if cc.has_function(
+-      'wl_display_dispatch_queue_timeout',
++      'omit_wl_display_dispatch_queue_timeout_',
+       prefix : '#include <wayland-client.h>',
+       dependencies: dep_wayland_client)
+     pre_args += ['-DHAVE_WL_DISPATCH_QUEUE_TIMEOUT']
