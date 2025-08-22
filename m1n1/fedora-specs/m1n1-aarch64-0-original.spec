@@ -17,7 +17,7 @@ m1n1 is the bootloader developed by the Asahi Linux project to bridge the Apple
 (XNU) boot ecosystem to the Linux boot ecosystem.}
 
 Name:           m1n1
-Version:        1.4.21
+Version:        1.5.0
 Release:        %autorelease
 Summary:        Bootloader and experimentation playground for Apple Silicon
 
@@ -106,9 +106,8 @@ This package contains various developer tools for m1n1.
 
 # Use our logos
 pushd data
-rm bootlogo_{128,256}.{bin,png}
-ln -s %{_datadir}/pixmaps/bootloader/bootlogo_{128,256}.png .
-./makelogo.sh
+ln -s %{_datadir}/pixmaps/bootloader/bootlogo_128.png fedora_128.png
+ln -s %{_datadir}/pixmaps/bootloader/bootlogo_256.png fedora_256.png
 popd
 
 # Use our fonts
@@ -137,7 +136,7 @@ cd rust
 
 %build
 %if %{with chainloading}
-%make_build %{buildflags} CHAINLOADING=1
+%make_build %{buildflags} CHAINLOADING=1 LOGO=fedora
 mv build build-stage1
 pushd rust
 %{cargo_license_summary}
@@ -145,13 +144,14 @@ pushd rust
 popd
 %endif
 
-%make_build %{buildflags}
+%make_build %{buildflags} LOGO=fedora
 
 %install
-install -Dpm0644 -t %{buildroot}%{_libdir}/%{name} build/%{name}.{bin,macho}
+install -Dpm0644 -t %{buildroot}%{_libdir}/%{name} \
+  build/%{name}.{bin,macho} build/%{name}-asahi.bin
 %if %{with chainloading}
 install -Dpm0644 -t %{buildroot}%{_libdir}/%{name}-stage1 \
-  build-stage1/%{name}.{bin,macho}
+  build-stage1/%{name}.{bin,macho} build-stage1/%{name}-asahi.bin
 %endif
 install -Ddpm0755 %{buildroot}%{_libexecdir}/%{name}
 cp -pr proxyclient tools %{buildroot}%{_libexecdir}/%{name}/

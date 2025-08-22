@@ -1,12 +1,12 @@
 
   Name:           m1n1
-  Version:        1.4.21
+  Version:        1.5.0
   Release:        1
   Summary:        Bootloader and experimentation playground for Apple Silicon
 
   License:        MIT AND CC0-1.0 AND OFL-1.1-RFN AND Zlib AND (BSD-2-Clause OR GPL-2.0-or-later) AND (BSD-3-Clause OR GPL-2.0-or-later)
   URL:            https://github.com/AsahiLinux/m1n1
-  Source:         https://github.com/AsahiLinux/m1n1/archive/v1.4.21/m1n1-1.4.21.tar.gz
+  Source:         https://github.com/AsahiLinux/m1n1/archive/v1.5.0/m1n1-1.5.0.tar.gz
   Source:         https://github.com/rafalh/rust-fatfs/archive/87fc1ed5074a32b4e0344fcdde77359ef9e75432/rust-fatfs-87fc1ed5074a32b4e0344fcdde77359ef9e75432.tar.gz
 
   Patch:          m1n1-rust-deps.patch
@@ -56,7 +56,7 @@
 
   %package        tools
   Summary:        Developer tools for m1n1
-  Requires:       m1n1 = 1.4.21-1
+  Requires:       m1n1 = 1.5.0-1
   Requires:       python3
   Requires:       python3dist(construct)
   Requires:       python3dist(pyserial)
@@ -72,20 +72,19 @@
 prepare() {
 
   cd './'
-  rm -rf 'm1n1-1.4.21'
-  tar -xf 'm1n1-1.4.21.tar.gz'
+  rm -rf 'm1n1-1.5.0'
+  tar -xf 'm1n1-1.5.0.tar.gz'
   STATUS=$?
   if [ $STATUS -ne 0 ]; then
     exit $STATUS
   fi
-  cd 'm1n1-1.4.21'
+  cd 'm1n1-1.5.0'
   chmod -Rf a+rX,u+w,g-w,o-w .
 
   # Use our logos
   pushd data
-  rm bootlogo_{128,256}.{bin,png}
-  ln -s /usr/share/pixmaps/bootloader/bootlogo_{128,256}.png .
-  ./makelogo.sh
+  ln -s /usr/share/pixmaps/bootloader/bootlogo_128.png fedora_128.png
+  ln -s /usr/share/pixmaps/bootloader/bootlogo_256.png fedora_256.png
   popd
 
   # Use our fonts
@@ -116,21 +115,22 @@ prepare() {
 }
 
 build() {
-  /usr/bin/make -O -j${RPM_BUILD_NCPUS} V=1 VERBOSE=1 RELEASE=1 CHAINLOADING=1
+  /usr/bin/make -O -j${RPM_BUILD_NCPUS} V=1 VERBOSE=1 RELEASE=1 CHAINLOADING=1 LOGO=fedora
   mv build build-stage1
   pushd rust
   %{cargo_license_summary}
   %{cargo_license} > LICENSE.dependencies
   popd
 
-  /usr/bin/make -O -j${RPM_BUILD_NCPUS} V=1 VERBOSE=1 RELEASE=1
+  /usr/bin/make -O -j${RPM_BUILD_NCPUS} V=1 VERBOSE=1 RELEASE=1 LOGO=fedora
 
 }
 
 package() {
-  install -Dpm0644 -t fakeinstall/usr/lib/m1n1 build/m1n1.{bin,macho}
+  install -Dpm0644 -t fakeinstall/usr/lib/m1n1 \
+    build/m1n1.{bin,macho} build/m1n1-asahi.bin
   install -Dpm0644 -t fakeinstall/usr/lib/m1n1-stage1 \
-    build-stage1/m1n1.{bin,macho}
+    build-stage1/m1n1.{bin,macho} build-stage1/m1n1-asahi.bin
   install -Ddpm0755 fakeinstall/usr/lib/m1n1/m1n1
   cp -pr proxyclient tools fakeinstall/usr/lib/m1n1/m1n1/
   install -Dpm0644 -t fakeinstall%{_udevrulesdir} udev/80-m1n1.rules
