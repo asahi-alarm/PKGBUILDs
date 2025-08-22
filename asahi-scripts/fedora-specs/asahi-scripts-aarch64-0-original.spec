@@ -9,6 +9,9 @@ Source:         %{url}/archive/%{version}/%{name}-%{version}.tar.gz
 Source:         update-m1n1.sysconfig
 Source2:        15-update-m1n1.install
 
+Patch01:        0001-update-m1n1-Expand-DTBS-if-it-is-a-directory.patch
+Patch02:        0002-fedora-update-m1n1-handle-dangling-boot-dtb-symlinks.patch
+
 BuildArch:      noarch
 
 BuildRequires:  make
