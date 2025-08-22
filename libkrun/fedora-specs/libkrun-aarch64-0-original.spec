@@ -9,7 +9,7 @@
 %endif
 
 Name:           libkrun
-Version:        1.13.0
+Version:        1.14.0
 Release:        1%{?dist}
 Summary:        Dynamic library providing Virtualization-based process isolation capabilities
 
@@ -24,8 +24,10 @@ Source1:        %{name}-%{version}-vendor.tar.xz
 # Remove references to unused deps so we don't need to install them for
 # building this package
 Patch0:         libkrun-remove-unused-deps.diff
+# Disable nitro until the dependencies are packaged.
+Patch1:         libkrun-remove-nitro-deps.diff
 # For aarch64, remove references to SEV deps which are only available on x86_64
-Patch1:         libkrun-remove-sev-deps.diff
+Patch2:         libkrun-remove-sev-deps.diff
 %endif
 
 # libkrun only supports x86_64 and aarch64
@@ -62,10 +64,10 @@ BuildRequires:  libfdt-devel
 BuildRequires:  crate(libc/default) >= 0.2.39
 BuildRequires:  crate(vm-memory/backend-mmap) >= 0.16.0
 BuildRequires:  crate(vm-memory/default) >= 0.16.0
-BuildRequires:  crate(kvm-bindings/default) >= 0.10.0
-BuildRequires:  crate(kvm-bindings/fam-wrappers) >= 0.10.0
-BuildRequires:  crate(kvm-ioctls/default) >= 0.19.0
-BuildRequires:  crate(vmm-sys-util/default) >= 0.12.0
+BuildRequires:  crate(kvm-bindings/default) >= 0.13.0
+BuildRequires:  crate(kvm-bindings/fam-wrappers) >= 0.13.0
+BuildRequires:  crate(kvm-ioctls/default) >= 0.23.0
+BuildRequires:  crate(vmm-sys-util/default) >= 0.14.0
 BuildRequires:  crate(vm-fdt/default) >= 0.2.0
 BuildRequires:  (crate(virtio-bindings/default) >= 0.2.0 with crate(virtio-bindings/default) < 0.3.0~)
 BuildRequires:  (crate(bitflags/default) >= 1.2.0 with crate(bitflags/default) < 2.0.0~)
@@ -145,9 +147,10 @@ capabilities.
 %cargo_prep -v vendor
 %else
 %setup -q -n %{name}-%{version_no_tilde}
-%patch -P 0 -p1
+%patch -P 0 -p2
+%patch -P 1 -p2
 %ifnarch x86_64
-%patch -P 1 -p1
+%patch -P 2 -p2
 %endif
 %cargo_prep
 %endif
@@ -210,6 +213,12 @@ capabilities.
 %endif
 
 %changelog
+* Mon Aug 04 2025 Sergio Lopez <slp@redhat.com> - 1.14.0-1
+- Update to version 1.14.0
+
+* Thu Jul 24 2025 Fedora Release Engineering <releng@fedoraproject.org> - 1.13.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_43_Mass_Rebuild
+
 * Wed Jun 04 2025 Sergio Lopez <slp@redhat.com> - 1.13.0-1
 - Update to version 1.13.0
 

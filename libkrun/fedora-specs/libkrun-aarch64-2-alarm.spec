@@ -1,16 +1,18 @@
 
   Name:           libkrun
-  Version:        1.13.0
+  Version:        1.14.0
   Release:        1
   Summary:        Dynamic library providing Virtualization-based process isolation capabilities
 
   License:        Apache-2.0
   URL:            https://github.com/containers/libkrun
-  Source:         https://github.com/containers/libkrun/archive/refs/tags/v1.13.0.tar.gz
+  Source:         https://github.com/containers/libkrun/archive/refs/tags/v1.14.0.tar.gz
 
   Patch0:         libkrun-remove-unused-deps.diff
 
-  Patch1:         libkrun-remove-sev-deps.diff
+  Patch1:         libkrun-remove-nitro-deps.diff
+
+  Patch2:         libkrun-remove-sev-deps.diff
 
   ExclusiveArch:  x86_64 aarch64
 
@@ -32,10 +34,10 @@
   BuildRequires:  crate(libc/default) >= 0.2.39
   BuildRequires:  crate(vm-memory/backend-mmap) >= 0.16.0
   BuildRequires:  crate(vm-memory/default) >= 0.16.0
-  BuildRequires:  crate(kvm-bindings/default) >= 0.10.0
-  BuildRequires:  crate(kvm-bindings/fam-wrappers) >= 0.10.0
-  BuildRequires:  crate(kvm-ioctls/default) >= 0.19.0
-  BuildRequires:  crate(vmm-sys-util/default) >= 0.12.0
+  BuildRequires:  crate(kvm-bindings/default) >= 0.13.0
+  BuildRequires:  crate(kvm-bindings/fam-wrappers) >= 0.13.0
+  BuildRequires:  crate(kvm-ioctls/default) >= 0.23.0
+  BuildRequires:  crate(vmm-sys-util/default) >= 0.14.0
   BuildRequires:  crate(vm-fdt/default) >= 0.2.0
   BuildRequires:  (crate(virtio-bindings/default) >= 0.2.0 with crate(virtio-bindings/default) < 0.3.0~)
   BuildRequires:  (crate(bitflags/default) >= 1.2.0 with crate(bitflags/default) < 2.0.0~)
@@ -63,7 +65,7 @@
 
   %package devel
   Summary: Header files and libraries for libkrun development
-  Requires:       libkrun(aarch-64) = 1.13.0-1
+  Requires:       libkrun(aarch-64) = 1.14.0-1
 
   %description devel
   The libkrun-devel package containes the libraries and headers needed to
@@ -73,7 +75,7 @@
 prepare() {
   cd './'
   rm -rf 'libkrun-%{version_no_tilde}'
-  tar -xf 'v1.13.0.tar.gz'
+  tar -xf 'v1.14.0.tar.gz'
   STATUS=$?
   if [ $STATUS -ne 0 ]; then
     exit $STATUS
@@ -82,10 +84,13 @@ prepare() {
   chmod -Rf a+rX,u+w,g-w,o-w .
 
   echo "Patch #0 (libkrun-remove-unused-deps.diff):"
-  { cat libkrun-remove-unused-deps.diff || echo patch_fail ; } | patch --no-backup-if-mismatch -f -p1  --fuzz=0
+  patch --no-backup-if-mismatch -f -p2  --fuzz=0 < libkrun-remove-unused-deps.diff
 
-  echo "Patch #1 (libkrun-remove-sev-deps.diff):"
-  { cat libkrun-remove-sev-deps.diff || echo patch_fail ; } | patch --no-backup-if-mismatch -f -p1  --fuzz=0
+  echo "Patch #1 (libkrun-remove-nitro-deps.diff):"
+  patch --no-backup-if-mismatch -f -p2  --fuzz=0 < libkrun-remove-nitro-deps.diff
+
+  echo "Patch #2 (libkrun-remove-sev-deps.diff):"
+  patch --no-backup-if-mismatch -f -p2  --fuzz=0 < libkrun-remove-sev-deps.diff
 
   %cargo_prep
 
@@ -104,7 +109,7 @@ package() {
   # A spec %files section (it could be that part of the next lines duplicate part of the package() function)
   install -Dpm0755 -t ${pkgdir}/usr/share/licenses/libkrun/ LICENSE
   install -Dpm0755 -t ${pkgdir}/usr/share/doc/libkrun/  README.md
-  _install fakeinstall/usr/lib/libkrun.so.1.13.0
+  _install fakeinstall/usr/lib/libkrun.so.1.14.0
   _install fakeinstall/usr/lib/libkrun.so.1
 
   # devel
