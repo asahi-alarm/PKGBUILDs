@@ -1,0 +1,26 @@
+diff --git a/libkrun-1.14.0/src/devices/Cargo.toml b/libkrun-1.14.0/src/devices/Cargo.toml
+index 3b818a8..5f88681 100644
+--- a/libkrun-1.14.0/src/devices/Cargo.toml
++++ b/libkrun-1.14.0/src/devices/Cargo.toml
+@@ -38,7 +38,6 @@ imago = { version = "0.1.4", features = ["sync-wrappers", "vm-memory"] }
+ 
+ [target.'cfg(target_os = "macos")'.dependencies]
+ hvf = { path = "../hvf" }
+-lru = ">=0.9"
+ 
+ [target.'cfg(target_os = "linux")'.dependencies]
+ rutabaga_gfx = { path = "../rutabaga_gfx", features = ["x"], optional = true }
+diff --git a/libkrun-1.14.0/src/rutabaga_gfx/Cargo.toml b/libkrun-1.14.0/src/rutabaga_gfx/Cargo.toml
+index 7e35bb8..4857815 100644
+--- a/libkrun-1.14.0/src/rutabaga_gfx/Cargo.toml
++++ b/libkrun-1.14.0/src/rutabaga_gfx/Cargo.toml
+@@ -31,9 +31,6 @@ vmm-sys-util = ">=0.14"
+ [target.'cfg(unix)'.dependencies]
+ nix = "0.26.1"
+ 
+-[target.'cfg(windows)'.dependencies]
+-winapi = "0.3"
+-
+ # To build latest Vulkano, change version to git = "https:/github.com/vulkano-rs/vulkano.git"
+ # vulkano = { version = "0.31.0", optional = true }
+ 
