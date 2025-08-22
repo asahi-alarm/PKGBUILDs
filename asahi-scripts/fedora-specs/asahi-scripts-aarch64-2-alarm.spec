@@ -93,9 +93,11 @@ prepare() {
   cd 'asahi-scripts-20250713'
   chmod -Rf a+rX,u+w,g-w,o-w .
 
-  echo 'Cannot read 0001-update-m1n1-Expand-DTBS-if-it-is-a-directory.patch'; exit 1;
+  cat 0001-update-m1n1-Expand-DTBS-if-it-is-a-directory.patch | 
+  patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
 
-  echo 'Cannot read 0002-fedora-update-m1n1-handle-dangling-boot-dtb-symlinks.patch'; exit 1;
+  cat 0002-fedora-update-m1n1-handle-dangling-boot-dtb-symlinks.patch | 
+  patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
 
 }
 
