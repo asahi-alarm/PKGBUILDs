@@ -1,0 +1,36 @@
+From d24ee482717237afbf6cbbbabbd0dd4eea772f8a Mon Sep 17 00:00:00 2001
+From: Janne Grunau <j@jannau.net>
+Date: Tue, 19 Aug 2025 23:10:23 +0200
+Subject: [PATCH 2/2] fedora: update-m1n1: handle dangling /boot/dtb symlinks
+
+At kernel-install time the target of the /boot/dtb symlink might not
+exists yet for newly installed targets. Use
+"/usr/lib/modules/${KERNEL_VERSION}/dtb" instead.
+
+Signed-off-by: Janne Grunau <j@jannau.net>
+---
+ update-m1n1 | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/update-m1n1 b/update-m1n1
+index dcd79fa..87de029 100755
+--- a/update-m1n1
++++ b/update-m1n1
+@@ -24,6 +24,14 @@ if [ -z "$DTBS" ]; then
+     exit 1
+ fi
+ 
++# Fedora: handle broken /boot/dtb symlinks by reading the link,
++# extracting the kernel version and using the dtb directory from
++# "/usr/lib/modules/${KERNEL_VERSION}/".
++if [ -L "$DTBS" -a ! -d "$DTBS" ]; then
++    KVER=$(readlink "$DTBS" | sed -e 's/^dtb-//')
++    DTBS="/usr/lib/modules/${KVER}/dtb"
++fi
++
+ # If ${DTBS} is a directory expand it to include dtbs from all Apple silicon
+ # macs.
+ if [ -d "$DTBS" ]; then
+-- 
+2.50.1
+

@@ -1,0 +1,35 @@
+From 5fb7712c7c2692b77c21a6d799db29f6cefb388f Mon Sep 17 00:00:00 2001
+From: Janne Grunau <j@jannau.net>
+Date: Tue, 19 Aug 2025 22:55:33 +0200
+Subject: [PATCH 1/2] update-m1n1: Expand $DTBS if it is a directory
+
+Allows limiting the included devices to Apple silicon macs now that the
+kernel has device-trees for iphones, ipads and T2 macs as well.
+Avoids having each distribution to modify their default update-m1n1
+configuration for this.
+
+Signed-off-by: Janne Grunau <j@jannau.net>
+---
+ update-m1n1 | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/update-m1n1 b/update-m1n1
+index ae274eb..dcd79fa 100755
+--- a/update-m1n1
++++ b/update-m1n1
+@@ -24,6 +24,12 @@ if [ -z "$DTBS" ]; then
+     exit 1
+ fi
+ 
++# If ${DTBS} is a directory expand it to include dtbs from all Apple silicon
++# macs.
++if [ -d "$DTBS" ]; then
++    DTBS="${DTBS}/apple/t6*.dtb ${DTBS}/apple/t81*.dtb"
++fi
++
+ umount=false
+ 
+ m1n1config=/run/m1n1.conf
+-- 
+2.50.1
+
