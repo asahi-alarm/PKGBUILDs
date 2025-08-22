@@ -1,0 +1,22 @@
+#!/usr/bin/sh
+# SPDX-License-Identifier: MIT
+# thin wrapper to execute `update-m1n1` on kernel updates
+# depends on grubby's "10-devicetree.install"
+
+COMMAND="$1"
+
+# execute only on aarch64, can't check for Apple silicon systems as the install
+# images are created on generic aarch64 systems.
+if [ "$(uname -m)" != aarch64 ]; then
+    exit 0
+fi
+
+case "${COMMAND}" in
+    # always run update-m1n1 and rely on its no change detection for removals
+    # of old kernels.
+    add|remove)
+        exec /usr/bin/update-m1n1
+        ;;
+esac
+
+exit 0
