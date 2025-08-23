@@ -5,7 +5,7 @@ highmem=1
 
 pkgname=(mesa mesa-fex-emu-overlay-x86_64 mesa-fex-emu-overlay-i386 mesa-dummy)
 pkgdesc="An open-source implementation of the OpenGL specification"
-pkgver=25.2.0
+pkgver=25.2.1
 pkgrel=1
 arch=('x86_64' 'aarch64')
 makedepends=('python-mako' 'libxml2' 'libx11' 'xorgproto' 'libdrm' 'libxshmfence' 'libxxf86vm'
