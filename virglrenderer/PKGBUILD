@@ -4,7 +4,7 @@
 pkgname=virglrenderer
 _commit=b997bc18fafdcb8e563b7b07b54412ea61e12082
 _shortcommit=${_commit:0:7}
-pkgver=1.1.1-git20250806.${_shortcommit}
+pkgver=1.1.1.git20250806.${_shortcommit}
 pkgrel=1
 epoch=1
 pkgdesc='A virtual 3D GPU library, that allows the guest operating system to use the host GPU to accelerate 3D rendering'
