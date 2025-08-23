@@ -123,16 +123,27 @@ jobs:
                   echo "checking aop.ko"
                   tar tvf "$file" | grep apple/aop.ko
                 fi
-                echo "signing $file"
-                echo "$GPG_PASSPHRASE" | gpg --batch --no-tty --local-user 12CE6799A94A3F1B5DDFFE88F576553597FB8FEB --pinentry-mode loopback --passphrase-fd 0 --detach-sign "$file"
-                echo "adding $file"
-                repo-add --key 12CE6799A94A3F1B5DDFFE88F576553597FB8FEB --sign asahi-alarm.db.tar.gz "$file"
+
+                # Make a colonless filename for GitHub Releases (':' -> '.')
+                # This is necessary if a PKGBUILD sets the epoch field which makes the filename contain a colon
+                # But file name of an assets in a GitHub release can not contain a colon (GitHub renames a colon to a dot)
+                out="${file//:/\.}"
+
+                # If the names differ, copy to the colonless name
+                if [[ "$out" != "$file" ]]; then
+                  echo "copying '$file' -> '$out' (colonless for GitHub release assets)"
+                  cp -- "$file" "$out"
+                fi
+                echo "signing $out"
+                echo "$GPG_PASSPHRASE" | gpg --batch --no-tty --local-user 12CE6799A94A3F1B5DDFFE88F576553597FB8FEB --pinentry-mode loopback --passphrase-fd 0 --detach-sign "$out"
+                echo "adding $out"
+                repo-add --key 12CE6799A94A3F1B5DDFFE88F576553597FB8FEB --sign asahi-alarm.db.tar.gz "$out"
                 # fetch filenames of previous versions of this package so we can remove them from
                 # the release later. Note this will contain the package file and the signature file
-                BASE=$(echo $file | sed 's/\([a-z-]*\)-[0-9].*/\1/')
+                BASE=$(echo $out | sed 's/\([a-z-]*\)-[0-9].*/\1/')
                 TO_REMOVE+="$(gh release view aarch64 --repo asahi-alarm/asahi-alarm | grep "${BASE}-" | awk '{ print $2 }') "
-                echo "uploading $file"
-                gh release upload aarch64 --repo asahi-alarm/asahi-alarm --clobber "$file" "${file}.sig"
+                echo "uploading $out"
+                gh release upload aarch64 --repo asahi-alarm/asahi-alarm --clobber "$out" "${out}.sig"
               done
               echo "uploading database files"
               gh release upload aarch64 --repo asahi-alarm/asahi-alarm --clobber asahi-alarm.db* asahi-alarm.files*
