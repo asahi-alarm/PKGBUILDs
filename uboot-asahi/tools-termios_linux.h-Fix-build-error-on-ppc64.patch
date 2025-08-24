@@ -1,0 +1,198 @@
+From patchwork Fri Jun 27 13:53:37 2025
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-Patchwork-Submitter: Javier Martinez Canillas <javierm@redhat.com>
+X-Patchwork-Id: 2103636
+Return-Path: <u-boot-bounces@lists.denx.de>
+X-Original-To: incoming@patchwork.ozlabs.org
+Delivered-To: patchwork-incoming@legolas.ozlabs.org
+Authentication-Results: legolas.ozlabs.org;
+	dkim=pass (1024-bit key;
+ unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256
+ header.s=mimecast20190719 header.b=Ni2TUJY9;
+	dkim-atps=neutral
+Authentication-Results: legolas.ozlabs.org;
+ spf=pass (sender SPF authorized) smtp.mailfrom=lists.denx.de
+ (client-ip=2a01:238:438b:c500:173d:9f52:ddab:ee01; helo=phobos.denx.de;
+ envelope-from=u-boot-bounces@lists.denx.de; receiver=patchwork.ozlabs.org)
+Received: from phobos.denx.de (phobos.denx.de
+ [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (secp384r1))
+	(No client certificate requested)
+	by legolas.ozlabs.org (Postfix) with ESMTPS id 4bTH9G4PsTz1ymW
+	for <incoming@patchwork.ozlabs.org>; Fri, 27 Jun 2025 23:54:26 +1000 (AEST)
+Received: from h2850616.stratoserver.net (localhost [IPv6:::1])
+	by phobos.denx.de (Postfix) with ESMTP id B0F3E82F33;
+	Fri, 27 Jun 2025 15:54:35 +0200 (CEST)
+Authentication-Results: phobos.denx.de;
+ dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: phobos.denx.de;
+ spf=pass smtp.mailfrom=u-boot-bounces@lists.denx.de
+Authentication-Results: phobos.denx.de;
+	dkim=pass (1024-bit key;
+ unprotected) header.d=redhat.com header.i=@redhat.com header.b="Ni2TUJY9";
+	dkim-atps=neutral
+Received: by phobos.denx.de (Postfix, from userid 109)
+ id 6C18B82F83; Fri, 27 Jun 2025 15:54:34 +0200 (CEST)
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on phobos.denx.de
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+ DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+ RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,
+ RCVD_IN_VALIDITY_RPBL_BLOCKED,RCVD_IN_VALIDITY_SAFE_BLOCKED,
+ SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.2
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ by phobos.denx.de (Postfix) with ESMTPS id 85AE582E9A
+ for <u-boot@lists.denx.de>; Fri, 27 Jun 2025 15:54:16 +0200 (CEST)
+Authentication-Results: phobos.denx.de; dmarc=pass (p=quarantine dis=none)
+ header.from=redhat.com
+Authentication-Results: phobos.denx.de;
+ spf=pass smtp.mailfrom=javierm@redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1751032455;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=g1zzAlTom4W9is8jXAXisOdBcJzTbYxzhqtPiZ7AEx0=;
+ b=Ni2TUJY9siYHNJ34fsMIUZw3X69QS2p3hlORv8r95W6YhhYkVn0Z4IxbCpTc/yVbU7jHBN
+ dBGaKoeKTd0mfOqK7toGDCeRm0t2sls5tDkdomWaVm2+r26OUBDJVT6tPDBphUXgfflcmc
+ wbfu8KvRo3onNv+eAORuJ79fJcnPSDM=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-672-oNkLw74AMKymJIa15gcOQA-1; Fri, 27 Jun 2025 09:54:14 -0400
+X-MC-Unique: oNkLw74AMKymJIa15gcOQA-1
+X-Mimecast-MFC-AGG-ID: oNkLw74AMKymJIa15gcOQA_1751032453
+Received: by mail-wr1-f70.google.com with SMTP id
+ ffacd0b85a97d-3a4f8192e2cso1329821f8f.3
+ for <u-boot@lists.denx.de>; Fri, 27 Jun 2025 06:54:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1751032452; x=1751637252;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=g1zzAlTom4W9is8jXAXisOdBcJzTbYxzhqtPiZ7AEx0=;
+ b=P8H7Zp1YsXCTnG7f8e21hBpHp7TfmSjsCvpbgpiARUyzd5WcVQWNTbRkik4vIkDpKy
+ vjzlLBA6+gNhUUlOltkDo/MiLCqcKfUryDyawUQTG79c6S00VHbQgrTJ0EnH7dO3g5Aw
+ fEeRfqfXxpxgsfGWN2vHdEXgJeQRlhOi7uvq4l2+rHShxWjFk3a+596Zy6zhIip8psEO
+ TEzC6uImAR90oWr79590FzUzPvmLMiOemzYy+GjltIdsFRfePZ2Z4v0bDjGWG3Dd3y3V
+ klozi8yAE3PmxlxFMIEf0lYlCpYPJxV4n0qg2VNMxpVgQRFhAXnGQoqXiXnTPvOiow8D
+ ZCIQ==
+X-Gm-Message-State: AOJu0YxWBBXOVuS4CSaoDAHSy5dJF6lqZetH2Xp14H8q+mTRis/9kv0Q
+ omAxTsyIE0GGl7vcsYyURB/1jIMAA5BLvQd0fYbRv/81uAdFYVGdBUYMvwt9XSljwyKrQ7yAT1M
+ q5vctQuqhOZqaCICy6oI/0vuDlwCcLHamIBQ0KRpxmWfc0TZ8/R0lNLHjRoyaSeRhsSm+ZuAM5i
+ fLEDIIXyGT8dLTAcWhZuQcJ0mYTszi5nw5L7QzDA==
+X-Gm-Gg: ASbGncvEqHrGQvc8Dp0BX5IM+Z/a9mw4Z3AX7o1u4gb86FozgJ+IXsX0n86Bph8t5Pd
+ MQP4r1pwlCWPjl7fW7as+Q5aOmO1DkyoDpNQxkwzsAIYmI7SCtlkfPEOsUzEcnbmiF1KIbBYN5+
+ iH/2Tn5pZNr2qg8oI02r3kIq1uK7+bZ9H5LY6vDc1Sxak5ezvxfVJ5U0W/IDlhU5K3Egkjh6mDo
+ Pop6nXNWp7LkbeCGOwQfadjikslqsoID8ubJshsLFcjFkTdvEEqtFQIiEuNRi+TXy3kYqBovW7U
+ XNgXE1/iEtXfA/rRFW6EhOB6QLud/A9mz/9zOS1bCbBlAHs=
+X-Received: by 2002:adf:9cc5:0:b0:3a4:cb4f:ac2a with SMTP id
+ ffacd0b85a97d-3a8f482c161mr3141433f8f.21.1751032451981;
+ Fri, 27 Jun 2025 06:54:11 -0700 (PDT)
+X-Google-Smtp-Source: 
+ AGHT+IHhQAvvpwAuM1BPpLZGUmrc32HoPBfRPawJdmKf5goUIQw7Zmtpddn3SSJ9Y9O1FNgWtqlTrA==
+X-Received: by 2002:adf:9cc5:0:b0:3a4:cb4f:ac2a with SMTP id
+ ffacd0b85a97d-3a8f482c161mr3141396f8f.21.1751032451449;
+ Fri, 27 Jun 2025 06:54:11 -0700 (PDT)
+Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-4538a3a6716sm51645685e9.11.2025.06.27.06.54.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 27 Jun 2025 06:54:10 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: u-boot@lists.denx.de
+Cc: =?utf-8?q?Dan_Hor=C3=A1k?= <dan@danny.cz>,
+ Peter Robinson <pbrobinson@gmail.com>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ =?utf-8?q?Marek_Beh=C3=BAn?= <kabel@kernel.org>, Stefan Roese <sr@denx.de>,
+ This contributor prefers not to receive mails <noreply@example.com>,
+ Tom Rini <trini@konsulko.com>
+Subject: [RFC PATCH] tools: termios_linux.h: Fix build error on ppc64
+Date: Fri, 27 Jun 2025 15:53:37 +0200
+Message-ID: <20250627135355.2731430-1-javierm@redhat.com>
+X-Mailer: git-send-email 2.49.0
+MIME-Version: 1.0
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: z65za21YYzkwgA1f4karVpsKGGndOCroafvzzrKiAYY_1751032453
+X-Mimecast-Originator: redhat.com
+X-BeenThere: u-boot@lists.denx.de
+X-Mailman-Version: 2.1.39
+Precedence: list
+List-Id: U-Boot discussion <u-boot.lists.denx.de>
+List-Unsubscribe: <https://lists.denx.de/options/u-boot>,
+ <mailto:u-boot-request@lists.denx.de?subject=unsubscribe>
+List-Archive: <https://lists.denx.de/pipermail/u-boot/>
+List-Post: <mailto:u-boot@lists.denx.de>
+List-Help: <mailto:u-boot-request@lists.denx.de?subject=help>
+List-Subscribe: <https://lists.denx.de/listinfo/u-boot>,
+ <mailto:u-boot-request@lists.denx.de?subject=subscribe>
+Errors-To: u-boot-bounces@lists.denx.de
+Sender: "U-Boot" <u-boot-bounces@lists.denx.de>
+X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
+X-Virus-Status: Clean
+
+Commit 93b55636b09f ("tools: kwboot: Allow any baudrate on Linux") added a
+tcgetattr() function to be used, instead of the libc's termios functions.
+
+This was done to allow using the raw TCGETS2/TCSETS2 ioctls that allow to
+support arbitrary baud rates.
+
+This breaks the build for PowerPC, because that architecture does not have
+a struct termios2 defined becuase the termios and ktermios are the same.
+
+On PowerPC, the termios ioctl() emulates the TCGETS2/TCSETS*2 ioctls with
+tcgetattr/tcsetattr using just the struct termios (that's as mentioned the
+same than what is defined as struct termios2 in other architectures).
+
+So there is no need to use the TCGETS2/TCSETS2 ioctls on that architecture
+and just TCGETS/TCSETS ioctls with termios as defined by PowerPC is enough.
+
+Fixes: 93b55636b09f ("tools: kwboot: Allow any baudrate on Linux")
+Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+Reviewed-by: Tom Rini <trini@konsulko.com>
+---
+The patch fixes a build error found on Fedora rawhide with latest glibc:
+
+https://bugzilla.redhat.com/show_bug.cgi?id=2375150
+
+It is an RFC because I'm not familiar with this part of the code nor the
+PowerPC architecture. But this patch fixes the mentioned compile issue.
+
+ tools/termios_linux.h | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/tools/termios_linux.h b/tools/termios_linux.h
+index 0806a91180a0..0e5a5c475b55 100644
+--- a/tools/termios_linux.h
++++ b/tools/termios_linux.h
+@@ -32,13 +32,13 @@
+ #include <asm/ioctls.h>
+ #include <asm/termbits.h>
+ 
+-#if defined(BOTHER) && defined(TCGETS2)
++#if defined(BOTHER) && defined(TCGETS2) && !defined(__powerpc64__)
+ #define termios termios2
+ #endif
+ 
+ static inline int tcgetattr(int fd, struct termios *t)
+ {
+-#if defined(BOTHER) && defined(TCGETS2)
++#if defined(BOTHER) && defined(TCGETS2) && !defined(__powerpc64__)
+ 	return ioctl(fd, TCGETS2, t);
+ #else
+ 	return ioctl(fd, TCGETS, t);
+@@ -50,7 +50,7 @@ static inline int tcsetattr(int fd, int a, const struct termios *t)
+ 	int cmd;
+ 
+ 	switch (a) {
+-#if defined(BOTHER) && defined(TCGETS2)
++#if defined(BOTHER) && defined(TCGETS2) && !defined(__powerpc64__)
+ 	case TCSANOW:
+ 		cmd = TCSETS2;
+ 		break;

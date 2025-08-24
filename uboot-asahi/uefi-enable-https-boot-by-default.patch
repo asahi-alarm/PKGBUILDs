@@ -1,0 +1,81 @@
+From 2f532a911729e4b51cc596f4c671789fdbbccba9 Mon Sep 17 00:00:00 2001
+From: Peter Robinson <pbrobinson@gmail.com>
+Date: Wed, 25 Jun 2025 16:08:23 +0100
+Subject: [PATCH] enable https boot by default
+
+Signed-off-by: Peter Robinson <pbrobinson@gmail.com>
+---
+ Kconfig                | 3 ++-
+ cmd/Kconfig            | 1 +
+ lib/efi_loader/Kconfig | 1 +
+ lib/mbedtls/Kconfig    | 3 ++-
+ 4 files changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/Kconfig b/Kconfig
+index 51358633762..869f0b4cc25 100644
+--- a/Kconfig
++++ b/Kconfig
+@@ -758,7 +758,7 @@ menu "Networking"
+ 
+ choice
+ 	prompt "Networking stack"
+-	default NET
++	default NET_LWIP
+ 
+ config NO_NET
+ 	bool "No networking support"
+@@ -774,6 +774,7 @@ config NET
+ 
+ config NET_LWIP
+ 	bool "Use lwIP for networking stack"
++	default y
+ 	imply NETDEVICES
+ 	help
+ 	  Include networking support based on the lwIP (lightweight IP)
+diff --git a/cmd/Kconfig b/cmd/Kconfig
+index e4e1ae1c04d..d6faec3ace1 100644
+--- a/cmd/Kconfig
++++ b/cmd/Kconfig
+@@ -2162,6 +2162,7 @@ config CMD_WGET
+ 
+ config WGET_HTTPS
+ 	bool "wget https"
++	default y
+ 	depends on CMD_WGET
+ 	depends on PROT_TCP_LWIP
+ 	depends on MBEDTLS_LIB
+diff --git a/lib/efi_loader/Kconfig b/lib/efi_loader/Kconfig
+index 3dadbc54b58..48ed2584160 100644
+--- a/lib/efi_loader/Kconfig
++++ b/lib/efi_loader/Kconfig
+@@ -552,6 +552,7 @@ config EFI_BOOTMGR
+ 
+ config EFI_HTTP_BOOT
+ 	bool "EFI HTTP Boot support"
++	default y
+ 	depends on NET || NET_LWIP
+ 	select CMD_NET
+ 	select CMD_DNS
+diff --git a/lib/mbedtls/Kconfig b/lib/mbedtls/Kconfig
+index 789721ee6cd..7a241c2bc26 100644
+--- a/lib/mbedtls/Kconfig
++++ b/lib/mbedtls/Kconfig
+@@ -2,7 +2,7 @@
+ 
+ choice
+ 	prompt "Crypto libraries (U-Boot Proper)"
+-	default LEGACY_HASHING_AND_CRYPTO
++	default MBEDTLS_LIB
+ 	help
+ 	  Select crypto libraries.
+ 	  LEGACY_HASHING_AND_CRYPTO for legacy crypto libraries,
+@@ -15,6 +15,7 @@ config LEGACY_HASHING_AND_CRYPTO
+ 
+ config MBEDTLS_LIB
+ 	bool "MbedTLS libraries"
++	default y
+ 	select MBEDTLS_LIB_X509
+ endchoice
+ 
+-- 
+2.50.0

@@ -1,0 +1,95 @@
+From 4970fb56c645346c0ef1e2b5cb73e1ad5dec6378 Mon Sep 17 00:00:00 2001
+From: Javier Martinez Canillas <javierm@redhat.com>
+Date: Thu, 19 Jun 2025 08:40:28 +0200
+Subject: [PATCH v3 4/4] efi_selftest: Add basic partition info check to block
+ io test
+
+Test the EFI_PARTITION_INFO_PROTOCOL in the existing EFI_BLOCK_IO_PROTOCOL
+unit test. It is fairly basic, since it only checks that the values of the
+struct efi_partition_info .revision, .type and .system fields are correct.
+
+It doesn't check the MBR partition record information, because that's not
+supported by the EFI_PARTITION_INFO_PROTOCOL implementation yet. The test
+can be extended once the support is implemented, or if the in-memory disk
+image used for the test is modified to have a GPT partition type instead.
+
+Suggested-by: Tom Rini <trini@konsulko.com>
+Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+Reviewed-by: Ilias Apalodimas <ilias.apalodimas@linaro.org>
+---
+
+Changes in v3:
+- Fix build in -next due missing part_efi.h header include (Ilias Apalodimas).
+- Rebase on top of -next (Ilias Apalodimas).
+
+Changes in v2:
+- Add a test for the EFI partition information protocol (Tom Rini).
+
+ lib/efi_selftest/efi_selftest_block_device.c | 30 ++++++++++++++++++++
+ 1 file changed, 30 insertions(+)
+
+diff --git a/lib/efi_selftest/efi_selftest_block_device.c b/lib/efi_selftest/efi_selftest_block_device.c
+index a367e8b89d17..f145e58a267a 100644
+--- a/lib/efi_selftest/efi_selftest_block_device.c
++++ b/lib/efi_selftest/efi_selftest_block_device.c
+@@ -18,6 +18,7 @@
+ #include <efi_selftest.h>
+ #include "efi_selftest_disk_image.h"
+ #include <asm/cache.h>
++#include <part_efi.h>
+ 
+ /* Block size of compressed disk image */
+ #define COMPRESSED_DISK_IMAGE_BLOCK_SIZE 8
+@@ -29,6 +30,7 @@ static struct efi_boot_services *boottime;
+ 
+ static const efi_guid_t block_io_protocol_guid = EFI_BLOCK_IO_PROTOCOL_GUID;
+ static const efi_guid_t guid_device_path = EFI_DEVICE_PATH_PROTOCOL_GUID;
++static const efi_guid_t partition_info_guid = EFI_PARTITION_INFO_PROTOCOL_GUID;
+ static const efi_guid_t guid_simple_file_system_protocol =
+ 					EFI_SIMPLE_FILE_SYSTEM_PROTOCOL_GUID;
+ static const efi_guid_t guid_file_system_info = EFI_FILE_SYSTEM_INFO_GUID;
+@@ -310,6 +312,7 @@ static int execute(void)
+ 		struct efi_file_system_info info;
+ 		u16 label[12];
+ 	} system_info;
++	struct efi_partition_info *part_info;
+ 	efi_uintn_t buf_size;
+ 	char buf[16] __aligned(ARCH_DMA_MINALIGN);
+ 	u32 part1_size;
+@@ -375,6 +378,33 @@ static int execute(void)
+ 			     part1_size - 1);
+ 		return EFI_ST_FAILURE;
+ 	}
++
++	/* Open the partition information protocol  */
++	ret = boottime->open_protocol(handle_partition,
++				      &partition_info_guid,
++				      (void **)&part_info, NULL, NULL,
++				      EFI_OPEN_PROTOCOL_GET_PROTOCOL);
++	if (ret != EFI_SUCCESS) {
++		efi_st_error("Failed to open partition information protocol\n");
++		return EFI_ST_FAILURE;
++	}
++	/* Check that cached partition information is the expected */
++	if (part_info->revision != EFI_PARTITION_INFO_PROTOCOL_REVISION) {
++		efi_st_error("Partition info revision %x, expected %x\n",
++			     part_info->revision, EFI_PARTITION_INFO_PROTOCOL_REVISION);
++		return EFI_ST_FAILURE;
++	}
++	if (part_info->type != PARTITION_TYPE_MBR) {
++		efi_st_error("Partition info type %x, expected %x\n",
++			     part_info->type, PARTITION_TYPE_MBR);
++		return EFI_ST_FAILURE;
++	}
++	if (part_info->system != 0) {
++		efi_st_error("Partition info system %x, expected 0\n",
++			     part_info->system);
++		return EFI_ST_FAILURE;
++	}
++
+ 	/* Open the simple file system protocol */
+ 	ret = boottime->open_protocol(handle_partition,
+ 				      &guid_simple_file_system_protocol,
+-- 
+2.49.0
+
