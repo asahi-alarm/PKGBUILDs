@@ -2,7 +2,7 @@
 # Maintainer: Matthias Kurz <m.kurz@irregular.at>
 
 pkgname=uboot-asahi
-_ver=2025.04
+_ver=2025.07
 _asahirel=1
 
 pkgver=${_ver}.asahi${_asahirel}
@@ -16,12 +16,86 @@ license=('MIT' 'GPL2')
 makedepends=( bc imagemagick )
 source=(
   "u-boot-${_commit_id}.tar.gz::https://github.com/AsahiLinux/u-boot/archive/${_commit_id}.tar.gz"
+  'disable-VBE-by-default.patch'
+  'enable-bootmenu-by-default.patch'
+  'uefi-distro-load-FDT-from-any-partition-on-boot-device.patch'
+  'uefi-Add-all-options-for-EFI-System-Partitions.patch'
+  'uefi-initial-find_fdt_location-for-finding-the-DT-on-disk.patch'
+  'uefi-enable-SetVariableRT-with-volotile-storage.patch'
+  'uefi-enable-https-boot-by-default.patch'
+  'tools-termios_linux.h-Fix-build-error-on-ppc64.patch'
+  'USB-PD-TCPM-improvements.patch'
+  'rockchip-Enable-preboot-start-for-pci-usb.patch'
+  'Rebase-to-upstream-6.15.5-rockchip-DTs.patch'
+  'Initial-MNT-Reform2-support.patch'
+  'p3450-fix-board.patch'
+  'disk-efi-Move-logic-to-get-a-GPT-entry-into-a-helper.patch'
+  'disk-efi-expose-the-part_get_gpt_pte-helper-function.patch'
+  'efi_loader-disk-add-EFI_PARTITION_INFO_PROTOCOL-supp.patch'
+  'efi_selftest-Add-basic-partition-info-check-to-block.patch'
+  'openssl-no-engine.patch'
 )
-sha256sums=('82d21cbaf94d1212d6f1a851931d25163ed5e6247b9e60db8d39a3cf238dfd43')
-b2sums=('2f9b09d24b9d565482f715e2bf4df24d36b5d03b32d3e7c99ab4144e1db7e8090de099693150fdb8d86634d569b916b23e9dbcbedfd1ec3ddd1d0da4f20d62bd')
+sha256sums=('ca6f8f8a4ca1f5ddd51b855d7cd1cd4629677bf1a31e6643b66cf6a33fd6d9e6'
+            '501fe48668729525520253228945dc728c9bf2d9f0a41744711ca51a060e9c7b'
+            '9d1796f8c1492bb50c13f865b4bc6854f825218836e55ce36e348c4dd77caa74'
+            '0f980cf61fab268a6aa2440408548d3874aee1de6eb6e3be291690b1d2eb6904'
+            '16904a97fc62bba84bde3a18885156b8c202c366bb6a0e0dd54414c016695876'
+            '9e7355753932ad275e781e5c0dc96d61a79b92fdf656378f9b6c17f9c720b39c'
+            'c77853d6c25b11b7ffca8d522e03bf8e1305b8637e27c5074ddeef3a22956bbf'
+            'bf3215fd2363e583e17cf8f642355b38308e9dd1eb8ce0e19b509f479f13f3cc'
+            'da071a5cb0fbb15db3f8a95fe77029e717b8574273645e9e2d0511622ebe661f'
+            '3dd92f1f51fccfbb1ceae701db68a6ae42916ddc2d4645b3a61486b582721a54'
+            '722f50a5f5abd05c39990ac75492f7891c67680ad5af8e1178b4807fc5e6fde0'
+            'c0c993b6f3bab7ae4a72498f836d9a8f3720e61f7887377bc6a2bde4525d64e9'
+            '201e75e485acfdf662db7054b6552ba48ad682ac53b919bf20221d01f7c6ab6b'
+            '543626711825bdf0eb67a5b8dc3172642d91ca4a2b3e4cd46db4c3f253717c99'
+            '0541280c061245a9321ed95fac54303d180ab5ab46b961580ce66d8314dee04a'
+            '0b51fb481e167ccb4c685671276dc28032c5bdecb52d555c1e4a0b5ce81d8b5f'
+            '6e784454247e71a0b4a68b2f9cd0c5b1cac92620abf70155511fd5980a23219f'
+            '059c7a958d34ba15b99f6d2679273985b4522e5c37de772d50eb9099c7b8ea06'
+            '3ede37fd744d60d934a7d5186f0bcd13d67ae9a48d973283356bbe7451d337e4')
+b2sums=('597e89ef2ba604fbdb0be593bacb7137f3703d39ac06c8e3296958a023fe807bfab863e3c675ef5b3893bfd9a25b73b12d2fcdd89804ab5b14269f2e21f32558'
+        '8fcba2b6c098125fc6ddee33b634af35bc6a8ae93c4f9cf3698f3f4455f97e22c6d8630c60776710770128f73377d2a9364c70dab6705707c1f3223e7493ce14'
+        '79709278b47f8e21e7376031c3dc472070c5b18b29b48eefc9d3a4d97b69104eae9325ed8fff8e7a509a89727c8335c90345807d72afacee069557e46ff5724c'
+        '34bebf1fe1126ff03d31abaca5908036268c231a77beebbe683cca3f80a4add12faf0e0ed27975c5fa1ba2a9994395ad0ee8115e9ecb8d3686975602981bf136'
+        'b4ede5b7eced7a3459a169f5d49712647cc7cc3aec9935eea6283522245b6c3cc300ed8fb81be0dd942dddefd3bda49530270ec3f9215d2f9a52efa4c3bc5ba9'
+        '2ebd948fe412ddd95ba8535dead0b5caf2368374d8366e9b48bf33ffb743d0b255f195a845ca3862ec0a7d614889b70595625cd406cd89323aae6c0201ca640a'
+        '2a61869cdefd59715d8d860e4860d52a6e3fc33f2b8511c5d6f78c68f7dda00195b29bf9a213668a3eedf445958b923bc7051fc38c6965c3b7803266cae16bb2'
+        'ffc3f4c6a08a9a20b58ddec7022409cf4ec7ecbba2e3b3af6b4011a022b449034749b2492cdfc6f98ae59485ccfde9f52a254a79b0dc46368f5ba13767b29ea5'
+        'a532478e58efe160188d486414c23ec2723e210f9c5163d388979f146ceb0b0d622f835cfadb1dfdacfcc7ba30241ddd3fd2162561f0cd2541da8cdd9b41abdc'
+        '6cf5a8fe4631a60247df626e4fea6efadad4d2ccf62dd30330fa0a98546deee17a394d8b7fef8fa5446311f01c05a303f88818a4ffa6b49810c5ec06fae1aa46'
+        '073d892b872ee0b8b56622d4f95358137cdbbfa4a8ceedd56c52bfa46b76dc8c3666bedb3a805ea05680004ab8be8adbf7e33dbd9edf62dc5ee87f0c5a9f05a5'
+        '53b36bf1b04f0c0ff8c7368d72f62b375b9ff5bc1eb4ca0679c7500f37d7253deed1fc1a8802bbc1eb94005625b848a97a335bde932ba018243dfa43556231ed'
+        'cff8f58e38be8fbc419f0948374ca50d5b1d0897d46db474c70554f221f6575d22ef56c103439f8ff3dfb6feaeb982e019a96a1f2180472149d260065bcdf0f5'
+        'ff7fc01dd0f0c57372b3155b0237bcb264bc05d090f893435442edc60d2dc8967113b47129006246fff1d9af7b255bf071363e5b4f202e770886bb3ffba45e4f'
+        '858c29a11006bfdf1fbfec904ba3b96a70e94023b175426c2bb54d3e619a3dfbb0e06b209de8dc93bc163f6751bbd176825dc7d8f653b58e2cd85e83755e55a2'
+        '5cdafa5698b0abf71bdda753ddd3a09dd82dfa1646a40582b484b00c91181209e74460c04bae0bdf1ddb5e45a75502db21e340a3e21d9f3f6fcac7a6b6200773'
+        '13d464567c169f0e1176c294f88724ea85136cc07c239155b6ac85e230d79b38dc5d1251241d54b460551098582fec1e34bcfd9048f5883de9b192a17f4bb13d'
+        'ae5d10b75115afe701a0e3e5e2836069e0098eb37489d59d7e0e4a5700129469395019ba8ca97a476782bd9beb96c5761929e9daecb7fd210c7e38c82abf4814'
+        '81a2b3b089267d636cc60f23a0f4f82ba36ecb5e210c84c7cbdf2af1b764e0c40ba3b22fec26bc7c8eab052cfa30893aac4b3c76b9a56d763841b8f7821820de')
 
 prepare() {
   cd "${srcdir}/$_srcname"
+
+  cat ../disable-VBE-by-default.patch | patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
+  cat ../enable-bootmenu-by-default.patch | patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
+  cat ../uefi-distro-load-FDT-from-any-partition-on-boot-device.patch | patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
+  cat ../uefi-Add-all-options-for-EFI-System-Partitions.patch | patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
+  cat ../uefi-initial-find_fdt_location-for-finding-the-DT-on-disk.patch | patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
+  cat ../uefi-enable-SetVariableRT-with-volotile-storage.patch | patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
+  cat ../uefi-enable-https-boot-by-default.patch | patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
+  cat ../tools-termios_linux.h-Fix-build-error-on-ppc64.patch | patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
+  cat ../USB-PD-TCPM-improvements.patch | patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
+  cat ../rockchip-Enable-preboot-start-for-pci-usb.patch | patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
+  cat ../Rebase-to-upstream-6.15.5-rockchip-DTs.patch | patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
+  cat ../Initial-MNT-Reform2-support.patch | patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
+  cat ../p3450-fix-board.patch | patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
+  cat ../disk-efi-Move-logic-to-get-a-GPT-entry-into-a-helper.patch | patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
+  cat ../disk-efi-expose-the-part_get_gpt_pte-helper-function.patch | patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
+  cat ../efi_loader-disk-add-EFI_PARTITION_INFO_PROTOCOL-supp.patch | patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
+  cat ../efi_selftest-Add-basic-partition-info-check-to-block.patch | patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
+  cat ../openssl-no-engine.patch | patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
+
   make apple_m1_defconfig
 }
 
