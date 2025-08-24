@@ -146,41 +146,59 @@ prepare() {
   cd 'u-boot-2025.07'
   chmod -Rf a+rX,u+w,g-w,o-w .
 
-  echo 'Cannot read disable-VBE-by-default.patch'; exit 1;
+  cat disable-VBE-by-default.patch | 
+  patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
 
-  echo 'Cannot read enable-bootmenu-by-default.patch'; exit 1;
+  cat enable-bootmenu-by-default.patch | 
+  patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
 
-  echo 'Cannot read uefi-distro-load-FDT-from-any-partition-on-boot-device.patch'; exit 1;
+  cat uefi-distro-load-FDT-from-any-partition-on-boot-device.patch | 
+  patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
 
-  echo 'Cannot read uefi-Add-all-options-for-EFI-System-Partitions.patch'; exit 1;
+  cat uefi-Add-all-options-for-EFI-System-Partitions.patch | 
+  patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
 
-  echo 'Cannot read uefi-initial-find_fdt_location-for-finding-the-DT-on-disk.patch'; exit 1;
+  cat uefi-initial-find_fdt_location-for-finding-the-DT-on-disk.patch | 
+  patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
 
-  echo 'Cannot read uefi-enable-SetVariableRT-with-volotile-storage.patch'; exit 1;
+  cat uefi-enable-SetVariableRT-with-volotile-storage.patch | 
+  patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
 
-  echo 'Cannot read uefi-enable-https-boot-by-default.patch'; exit 1;
+  cat uefi-enable-https-boot-by-default.patch | 
+  patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
 
-  echo 'Cannot read tools-termios_linux.h-Fix-build-error-on-ppc64.patch'; exit 1;
+  cat tools-termios_linux.h-Fix-build-error-on-ppc64.patch | 
+  patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
 
-  echo 'Cannot read USB-PD-TCPM-improvements.patch'; exit 1;
+  cat USB-PD-TCPM-improvements.patch | 
+  patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
 
-  echo 'Cannot read rockchip-Enable-preboot-start-for-pci-usb.patch'; exit 1;
+  cat rockchip-Enable-preboot-start-for-pci-usb.patch | 
+  patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
 
-  echo 'Cannot read Rebase-to-upstream-6.15.5-rockchip-DTs.patch'; exit 1;
+  cat Rebase-to-upstream-6.15.5-rockchip-DTs.patch | 
+  patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
 
-  echo 'Cannot read Initial-MNT-Reform2-support.patch'; exit 1;
+  cat Initial-MNT-Reform2-support.patch | 
+  patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
 
-  echo 'Cannot read p3450-fix-board.patch'; exit 1;
+  cat p3450-fix-board.patch | 
+  patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
 
-  echo 'Cannot read disk-efi-Move-logic-to-get-a-GPT-entry-into-a-helper.patch'; exit 1;
+  cat disk-efi-Move-logic-to-get-a-GPT-entry-into-a-helper.patch | 
+  patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
 
-  echo 'Cannot read disk-efi-expose-the-part_get_gpt_pte-helper-function.patch'; exit 1;
+  cat disk-efi-expose-the-part_get_gpt_pte-helper-function.patch | 
+  patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
 
-  echo 'Cannot read efi_loader-disk-add-EFI_PARTITION_INFO_PROTOCOL-supp.patch'; exit 1;
+  cat efi_loader-disk-add-EFI_PARTITION_INFO_PROTOCOL-supp.patch | 
+  patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
 
-  echo 'Cannot read efi_selftest-Add-basic-partition-info-check-to-block.patch'; exit 1;
+  cat efi_selftest-Add-basic-partition-info-check-to-block.patch | 
+  patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
 
-  echo 'Cannot read openssl-no-engine.patch'; exit 1;
+  cat openssl-no-engine.patch | 
+  patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
 
   echo 'Cannot read asahi-a0f2eb2c0e05cbfa655009ca232fb454b9904bba.patch'; exit 1;
 
