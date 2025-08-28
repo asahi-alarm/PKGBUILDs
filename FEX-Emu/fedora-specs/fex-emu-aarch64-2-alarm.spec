@@ -1,19 +1,19 @@
 
   Name:       fex-emu
-  Version:    2507.1
+  Version:    2508.1
   Release:    1
   Summary:    Fast usermode x86 and x86-64 emulator for ARM64
 
   License:    MIT AND Apache-2.0 AND BSD-3-Clause AND GPL-2.0-only
   URL:        https://fex-emu.com
 
-  Source0:    https://github.com/FEX-Emu/FEX/archive/FEX-2507.1/FEX-FEX-2507.1.tar.gz
+  Source0:    https://github.com/FEX-Emu/FEX/archive/FEX-2508.1/FEX-FEX-2508.1.tar.gz
 
   Source1:    README.fedora
 
   Source2:    fex-sysroot-macros.inc
 
-  Source3:    fex-sysroot-fc42-20250510.tar.gz
+  Source3:    fex-sysroot-fc42-20250713.tar.gz
   Source4:    toolchain_x86_32.cmake
   Source5:    toolchain_x86_64.cmake
   Source6:    build-fex-sysroot.sh
@@ -23,9 +23,9 @@
   Provides: bundled(cpp-optparse) = 0
   Source102: https://github.com/FEX-Emu/drm-headers/archive/0675d2f/drm-headers-0675d2f.tar.gz
   Provides: bundled(kernel) = 6.13
-  Source103: https://github.com/FEX-Emu/jemalloc/archive/02ca52b/jemalloc-02ca52b.tar.gz
+  Source103: https://github.com/FEX-Emu/jemalloc/archive/ce24593/jemalloc-ce24593.tar.gz
   Provides: bundled(jemalloc) = 5.3.0
-  Source104: https://github.com/FEX-Emu/jemalloc/archive/4043539/jemalloc-4043539.tar.gz
+  Source104: https://github.com/FEX-Emu/jemalloc/archive/8436195/jemalloc-8436195.tar.gz
   Provides: bundled(jemalloc) = 5.3.0
   Source105: https://github.com/FEX-Emu/robin-map/archive/d5683d9/robin-map-d5683d9.tar.gz
   Provides: bundled(robin-map) = 1.3.0
@@ -69,9 +69,9 @@
   BuildRequires:  cmake(Qt6Widgets)
 
   Requires:       systemd-udev
-  Requires:       fex-emu-filesystem = 2507.1-1
+  Requires:       fex-emu-filesystem = 2508.1-1
 
-  Recommends:     fex-emu-thunks = 2507.1-1
+  Recommends:     fex-emu-thunks = 2508.1-1
 
   Recommends:     fex-emu-rootfs-fedora
   Recommends:     erofs-fuse
@@ -80,7 +80,7 @@
   Recommends:     squashfuse
 
   Obsoletes:      fex-emu-gdb < 2409-4
-  Provides:       fex-emu-gdb = 2507.1-1
+  Provides:       fex-emu-gdb = 2508.1-1
 
   %description
   FEX allows you to run x86 and x86-64 binaries on an AArch64 host, similar to
@@ -99,34 +99,34 @@
 
   %package        devel
   Summary:        Development headers and libraries for fex-emu
-  Requires:       fex-emu(aarch-64) = 2507.1-1
+  Requires:       fex-emu(aarch-64) = 2508.1-1
 
   %description    devel
   This package provides development headers and libraries for fex-emu.
 
   %package        utils
   Summary:        Utility tools for fex-emu
-  Requires:       fex-emu(aarch-64) = 2507.1-1
+  Requires:       fex-emu(aarch-64) = 2508.1-1
 
   %description    utils
   This package provides utility tools for fex-emu for advanced users.
 
   %package        thunks
   Summary:        Thunk libraries for fex-emu
-  Requires:       fex-emu(aarch-64) = 2507.1-1
+  Requires:       fex-emu(aarch-64) = 2508.1-1
 
   %description    thunks
   This package provides host library thunks for fex-emu.
 
 prepare() {
   cd './'
-  rm -rf 'FEX-FEX-2507.1'
-  tar -xf 'FEX-FEX-2507.1.tar.gz'
+  rm -rf 'FEX-FEX-2508.1'
+  tar -xf 'FEX-FEX-2508.1.tar.gz'
   STATUS=$?
   if [ $STATUS -ne 0 ]; then
     exit $STATUS
   fi
-  cd 'FEX-FEX-2507.1'
+  cd 'FEX-FEX-2508.1'
   chmod -Rf a+rX,u+w,g-w,o-w .
 
   # Copy in our README.fedora
@@ -137,9 +137,9 @@ prepare() {
   mkdir -p External/drm-headers
   tar -xzf drm-headers-0675d2f.tar.gz --strip-components=1 -C External/drm-headers
   mkdir -p External/jemalloc
-  tar -xzf jemalloc-02ca52b.tar.gz --strip-components=1 -C External/jemalloc
+  tar -xzf jemalloc-ce24593.tar.gz --strip-components=1 -C External/jemalloc
   mkdir -p External/jemalloc_glibc
-  tar -xzf jemalloc-4043539.tar.gz --strip-components=1 -C External/jemalloc_glibc
+  tar -xzf jemalloc-8436195.tar.gz --strip-components=1 -C External/jemalloc_glibc
   mkdir -p External/robin-map
   tar -xzf robin-map-d5683d9.tar.gz --strip-components=1 -C External/robin-map
   mkdir -p External/Vulkan-Headers
@@ -150,12 +150,12 @@ prepare() {
 
   # Ensure library soversion is set
   sed -i FEXCore/Source/CMakeLists.txt \
-    -e '/PROPERTIES OUTPUT_NAME/aset_target_properties(${Name} PROPERTIES VERSION 2507.1)'
+    -e '/PROPERTIES OUTPUT_NAME/aset_target_properties(${Name} PROPERTIES VERSION 2508.1)'
 
   # Set up sysroot and toolchain files
 
     # Unpack and prepare sysroot
-    tar xzf fex-sysroot-fc42-20250510.tar.gz
+    tar xzf fex-sysroot-fc42-20250713.tar.gz
     cp -p toolchain_x86_32.cmake toolchain_x86_64.cmake .
     CPPINC="/$(cd sysroot; ls -d usr/include/c++/*)"
     sed -i "s,%CPPINC%,$CPPINC,g" toolchain_*.cmake
@@ -164,6 +164,7 @@ prepare() {
 
 build() {
   %cmake -G Ninja \
+      -DCMAKE_BUILD_TYPE=release \
       -DENABLE_OFFLINE_TELEMETRY=OFF \
       -DBUILD_THUNKS=ON \
       -DENABLE_CLANG_THUNKS=ON \
@@ -202,7 +203,7 @@ package() {
   _install fakeinstall/usr/bin/FEXLoader
   _install fakeinstall/usr/bin/FEXpidof
   _install fakeinstall/usr/bin/FEXServer
-  _install fakeinstall/usr/lib/libFEXCore.so.2507.1
+  _install fakeinstall/usr/lib/libFEXCore.so.2508.1
   %{_binfmtdir}/FEX-x86.conf
   %{_binfmtdir}/FEX-x86_64.conf
   _install fakeinstall/usr/share/fex-emu/AppConfig/

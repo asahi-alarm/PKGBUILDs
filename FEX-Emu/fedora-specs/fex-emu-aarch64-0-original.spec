@@ -32,7 +32,7 @@
 %bcond x86_debug 0
 
 Name:       fex-emu
-Version:    2507.1%{?commit:^%{date}git%{commit}}
+Version:    2508.1%{?commit:^%{date}git%{commit}}
 Release:    %autorelease
 Summary:    Fast usermode x86 and x86-64 emulator for ARM64
 
@@ -69,8 +69,8 @@ SourceLicense: %{fex_license} %{sysroot_license}
 local externals = {
   { name="cpp-optparse", ref="9f94388", owner="Sonicadvance1", path="../Source/Common/cpp-optparse", license="MIT" },
   { name="drm-headers", ref="0675d2f", owner="FEX-Emu", package="kernel", version="6.13", license="GPL-2.0-only" },
-  { name="jemalloc", ref="02ca52b", owner="FEX-Emu", version="5.3.0", license="MIT" },
-  { name="jemalloc", ref="4043539", owner="FEX-Emu", path="jemalloc_glibc", version="5.3.0", license="MIT" },
+  { name="jemalloc", ref="ce24593", owner="FEX-Emu", version="5.3.0", license="MIT" },
+  { name="jemalloc", ref="8436195", owner="FEX-Emu", path="jemalloc_glibc", version="5.3.0", license="MIT" },
   { name="robin-map", ref="d5683d9", owner="FEX-Emu", version="1.3.0", license="MIT" },
   { name="Vulkan-Headers", ref="cacef30", owner="KhronosGroup", package="vulkan-headers", version="1.4.310", license="Apache-2.0" },
 }
@@ -235,6 +235,7 @@ sed -i FEXCore/Source/CMakeLists.txt \
 
 %build
 %cmake -G Ninja \
+    -DCMAKE_BUILD_TYPE=release \
     -DENABLE_OFFLINE_TELEMETRY=OFF \
 %ifarch %{x86_64}
     -DENABLE_X86_HOST_DEBUG=ON \
