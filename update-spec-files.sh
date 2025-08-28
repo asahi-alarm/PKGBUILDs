@@ -101,6 +101,13 @@ for ASAHI_PACKAGE in "${!PACKAGES[@]}"; do
            mkdir -p "$TMP_CLONE_FOLDER"
            git clone -o upstream -b f${FEDORA_VERSION} "${SPEC_COPR_CGIT_URL}${FEDORA_GIT_REPO:5}" "$TMP_CLONE_FOLDER"/
            FINAL_SPEC_URL="$TMP_CLONE_FOLDER"/"${SPEC_FILE}"
+
+           ########################################################################################################
+           # Here we can copy any file we want over from the copr git repo into the package's fedora-specs folder #
+           ########################################################################################################
+           if [ "$ASAHI_PACKAGE" == "linux-asahi" ]; then
+             cp "$TMP_CLONE_FOLDER"/kernel-aarch64-16k-fedora.config "$TARGET_FOLDER"
+           fi
         elif [[ "$FEDORA_GIT_REPO" == fsrc+* ]]; then
            FINAL_SPEC_URL="${SPEC_FEDORA_SRC_URL}${FEDORA_GIT_REPO:5}/raw/f${FEDORA_VERSION}/f/${SPEC_FILE}"
         else
