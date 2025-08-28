@@ -1,7 +1,7 @@
 
   Name:     uboot-tools
   Version:  2025.07
-  Release:  103
+  Release:  104
   Epoch:    1
   Summary:  U-Boot utilities
 
@@ -317,6 +317,8 @@ build() {
       cp /usr/share/arm-trusted-firmware/zynqmp/bl31.bin builds/$(echo $board)/atf-bl31
     fi
     # End ATF
+
+    # skip tegra p3450-0000 on f41 and epel 10 due to build failures
 
     make $(echo $board)_defconfig O=builds/$(echo $board)/
     BL31=builds/$(echo $board)/atf-bl31 /usr/bin/make -O -j${RPM_BUILD_NCPUS} V=1 VERBOSE=1 HOSTCC="gcc $RPM_OPT_FLAGS" CROSS_COMPILE="" O=builds/$(echo $board)/

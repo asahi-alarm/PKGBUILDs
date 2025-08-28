@@ -6,7 +6,7 @@
 
 Name:     uboot-tools
 Version:  2025.07
-Release:  103%{?candidate:.%{candidate}}%{?dist}
+Release:  104%{?candidate:.%{candidate}}%{?dist}
 Epoch:    1
 Summary:  U-Boot utilities
 # Automatically converted from old format: GPLv2+ BSD LGPL-2.1+ LGPL-2.0+ - review is highly recommended.
@@ -233,6 +233,13 @@ do
   fi
   # End ATF
 
+  # skip tegra p3450-0000 on f41 and epel 10 due to build failures
+  %if (0%{?fedora} && 0%{?fedora} == 41) || (0%{?epel} && 0%{?epel} == 10)
+  if [[ " p3450-0000 " == *" $board "* ]]; then
+    continue
+  fi
+  %endif
+
   make $(echo $board)_defconfig O=builds/$(echo $board)/
   BL31=builds/$(echo $board)/atf-bl31 %make_build HOSTCC="gcc $RPM_OPT_FLAGS" CROSS_COMPILE="" O=builds/$(echo $board)/
 
@@ -334,6 +341,9 @@ install -p -m 0755 builds/tools/env/fw_printenv %{buildroot}%{_bindir}
 %endif
 
 %changelog
+* Mon Aug 25 2025 Janne Grunau <j@jannau.net> - 1:2025.07-104
+- Skip p3450-0000 on Fedora 41 / EPEL 10 due to build failure
+
 * Sun Aug 24 2025 Davide Cavalca <dcavalca@fedoraproject.org> - 1:2025.07-103
 - Restore patch to build without openssl engine
 
