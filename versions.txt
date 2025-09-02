@@ -21,8 +21,8 @@ FEX-Emu                        2508.1-2                       2508.1-1
 fex-emu-rootfs-arch            42^1.1-1                       20250624-1                    
 libkrun                        1.14.0-1                       1.14.0-1                      
 libkrunfw                      4.10.0-1                       4.10.0-1                      
-linux-asahi                    6.16.4-400.asahi               6.15.10.asahi3-2              
-linux-asahi-headers            6.16.4-400.asahi               6.15.10.asahi3-2              
+linux-asahi                    6.16.4-401.asahi               6.15.10.asahi3-2              
+linux-asahi-headers            6.16.4-401.asahi               6.15.10.asahi3-2              
 lzfse                          /                              1.0-1                         
 m1n1                           1.5.0-1                        1.5.0-1                       
 mesa                           25.2.1-1                       25.2.1-1                      
