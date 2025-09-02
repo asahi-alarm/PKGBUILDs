@@ -2,10 +2,10 @@
 # Maintainer: Jos Dehaes <jos.dehaes@gmail.com>
 # Maintainer: Matthias Kurz <m.kurz@irregular.at>
 
-_rcver=6.15.10
+_rcver=6.16.4
 #_rcrel=3
-_asahirel=3
-pkgrel=2
+_asahirel=2
+pkgrel=1
 
 _m1n1_version=1.4.21
 
@@ -28,10 +28,10 @@ source=(
   https://github.com/AsahiLinux/linux/archive/${_commit_id}.tar.gz
   config         # the main kernel config file
 )
-sha256sums=('ee9c1aacd57bc6186e16cc4925fefcbbb418f20559aa9e3af047267d94a881f1'
-            '587cfa56b1489f8d5b1d09cbd307d88ce6da6627c7ca04813bc0a37f7290ae05')
-b2sums=('733b9c75ad96ecbcf8b41e531b530ac1c40324f41f1957befacd09a5ca0a16077511ad0f93eedefe1ee3b38c3e8845f08fa889dadf4276d5a744b2e88e420fa6'
-        '912fa7bca3814878bf3892d5e716cf7fae22f82027d05417a008edf0d98d0e1ad82ed3c1b446170b789a38ebf0bf6ba6f1a91fa06a922802d17f7692c7200665')
+sha256sums=('1d19895c727716470143c34d32167c0a5e33882fbf2e80546c7977db60d921df'
+            '672e8dde7472e7abe0ea26fdb116162b388d33cd143b945b0842497fc9b60716')
+b2sums=('05793735f154a4d61b2e6979dbc2eb0ca0b7d29aacaccec6f812ac0cf90f88eac78e74c6fb0cb624170cede7995730c4655b92589a24ff8b63862fc15e2b3d11'
+        '90bc2fc812677fea5ac2d9783e9f9ae789d279124ae583d8bdda734b429c1e056f9b25368d41bf544c40615634eee371007af053c1e681845b5748a49d9dd476')
 export KBUILD_BUILD_HOST=archlinux
 export KBUILD_BUILD_USER=$pkgbase
 export KBUILD_BUILD_TIMESTAMP="$(date -Ru${SOURCE_DATE_EPOCH:+d @$SOURCE_DATE_EPOCH})"
