@@ -1,8 +1,8 @@
-diff --git a/libkrun-1.14.0/src/devices/Cargo.toml b/libkrun-1.14.0/src/devices/Cargo.toml
-index 3b818a8..5f88681 100644
---- a/libkrun-1.14.0/src/devices/Cargo.toml
-+++ b/libkrun-1.14.0/src/devices/Cargo.toml
-@@ -38,7 +38,6 @@ imago = { version = "0.1.4", features = ["sync-wrappers", "vm-memory"] }
+diff --git a/src/devices/Cargo.toml b/src/devices/Cargo.toml
+index 52b2bbf..1f879a6 100644
+--- a/src/devices/Cargo.toml
++++ b/src/devices/Cargo.toml
+@@ -41,7 +41,6 @@ imago = { version = "0.1.4", features = ["sync-wrappers", "vm-memory"] }
  
  [target.'cfg(target_os = "macos")'.dependencies]
  hvf = { path = "../hvf" }
@@ -10,10 +10,10 @@ index 3b818a8..5f88681 100644
  
  [target.'cfg(target_os = "linux")'.dependencies]
  rutabaga_gfx = { path = "../rutabaga_gfx", features = ["x"], optional = true }
-diff --git a/libkrun-1.14.0/src/rutabaga_gfx/Cargo.toml b/libkrun-1.14.0/src/rutabaga_gfx/Cargo.toml
+diff --git a/src/rutabaga_gfx/Cargo.toml b/src/rutabaga_gfx/Cargo.toml
 index 7e35bb8..4857815 100644
---- a/libkrun-1.14.0/src/rutabaga_gfx/Cargo.toml
-+++ b/libkrun-1.14.0/src/rutabaga_gfx/Cargo.toml
+--- a/src/rutabaga_gfx/Cargo.toml
++++ b/src/rutabaga_gfx/Cargo.toml
 @@ -31,9 +31,6 @@ vmm-sys-util = ">=0.14"
  [target.'cfg(unix)'.dependencies]
  nix = "0.26.1"

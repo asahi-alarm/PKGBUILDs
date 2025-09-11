@@ -1,17 +1,16 @@
-diff --git a/libkrun-1.14.0/src/vmm/Cargo.toml b/libkrun-1.14.0/src/vmm/Cargo.toml
-index 231c79a..cb0224e 100644
---- a/libkrun-1.14.0/src/vmm/Cargo.toml
-+++ b/libkrun-1.14.0/src/vmm/Cargo.toml
-@@ -5,8 +5,6 @@ authors = ["Amazon Firecracker team <firecracker-devel@amazon.com>"]
- edition = "2021"
+diff --git a/src/vmm/Cargo.toml b/src/vmm/Cargo.toml
+index 71e4313..39a8a21 100644
+--- a/src/vmm/Cargo.toml
++++ b/src/vmm/Cargo.toml
+@@ -6,7 +6,6 @@ edition = "2021"
  
  [features]
--tee = []
+ tee = []
 -amd-sev = [ "blk", "tee", "codicon", "kbs-types", "procfs", "rdrand", "serde", "serde_json", "sev", "curl" ]
  net = []
  blk = []
  efi = [ "blk", "net" ]
-@@ -30,14 +28,6 @@ utils = { path = "../utils"}
+@@ -32,14 +31,6 @@ utils = { path = "../utils" }
  polly = { path = "../polly" }
  
  # Dependencies for amd-sev

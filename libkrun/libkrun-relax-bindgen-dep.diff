@@ -1,0 +1,13 @@
+diff --git a/src/krun_display/Cargo.toml b/src/krun_display/Cargo.toml
+index a566cd2..3a6482b 100644
+--- a/src/krun_display/Cargo.toml
++++ b/src/krun_display/Cargo.toml
+@@ -11,7 +11,7 @@ bitflags = "2.9.1"
+ static_assertions = "1.1.0"
+ 
+ [build-dependencies]
+-bindgen = { version = "0.72", default-features = false }
++bindgen = { version = "0.71", default-features = false }
+ 
+ [features]
+ bindgen_clang_runtime = ["bindgen/runtime"]
