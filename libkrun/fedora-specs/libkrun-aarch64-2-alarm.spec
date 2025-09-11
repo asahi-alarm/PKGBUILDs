@@ -1,18 +1,22 @@
 
   Name:           libkrun
-  Version:        1.14.0
+  Version:        1.15.1
   Release:        1
   Summary:        Dynamic library providing Virtualization-based process isolation capabilities
 
   License:        Apache-2.0
   URL:            https://github.com/containers/libkrun
-  Source:         https://github.com/containers/libkrun/archive/refs/tags/v1.14.0.tar.gz
+  Source:         https://github.com/containers/libkrun/archive/refs/tags/v1.15.1.tar.gz
 
   Patch0:         libkrun-remove-unused-deps.diff
 
   Patch1:         libkrun-remove-nitro-deps.diff
 
-  Patch2:         libkrun-remove-sev-deps.diff
+  Patch2:         libkrun-remove-tdx-deps.diff
+
+  Patch3:         libkrun-relax-bindgen-dep.diff
+
+  Patch4:         libkrun-remove-sev-deps.diff
 
   ExclusiveArch:  x86_64 aarch64
 
@@ -47,6 +51,7 @@
   BuildRequires:  (crate(nix/default) >= 0.26.1 with crate(nix/default) < 0.27.0~)
   BuildRequires:  (crate(nix/default) >= 0.27.1 with crate(nix/default) < 0.28.0~)
   BuildRequires:  (crate(rand/default) >= 0.8.5 with crate(rand/default) < 0.9.0~)
+  BuildRequires:  (crate(rand/default) >= 0.9.2 with crate(rand/default) < 0.10.0~)
   BuildRequires:  (crate(once_cell/default) >= 1.4.1 with crate(once_cell/default) < 2.0.0~)
   BuildRequires:  (crate(crossbeam-channel/default) >= 0.5.0 with crate(crossbeam-channel/default) < 0.6.0~)
   BuildRequires:  (crate(pipewire/default) >= 0.8.0 with crate(pipewire/default) < 0.9.0~)
@@ -59,13 +64,15 @@
   BuildRequires:  (crate(bzip2/default) >= 0.5.0 with crate(bzip2/default) < 0.6.0~)
   BuildRequires:  (crate(zstd/default) >= 0.13.0 with crate(zstd/default) < 0.14.0~)
   BuildRequires:  (crate(flate2/default) >= 1.0.0 with crate(flate2/default) < 2.0.0~)
+  BuildRequires:  (crate(static_assertions/default) >= 1.1.0 with crate(static_assertions/default) < 2.0.0~)
+  BuildRequires:  (crate(thiserror/default) >= 2.0.0 with crate(thiserror/default) < 3.0.0~)
 
   %description
   Dynamic library providing Virtualization-based process isolation capabilities.
 
   %package devel
   Summary: Header files and libraries for libkrun development
-  Requires:       libkrun(aarch-64) = 1.14.0-1
+  Requires:       libkrun(aarch-64) = 1.15.1-1
 
   %description devel
   The libkrun-devel package containes the libraries and headers needed to
@@ -75,7 +82,7 @@
 prepare() {
   cd './'
   rm -rf 'libkrun-%{version_no_tilde}'
-  tar -xf 'v1.14.0.tar.gz'
+  tar -xf 'v1.15.1.tar.gz'
   STATUS=$?
   if [ $STATUS -ne 0 ]; then
     exit $STATUS
@@ -84,13 +91,19 @@ prepare() {
   chmod -Rf a+rX,u+w,g-w,o-w .
 
   echo "Patch #0 (libkrun-remove-unused-deps.diff):"
-  patch --no-backup-if-mismatch -f -p2  --fuzz=0 < libkrun-remove-unused-deps.diff
+  patch --no-backup-if-mismatch -f -p1  --fuzz=0 < libkrun-remove-unused-deps.diff
 
   echo "Patch #1 (libkrun-remove-nitro-deps.diff):"
-  patch --no-backup-if-mismatch -f -p2  --fuzz=0 < libkrun-remove-nitro-deps.diff
+  patch --no-backup-if-mismatch -f -p1  --fuzz=0 < libkrun-remove-nitro-deps.diff
 
-  echo "Patch #2 (libkrun-remove-sev-deps.diff):"
-  patch --no-backup-if-mismatch -f -p2  --fuzz=0 < libkrun-remove-sev-deps.diff
+  echo "Patch #2 (libkrun-remove-tdx-deps.diff):"
+  patch --no-backup-if-mismatch -f -p1  --fuzz=0 < libkrun-remove-tdx-deps.diff
+
+  echo "Patch #3 (libkrun-relax-bindgen-dep.diff):"
+  patch --no-backup-if-mismatch -f -p1  --fuzz=0 < libkrun-relax-bindgen-dep.diff
+
+  echo "Patch #4 (libkrun-remove-sev-deps.diff):"
+  patch --no-backup-if-mismatch -f -p1  --fuzz=0 < libkrun-remove-sev-deps.diff
 
   %cargo_prep
 
@@ -109,11 +122,12 @@ package() {
   # A spec %files section (it could be that part of the next lines duplicate part of the package() function)
   install -Dpm0755 -t ${pkgdir}/usr/share/licenses/libkrun/ LICENSE
   install -Dpm0755 -t ${pkgdir}/usr/share/doc/libkrun/  README.md
-  _install fakeinstall/usr/lib/libkrun.so.1.14.0
+  _install fakeinstall/usr/lib/libkrun.so.1.15.1
   _install fakeinstall/usr/lib/libkrun.so.1
 
   # devel
   _install fakeinstall/usr/lib/libkrun.so
   _install fakeinstall/usr/lib/pkgconfig/libkrun.pc
   _install fakeinstall/usr/include/libkrun.h
+  _install fakeinstall/usr/include/libkrun_display.h
 }

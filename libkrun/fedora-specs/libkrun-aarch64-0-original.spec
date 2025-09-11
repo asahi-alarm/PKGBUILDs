@@ -9,7 +9,7 @@
 %endif
 
 Name:           libkrun
-Version:        1.14.0
+Version:        1.15.1
 Release:        1%{?dist}
 Summary:        Dynamic library providing Virtualization-based process isolation capabilities
 
@@ -26,8 +26,12 @@ Source1:        %{name}-%{version}-vendor.tar.xz
 Patch0:         libkrun-remove-unused-deps.diff
 # Disable nitro until the dependencies are packaged.
 Patch1:         libkrun-remove-nitro-deps.diff
-# For aarch64, remove references to SEV deps which are only available on x86_64
-Patch2:         libkrun-remove-sev-deps.diff
+# Disable TDX untile the dependencies are packaged.
+Patch2:         libkrun-remove-tdx-deps.diff
+# Allow building with 0.71 until 0.72 is packaged.
+Patch3:         libkrun-relax-bindgen-dep.diff
+# For aarch64, remove references to SEV and TDX deps which are only available on x86_64
+Patch4:         libkrun-remove-sev-deps.diff
 %endif
 
 # libkrun only supports x86_64 and aarch64
@@ -77,6 +81,7 @@ BuildRequires:  (crate(nix/default) >= 0.24.1 with crate(nix/default) < 0.25.0~)
 BuildRequires:  (crate(nix/default) >= 0.26.1 with crate(nix/default) < 0.27.0~)
 BuildRequires:  (crate(nix/default) >= 0.27.1 with crate(nix/default) < 0.28.0~)
 BuildRequires:  (crate(rand/default) >= 0.8.5 with crate(rand/default) < 0.9.0~)
+BuildRequires:  (crate(rand/default) >= 0.9.2 with crate(rand/default) < 0.10.0~)
 BuildRequires:  (crate(once_cell/default) >= 1.4.1 with crate(once_cell/default) < 2.0.0~)
 BuildRequires:  (crate(crossbeam-channel/default) >= 0.5.0 with crate(crossbeam-channel/default) < 0.6.0~)
 BuildRequires:  (crate(pipewire/default) >= 0.8.0 with crate(pipewire/default) < 0.9.0~)
@@ -89,6 +94,8 @@ BuildRequires:  (crate(linux-loader/default) >= 0.13.0 with crate(linux-loader/d
 BuildRequires:  (crate(bzip2/default) >= 0.5.0 with crate(bzip2/default) < 0.6.0~)
 BuildRequires:  (crate(zstd/default) >= 0.13.0 with crate(zstd/default) < 0.14.0~)
 BuildRequires:  (crate(flate2/default) >= 1.0.0 with crate(flate2/default) < 2.0.0~)
+BuildRequires:  (crate(static_assertions/default) >= 1.1.0 with crate(static_assertions/default) < 2.0.0~)
+BuildRequires:  (crate(thiserror/default) >= 2.0.0 with crate(thiserror/default) < 3.0.0~)
 
 %ifarch x86_64
 # SEV variant dependencies
@@ -147,10 +154,12 @@ capabilities.
 %cargo_prep -v vendor
 %else
 %setup -q -n %{name}-%{version_no_tilde}
-%patch -P 0 -p2
-%patch -P 1 -p2
+%patch -P 0 -p1
+%patch -P 1 -p1
+%patch -P 2 -p1
+%patch -P 3 -p1
 %ifnarch x86_64
-%patch -P 2 -p2
+%patch -P 4 -p1
 %endif
 %cargo_prep
 %endif
@@ -191,6 +200,7 @@ capabilities.
 %{_libdir}/libkrun.so
 %{_libdir}/pkgconfig/libkrun.pc
 %{_includedir}/libkrun.h
+%{_includedir}/libkrun_display.h
 
 %ifarch x86_64
 %files sev
@@ -213,6 +223,9 @@ capabilities.
 %endif
 
 %changelog
+* Mon Sep 01 2025 Sergio Lopez <slp@redhat.com> - 1.15.1-1
+- Update to version 1.15.1
+
 * Mon Aug 04 2025 Sergio Lopez <slp@redhat.com> - 1.14.0-1
 - Update to version 1.14.0
 
