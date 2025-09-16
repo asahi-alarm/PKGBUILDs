@@ -165,13 +165,13 @@ Summary: The Linux kernel
 %define specrpmversion 6.16.4
 %define specversion 6.16.4
 %define patchversion 6.16
-%define pkgrelease 401.asahi
+%define pkgrelease 402.asahi
 %define kversion 6
 %define tarfile_release 6.16.4
 # This is needed to do merge window version magic
 %define patchlevel 16
 # This allows pkg_release to have configurable %%{?dist} tag
-%define specrelease 401.asahi%{?buildid}%{?dist}
+%define specrelease 402.asahi%{?buildid}%{?dist}
 # This defines the kabi tarball version
 %define kabiversion 6.16.4
 
@@ -4363,6 +4363,9 @@ fi\
 #
 #
 %changelog
+* Tue Sep 02 2025 Neal Gompa <neal@gompa.dev> [6.16.4-402.asahi]
+- net: ipv4: fix regression in local-broadcast routes (Oscar Maes)
+
 * Mon Sep 01 2025 Neal Gompa <neal@gompa.dev> [6.16.4-401.asahi]
 - HID: lenovo: Use KEY_PERFORMANCE instead of ACPI's platform_profile (Janne Grunau)
 - Input: add keycode for performance mode key (Marcos Alano)
