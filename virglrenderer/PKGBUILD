@@ -2,9 +2,7 @@
 # Maintainer: Matthias Kurz <m.kurz@irregular.at>
 
 pkgname=virglrenderer
-_commit=b997bc18fafdcb8e563b7b07b54412ea61e12082
-_shortcommit=${_commit:0:7}
-pkgver=1.1.1.git20250806.${_shortcommit}
+pkgver=1.2.0
 pkgrel=1
 epoch=1
 pkgdesc='A virtual 3D GPU library, that allows the guest operating system to use the host GPU to accelerate 3D rendering'
@@ -16,17 +14,17 @@ makedepends=('git' 'meson' 'ninja' 'python-yaml') # Tools for building from Git
 conflicts=('virglrenderer-asahi')
 replaces=('virglrenderer-asahi')
 
-source=("${pkgname}-${_commit}.tar.bz2::https://gitlab.freedesktop.org/virgl/virglrenderer/-/archive/${_commit}/virglrenderer-${_commit}.tar.bz2")
-sha256sums=('682aeabab96848fa8e3cc06dfa2c76875f937be7a3f07e689f18a86222738ccc')
+source=("${pkgname}-${pkgver}.tar.bz2::https://gitlab.freedesktop.org/virgl/virglrenderer/-/archive/${pkgver}/virglrenderer-${pkgver}.tar.bz2")
+sha256sums=('f4f52db11297b52b35c8c2d5bf5e21b7997b52f8bfad99ea2b1c155997cff4ad')
 
 prepare() {
-  cd "${srcdir}/${pkgname}-${_commit}"
+  cd "${srcdir}/${pkgname}-${pkgver}"
   # If there are submodules (unlikely here), uncomment:
   # git submodule update --init --recursive
 }
 
 build() {
-  cd "${srcdir}/${pkgname}-${_commit}"
+  cd "${srcdir}/${pkgname}-${pkgver}"
   mkdir -p build
   meson setup build \
     --prefix=/usr \
@@ -39,7 +37,7 @@ build() {
 }
 
 package() {
-  cd "${srcdir}/${pkgname}-${_commit}"
+  cd "${srcdir}/${pkgname}-${pkgver}"
   DESTDIR="${pkgdir}" meson install -C build
   install -D -m644 COPYING "$pkgdir/usr/share/licenses/$pkgname/COPYING"
 }
