@@ -1,14 +1,15 @@
-%global commit b997bc18fafdcb8e563b7b07b54412ea61e12082
-%{?commit:%global shortcommit %(c=%{commit}; echo ${c:0:7})}
+%ifarch aarch64
+%global drm_renderers asahi,msm
+%endif
 
 Name:		virglrenderer
-Version:	1.1.1^git20250806.%{shortcommit}
-Release:	1%{?dist}
+Version:	1.2.0
+Release:	1.1%{?dist}
 
 Summary:	Virgl Rendering library.
 License:	MIT
 
-Source0: https://gitlab.freedesktop.org/virgl/virglrenderer/-/archive/%{commit}/virglrenderer-%{commit}.tar.bz2
+Source:         https://gitlab.freedesktop.org/virgl/virglrenderer/-/archive/%{version}/virglrenderer-%{version}.tar.bz2
 
 BuildRequires:  meson
 BuildRequires:  gcc
@@ -16,10 +17,10 @@ BuildRequires:	libepoxy-devel
 BuildRequires:	mesa-libgbm-devel
 BuildRequires:	mesa-libEGL-devel
 BuildRequires:	python3
-BuildRequires:	python3-pyyaml
 BuildRequires:	libdrm-devel
 BuildRequires:  libva-devel
 BuildRequires:  vulkan-loader-devel
+BuildRequires:  python3-pyyaml
 Provides:       virglrenderer(asahi)
 
 %description
@@ -46,31 +47,42 @@ that can be used along with the mesa virgl
 driver to test virgl rendering without GL.
 
 %prep
-%autosetup -n %{name}-%{commit} -p1
+%autosetup -p1
+
 %build
-%meson -Dvideo=true -Ddrm-renderers=asahi -Dvenus=true
+%meson \
+  %{?drm_renderers:-Ddrm-renderers=%drm_renderers} \
+  -Dvideo=true \
+  -Dvenus=true
 %meson_build
 
 %install
 %meson_install
 
-%ldconfig_scriptlets
-
 %files
 %license COPYING
-%{_libdir}/lib*.so.*
+%{_libdir}/libvirglrenderer.so.1{,.*}
 %{_libexecdir}/virgl_render_server
 
 %files devel
 %dir %{_includedir}/virgl/
 %{_includedir}/virgl/*
-%{_libdir}/lib*.so
-%{_libdir}/pkgconfig/*.pc
+%{_libdir}/libvirglrenderer.so
+%{_libdir}/pkgconfig/virglrenderer.pc
 
 %files test-server
 %{_bindir}/virgl_test_server
 
 %changelog
+* Thu Sep 18 2025 Janne Grunau >janne-fdr@jannau.net> - 1.2.0-1.1
+- Use 1.1 as Release to sort below F43's 1.2.0-2 but exclude 1.2.0-1
+
+* Wed Sep 17 2025 Janne Grunau >janne-fdr@jannau.net> - 1.2.0-1
+- Enable asahi,msm DRM native context support on aarch64
+
+* Tue Sep 09 2025 Marc-André Lureau <marcandre.lureau@redhat.com> - 1.2.0-1
+- Update to v1.2.0, fixes rhbz#2393984
+
 * Wed Aug 06 2025 Janne Grunau <janne-fdr@jannau.net> - 1.1.1^git20250806.b997bc1-1
 - Bump to virglrenderer-1.1.1^git20250806.b997bc1
 
