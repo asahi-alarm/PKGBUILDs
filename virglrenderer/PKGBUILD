@@ -32,7 +32,7 @@ build() {
     --prefix=/usr \
     --libexecdir=lib/$pkgname \
     -Dvideo=true \
-    -Ddrm-renderers=asahi \
+    -Ddrm-renderers=asahi,msm \
     -Dvenus=true
 
   meson compile -C build
