@@ -29,10 +29,10 @@ mesa                           25.2.1-1                       25.2.1-1
 muvm                           0.4.1-1                        0.4.1-1                       
 speakersafetyd                 1.0.2-1                        1.0.2-1                       
 startup-disk                   0.1.5-1                        0.1.5-2                       
-steam                          0-13                           20241231-4                    
+steam                          0-14                           20241231-4                    
 tiny-dfr                       0.3.5-1                        0.3.5-1                       
 triforce-lv2                   0.3.2-1                        0.3.2-1                       
 uboot-asahi                    1:2025.07-104                  2025.07.asahi1-1              
-virglrenderer                  1.2.0-1.1                      1:1.1.1.git20250806.b997bc1-1 
+virglrenderer                  1.2.0-1.1                      1:1.2.0-1                     
 widevine                       /                              4.10.2891.0-1                 
 xkeyboard-config               2.44-1                         2.44-1                        
