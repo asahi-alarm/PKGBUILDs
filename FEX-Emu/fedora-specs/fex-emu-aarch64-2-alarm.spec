@@ -1,13 +1,13 @@
 
   Name:       fex-emu
-  Version:    2508.1
+  Version:    2509.1
   Release:    1
   Summary:    Fast usermode x86 and x86-64 emulator for ARM64
 
   License:    MIT AND Apache-2.0 AND BSD-3-Clause AND GPL-2.0-only
   URL:        https://fex-emu.com
 
-  Source0:    https://github.com/FEX-Emu/FEX/archive/FEX-2508.1/FEX-FEX-2508.1.tar.gz
+  Source0:    https://github.com/FEX-Emu/FEX/archive/FEX-2509.1/FEX-FEX-2509.1.tar.gz
 
   Source1:    README.fedora
 
@@ -27,9 +27,11 @@
   Provides: bundled(jemalloc) = 5.3.0
   Source104: https://github.com/FEX-Emu/jemalloc/archive/8436195/jemalloc-8436195.tar.gz
   Provides: bundled(jemalloc) = 5.3.0
-  Source105: https://github.com/FEX-Emu/robin-map/archive/d5683d9/robin-map-d5683d9.tar.gz
+  Source105: https://github.com/ericniebler/range-v3/archive/ca1388f/range-v3-ca1388f.tar.gz
+  Provides: bundled(range-v3) = 0.12.0
+  Source106: https://github.com/FEX-Emu/robin-map/archive/d5683d9/robin-map-d5683d9.tar.gz
   Provides: bundled(robin-map) = 1.3.0
-  Source106: https://github.com/KhronosGroup/Vulkan-Headers/archive/cacef30/Vulkan-Headers-cacef30.tar.gz
+  Source107: https://github.com/KhronosGroup/Vulkan-Headers/archive/cacef30/Vulkan-Headers-cacef30.tar.gz
   Provides: bundled(vulkan-headers) = 1.4.310
 
   ExclusiveArch:  aarch64
@@ -69,9 +71,9 @@
   BuildRequires:  cmake(Qt6Widgets)
 
   Requires:       systemd-udev
-  Requires:       fex-emu-filesystem = 2508.1-1
+  Requires:       fex-emu-filesystem = 2509.1-1
 
-  Recommends:     fex-emu-thunks = 2508.1-1
+  Recommends:     fex-emu-thunks = 2509.1-1
 
   Recommends:     fex-emu-rootfs-fedora
   Recommends:     erofs-fuse
@@ -80,7 +82,7 @@
   Recommends:     squashfuse
 
   Obsoletes:      fex-emu-gdb < 2409-4
-  Provides:       fex-emu-gdb = 2508.1-1
+  Provides:       fex-emu-gdb = 2509.1-1
 
   %description
   FEX allows you to run x86 and x86-64 binaries on an AArch64 host, similar to
@@ -99,34 +101,34 @@
 
   %package        devel
   Summary:        Development headers and libraries for fex-emu
-  Requires:       fex-emu(aarch-64) = 2508.1-1
+  Requires:       fex-emu(aarch-64) = 2509.1-1
 
   %description    devel
   This package provides development headers and libraries for fex-emu.
 
   %package        utils
   Summary:        Utility tools for fex-emu
-  Requires:       fex-emu(aarch-64) = 2508.1-1
+  Requires:       fex-emu(aarch-64) = 2509.1-1
 
   %description    utils
   This package provides utility tools for fex-emu for advanced users.
 
   %package        thunks
   Summary:        Thunk libraries for fex-emu
-  Requires:       fex-emu(aarch-64) = 2508.1-1
+  Requires:       fex-emu(aarch-64) = 2509.1-1
 
   %description    thunks
   This package provides host library thunks for fex-emu.
 
 prepare() {
   cd './'
-  rm -rf 'FEX-FEX-2508.1'
-  tar -xf 'FEX-FEX-2508.1.tar.gz'
+  rm -rf 'FEX-FEX-2509.1'
+  tar -xf 'FEX-FEX-2509.1.tar.gz'
   STATUS=$?
   if [ $STATUS -ne 0 ]; then
     exit $STATUS
   fi
-  cd 'FEX-FEX-2508.1'
+  cd 'FEX-FEX-2509.1'
   chmod -Rf a+rX,u+w,g-w,o-w .
 
   # Copy in our README.fedora
@@ -140,6 +142,8 @@ prepare() {
   tar -xzf jemalloc-ce24593.tar.gz --strip-components=1 -C External/jemalloc
   mkdir -p External/jemalloc_glibc
   tar -xzf jemalloc-8436195.tar.gz --strip-components=1 -C External/jemalloc_glibc
+  mkdir -p External/range-v3
+  tar -xzf range-v3-ca1388f.tar.gz --strip-components=1 -C External/range-v3
   mkdir -p External/robin-map
   tar -xzf robin-map-d5683d9.tar.gz --strip-components=1 -C External/robin-map
   mkdir -p External/Vulkan-Headers
@@ -150,7 +154,7 @@ prepare() {
 
   # Ensure library soversion is set
   sed -i FEXCore/Source/CMakeLists.txt \
-    -e '/PROPERTIES OUTPUT_NAME/aset_target_properties(${Name} PROPERTIES VERSION 2508.1)'
+    -e '/PROPERTIES OUTPUT_NAME/aset_target_properties(${Name} PROPERTIES VERSION 2509.1)'
 
   # Set up sysroot and toolchain files
 
@@ -203,7 +207,7 @@ package() {
   _install fakeinstall/usr/bin/FEXLoader
   _install fakeinstall/usr/bin/FEXpidof
   _install fakeinstall/usr/bin/FEXServer
-  _install fakeinstall/usr/lib/libFEXCore.so.2508.1
+  _install fakeinstall/usr/lib/libFEXCore.so.2509.1
   %{_binfmtdir}/FEX-x86.conf
   %{_binfmtdir}/FEX-x86_64.conf
   _install fakeinstall/usr/share/fex-emu/AppConfig/
