@@ -39,13 +39,10 @@ source=(
     "steam.svg"
     #"io.pagure.fedora_asahi.steam.metainfo.xml"
 )
-sha256sums=( # TODO Replace SKIP with actual hashes
-    'SKIP'
-    'SKIP'
-    'SKIP'
-    'SKIP'
-    #'SKIP'
-)
+sha256sums=('6ec1caf759c685d86a90b420949db6f0e18c9f00725707fc580ef6dcd507454a'
+            'a0621636424948ba47b5ea5760bcfa8ccf52a9e4e3284860befd58a6a0dbbf9e'
+            'd6a8dded63f5893ef63dc533014fc4a7227a3ae13de99f5e02beffc4bd1b5c37'
+            '4d4831c86034f4bba860f6835118ac3518d750db172a5f37055671fe2470d083')
 
 package() {
     install -Dm0755 "$srcdir/shim.py" "$pkgdir/usr/bin/steam"
