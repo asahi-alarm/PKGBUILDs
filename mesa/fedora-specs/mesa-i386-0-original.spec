@@ -1,6 +1,3 @@
-# prevent builds for Fedora 43 and later
-%if 0%{?fedora} && 0%{?fedora} < 43
-
 %dnl optionally do a minimal asahi specific build
 %bcond asahi_minimal %["%{_arch}" != "aarch64"]
 
@@ -59,7 +56,6 @@
 %ifarch %{ix86} x86_64
 %global with_crocus 1
 %global with_iris   1
-%global with_intel_clc 1
 %global intel_platform_vulkan %{?with_vulkan_hw:,intel,intel_hasvk}%{!?with_vulkan_hw:%{nil}}
 %if !0%{?rhel}
 %global with_i915   1
@@ -110,9 +106,10 @@
 
 Name:           mesa
 Summary:        Mesa graphics libraries
-%global ver 25.2.1
+%global ver 25.2.4
 Version:        %{lua:ver = string.gsub(rpm.expand("%{ver}"), "-", "~"); print(ver)}
-Release:        1%{?dist}
+# Keep `Release` smaller than 1 so that the Fedora packages always win version comparisons
+Release:        0.101%{?dist}
 License:        MIT AND BSD-3-Clause AND SGI-B-2.0
 URL:            http://www.mesa3d.org
 
@@ -126,6 +123,7 @@ Patch10:        gnome-shell-glthread-disable.patch
 
 Patch20:        meson_1.5_rust_build.patch
 Patch21:        do_not_use_wl_display_dispatch_queue_timeout.diff
+Patch22:        mr_37655_hk_host_cached.patch
 
 %if 0%{?fedora} && 0%{?fedora} < 42
 BuildRequires:  meson >= 1.5.0
@@ -137,6 +135,7 @@ BuildRequires:  gcc-c++
 BuildRequires:  gettext
 %if 0%{?with_hardware}
 BuildRequires:  kernel-headers
+BuildRequires:  systemd-devel
 %endif
 # We only check for the minimum version of pkgconfig(libdrm) needed so that the
 # SRPMs for each arch still have the same build dependencies. See:
@@ -148,7 +147,6 @@ BuildRequires:  pkgconfig(libunwind)
 BuildRequires:  pkgconfig(expat)
 BuildRequires:  pkgconfig(zlib) >= 1.2.3
 BuildRequires:  pkgconfig(libzstd)
-BuildRequires:  pkgconfig(libselinux)
 BuildRequires:  pkgconfig(wayland-scanner)
 BuildRequires:  pkgconfig(wayland-protocols) >= 1.41
 BuildRequires:  pkgconfig(wayland-client) >= 1.11
@@ -191,7 +189,7 @@ BuildRequires:  flatbuffers-devel
 BuildRequires:  flatbuffers-compiler
 BuildRequires:  xtensor-devel
 %endif
-%if 0%{?with_opencl} || 0%{?with_nvk} || 0%{?with_intel_clc} || 0%{?with_asahi} || 0%{?with_panfrost}
+%if 0%{?with_opencl} || 0%{?with_nvk} || 0%{?with_asahi} || 0%{?with_panfrost}
 BuildRequires:  clang-devel
 BuildRequires:  pkgconfig(libclc)
 BuildRequires:  pkgconfig(SPIRV-Tools)
@@ -216,9 +214,6 @@ BuildRequires:  pkgconfig(valgrind)
 %endif
 BuildRequires:  python3-devel
 BuildRequires:  python3-mako
-%if 0%{?with_intel_clc}
-BuildRequires:  python3-ply
-%endif
 BuildRequires:  python3-pycparser
 BuildRequires:  python3-pyyaml
 BuildRequires:  vulkan-headers
@@ -436,16 +431,12 @@ export MESON_PACKAGE_CACHE_DIR="%{cargo_registry}/"
   -Dglx=dri \
   -Degl=enabled \
   -Dglvnd=enabled \
-%if 0%{?with_intel_clc}
-  -Dintel-clc=enabled \
-%endif
   -Dintel-rt=%{?with_intel_vk_rt:enabled}%{!?with_intel_vk_rt:disabled} \
   -Dmicrosoft-clc=disabled \
   -Dllvm=enabled \
   -Dshared-llvm=enabled \
   -Dvalgrind=%{?with_valgrind:enabled}%{!?with_valgrind:disabled} \
   -Dbuild-tests=false \
-  -Dselinux=true \
 %if !0%{?with_libunwind}
   -Dlibunwind=disabled \
 %endif
@@ -804,9 +795,6 @@ install -Dpm0644 -t %{buildroot}%{_datadir}/fex-emu/overlays/ mesa-%{_arch}.erof
 %files fex-emu-overlay-%{_arch}
 %{_datadir}/fex-emu/overlays/mesa-%{_arch}.erofs
 %doc docs/Mesa-MLAA-License-Clarification-Email.txt
-%endif
-
-# end of the Fedora 43+ condition, changelog must stay outside of it
 %endif
 
 %changelog
