@@ -245,7 +245,8 @@ echo 'Cannot read meson_1.5_rust_build.patch'; exit 1;
 rpmuncompress do_not_use_wl_display_dispatch_queue_timeout.diff | 
 patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
 
-echo 'Cannot read mr_37655_hk_host_cached.patch'; exit 1;
+rpmuncompress mr_37655_hk_host_cached.patch | 
+patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
 
 cp Mesa-MLAA-License-Clarification-Email.txt docs/
 
