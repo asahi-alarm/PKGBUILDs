@@ -5,7 +5,7 @@
 _rcver=6.16.8
 #_rcrel=3
 _asahirel=1
-pkgrel=1
+pkgrel=2
 
 _m1n1_version=1.4.21
 
@@ -29,9 +29,9 @@ source=(
   config         # the main kernel config file
 )
 sha256sums=('adedd3ae611418b09aacd8f15ad01aceedf625b7a7cf2a1a391c060b3d166925'
-            '245fb6c18805cc3d0ae9fdea6f10c74c451f3070d7a67f1fb2e46ff065e59b19')
+            '99934dba7de9cd0aac57bdc42d8208c9c7b3f97fd66297c3b76dcdbddf486785')
 b2sums=('a4064d25c409ca60e272f8c51ae06d483736ca7d4a9fe6c425cd25655e291da0c01cc61d4172a43f28656d13c1173848ef77dd85138bb925b997b358ec886f6c'
-        '26e9547c2ca98facbc8165e64b595a0e3fd22688bc604cede5a3c458fb29bcaca6e57de2a4ba2afc0d3e20427c70405404357e7acaf2b49c66afc577f79dec5c')
+        '0c1a1f22ef6a8043deb54ac33c88bc050c314a60594a30f6d32f0d692ff82216aefdea8df1de7e477ed956cc97595a2c4145fab4663d68aee90418050260e860')
 export KBUILD_BUILD_HOST=archlinux
 export KBUILD_BUILD_USER=$pkgbase
 export KBUILD_BUILD_TIMESTAMP="$(date -Ru${SOURCE_DATE_EPOCH:+d @$SOURCE_DATE_EPOCH})"
@@ -125,7 +125,7 @@ _package-headers() {
   #install -Dt "$builddir/tools/objtool" tools/objtool/objtool
 
   # required when DEBUG_INFO_BTF_MODULES is enabled
-  #install -Dt "$builddir/tools/bpf/resolve_btfids" tools/bpf/resolve_btfids/resolve_btfids
+  install -Dt "$builddir/tools/bpf/resolve_btfids" $O/tools/bpf/resolve_btfids/resolve_btfids
 
   echo "Installing headers..."
   cp -t "$builddir" -a include $O/include
