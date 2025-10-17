@@ -1,8 +1,4 @@
 # Maintainer: Bart De Vries <bart at mogwai dot be>
-
-# list of versions can be retrieved from https://dl.google.com/widevine-cdm/versions.txt
-_x86_64_pkgver=4.10.2891.0
-
 _lacros_url='https://commondatastorage.googleapis.com/chromeos-localmirror/distfiles/'
 _lacros_img_aarch64=chromeos-lacros-arm64-squash-zstd
 _lacros_img_armv7h=chromeos-lacros-arm-squash-zstd
@@ -25,15 +21,15 @@ options=('!strip')
 
 source=("chrome-eula_text.html::https://www.google.com/intl/en/chrome/privacy/eula_text.html"
         "widevine.install")
-source_x86_64=("https://dl.google.com/widevine-cdm/${_x86_64_pkgver}-linux-x64.zip")
+source_x86_64=("https://www.google.com/dl/release2/chrome_component/aclxnidwwkj5di3vduduj2gqpgpq_4.10.2891.0/oimompecagnajdejgnnjijobebaeigek_4.10.2891.0_linux_b4hin3q5s66ws2322cyyfp35lu.crx3")
 source_aarch64=("lacros-arm64.squashfs::${_lacros_url}${_lacros_img_aarch64}-${_lacros_version}"
                 "widevine_fixup.py")
 source_armv7h=("lacros-arm.squashfs::${_lacros_url}${_lacros_img_armv7h}-${_lacros_version}"
                "widevine_fixup_32.py")
 
-sha256sums=(SKIP
+sha256sums=('5c06a0b34b235497450b3eebc156416fd51d1f5d2dc9da6bc5f0815be426f7f7'
             '5ffda209f750c8ba31800b5e28c9d32f04c4b261eeec09784ff7045b694456f4')
-sha256sums_x86_64=('c120e5d03ca6eb5243d4c69a6a4348e121233824ab26db9126a53ba99709d152')
+sha256sums_x86_64=('c28ebc536851070d5ecefe023e5308aacfee71d18e5b0fc27d152964d1312836')
 sha256sums_aarch64=('38a57cc3975af68675a1219b00354f08890ff58d0c54b690dcf5d2dd904b1576'
                     '6e886755201f1ba9dab1ead5f11846bae321cbf343da1112f06c08c8a8012182')
 sha256sums_armv7h=('c11d54ce5953c72cdb0a9b4c1e3a6442e872aaf90c80ca95f21d5182b1560363'
@@ -106,7 +102,7 @@ package() {
     # These are general license files
     install -Dm644 ../chrome-eula_text.html "${pkgdir}/usr/share/licenses/${pkgname}/eula_text.html"
   elif [[ $CARCH == "x86_64" ]]; then
-    install -Dm644 ./LICENSE.txt "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE.txt"
+    install -Dm644 ./LICENSE "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
   fi
 
   # These are the files for the chromium metadata package
