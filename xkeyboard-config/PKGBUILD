@@ -14,7 +14,7 @@ conflicts=('xkbdata' 'xkeyboard-config-asahi')
 # https://gitlab.freedesktop.org/xkeyboard-config/xkeyboard-config
 source=(https://xorg.freedesktop.org/archive/individual/data/${pkgname}/${pkgname}-${pkgver}.tar.xz{,.sig})
 sha256sums=('54d2c33eeebb031d48fa590c543e54c9bcbd0f00386ebc6489b2f47a0da4342a'
-  'SKIP')
+            'SKIP')
 validpgpkeys=('FFB4CCD275AAA422F5F9808E0661D98FC933A145') # Sergey Udaltsov <sergey.udaltsov@gmail.com>
 
 build() {
