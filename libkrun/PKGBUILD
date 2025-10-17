@@ -7,7 +7,7 @@ pkgdesc="A dynamic library providing Virtualization-based process isolation capa
 url='https://github.com/containers/libkrun'
 arch=('x86_64' 'aarch64')
 license=('Apache')
-makedepends=('rustup' 'patchelf' 'virglrenderer')
+makedepends=('rustup' 'virglrenderer')
 depends=('glibc' 'gcc-libs' 'libkrunfw' 'virglrenderer' 'pipewire' 'libva')
 source=("https://github.com/containers/libkrun/archive/refs/tags/v$pkgver/$pkgname-$pkgver.tar.gz"
         libkrun-remove-nitro-deps.diff
