@@ -39,7 +39,7 @@ copr["fedora-remix-scripts"]="calamares-firstboot-config"
 
 DB=asahi-alarm.db.tar.gz
 
-FEDORA_REPO="F42"
+FEDORA_REPO="F43"
 
 if [ $# == 1 ]; then
   FEDORA_REPO=$1
@@ -51,7 +51,7 @@ rm $DB
 
 echo
 
-printf "%-30s %-30s %-30s\n" "Package" "Fedora Version" "ALARM Version"
+printf "%-30s %-30s %-30s\n" "Package" "Fedora $FEDORA_REPO" "ALARM Version"
 for P in $PKGS; do
   B=$(echo $P | sed 's/\([A-Za-z-]*\)-[0-9].*/\1/')
   V=$(echo $P | sed "s/$B-\([0-9].*\)/\1/")
