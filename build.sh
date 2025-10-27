@@ -15,9 +15,9 @@ set -xe
 # default packages, can be overridden on command line
 PKGS="asahi-scripts m1n1 uboot-asahi linux-asahi alsa-ucm-conf-asahi bankstown speakersafetyd asahi-audio calamares \
  asahi-calamares-configs asahi-configs lzfse asahi-fwextract asahi-alarm-keyring \
- virglrenderer mesa tiny-dfr widevine \
- libkrunfw libkrun muvm FEX-Emu asahi-bless fex-emu-rootfs-arch steam \
- xkeyboard-config asahi-desktop-meta asahi-meta"
+ tiny-dfr widevine \
+ muvm FEX-Emu asahi-bless fex-emu-rootfs-arch steam \
+ asahi-desktop-meta asahi-meta"
 
 if [ $# -ge 1 ]; then
   PKGS="$*"
@@ -36,13 +36,13 @@ for srcpkg in $PKGS; do
   # Remove any previously created packages
   rm -f -- *.pkg.tar.xz
   makepkg -Cs --noconfirm
-  if [ "$srcpkg" == "mesa" ]; then
-    # HACK: move the unwanted mesa-dummy package out of the way so it doesn't get picked up by 'ls'
-    # we DO want it in packages though, but not install it since it conflicts with mesa
-    mv mesa-dummy* ../packages/
-    # we need to remove mesa to avoid conflicts, not sure why -U --noconfirm isn't enough
-    sudo pacman -Rdd --noconfirm mesa
-  fi
+  # if [ "$srcpkg" == "mesa" ]; then
+  #   # HACK: move the unwanted mesa-dummy package out of the way so it doesn't get picked up by 'ls'
+  #   # we DO want it in packages though, but not install it since it conflicts with mesa
+  #   mv mesa-dummy* ../packages/
+  #   # we need to remove mesa to avoid conflicts, not sure why -U --noconfirm isn't enough
+  #   sudo pacman -Rdd --noconfirm mesa
+  # fi
 
   pkg=$(ls -- *.pkg.tar.xz)
   sudo pacman -U --noconfirm $pkg
