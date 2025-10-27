@@ -11,7 +11,7 @@
 
 #TODO: set -o pipefail and/or similiar?
 
-FEDORA_VERSION=42
+FEDORA_VERSION=43
 SPEC_COPR_CGIT_URL=https://copr-dist-git.fedorainfracloud.org/git/@asahi/
 SPEC_FEDORA_SRC_URL=https://src.fedoraproject.org/
 
