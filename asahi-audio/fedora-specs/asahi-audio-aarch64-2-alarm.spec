@@ -16,9 +16,7 @@
   Requires:       pipewire-module-filter-chain-lv2
   Requires:       lsp-plugins-lv2 >= 1.2.13-2
   Requires:       lv2-bankstown >= 1.1.0
-
   Requires:       lv2-triforce >= 0.2.0
-
   Recommends:     speakersafetyd
 
   %description

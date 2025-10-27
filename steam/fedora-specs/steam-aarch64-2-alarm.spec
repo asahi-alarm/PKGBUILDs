@@ -28,9 +28,6 @@
   Requires:       python3
   Requires:       xwininfo
 
-  Requires:       mesa-fex-emu-overlay-i386
-  Requires:       mesa-fex-emu-overlay-x86_64
-
   Requires:       virglrenderer > 1.2.0-1
   Requires:       zenity
 

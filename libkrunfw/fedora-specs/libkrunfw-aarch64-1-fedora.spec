@@ -1,7 +1,7 @@
 
 Name:           libkrunfw
 Version:        4.10.0
-Release:        1
+Release:        2
 Summary:        A dynamic library bundling the guest payload consumed by libkrun
 
 License:        LicenseRef-Callaway-LGPLv2 AND GPL-2.0-only
@@ -30,7 +30,7 @@ A dynamic library bundling the guest payload consumed by libkrun
 
 %package devel
 Summary: Header files and libraries for libkrunfw development
-Requires: libkrunfw(aarch-64) = 4.10.0-1
+Requires: libkrunfw(aarch-64) = 4.10.0-2
 
 %description devel
 The libkrunfw-devel package contains the libraries needed to develop
