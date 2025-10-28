@@ -102,9 +102,6 @@ jobs:
               if [ ! -d packages ]; then
                 mkdir packages
               fi
-              # import gpg key to build xkeyboard-config - this can be removed once we don't include
-              # it ourselves anymore
-              gpg --recv-keys 0661D98FC933A145
               cd packages
               echo "download current release databases"
               gh release download aarch64 --repo asahi-alarm/asahi-alarm --pattern asahi-alarm.db* --pattern asahi-alarm.files*
