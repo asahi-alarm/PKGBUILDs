@@ -62,7 +62,7 @@ declare -A PACKAGES=(
     ["uboot-asahi"]="copr+u-boot/uboot-tools.git,uboot-tools.spec|aarch64"
     ["virglrenderer"]="copr+mesa/virglrenderer.git,virglrenderer.spec|aarch64"
     #["widevine"]=""
-    #["xkeyboard-config"]=""
+    ["xkeyboard-config"]="fsrc+rpms/xkeyboard-config,xkeyboard-config.spec|aarch64"
     ["fex-emu-rootfs-arch"]="fsrc+rpms/fex-emu-rootfs-fedora,fex-emu-rootfs-fedora.spec|aarch64"
 )
 
