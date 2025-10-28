@@ -1,12 +1,12 @@
 
 Summary:    X Keyboard Extension configuration data
 Name:       xkeyboard-config
-Version:    2.44
+Version:    2.46
 Release:    1
 License:    HPND AND HPND-sell-variant AND X11 AND X11-distribute-modifications-variant AND MIT AND MIT-open-group AND xkeyboard-config-Zinoviev
 URL:        http://www.freedesktop.org/wiki/Software/XKeyboardConfig
 
-Source0:    http://xorg.freedesktop.org/archive/individual/data/xkeyboard-config/xkeyboard-config-2.44.tar.xz
+Source0:    http://xorg.freedesktop.org/archive/individual/data/xkeyboard-config/xkeyboard-config-2.46.tar.xz
 
 BuildArch:  noarch
 
@@ -27,7 +27,7 @@ which allows selection of keyboard layouts when using a graphical interface.
 
 %package devel
 Summary:    Development files for xkeyboard-config
-Requires:   xkeyboard-config = 2.44-1
+Requires:   xkeyboard-config = 2.46-1
 Requires:   pkgconfig
 
 %description devel
@@ -36,13 +36,13 @@ Development files for xkeyboard-config.
 %prep
 
 cd './'
-rm -rf 'xkeyboard-config-2.44'
-rpmuncompress -x 'xkeyboard-config-2.44.tar.xz'
+rm -rf 'xkeyboard-config-2.46'
+rpmuncompress -x 'xkeyboard-config-2.46.tar.xz'
 STATUS=$?
 if [ $STATUS -ne 0 ]; then
   exit $STATUS
 fi
-cd 'xkeyboard-config-2.44'
+cd 'xkeyboard-config-2.46'
 chmod -Rf a+rX,u+w,g-w,o-w .
 
 /usr/bin/git init -q
@@ -52,7 +52,7 @@ chmod -Rf a+rX,u+w,g-w,o-w .
 /usr/bin/git add --force .
 GIT_COMMITTER_DATE=@${SOURCE_DATE_EPOCH:-${RPM_BUILD_TIME:?}} GIT_AUTHOR_DATE=@${SOURCE_DATE_EPOCH:-${RPM_BUILD_TIME:?}}\
 	/usr/bin/git commit -q --allow-empty -a\
-	--author "rpm-build <rpm-build>" -m "xkeyboard-config-2.44 base"
+	--author "rpm-build <rpm-build>" -m "xkeyboard-config-2.46 base"
 /usr/bin/git checkout --track -b rpm-build
 
 %build
@@ -62,26 +62,48 @@ GIT_COMMITTER_DATE=@${SOURCE_DATE_EPOCH:-${RPM_BUILD_TIME:?}} GIT_AUTHOR_DATE=@$
 %install
 %meson_install
 
-# Remove unnecessary symlink
-rm -f $RPM_BUILD_ROOT/usr/share/X11/xkb/compiled
+# Replace with relative symlink
+rm $RPM_BUILD_ROOT/usr/share/X11/xkb
+ln -srf $RPM_BUILD_ROOT/usr/share/xkeyboard-config-2 $RPM_BUILD_ROOT/usr/share/X11/xkb
+
+/usr/lib/rpm/find-lang.sh fakeinstall xkeyboard-config-2
 /usr/lib/rpm/find-lang.sh fakeinstall xkeyboard-config
 
-# Create filelist
-{
-   FILESLIST=${PWD}/files.list
-   pushd $RPM_BUILD_ROOT
-   find ./usr/share/X11/xkb -type d | sed -e "s/^\./%dir /g" > $FILESLIST
-   find ./usr/share/X11/xkb -type f | sed -e "s/^\.//g" >> $FILESLIST
-   popd
-}
+# Note: 2.45 changed the install location from the decades-old /usr/share/X11/xkb
+# to a package-specific /usr/share/xkeyboard-config-2. Upstream installs a symlink
+# for /usr/share/X11/xkb since those two dirctories are guaranteed to be the same.
+#
+# The "official" script [1] is buggy if an .rpmmoved directory already exists so
+# this is an approximation taken from OpenSuSE [2]
+# [1] https://fedoraproject.org/wiki/Packaging:Directory_Replacement#Replacing_a_symlink_with_a_directory_or_a_directory_with_any_type_of_file
+# [2] https://build.opensuse.org/request/show/1294803
+%pretrans -p <lua>
+-- Define the path to directory being replaced below.
+-- DO NOT add a trailing slash at the end.
+local path = "/usr/share/X11/xkb"
+local st = posix.stat(path)
 
-%files -f files.list -f xkeyboard-config.lang
+if st and st.type == "directory" then
+  local target = path .. ".rpmmoved"
+  local suffix = 1
+
+  while posix.stat(target) do
+    suffix = suffix + 1
+    target = path .. ".rpmmoved" .. suffix
+  end
+
+  os.rename(path, target)
+end
+
+%files -f xkeyboard-config-2.lang -f xkeyboard-config.lang
 %doc AUTHORS README.md COPYING docs/README.* docs/HOWTO.*
 /usr/share/man/man7/xkeyboard-config.*
-/usr/share/X11/xkb/rules/xorg
-/usr/share/X11/xkb/rules/xorg.lst
-/usr/share/X11/xkb/rules/xorg.xml
+/usr/share/man/man7/xkeyboard-config-2.*
+/usr/share/X11/xkb
+/usr/share/xkeyboard-config-2/
+%ghost %attr(0755, root, root) %dir /usr/share/X11/xkb.rpmmoved
 
 %files devel
+/usr/share/pkgconfig/xkeyboard-config-2.pc
 /usr/share/pkgconfig/xkeyboard-config.pc
 
