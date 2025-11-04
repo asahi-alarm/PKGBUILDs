@@ -29,13 +29,11 @@ source=(
   Mesa-MLAA-License-Clarification-Email.txt
   gnome-shell-glthread-disable.patch
   do_not_use_wl_display_dispatch_queue_timeout.diff
-  mr_37655_hk_host_cached.patch
 )
 sha512sums=('ec74e1cc101b68ad2462399554273a9debb3d93a05c0a315cde3259b250d5828cbcef7771049b52beb01d07c34122fa5257451409b1d2b7fdcbf055c0f2c863d'
             'ecdabad21a86f04d51ba709a90fbeccb3004c6e8af3546edc530dcb4727787ed5d6a63043b6ab50b4c0a46de0894b6f3c594101b4d25f7831dee9f33fd2a7e31'
             'db08a07a6ee8cc09ae827688089e1e1e7aa2c43f9a1a9260012206052bcb9432d1c1a90657bc86618719632ba6cbb4502003c181321bc01c713f4e02dae8b4f1'
-            '30f3b5c9b98b6dabf30c3f84a1389bdda9b329ef2997688b7d15d7a365bfb9b9575d085322c53087a990175bb6d1b12fb5cfdc010ae40b3bbcaa9662d0de5f3f'
-            'be115cc3d8d33c58c130aeb800c57fff4c650523840a73b180b438b6e36febb3fc9ec8a708f9c9fa40bf4d9e9392100141e63d691b87f7e69dcb084fbba98158')
+            '30f3b5c9b98b6dabf30c3f84a1389bdda9b329ef2997688b7d15d7a365bfb9b9575d085322c53087a990175bb6d1b12fb5cfdc010ae40b3bbcaa9662d0de5f3f')
 
 prepare() {
   cd mesa-$pkgver
@@ -46,9 +44,6 @@ prepare() {
     patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
 
   cat ../do_not_use_wl_display_dispatch_queue_timeout.diff |
-    patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
-
-  cat ../mr_37655_hk_host_cached.patch |
     patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
 }
 
