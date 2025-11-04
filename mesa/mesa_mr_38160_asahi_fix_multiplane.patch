@@ -1,0 +1,256 @@
+From 4d918531a0fe4c04aae47818cdbba3a654b5f446 Mon Sep 17 00:00:00 2001
+From: Alyssa Rosenzweig <alyssa@rosenzweig.io>
+Date: Thu, 30 Oct 2025 08:53:53 -0400
+Subject: [PATCH] asahi,ail: fix multi-plane imports
+
+We need to handle plane offsets everywhere. I noticed this broken before but
+didn't realize it was a GL driver issue. Fix is easy, wrote this on my sofa
+while waking up in the morning.
+
+Fixes gst-launch-1.0 v4l2src ! glimagesink
+
+Note that cheese & snapshot both still hang for some reason due to
+libgstpipewire, but the Mesa side should be fine now.
+
+If anyone wants to investigate that other bug:
+
+   (cheese:24855): GStreamer-CRITICAL **: 09:17:26.449: _gst_util_uint64_scale_int: assertion 'num >= 0' failed
+
+   (gdb) bt
+   #0  0x0000fffff6c6fdbc in __pthread_kill_implementation () at /lib64/libc.so.6
+   #1  0x0000fffff6c1ba3c [PAC] in raise () at /lib64/libc.so.6
+   #2  0x0000fffff7181dd8 [PAC] in g_logv () at /lib64/libglib-2.0.so.0
+   #3  0x0000fffff7181fc4 [PAC] in g_log () at /lib64/libglib-2.0.so.0
+   #4  0x0000fffff6e8833c [PAC] in gst_util_uint64_scale_int () at /lib64/libgstreamer-1.0.so.0
+   #5  0x0000ffffb8837fd8 [PAC] in gst_pipewire_clock_get_internal_time () at /usr/lib64/gstreamer-1.0/libgstpipewire.so
+   #6  0x0000fffff6e0b010 [PAC] in gst_clock_get_internal_time () at /lib64/libgstreamer-1.0.so.0
+   #7  0x0000fffff6e0ce18 [PAC] in gst_clock_get_time () at /lib64/libgstreamer-1.0.so.0
+   #8  0x0000fffff50054a0 [PAC] in gst_base_src_get_range () at /lib64/libgstbase-1.0.so.0
+   #9  0x0000fffff5007cdc [PAC] in gst_base_src_loop () at /lib64/libgstbase-1.0.so.0
+   #10 0x0000fffff6e7d01c [PAC] in gst_task_func () at /lib64/libgstreamer-1.0.so.0
+
+Closes: #26109
+Signed-off-by: Alyssa Rosenzweig <alyssa@rosenzweig.io>
+Cc: mesa-stable
+---
+ src/asahi/layout/layout.c                 |  4 +++-
+ src/gallium/drivers/asahi/agx_batch.c     |  5 ++---
+ src/gallium/drivers/asahi/agx_pipe.c      |  9 +++++----
+ src/gallium/drivers/asahi/agx_query.c     |  3 ++-
+ src/gallium/drivers/asahi/agx_state.c     | 13 +++++++------
+ src/gallium/drivers/asahi/agx_state.h     |  2 +-
+ src/gallium/drivers/asahi/agx_streamout.c |  2 +-
+ src/gallium/drivers/asahi/agx_uniforms.c  | 12 +++++-------
+ 8 files changed, 26 insertions(+), 24 deletions(-)
+
+diff --git a/src/asahi/layout/layout.c b/src/asahi/layout/layout.c
+index ebf62e64d8c10..4ff45296afe3e 100644
+--- a/src/asahi/layout/layout.c
++++ b/src/asahi/layout/layout.c
+@@ -24,7 +24,8 @@ ail_initialize_linear(struct ail_layout *layout)
+    layout->layer_stride_B = align64(
+       (uint64_t)layout->linear_stride_B * layout->height_px, AIL_CACHELINE);
+ 
+-   layout->size_B = layout->layer_stride_B * layout->depth_px;
++   layout->size_B =
++      layout->level_offsets_B[0] + (layout->layer_stride_B * layout->depth_px);
+ }
+ 
+ /*
+@@ -341,6 +342,7 @@ ail_make_miptree(struct ail_layout *layout)
+       assert(layout->linear_stride_B == 0 && "Invalid nonlinear layout");
+       assert(layout->levels >= 1 && "Invalid dimensions");
+       assert(layout->sample_count_sa >= 1 && "Invalid sample count");
++      assert(layout->level_offsets_B[0] == 0 && "Invalid offset");
+    }
+ 
+    assert(!(layout->writeable_image && layout->compressed) &&
+diff --git a/src/gallium/drivers/asahi/agx_batch.c b/src/gallium/drivers/asahi/agx_batch.c
+index fa5b82a447d49..88754f9e64972 100644
+--- a/src/gallium/drivers/asahi/agx_batch.c
++++ b/src/gallium/drivers/asahi/agx_batch.c
+@@ -634,9 +634,8 @@ asahi_add_attachment(struct attachments *att, struct agx_resource *rsrc)
+    assert(att->count < MAX_ATTACHMENTS);
+ 
+    att->list[att->count++] = (struct drm_asahi_attachment){
+-      .size = rsrc->layout.size_B,
+-      .pointer = rsrc->bo->va->addr,
+-   };
++      .size = rsrc->layout.size_B - rsrc->layout.level_offsets_B[0],
++      .pointer = agx_map_texture_gpu(rsrc, 0)};
+ }
+ 
+ void
+diff --git a/src/gallium/drivers/asahi/agx_pipe.c b/src/gallium/drivers/asahi/agx_pipe.c
+index 5b08d028ceb02..5b06bce6c1655 100644
+--- a/src/gallium/drivers/asahi/agx_pipe.c
++++ b/src/gallium/drivers/asahi/agx_pipe.c
+@@ -210,13 +210,13 @@ agx_resource_from_handle(struct pipe_screen *pscreen,
+ 
+    if (rsc->layout.tiling == AIL_TILING_LINEAR) {
+       rsc->layout.linear_stride_B = whandle->stride;
+-   } else if (whandle->stride != ail_get_wsi_stride_B(&rsc->layout, 0)) {
++      rsc->layout.level_offsets_B[0] = whandle->offset;
++   } else if (whandle->stride != ail_get_wsi_stride_B(&rsc->layout, 0) ||
++              whandle->offset != 0) {
+       FREE(rsc);
+       return NULL;
+    }
+ 
+-   assert(whandle->offset == 0);
+-
+    ail_make_miptree(&rsc->layout);
+ 
+    if (prsc->target == PIPE_BUFFER) {
+@@ -301,7 +301,8 @@ agx_resource_get_param(struct pipe_screen *pscreen, struct pipe_context *pctx,
+                        enum pipe_resource_param param, unsigned usage,
+                        uint64_t *value)
+ {
+-   struct agx_resource *rsrc = (struct agx_resource *)prsc;
++   struct agx_resource *rsrc =
++      (struct agx_resource *)util_resource_at_index(prsc, plane);
+ 
+    switch (param) {
+    case PIPE_RESOURCE_PARAM_STRIDE:
+diff --git a/src/gallium/drivers/asahi/agx_query.c b/src/gallium/drivers/asahi/agx_query.c
+index 2156791df4fc7..4ed0fff55cd3e 100644
+--- a/src/gallium/drivers/asahi/agx_query.c
++++ b/src/gallium/drivers/asahi/agx_query.c
+@@ -503,7 +503,8 @@ agx_get_query_result_resource_gpu(struct agx_context *ctx,
+                                                          : 0;
+ 
+    libagx_copy_query_gl(batch, agx_1d(1), AGX_BARRIER_ALL, query->ptr.gpu,
+-                        rsrc->bo->va->addr + offset, result_type, bool_size);
++                        agx_map_texture_gpu(rsrc, 0) + offset, result_type,
++                        bool_size);
+    return true;
+ }
+ 
+diff --git a/src/gallium/drivers/asahi/agx_state.c b/src/gallium/drivers/asahi/agx_state.c
+index 56fb8a968ddbb..85c3ded0e8f1e 100644
+--- a/src/gallium/drivers/asahi/agx_state.c
++++ b/src/gallium/drivers/asahi/agx_state.c
+@@ -3762,8 +3762,9 @@ agx_index_buffer_rsrc_ptr(struct agx_batch *batch,
+    struct agx_resource *rsrc = agx_resource(info->index.resource);
+    agx_batch_reads(batch, rsrc);
+ 
+-   *extent = ALIGN_POT(rsrc->layout.size_B, 4);
+-   return rsrc->bo->va->addr;
++   *extent =
++      ALIGN_POT(rsrc->layout.size_B - rsrc->layout.level_offsets_B[0], 4);
++   return agx_map_texture_gpu(rsrc, 0);
+ }
+ 
+ static uint64_t
+@@ -3954,7 +3955,7 @@ agx_batch_geometry_params(struct agx_batch *batch, uint64_t input_index_buffer,
+       params.xfb_size[i] = size;
+ 
+       if (rsrc) {
+-         params.xfb_offs_ptrs[i] = rsrc->bo->va->addr;
++         params.xfb_offs_ptrs[i] = agx_map_texture_gpu(rsrc, 0);
+          agx_batch_writes(batch, rsrc, 0);
+          batch->incoherent_writes = true;
+       }
+@@ -4060,7 +4061,7 @@ agx_indirect_buffer_ptr(struct agx_batch *batch,
+ 
+    struct agx_resource *rsrc = agx_resource(indirect->buffer);
+    agx_batch_reads(batch, rsrc);
+-   return rsrc->bo->va->addr + indirect->offset;
++   return agx_map_texture_gpu(rsrc, 0) + indirect->offset;
+ }
+ 
+ static void
+@@ -5394,7 +5395,7 @@ agx_launch_grid(struct pipe_context *pipe, const struct pipe_grid_info *info)
+    if (info->indirect) {
+       struct agx_resource *rsrc = agx_resource(info->indirect);
+       agx_batch_reads(batch, rsrc);
+-      indirect = rsrc->bo->va->addr + info->indirect_offset;
++      indirect = agx_map_texture_gpu(rsrc, 0) + info->indirect_offset;
+    }
+ 
+    /* Increment the pipeline stats query.
+@@ -5499,7 +5500,7 @@ agx_set_global_binding(struct pipe_context *pipe, unsigned first,
+          struct agx_resource *rsrc = agx_resource(resources[i]);
+ 
+          memcpy(&addr, handles[i], sizeof(addr));
+-         addr += rsrc->bo->va->addr;
++         addr += agx_map_texture_gpu(rsrc, 0);
+          memcpy(handles[i], &addr, sizeof(addr));
+       } else {
+          pipe_resource_reference(res, NULL);
+diff --git a/src/gallium/drivers/asahi/agx_state.h b/src/gallium/drivers/asahi/agx_state.h
+index 32b21bf4ffc4b..25786bc6e0055 100644
+--- a/src/gallium/drivers/asahi/agx_state.h
++++ b/src/gallium/drivers/asahi/agx_state.h
+@@ -973,7 +973,7 @@ agx_map_texture_cpu(struct agx_resource *rsrc, unsigned level, unsigned z)
+ static inline uint64_t
+ agx_map_texture_gpu(struct agx_resource *rsrc, unsigned z)
+ {
+-   return rsrc->bo->va->addr +
++   return rsrc->bo->va->addr + rsrc->layout.level_offsets_B[0] +
+           (uint64_t)ail_get_layer_offset_B(&rsrc->layout, z);
+ }
+ 
+diff --git a/src/gallium/drivers/asahi/agx_streamout.c b/src/gallium/drivers/asahi/agx_streamout.c
+index e0184f510453d..bf48742907abe 100644
+--- a/src/gallium/drivers/asahi/agx_streamout.c
++++ b/src/gallium/drivers/asahi/agx_streamout.c
+@@ -116,7 +116,7 @@ agx_batch_get_so_address(struct agx_batch *batch, unsigned buffer,
+                           target->buffer_size);
+ 
+    *size = target->buffer_size;
+-   return rsrc->bo->va->addr + target->buffer_offset;
++   return agx_map_texture_gpu(rsrc, 0) + target->buffer_offset;
+ }
+ 
+ void
+diff --git a/src/gallium/drivers/asahi/agx_uniforms.c b/src/gallium/drivers/asahi/agx_uniforms.c
+index 2f79d45d7d62b..fe40f2f1a3a75 100644
+--- a/src/gallium/drivers/asahi/agx_uniforms.c
++++ b/src/gallium/drivers/asahi/agx_uniforms.c
+@@ -3,12 +3,9 @@
+  * SPDX-License-Identifier: MIT
+  */
+ #include <stdio.h>
+-#include "asahi/genxml/agx_pack.h"
+ #include "pipe/p_state.h"
+-#include "util/format/u_format.h"
+ #include "util/half_float.h"
+ #include "util/macros.h"
+-#include "agx_abi.h"
+ #include "agx_device.h"
+ #include "agx_state.h"
+ #include "pool.h"
+@@ -20,7 +17,7 @@ agx_const_buffer_ptr(struct agx_batch *batch, struct pipe_constant_buffer *cb)
+       struct agx_resource *rsrc = agx_resource(cb->buffer);
+       agx_batch_reads(batch, rsrc);
+ 
+-      return rsrc->bo->va->addr + cb->buffer_offset;
++      return agx_map_texture_gpu(rsrc, 0) + cb->buffer_offset;
+    } else {
+       return 0;
+    }
+@@ -42,8 +39,9 @@ agx_upload_vbos(struct agx_batch *batch)
+          struct agx_resource *rsrc = agx_resource(vb.buffer.resource);
+          agx_batch_reads(batch, rsrc);
+ 
+-         buffers[vbo] = rsrc->bo->va->addr + vb.buffer_offset;
+-         buf_sizes[vbo] = rsrc->layout.size_B - vb.buffer_offset;
++         buffers[vbo] = agx_map_texture_gpu(rsrc, 0) + vb.buffer_offset;
++         buf_sizes[vbo] = rsrc->layout.size_B - vb.buffer_offset -
++                          rsrc->layout.level_offsets_B[0];
+       }
+    }
+ 
+@@ -144,7 +142,7 @@ agx_set_ssbo_uniforms(struct agx_batch *batch, mesa_shader_stage stage)
+             agx_batch_reads(batch, rsrc);
+          }
+ 
+-         unif->ssbo_base[cb] = rsrc->bo->va->addr + sb->buffer_offset;
++         unif->ssbo_base[cb] = agx_map_texture_gpu(rsrc, 0) + sb->buffer_offset;
+          unif->ssbo_size[cb] = st->ssbo[cb].buffer_size;
+       } else {
+          /* Invalid, so use the sink */
+-- 
+GitLab
+
