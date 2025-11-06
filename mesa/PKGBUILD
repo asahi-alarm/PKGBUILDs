@@ -6,7 +6,7 @@ highmem=1
 pkgname=(mesa mesa-fex-emu-overlay-x86_64 mesa-fex-emu-overlay-i386 mesa-dummy)
 pkgdesc="An open-source implementation of the OpenGL specification"
 pkgver=25.2.5
-pkgrel=1
+pkgrel=2
 arch=('x86_64' 'aarch64')
 makedepends=('python-mako' 'libxml2' 'libx11' 'xorgproto' 'libdrm' 'libxshmfence' 'libxxf86vm'
   'libxdamage' 'libvdpau' 'libva' 'wayland' 'wayland-protocols' 'zstd' 'elfutils' 'llvm' 'spirv-llvm-translator'
@@ -31,13 +31,15 @@ source=(
   do_not_use_wl_display_dispatch_queue_timeout.diff
   mesa_mr_38160_asahi_fix_multiplane.patch
   mesa_mr_38200_hk_fix_multiplane.patch
+  mesa_mr_38149_asahi_virtio-memleak.patch
 )
 sha512sums=('29e61b5ecb467a706e3279c0e79ddd8d55109c08f7856d35c4042f518a70622fb19cdd208a82317654e0396835cb3117b756a96d9a0693bfa33730a50bbbd1d0'
             'ecdabad21a86f04d51ba709a90fbeccb3004c6e8af3546edc530dcb4727787ed5d6a63043b6ab50b4c0a46de0894b6f3c594101b4d25f7831dee9f33fd2a7e31'
             'db08a07a6ee8cc09ae827688089e1e1e7aa2c43f9a1a9260012206052bcb9432d1c1a90657bc86618719632ba6cbb4502003c181321bc01c713f4e02dae8b4f1'
             '30f3b5c9b98b6dabf30c3f84a1389bdda9b329ef2997688b7d15d7a365bfb9b9575d085322c53087a990175bb6d1b12fb5cfdc010ae40b3bbcaa9662d0de5f3f'
             '3b4abc007e66f7daaf9a5544f84250ccc3d141f421401dc43f0483ae6adf737c85a3798f9587512ca82affb413d3fed9ad7b8d8b126864f6294111d775078392'
-            'cd26938d910ca27c3d5d04f546f1aba7816dcb1e205be2a3c85c7960fc8dcaa3054a8fa904969f303eb17485911679358777def8df42759c17d90b2b2a9cb203')
+            'cd26938d910ca27c3d5d04f546f1aba7816dcb1e205be2a3c85c7960fc8dcaa3054a8fa904969f303eb17485911679358777def8df42759c17d90b2b2a9cb203'
+            '1262a696f0458b9257b5c6afaa07b546a9e8f3f9e11c80d59ac3b57092a61cac639355483afedbbe0742490abd9e3d44ca1403647df3d8c3b2c8f83af67af953')
 
 prepare() {
   cd mesa-$pkgver
@@ -54,6 +56,9 @@ prepare() {
     patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
 
   cat ../mesa_mr_38200_hk_fix_multiplane.patch |
+    patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
+
+  cat ../mesa_mr_38149_asahi_virtio-memleak.patch |
     patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
 }
 
