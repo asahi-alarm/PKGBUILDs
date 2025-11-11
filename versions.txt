@@ -24,8 +24,8 @@ libkrunfw                      4.10.0-1                       4.10.0-1
 linux-asahi                    6.17.7-401.asahi               6.17.7.asahi1-1               
 linux-asahi-headers            6.17.7-401.asahi               6.17.7.asahi1-1               
 lzfse                          /                              1.0-1                         
-m1n1                           1.5.2-1                        1.5.0-1                       
-mesa                           25.2.6-0.100                   25.2.5-2                      
+m1n1                           1.5.2-1                        1.5.2-1                       
+mesa                           25.2.6-0.100                   25.2.6-1                      
 muvm                           0.4.1-1                        0.4.1-1                       
 speakersafetyd                 /                              1.0.2-1                       
 startup-disk                   0.1.5-3                        0.1.5-2                       
