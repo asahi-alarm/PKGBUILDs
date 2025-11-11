@@ -17,7 +17,7 @@ m1n1 is the bootloader developed by the Asahi Linux project to bridge the Apple
 (XNU) boot ecosystem to the Linux boot ecosystem.}
 
 Name:           m1n1
-Version:        1.5.0
+Version:        1.5.2
 Release:        %autorelease
 Summary:        Bootloader and experimentation playground for Apple Silicon
 

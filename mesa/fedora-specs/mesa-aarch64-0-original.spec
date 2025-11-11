@@ -106,10 +106,10 @@
 
 Name:           mesa
 Summary:        Mesa graphics libraries
-%global ver 25.2.5
+%global ver 25.2.6
 Version:        %{lua:ver = string.gsub(rpm.expand("%{ver}"), "-", "~"); print(ver)}
 # Keep `Release` smaller than 1 so that the Fedora packages always win version comparisons
-Release:        0.103%{?dist}
+Release:        0.100%{?dist}
 License:        MIT AND BSD-3-Clause AND SGI-B-2.0
 URL:            http://www.mesa3d.org
 

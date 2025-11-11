@@ -1,12 +1,12 @@
 
 Name:           m1n1
-Version:        1.5.0
+Version:        1.5.2
 Release:        1
 Summary:        Bootloader and experimentation playground for Apple Silicon
 
 License:        MIT AND CC0-1.0 AND OFL-1.1-RFN AND Zlib AND (BSD-2-Clause OR GPL-2.0-or-later) AND (BSD-3-Clause OR GPL-2.0-or-later)
 URL:            https://github.com/AsahiLinux/m1n1
-Source:         https://github.com/AsahiLinux/m1n1/archive/v1.5.0/m1n1-1.5.0.tar.gz
+Source:         https://github.com/AsahiLinux/m1n1/archive/v1.5.2/m1n1-1.5.2.tar.gz
 Source:         https://github.com/rafalh/rust-fatfs/archive/87fc1ed5074a32b4e0344fcdde77359ef9e75432/rust-fatfs-87fc1ed5074a32b4e0344fcdde77359ef9e75432.tar.gz
 
 Patch:          m1n1-rust-deps.patch
@@ -56,7 +56,7 @@ Installer.
 
 %package        tools
 Summary:        Developer tools for m1n1
-Requires:       m1n1 = 1.5.0-1
+Requires:       m1n1 = 1.5.2-1
 Requires:       python3
 Requires:       python3dist(construct)
 Requires:       python3dist(pyserial)
@@ -72,13 +72,13 @@ This package contains various developer tools for m1n1.
 %prep
 
 cd './'
-rm -rf 'm1n1-1.5.0'
-rpmuncompress -x 'm1n1-1.5.0.tar.gz'
+rm -rf 'm1n1-1.5.2'
+rpmuncompress -x 'm1n1-1.5.2.tar.gz'
 STATUS=$?
 if [ $STATUS -ne 0 ]; then
   exit $STATUS
 fi
-cd 'm1n1-1.5.0'
+cd 'm1n1-1.5.2'
 chmod -Rf a+rX,u+w,g-w,o-w .
 
 # Use our logos
