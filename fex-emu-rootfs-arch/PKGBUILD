@@ -3,7 +3,7 @@
 
 pkgbase=fex-emu-rootfs-arch
 pkgname=fex-emu-rootfs-arch
-pkgver=20250624
+pkgver=20251118
 pkgrel=1
 pkgdesc="Arch based rootfs for FEX-Emu"
 arch=(aarch64)
