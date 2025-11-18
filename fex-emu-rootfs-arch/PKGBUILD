@@ -17,7 +17,7 @@ depends=(
   muvm
 )
 source=("https://github.com/asahi-alarm/asahi-alarm/releases/download/rootfs/default.erofs.xz")
-sha256sums=('794a8da5d15d70309a0b8ee6d06ee03a422638e82857e1e8940ce1d5736acfcd')
+sha256sums=('a5f3789c913c471d607503d059cfc217ef13339d795a42d41d22ecacce1fd1f5')
 
 prepare() {
   unxz -c default.erofs.xz > default.erofs
