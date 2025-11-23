@@ -106,7 +106,7 @@
 
 Name:           mesa
 Summary:        Mesa graphics libraries
-%global ver 25.2.6
+%global ver 25.2.7
 Version:        %{lua:ver = string.gsub(rpm.expand("%{ver}"), "-", "~"); print(ver)}
 # Keep `Release` smaller than 1 so that the Fedora packages always win version comparisons
 Release:        0.100%{?dist}
@@ -123,9 +123,6 @@ Patch10:        gnome-shell-glthread-disable.patch
 
 Patch20:        meson_1.5_rust_build.patch
 Patch21:        do_not_use_wl_display_dispatch_queue_timeout.diff
-Patch22:        mesa_mr_38160_asahi_fix_multiplane.patch
-Patch23:        mesa_mr_38200_hk_fix_multiplane.patch
-Patch24:        mesa_mr_38149_asahi_virtio-memleak.patch
 
 %if 0%{?fedora} && 0%{?fedora} < 42
 BuildRequires:  meson >= 1.5.0
