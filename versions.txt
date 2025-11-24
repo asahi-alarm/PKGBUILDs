@@ -16,7 +16,7 @@ asahi-wifisync                 0.2.2-1                        0.2.2-1
 bankstown                      1.1.0-3                        1.1.0-2                       
 binfmt-dispatcher              0.1.2-1                        0.1.2-1                       
 calamares                      3.3.14-4                       3.3.14-1                      
-chromium                       142.0.7444.162-1               139.0.7258.66-1               
+chromium                       142.0.7444.175-2               139.0.7258.66-1               
 FEX-Emu                        2509.1-1                       2509.1-1                      
 fex-emu-rootfs-arch            42^1.1-1                       20251118-1                    
 libkrun                        1.15.1-1                       1.15.1-1                      
@@ -25,7 +25,7 @@ linux-asahi                    6.17.7-401.asahi               6.17.7.asahi1-3
 linux-asahi-headers            6.17.7-401.asahi               6.17.7.asahi1-3               
 lzfse                          /                              1.0-1                         
 m1n1                           1.5.2-1                        1.5.2-1                       
-mesa                           25.2.7-0.100                   25.2.6-1                      
+mesa                           25.2.7-0.100                   25.2.7-1                      
 muvm                           0.4.1-1                        0.4.1-1                       
 speakersafetyd                 /                              1.0.2-1                       
 startup-disk                   0.1.5-3                        0.1.5-2                       
