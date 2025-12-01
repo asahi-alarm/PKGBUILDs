@@ -173,18 +173,18 @@ Summary: The Linux kernel
 #  the --with-release option overrides this setting.)
 %define debugbuildsenabled 1
 # define buildid .local
-%define specrpmversion 6.17.7
-%define specversion 6.17.7
+%define specrpmversion 6.17.9
+%define specversion 6.17.9
 %define patchversion 6.17
-%define pkgrelease 401.asahi
+%define pkgrelease 400.asahi
 %define kversion 6
-%define tarfile_release 6.17.7
+%define tarfile_release 6.17.9
 # This is needed to do merge window version magic
 %define patchlevel 17
 # This allows pkg_release to have configurable %%{?dist} tag
-%define specrelease 401.asahi%{?buildid}%{?dist}
+%define specrelease 400.asahi%{?buildid}%{?dist}
 # This defines the kabi tarball version
-%define kabiversion 6.17.7
+%define kabiversion 6.17.9
 
 # If this variable is set to 1, a bpf selftests build failure will cause a
 # fatal kernel package build error
@@ -4386,10 +4386,7 @@ fi\
 #
 #
 %changelog
-* Thu Nov 06 2025 Neal Gompa <neal@gompa.dev> [6.17.7-401.asahi]
-- drm/test: drm_exec: use kzalloc() to allocate GEM objects (Danilo Krummrich)
-
-* Thu Nov 06 2025 Neal Gompa <neal@gompa.dev> [6.17.7-400.asahi]
+* Fri Nov 28 2025 Neal Gompa <neal@gompa.dev> [6.17.9-400.asahi]
 - redhat/configs: aarch64: Enable macsmc drivers on Fedora (Neal Gompa)
 - redhat/configs: Disable Nova GPU driver (Neal Gompa)
 - redhat/configs: Disable the Apple touchbar panel driver at the common level (Neal Gompa)
@@ -4410,8 +4407,6 @@ fi\
 - redhat/configs: aarch64: Enable ARM64_MEMORY_MODEL_CONTROL (Neal Gompa)
 - redhat/configs: s390x: Drop CONFIG_BACKLIGHT_CLASS_DEVICE=m for Fedora (Neal Gompa)
 - redhat/configs: aarch64: asahi: Turn on downstream Apple Silicon configs (Neal Gompa)
-- media: videobuf2: Set vma_flags in vb2_dma_sg_mmap (Janne Grunau)
-- fixup! arm64: dts: apple: t6000: Add ISP nodes (Janne Grunau)
 - rust: iio: common: aop: Add TODO fn/struct docs (Janne Grunau)
 - soc: apple: Add SEP driver. (Sasha Finkelstein)
 - rust: soc: apple: Add Apple mailbox abstractions (Sasha Finkelstein)
@@ -4487,6 +4482,7 @@ fi\
 - arm64: Introduce scaffolding to add ACTLR_EL1 to thread state (Hector Martin)
 - arm64: Implement PR_{GET,SET}_MEM_MODEL for always-TSO CPUs (Hector Martin)
 - prctl: Introduce PR_{SET,GET}_MEM_MODEL (Hector Martin)
+- fixup! rust: drm: gpuvm: Switch to DRM_GPUVM_IMMEDIATE_MODE (Janne Grunau)
 - drm/asahi: Switch gpuvm to DRM_GPUVM_IMMEDIATE_MODE (Janne Grunau)
 - rust: drm: gpuvm: Switch to DRM_GPUVM_IMMEDIATE_MODE (Janne Grunau)
 - rust: drm: gem: Support locking gpuva.lock (Janne Grunau)
@@ -4999,6 +4995,8 @@ fi\
 - rtc: Add new rtc-macsmc driver for Apple Silicon Macs (Hector Martin)
 - dt-bindings: hwmon: Add Apple System Management Controller hwmon schema (James Calligeros)
 - dt-bindings: rtc: Add Apple SMC RTC (Sven Peter)
+- HID: magicmouse: Add support for trackpads found on T2 Macs (Aditya Garg)
+- HID: apple: ignore the trackpad on T2 Macs (Aditya Garg)
 - soc: apple: Add RTKit helper driver (Hector Martin)
 - HID: Add Apple DockChannel HID transport driver (Hector Martin)
 - soc: apple: Add DockChannel driver (Hector Martin)
@@ -5153,6 +5151,7 @@ fi\
 - usb: dwc3: Add support for Apple DWC3 (Sven Peter)
 - dt-bindings: usb: Add Apple dwc3 bindings (Sven Peter)
 - usb: dwc3: Use ioremap_np when required in dwc3_power_off_all_roothub_ports() (Sven Peter)
+- fixup! arm64: configs: Add asahi.config fragment (Janne Grunau)
 - arm64: configs: Add asahi.config fragment (Janne Grunau)
 - mmc: pci: gl9755: Quirk UHS-2 for Apple GL9755 (Janne Grunau)
 - mmc: sdhci-uhs2: Add quirk for devices with broken UHS-2 (Janne Grunau)
@@ -5190,7 +5189,6 @@ fi\
 - iommu: apple-dart: Support specifying the DMA aperture in the DT (Hector Martin)
 - iommu: apple-dart: Add 4-level page table support (Hector Martin)
 - iommu: apple-dart: Make the hw register fields u32s (Hector Martin)
-- iommu: apple-dart: Clear stream error indicator bits for T8110 DARTs (Hector Martin)
 - iommu: io-pgtable: Add 4-level page table support (Hector Martin)
 - iommu: apple-dart: Enable runtime PM (Hector Martin)
 - iommu: apple-dart: Link to consumers with blanket RPM_ACTIVE (Martin Povišer)
@@ -5205,9 +5203,12 @@ fi\
 - dt-bindings: power: apple,pmgr-pwrstate: Add force-{disable,reset} (Asahi Lina)
 - soc: apple: Add driver for Apple PMGR misc controls (Hector Martin)
 - soc: apple: rtkit: Add devm_apple_rtkit_free() (Janne Grunau)
+- drm/test: drm_exec: use kzalloc() to allocate GEM objects (Danilo Krummrich)
+- media: videobuf2: Set vma_flags in vb2_dma_sg_mmap (Janne Grunau)
 - bus: simple-pm-bus: Add "apple,*-pmgr" compatibles (Janne Grunau)
 - mfd: macsmc: Initialize mutex (Janne Grunau)
 - nvmem: core: Fix OOB read for bit offsets of more than one byte (Janne Grunau)
+- fixup! arm64: dts: apple: t6000: Add ISP nodes (Janne Grunau)
 - arm64: dts: apple: Adjust all hwmon sensors for upstream driver (Janne Grunau)
 - arm64: dts: apple: Add SMC hwmon node for t600x,t602x,t8103,t8112 (Janne Grunau)
 - fixup! arm64: dts: apple: Add initial t602x device trees (Janne Grunau)
@@ -5344,6 +5345,15 @@ fi\
 - arm64: dts: apple: t7001: Add I2C nodes (Nick Chan)
 - arm64: dts: apple: t7000: Add I2C nodes (Nick Chan)
 - arm64: dts: apple: s5l8960x: Add I2C nodes (Nick Chan)
+
+* Mon Nov 24 2025 Augusto Caringi <acaringi@redhat.com> [6.17.9-0]
+- Change RZ_DMAC from m to y for Fedora (Justin M. Forbes)
+- Linux v6.17.9
+
+* Thu Nov 13 2025 Augusto Caringi <acaringi@redhat.com> [6.17.8-0]
+- rust: kbuild: workaround `rustdoc` doctests modifier bug (Miguel Ojeda)
+- rust: kbuild: treat `build_error` and `rustdoc` as kernel objects (Miguel Ojeda)
+- Linux v6.17.8
 
 * Sun Nov 02 2025 Justin M. Forbes <jforbes@fedoraproject.org> [6.17.7-0]
 - Linux v6.17.7
