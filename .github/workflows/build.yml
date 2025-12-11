@@ -138,7 +138,7 @@ jobs:
                 # fetch filenames of previous versions of this package so we can remove them from
                 # the release later. Note this will contain the package file and the signature file
                 BASE=$(echo $out | sed 's/\([a-z-]*\)-[0-9].*/\1/')
-                TO_REMOVE+="$(gh release view aarch64 --repo asahi-alarm/asahi-alarm | grep "${BASE}-" | awk '{ print $2 }') "
+                TO_REMOVE+="$(gh release view aarch64 --repo asahi-alarm/asahi-alarm | awk '{ print $2 }' | grep "^${BASE}-"') "
                 echo "uploading $out"
                 gh release upload aarch64 --repo asahi-alarm/asahi-alarm --clobber "$out" "${out}.sig"
               done
