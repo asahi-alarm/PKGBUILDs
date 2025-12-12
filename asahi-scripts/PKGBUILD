@@ -2,7 +2,7 @@
 # Maintainer: Matthias Kurz <m.kurz@irregular.at>
 
 pkgname=asahi-scripts
-pkgver=20251212
+pkgver=20251212.1
 pkgrel=1
 pkgdesc='Asahi Linux maintenance scripts'
 arch=('any')
@@ -10,8 +10,8 @@ url='http://asahilinux.org'
 license=('MIT')
 source=("${pkgname}-${pkgver}.tar.gz::https://github.com/asahi-alarm/${pkgname}/archive/refs/tags/${pkgver}.tar.gz")
 install=asahi-scripts.install
-sha256sums=('619b8a1d8fed6dfa02506f6b873c85c5afb48a2dde604e6b3cfbc82c19c2ffa3')
-b2sums=('1a8b867e95dca99d45dcc5a1c8fe86fa894189e160c4d02503b5563f846a6c26b5ae122f0ce30bda3a77ecd1d1663712f5e724608839f64c84b6c587fd6c4dab')
+sha256sums=('6e064b14ed24c981473de69b969406473852a86765981075ec80c254d1a69ec8')
+b2sums=('c213f1aeb376eaadf176598e736a9b998dfb8d72843545b3d2c6af8e5370daa5011b420e7a567868dfaa4be2194ab3309dcf54b3b2dc188e555061fb54cf80fc')
 
 build() {
   cd "${srcdir}/${pkgname}-${pkgver}"
