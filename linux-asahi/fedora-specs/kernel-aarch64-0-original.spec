@@ -173,18 +173,18 @@ Summary: The Linux kernel
 #  the --with-release option overrides this setting.)
 %define debugbuildsenabled 1
 # define buildid .local
-%define specrpmversion 6.17.9
-%define specversion 6.17.9
+%define specrpmversion 6.17.12
+%define specversion 6.17.12
 %define patchversion 6.17
 %define pkgrelease 400.asahi
 %define kversion 6
-%define tarfile_release 6.17.9
+%define tarfile_release 6.17.12
 # This is needed to do merge window version magic
 %define patchlevel 17
 # This allows pkg_release to have configurable %%{?dist} tag
 %define specrelease 400.asahi%{?buildid}%{?dist}
 # This defines the kabi tarball version
-%define kabiversion 6.17.9
+%define kabiversion 6.17.12
 
 # If this variable is set to 1, a bpf selftests build failure will cause a
 # fatal kernel package build error
@@ -4386,7 +4386,7 @@ fi\
 #
 #
 %changelog
-* Fri Nov 28 2025 Neal Gompa <neal@gompa.dev> [6.17.9-400.asahi]
+* Sat Dec 13 2025 Neal Gompa <neal@gompa.dev> [6.17.12-400.asahi]
 - redhat/configs: aarch64: Enable macsmc drivers on Fedora (Neal Gompa)
 - redhat/configs: Disable Nova GPU driver (Neal Gompa)
 - redhat/configs: Disable the Apple touchbar panel driver at the common level (Neal Gompa)
@@ -5208,6 +5208,7 @@ fi\
 - bus: simple-pm-bus: Add "apple,*-pmgr" compatibles (Janne Grunau)
 - mfd: macsmc: Initialize mutex (Janne Grunau)
 - nvmem: core: Fix OOB read for bit offsets of more than one byte (Janne Grunau)
+- fixup! arm64: dts: apple: Add AOP and subdevices (Janne Grunau)
 - fixup! arm64: dts: apple: t6000: Add ISP nodes (Janne Grunau)
 - arm64: dts: apple: Adjust all hwmon sensors for upstream driver (Janne Grunau)
 - arm64: dts: apple: Add SMC hwmon node for t600x,t602x,t8103,t8112 (Janne Grunau)
@@ -5345,6 +5346,18 @@ fi\
 - arm64: dts: apple: t7001: Add I2C nodes (Nick Chan)
 - arm64: dts: apple: t7000: Add I2C nodes (Nick Chan)
 - arm64: dts: apple: s5l8960x: Add I2C nodes (Nick Chan)
+
+* Sat Dec 13 2025 Justin M. Forbes <jforbes@fedoraproject.org> [6.17.12-0]
+- Linux v6.17.12
+
+* Mon Dec 08 2025 Augusto Caringi <acaringi@redhat.com> [6.17.11-0]
+- Fix up config issue related to CONFIG_SCHED_PROXY_EXEC (Augusto Caringi)
+- Prepare for F41 EOL (Justin M. Forbes)
+- Linux v6.17.11
+
+* Mon Dec 01 2025 Augusto Caringi <acaringi@redhat.com> [6.17.10-0]
+- Revert "gpio: swnode: don't use the swnode's name as the key for GPIO lookup" (Justin M. Forbes)
+- Linux v6.17.10
 
 * Mon Nov 24 2025 Augusto Caringi <acaringi@redhat.com> [6.17.9-0]
 - Change RZ_DMAC from m to y for Fedora (Justin M. Forbes)
