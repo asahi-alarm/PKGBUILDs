@@ -2,20 +2,20 @@
 # Maintainer: Matthias Kurz <m.kurz@irregular.at>
 
 pkgname=asahi-configs
-pkgver=20230517
+pkgver=20251217
 pkgrel=1
 pkgdesc='Asahi Linux misc configs'
 arch=('any')
 url='http://asahilinux.org'
 license=('MIT')
 source=(asahi.sh baloofilerc kcminputrc kwinrc 20-natural-scrolling.conf 30-modeset.conf)
-sha256sums=('1cff5ff65981d37987aa11bca89631f8bb39a1e550cc46fc83faf2b53083416b'
+sha256sums=('7d8458feca2577f659d7b032764b59e3e8dc4c55438fcec2b4a4dcb9d4280b57'
             '397a3af386d0e066e01cfad5234142a76936168bdf18d30c51aa7f2a9e577404'
             '7cc32f5959f0ca83de33c684e2fa615cbccf50b0ed4d0cc81cd5c639f6619ada'
             'b459b0c05820ee83e2909d1f0af36b2d5b6b75f2669139d5152fe47f23ff06ab'
             'f66c63eeb5718c8e1c606ed02caffdc0dce73a26ec74f253a31e221bd15341c8'
             '8bfed14ace9939474d9c4567583eb0d90721f29ffa8176ec3632afb18eb70fd4')
-b2sums=('e3a0d3f7ebe854d9ffc9f2200815cd1bb2f055dd3854e291498af7ca93e7eba521d91519abca17b850629ed16c7cc861b7b9bd1b12e450b6cd17bf3f838078e2'
+b2sums=('b178e7a116524891d8121d31de2c1775ea36aae84c4bc63fcd5d29573ad8fc6b84577b0cf4e5a3ba3ee0418e5229affb34d246776a691a4cd1dfb2edda14016a'
         '8c14a2e39cf3abe4d5dceb0997d2a4aa5c8527397cdb09088ec106892b7d54dccdf636c288a49b46f4e517f4131b62000d4d170bb6538a49eca655b4dc083236'
         '5ce56d824acea49250a5f840ed47fb0edf46095fb4fd44cfae994b3cb6e92f1919d2aa9d704206bd513d4615a05cf1a6b1bf12c2b31f8f82f4618ccc554c72ed'
         'c29fb5fed03012e134a0d24f43ea9f78c19f17a47cc5476c97740a0df3b7d3811569ad6727c367095821762001d9acb4026f2425e9df0f3bcfab1f359a67a61a'
