@@ -27,11 +27,14 @@ options=('!strip')
 source=(
   https://github.com/AsahiLinux/linux/archive/${_commit_id}.tar.gz
   config         # the main kernel config file
+  drm-apple-set-timestamps-for-120hz.patch
 )
 sha256sums=('eb2400346cc895e6ba6b063b71210d1896b10ef6bb1490a58f5803aa150dff60'
-            'cd465bf069515581a33613cc63868ba792839f134d7e14a1bd4c3249876c1af8')
+            'cd465bf069515581a33613cc63868ba792839f134d7e14a1bd4c3249876c1af8'
+            '0a7082293d4ce615249c411f0d4f3ba5129de48eeed702c6a6efa10aade91766')
 b2sums=('0a399a09720497291652c85b84d0a01dc426e7dccca0595693450bb62dcd5030caf9f9535cf0bb2d7450ca11dbf53993073d3560a0a600dc78bdda67b1a63487'
-        '8b19c29e1cda77afa9bcf4c725be8d046c7f505c4abc541b848469649b7c391e167fd822c852b87359d7e8b5d61f6ea47a730a88d5208784e4d651a4ac6a5d5b')
+        '8b19c29e1cda77afa9bcf4c725be8d046c7f505c4abc541b848469649b7c391e167fd822c852b87359d7e8b5d61f6ea47a730a88d5208784e4d651a4ac6a5d5b'
+        '936ae0315d3937ce00de090587ec918294e2d4151f13cc27355b0518f3cac739716701f4f6fcb7aaa9e95bc44570745f6b91f86500fdba1dab0d8357b4f161af')
 export KBUILD_BUILD_HOST=archlinux
 export KBUILD_BUILD_USER=$pkgbase
 export KBUILD_BUILD_TIMESTAMP="$(date -Ru${SOURCE_DATE_EPOCH:+d @$SOURCE_DATE_EPOCH})"
