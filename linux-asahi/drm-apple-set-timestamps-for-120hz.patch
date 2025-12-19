@@ -1,49 +1,63 @@
-From 06f960d74e299b3cb7d95e05577278a94f7d43f2 Mon Sep 17 00:00:00 2001
+From 219923c174c8d562be009a34c8cf9c55cd5bf9f4 Mon Sep 17 00:00:00 2001
 From: Oliver Bestmann <oliver.bestmann@googlemail.com>
 Date: Tue, 16 Dec 2025 11:59:22 +0100
 Subject: [PATCH] drm: apple: set timestamps for 120hz
 
-After looking into the timestamps sent by macos in dcp_swap_submit, it seems to
-me that ts3 is strictly increasing and always set. ts1 and ts2 are set
-a few milliseconds before ts3 (about 4ms) and ts1 a few milliseconds after
-ts3 (about 16ms).
-
-All three timestamps are in mach absolute time (i.e. 41.67ns per timestep).
+The dcp does not seem to care much about the values in ts1, ts2 and ts3, as long
+as they are non zero. This commit fills the timestamp with a dummy value
+of 120 if a refresh-rate of 120hz is selected.
+This is enough to get a refresh rate of 120hz.
 
 MacOS also sets flags1 and flags2. I have no idea what exactly those values
 indicate, but I did do not need to set any of them to get 120hz.
+
+Signed-off-by: Oliver Bestmann <oliver.bestmann@googlemail.com>
 ---
+ drivers/gpu/drm/apple/dcp-internal.h   |  1 +
  drivers/gpu/drm/apple/iomfb_template.c | 13 +++++++++++++
  drivers/gpu/drm/apple/iomfb_template.h |  9 ++++++++-
- drivers/gpu/drm/apple/parser.c         | 13 -------------
- 3 files changed, 21 insertions(+), 14 deletions(-)
+ drivers/gpu/drm/apple/parser.c         | 14 +-------------
+ drivers/gpu/drm/apple/parser.h         |  1 +
+ 5 files changed, 24 insertions(+), 14 deletions(-)
 
+diff --git a/drivers/gpu/drm/apple/dcp-internal.h b/drivers/gpu/drm/apple/dcp-internal.h
+index 2c31d2a8cef0..3b6a14339cdd 100644
+--- a/drivers/gpu/drm/apple/dcp-internal.h
++++ b/drivers/gpu/drm/apple/dcp-internal.h
+@@ -184,6 +184,7 @@ struct apple_dcp {
+ 	/* Current display mode */
+ 	bool during_modeset;
+ 	bool valid_mode;
++	s64 precise_sync_rate;
+ 	struct dcp_set_digital_out_mode_req mode;
+ 
+ 	/* completion for active turning true */
 diff --git a/drivers/gpu/drm/apple/iomfb_template.c b/drivers/gpu/drm/apple/iomfb_template.c
-index 0a1b94951285..a382c53b711c 100644
+index 0a1b94951285..94f50768add0 100644
 --- a/drivers/gpu/drm/apple/iomfb_template.c
 +++ b/drivers/gpu/drm/apple/iomfb_template.c
-@@ -1264,6 +1264,10 @@ int DCP_FW_NAME(iomfb_modeset)(struct apple_dcp *dcp,
- 	return 0;
- }
+@@ -1219,6 +1219,9 @@ int DCP_FW_NAME(iomfb_modeset)(struct apple_dcp *dcp,
+ 		.timing_mode_id = mode->timing_mode_id
+ 	};
  
-+static u64 convert_ns_to_mach_time(u64 time) {
-+	return time * 100 / 4167;
-+}
++	/* keep around to fake timestamps in dcp_swap_submit */
++	dcp->precise_sync_rate = mode->precise_sync_rate;
 +
- void DCP_FW_NAME(iomfb_flush)(struct apple_dcp *dcp, struct drm_crtc *crtc, struct drm_atomic_state *state)
- {
- 	struct drm_plane *plane;
-@@ -1408,6 +1412,15 @@ void DCP_FW_NAME(iomfb_flush)(struct apple_dcp *dcp, struct drm_crtc *crtc, stru
+ 	cookie = kzalloc(sizeof(*cookie), GFP_KERNEL);
+ 	if (!cookie) {
+ 		return -ENOMEM;
+@@ -1408,6 +1411,16 @@ void DCP_FW_NAME(iomfb_flush)(struct apple_dcp *dcp, struct drm_crtc *crtc, stru
  		req->clear = 1;
  	}
  
-+	if (has_surface) {
-+		u64 now = ktime_get_ns();
-+
-+		/* set timestamps to reach 120 fps */
-+		req->swap.ts1 = convert_ns_to_mach_time(now + 16660000);
-+		req->swap.ts2 = convert_ns_to_mach_time(now - 40000000);
-+		req->swap.ts3 = convert_ns_to_mach_time(now);
++	if (has_surface && dcp->main_display && (dcp->precise_sync_rate >> 16) == 120) {
++		/*
++		 * Fake timstamps to get 120hz refresh rate. It looks
++		 * like the actual value does not matter, as long  as it is non zero.
++		 */
++		req->swap.ts1 = 120;
++		req->swap.ts2 = 120;
++		req->swap.ts3 = 120;
 +	}
 +
  	/* These fields should be set together */
@@ -70,7 +84,7 @@ index f446a4d8f38b..878ffdf9e644 100644
  	u64 flags2;
  
 diff --git a/drivers/gpu/drm/apple/parser.c b/drivers/gpu/drm/apple/parser.c
-index 700a31883eac..e3d2bf824a59 100644
+index 700a31883eac..e44b4e17758a 100644
 --- a/drivers/gpu/drm/apple/parser.c
 +++ b/drivers/gpu/drm/apple/parser.c
 @@ -499,19 +499,6 @@ static int parse_mode(struct dcp_parse_ctx *handle,
@@ -93,6 +107,26 @@ index 700a31883eac..e3d2bf824a59 100644
  	vert.active -= notch_height;
  	vert.sync_width += notch_height;
  
+@@ -539,6 +526,7 @@ static int parse_mode(struct dcp_parse_ctx *handle,
+ 
+ 	out->timing_mode_id = id;
+ 	out->color_mode_id = best_color_mode;
++	out->precise_sync_rate = vert.precise_sync_rate;
+ 
+ 	trace_iomfb_timing_mode(handle->dcp, id, *score, horiz.active,
+ 				vert.active, vert.precise_sync_rate,
+diff --git a/drivers/gpu/drm/apple/parser.h b/drivers/gpu/drm/apple/parser.h
+index 2f52e063bbd4..a8add87a3d43 100644
+--- a/drivers/gpu/drm/apple/parser.h
++++ b/drivers/gpu/drm/apple/parser.h
+@@ -87,6 +87,7 @@ struct dcp_display_mode {
+ 	struct drm_display_mode mode;
+ 	u32 color_mode_id;
+ 	u32 timing_mode_id;
++	s64 precise_sync_rate;
+ 	struct dcp_color_mode sdr_rgb;
+ 	struct dcp_color_mode sdr_444;
+ 	struct dcp_color_mode sdr;
 -- 
 2.52.0
 
