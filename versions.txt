@@ -32,6 +32,6 @@ startup-disk                   0.1.5-3                        0.1.5-2
 steam                          0-14                           20241231-4                    
 tiny-dfr                       0.3.5-3                        0.3.5-1                       
 triforce-lv2                   0.3.2-1                        0.3.2-1                       
-uboot-asahi                    1:2025.07-104                  2025.07.asahi1-1              
+uboot-asahi                    1:2025.10-100                  2025.07.asahi1-1              
 virglrenderer                  1.2.0-1.1                      1:1.2.0-1                     
 widevine                       /                              4.10.2891.0-1                 
