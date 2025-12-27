@@ -8,6 +8,8 @@ License:        MIT
 URL:            https://crates.io/crates/speakersafetyd
 Source:         %{crates_source}
 
+Patch:          speakersafetyd-fix-metadata.diff
+
 BuildRequires:  cargo-rpm-macros >= 24
 BuildRequires:  systemd-rpm-macros
 
@@ -34,6 +36,15 @@ Speaker protection daemon for embedded Linux systems.
 /usr/com/speakersafetyd/
 %{_udevrulesdir}/95-speakersafetyd.rules
 
+%post -n speakersafetyd
+%systemd_post speakersafetyd.service
+
+%preun -n speakersafetyd
+%systemd_preun speakersafetyd.service
+
+%postun -n speakersafetyd
+%systemd_postun_with_restart speakersafetyd.service
+
 %prep
 
 cd './'
@@ -45,6 +56,8 @@ if [ $STATUS -ne 0 ]; then
 fi
 cd 'speakersafetyd-1.0.2'
 chmod -Rf a+rX,u+w,g-w,o-w .
+
+echo 'Cannot read speakersafetyd-fix-metadata.diff'; exit 1;
 
 %cargo_prep
 
@@ -63,15 +76,6 @@ install -p -m 0644 -D 95-speakersafetyd.rules fakeinstall%{_udevrulesdir}/95-spe
 install -d -m 0755 fakeinstall/usr/share/speakersafetyd/apple
 install -p -m 0644 -t fakeinstall/usr/share/speakersafetyd/apple conf/apple/*
 install -d -m 0755 fakeinstall/usr/com/speakersafetyd/blackbox
-
-%post -n speakersafetyd
-%systemd_post speakersafetyd.service
-
-%preun -n speakersafetyd
-%systemd_preun speakersafetyd.service
-
-%postun -n speakersafetyd
-%systemd_postun_with_restart speakersafetyd.service
 
 %check
 %cargo_test

@@ -8,6 +8,8 @@
   URL:            https://crates.io/crates/speakersafetyd
   Source:         %{crates_source}
 
+  Patch:          speakersafetyd-fix-metadata.diff
+
   BuildRequires:  cargo-rpm-macros >= 24
   BuildRequires:  systemd-rpm-macros
 
@@ -36,6 +38,8 @@ prepare() {
   cd 'speakersafetyd-1.0.2'
   chmod -Rf a+rX,u+w,g-w,o-w .
 
+  echo 'Cannot read speakersafetyd-fix-metadata.diff'; exit 1;
+
   %cargo_prep
 
   %generate_buildrequires
@@ -58,15 +62,6 @@ package() {
   install -p -m 0644 -t fakeinstall/usr/share/speakersafetyd/apple conf/apple/*
   install -d -m 0755 fakeinstall/usr/com/speakersafetyd/blackbox
 
-  %post -n speakersafetyd
-  %systemd_post speakersafetyd.service
-
-  %preun -n speakersafetyd
-  %systemd_preun speakersafetyd.service
-
-  %postun -n speakersafetyd
-  %systemd_postun_with_restart speakersafetyd.service
-
   #       -n speakersafetyd
   install -Dpm0755 -t ${pkgdir}/usr/share/licenses/speakersafetyd/ LICENSE
   install -Dpm0755 -t ${pkgdir}/usr/share/licenses/speakersafetyd/ LICENSE.dependencies
@@ -76,6 +71,15 @@ package() {
   %{_unitdir}/speakersafetyd.service
   _install fakeinstall/usr/com/speakersafetyd/
   %{_udevrulesdir}/95-speakersafetyd.rules
+
+  %post -n speakersafetyd
+  %systemd_post speakersafetyd.service
+
+  %preun -n speakersafetyd
+  %systemd_preun speakersafetyd.service
+
+  %postun -n speakersafetyd
+  %systemd_postun_with_restart speakersafetyd.service
 
 }
 
