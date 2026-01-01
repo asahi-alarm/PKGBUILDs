@@ -8,6 +8,8 @@ License:        MIT AND Apache-2.0
 URL:            https://crates.io/crates/tiny-dfr
 Source:         %{crates_source}
 
+Patch:          tiny-dfr-fix-metadata.diff
+
 BuildRequires:  cargo-rpm-macros >= 24
 BuildRequires:  systemd-rpm-macros
 
@@ -47,6 +49,9 @@ if [ $STATUS -ne 0 ]; then
 fi
 cd 'tiny-dfr-0.3.5'
 chmod -Rf a+rX,u+w,g-w,o-w .
+
+rpmuncompress tiny-dfr-fix-metadata.diff | 
+patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
 
 %cargo_prep
 

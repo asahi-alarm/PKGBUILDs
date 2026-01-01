@@ -11,6 +11,9 @@ Summary:        Most basic dynamic function row daemon possible
 License:        MIT AND Apache-2.0
 URL:            https://crates.io/crates/tiny-dfr
 Source:         %{crates_source}
+# Manually created patch for downstream crate metadata changes
+# * Bump drm to 0.14: https://github.com/AsahiLinux/tiny-dfr/pull/64
+Patch:          tiny-dfr-fix-metadata.diff
 
 BuildRequires:  cargo-rpm-macros >= 24
 BuildRequires:  systemd-rpm-macros
