@@ -1,139 +1,25 @@
-From 00937cdf45286364c2acd7250f0900cb2c3dae86 Mon Sep 17 00:00:00 2001
+From c9b65320d64a60cde74c4c1f9cb4a05198a456c2 Mon Sep 17 00:00:00 2001
 From: Peter Robinson <pbrobinson@gmail.com>
-Date: Tue, 8 Jul 2025 21:48:22 +0100
-Subject: [PATCH] p3450: reduce size of Jetson Nano u-boot.bin
+Date: Wed, 10 Sep 2025 13:27:52 +0100
+Subject: [PATCH] further size reductions
 
-The Jetson Nano contains all it's firmware on a 4Mb SPI
-flash, the allocated size in that flash for U-Boot is
-753664 bytes so we need to ensure the u-boot.bin doesn't
-exceed that else it will fail.
-
-Add a BOARD_SIZE_LIMIT and drop a few large, and somewhat
-esoteric, options to bring us back under that limit.
-
-Signed-off-by: Peter Robinson <pbrobinson@gmail.com>
 ---
- configs/p3450-0000_defconfig | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ configs/p3450-0000_defconfig | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/configs/p3450-0000_defconfig b/configs/p3450-0000_defconfig
-index a002178b7fb..518ed6b37a2 100644
+index 2ebcf8b83fc..a5e717a02ed 100644
 --- a/configs/p3450-0000_defconfig
 +++ b/configs/p3450-0000_defconfig
-@@ -14,6 +14,8 @@ CONFIG_ENV_SECT_SIZE=0x1000
- CONFIG_DEFAULT_DEVICE_TREE="tegra210-p3450-0000"
- CONFIG_SYS_BOOTM_LEN=0x800000
- CONFIG_SYS_LOAD_ADDR=0x80080000
-+CONFIG_HAS_BOARD_SIZE_LIMIT=y
-+CONFIG_BOARD_SIZE_LIMIT=753664
- CONFIG_TEGRA210=y
- CONFIG_TARGET_P3450_0000=y
- CONFIG_TEGRA_GPU=y
-@@ -24,8 +26,14 @@ CONFIG_SYS_PBSIZE=2089
- CONFIG_CONSOLE_MUX=y
+@@ -27,6 +27,8 @@ CONFIG_CONSOLE_MUX=y
  CONFIG_SYS_STDIO_DEREGISTER=y
  CONFIG_SYS_PROMPT="Tegra210 (P3450-0000) # "
-+# CONFIG_BOOTM_RTEMS is not set
-+# CONFIG_BOOTM_VXWORKS is not set
-+# CONFIG_BOOTM_PLAN9 is not set
- # CONFIG_CMD_IMI is not set
-+# CONFIG_CRC32_VERIFY is not set
- CONFIG_CMD_DFU=y
-+# CONFIG_CMD_ELF is not set
-+# CONFIG_CMD_GO is not set
- CONFIG_CMD_GPIO=y
- CONFIG_CMD_I2C=y
- CONFIG_CMD_MMC=y
+ # CONFIG_BOOTM_PLAN9 is not set
++# CONFIG_SYS_DTC_PAD_BYTES is not set
++# CONFIG_LEGACY_IMAGE_FORMAT is not set
+ # CONFIG_BOOTM_RTEMS is not set
+ # CONFIG_BOOTM_VXWORKS is not set
+ # CONFIG_CMD_ELF is not set
 -- 
-2.50.0
-From 60287cee71a5748d0036c356d16b85938f5bf9c8 Mon Sep 17 00:00:00 2001
-From: Peter Robinson <pbrobinson@gmail.com>
-Date: Wed, 9 Jul 2025 22:06:06 +0100
-Subject: [PATCH] p3450: fix Jetson Nano SPI flash
-
-The Nano's SPI flash stopped working in U-Boot, as the
-prior stage loaded U-Boot, the only thing it was used
-for was save/loading env vars so update the DT so it
-can now initialise it. It also drops enabling the old
-TEGRA114_SPI driver, as the flash hangs off the faster
-TEGRA210_QSPI interface, nothing on the Nano uses the
-old interface by default so it's surplus.
-
-Signed-off-by: Peter Robinson <pbrobinson@gmail.com>
----
- arch/arm/dts/tegra210-p3450-0000.dts     | 9 ++++++++-
- arch/arm/dts/tegra210.dtsi               | 6 +++---
- configs/p3450-0000_defconfig             | 1 -
- include/dt-bindings/clock/tegra210-car.h | 6 +++---
- 4 files changed, 14 insertions(+), 8 deletions(-)
-
-diff --git a/arch/arm/dts/tegra210-p3450-0000.dts b/arch/arm/dts/tegra210-p3450-0000.dts
-index 9ef744ac8b0..ddeeb232de2 100644
---- a/arch/arm/dts/tegra210-p3450-0000.dts
-+++ b/arch/arm/dts/tegra210-p3450-0000.dts
-@@ -124,7 +124,14 @@
- 
- 	spi@70410000 {
- 		status = "okay";
--		spi-max-frequency = <80000000>;
-+
-+		flash@0 {
-+			compatible = "jedec,spi-nor";
-+			reg = <0>;
-+			spi-max-frequency = <104000000>;
-+			spi-tx-bus-width = <2>;
-+			spi-rx-bus-width = <2>;
-+		};
- 	};
- 
- 	usb@7d000000 {
-diff --git a/arch/arm/dts/tegra210.dtsi b/arch/arm/dts/tegra210.dtsi
-index 28ecd2b467a..6dd8fe26c38 100644
---- a/arch/arm/dts/tegra210.dtsi
-+++ b/arch/arm/dts/tegra210.dtsi
-@@ -762,10 +762,10 @@
- 		interrupts = <GIC_SPI 10 IRQ_TYPE_LEVEL_HIGH>;
- 		#address-cells = <1>;
- 		#size-cells = <0>;
--		clocks = <&tegra_car TEGRA210_CLK_QSPI>;
--		clock-names = "qspi";
-+		clocks = <&tegra_car TEGRA210_CLK_QSPI>,
-+			<&tegra_car TEGRA210_CLK_QSPI_PM>;
-+		clock-names = "qspi", "qspi_out";
- 		resets = <&tegra_car 211>;
--		reset-names = "qspi";
- 		dmas = <&apbdma 5>, <&apbdma 5>;
- 		dma-names = "rx", "tx";
- 		status = "disabled";
-diff --git a/configs/p3450-0000_defconfig b/configs/p3450-0000_defconfig
-index 518ed6b37a2..3b4b863100f 100644
---- a/configs/p3450-0000_defconfig
-+++ b/configs/p3450-0000_defconfig
-@@ -61,7 +61,6 @@ CONFIG_RTL8169=y
- CONFIG_NVME_PCI=y
- CONFIG_PCI_TEGRA=y
- CONFIG_SYS_NS16550=y
--CONFIG_TEGRA114_SPI=y
- CONFIG_TEGRA210_QSPI=y
- CONFIG_USB=y
- CONFIG_USB_EHCI_HCD=y
-diff --git a/include/dt-bindings/clock/tegra210-car.h b/include/dt-bindings/clock/tegra210-car.h
-index eddac16800d..50d19647fb9 100644
---- a/include/dt-bindings/clock/tegra210-car.h
-+++ b/include/dt-bindings/clock/tegra210-car.h
-@@ -302,9 +302,9 @@
- #define TEGRA210_CLK_AUDIO3 274
- #define TEGRA210_CLK_AUDIO4 275
- #define TEGRA210_CLK_SPDIF 276
--#define TEGRA210_CLK_CLK_OUT_1 277
--#define TEGRA210_CLK_CLK_OUT_2 278
--#define TEGRA210_CLK_CLK_OUT_3 279
-+/* 277 */
-+#define TEGRA210_CLK_QSPI_PM 278
-+/* 279 */
- #define TEGRA210_CLK_BLINK 280
- /* 281 */
- /* 282 */
--- 
-2.50.0
+2.51.0
 

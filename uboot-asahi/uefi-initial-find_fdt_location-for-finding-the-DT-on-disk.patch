@@ -1,6 +1,6 @@
-From 80693a6a332f40e0bb5ae79de1b3106976c2aef4 Mon Sep 17 00:00:00 2001
+From 121fd475757e183428ca78f43420c42b9973aa33 Mon Sep 17 00:00:00 2001
 From: Peter Robinson <pbrobinson@gmail.com>
-Date: Thu, 10 Jul 2025 12:19:43 +0100
+Date: Tue, 31 Dec 2024 14:11:12 +0000
 Subject: [PATCH] initial find_fdt_location for finding the DT on disk
 
 The old distro boot looked for a DT on the first boot partition
@@ -16,29 +16,16 @@ so that devices will continue to work as they did previously.
 
 Signed-off-by: Peter Robinson <pbrobinson@gmail.com>
 ---
- cmd/bootefi.c               |   1 +
  cmd/bootmenu.c              |   5 ++
  include/efi_loader.h        |   2 +
- lib/efi_loader/efi_helper.c | 104 ++++++++++++++++++++++++++++++++++++
- 4 files changed, 112 insertions(+)
+ lib/efi_loader/efi_helper.c | 105 +++++++++++++++++++++++++++++++++++-
+ 4 files changed, 112 insertions(+), 1 deletion(-)
 
-diff --git a/cmd/bootefi.c b/cmd/bootefi.c
-index 8e8752127ed..347f5573bf0 100644
---- a/cmd/bootefi.c
-+++ b/cmd/bootefi.c
-@@ -147,6 +147,7 @@ static int do_bootefi(struct cmd_tbl *cmdtp, int flag, int argc,
- 	if (argc > 2) {
- 		uintptr_t fdt_addr;
- 
-+		/* Do we need to run find_fdt_location here?*/
- 		fdt_addr = hextoul(argv[2], NULL);
- 		fdt = map_sysmem(fdt_addr, 0);
- 	} else {
 diff --git a/cmd/bootmenu.c b/cmd/bootmenu.c
-index d3108778c6f..de5fa96b08d 100644
+index b633aedf011..96a71a96820 100644
 --- a/cmd/bootmenu.c
 +++ b/cmd/bootmenu.c
-@@ -502,6 +502,11 @@ static void handle_uefi_bootnext(void)
+@@ -461,6 +461,11 @@ static void handle_uefi_bootnext(void)
  	u16 bootnext;
  	efi_status_t ret;
  	efi_uintn_t size;
@@ -51,10 +38,10 @@ index d3108778c6f..de5fa96b08d 100644
  	/* Initialize EFI drivers */
  	ret = efi_init_obj_list();
 diff --git a/include/efi_loader.h b/include/efi_loader.h
-index 3e70ac07055..df8d0c2a64c 100644
+index 39809eac1bc..511eba655e7 100644
 --- a/include/efi_loader.h
 +++ b/include/efi_loader.h
-@@ -570,6 +570,8 @@ struct efi_register_notify_event {
+@@ -514,6 +514,8 @@ struct efi_register_notify_event {
  	struct list_head handles;
  };
  
@@ -64,10 +51,10 @@ index 3e70ac07055..df8d0c2a64c 100644
  int efi_init_early(void);
  /* Initialize efi execution environment */
 diff --git a/lib/efi_loader/efi_helper.c b/lib/efi_loader/efi_helper.c
-index 44b806aadc4..e715a9190ae 100644
+index bf96f61d3d0..3f496cc0dfb 100644
 --- a/lib/efi_loader/efi_helper.c
 +++ b/lib/efi_loader/efi_helper.c
-@@ -15,6 +15,7 @@
+@@ -12,6 +12,7 @@
  #include <mapmem.h>
  #include <dm.h>
  #include <fs.h>
@@ -75,7 +62,7 @@ index 44b806aadc4..e715a9190ae 100644
  #include <efi.h>
  #include <efi_api.h>
  #include <efi_load_initrd.h>
-@@ -98,6 +99,99 @@ int efi_get_pxe_arch(void)
+@@ -95,6 +96,99 @@ int efi_get_pxe_arch(void)
  	return -EINVAL;
  }
  
@@ -175,16 +162,16 @@ index 44b806aadc4..e715a9190ae 100644
  /**
   * efi_create_current_boot_var() - Return Boot#### name were #### is replaced by
   *			           the value of BootCurrent
-@@ -558,11 +652,21 @@ efi_status_t efi_install_fdt(void *fdt)
- 		const char *fdt_opt;
- 		uintptr_t fdt_addr;
- 
+@@ -548,11 +642,20 @@ efi_status_t efi_install_fdt(void *fdt)
+ 		/* Look for device tree that is already installed */
+ 		if (efi_get_configuration_table(&efi_guid_fdt))
+ 			return EFI_SUCCESS;
 +		/* Check if there is device tree loaded from disk */
 +		fdt_opt = find_fdt_location();
 +		if (fdt_opt)
 +			log_debug("Found DTB on disk\n");
  		/* Check if there is a hardware device tree */
- 		fdt_opt = env_get("fdt_addr");
+-		fdt_opt = env_get("fdt_addr");
 +		if (!fdt_opt) {
 +			fdt_opt = env_get("fdt_addr");
 +			if (fdt_opt)
@@ -198,5 +185,5 @@ index 44b806aadc4..e715a9190ae 100644
  				log_err("need device tree\n");
  				return EFI_NOT_FOUND;
 -- 
-2.50.0
+2.47.1
 
