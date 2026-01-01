@@ -3,19 +3,24 @@
 
 pkgname=tiny-dfr
 pkgver=0.3.5
-pkgrel=1
+pkgrel=2
 pkgdesc='Apple silicon touch bar input / display daemon'
 arch=('aarch64')
-url=https://github.com/WhatAmISupposedToPutHere/tiny-dfr
+url=https://crates.io/crates/tiny-dfr
 license=('MIT' 'APACHE')
 makedepends=('rustup')
 depends=('pango' 'libinput' 'gdk-pixbuf2' 'librsvg')
-source=("$pkgname-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
-sha512sums=('6c24dc8e82dc19bb6c2f5d0459c759a3497340574706a4f7f92ebc945e089b02d147825b897661cdf35c454e3b517c46f71703c20155775a4a4588754e61b12d')
+source=(
+  "$pkgname-$pkgver.crate::https://crates.io/api/v1/crates/tiny-dfr/$pkgver/download"
+  'tiny-dfr-fix-metadata.diff')
+sha512sums=('0406ad4a8ab3557db4f04128834084d0c872540b4e160a11aec5efe2ca29a7fe512063d50ea713c6d68939ea3d08c0178971c13e0e2bf14face5eafa9f6a891f'
+            '90a82d2e25d29cf1501a5222665296128032ee29f04bc6930f60f1234c0a300ae7fdb22962dd6434095f0e0b16c9b07032ab185aff4268ae52a440f2cabee508')
 
 prepare() {
+  tar -xf $pkgname-$pkgver.crate
   cd $pkgname-$pkgver
-  cargo fetch --locked --target "$CARCH-unknown-linux-gnu"
+  cat ../tiny-dfr-fix-metadata.diff | patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
+  cargo fetch --target "$CARCH-unknown-linux-gnu"
 }
 
 build() {
