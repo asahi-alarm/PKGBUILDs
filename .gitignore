@@ -9,6 +9,7 @@ src
 log
 FEX-Emu/FEX
 virglrenderer/virglrenderer-asahi
-chrome-eula_text.html
-lacros-arm64.squashfs
+widevine/chrome-eula_text.html
+widevine/lacros-*.squashfs
+widevine/*.crx3
 linux-asahi/config.old
