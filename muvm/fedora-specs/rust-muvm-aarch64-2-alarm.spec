@@ -10,6 +10,8 @@
   Source2:        50-muvm-access.conf
   Source3:        access-muvm.lua
 
+  Patch:          muvm-fix-metadata.diff
+
   BuildRequires:  cargo-rpm-macros >= 26
 
   ExclusiveArch:  x86_64 aarch64
@@ -43,6 +45,9 @@ prepare() {
   fi
   cd 'muvm-0.4.1'
   chmod -Rf a+rX,u+w,g-w,o-w .
+
+  cat muvm-fix-metadata.diff | 
+  patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
 
   %cargo_prep
 
