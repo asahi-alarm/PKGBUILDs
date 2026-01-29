@@ -2,16 +2,16 @@
 # Maintainer: Matthias Kurz <m.kurz@irregular.at>
 
 pkgname=asahi-calamares-configs
-pkgver=20260128
-pkgrel=2
+pkgver=20260129
+pkgrel=1
 pkgdesc='Asahi Linux Calamares setup configs'
 arch=('any')
 url='http://asahilinux.org'
 license=('MIT')
 depends=(calamares)
 source=("${pkgname}-${pkgver}.tar.gz::https://github.com/asahi-alarm/${pkgname}/archive/refs/tags/${pkgver}.tar.gz")
-sha256sums=('db107b163373aeb4d8112b99b60fee2048a1b0391239537b92fe5ff4ad6a9edb')
-b2sums=('0495b9f10bd63354e0f60d00bb700598cc57476ed6e2329144cd90119d6a66644e9601e26313f870ecfe8bdbed17d3d7ff6f00774945bccf24d2c299b6a2fa0c')
+sha256sums=('aeeb993e8ecd4f71d1bed53ab1147ec68c10e9c90911e0caa44358d3fa6d3ffa')
+b2sums=('0a091d2b48931a7db2d8c6178704e0db56b5e343ab5d2e7da0f7153dcd2619cea2f55a961f90e8b6cb3d7c12714f2cbedc889dc863658a6981f3db744e3f488e')
 
 package() {
   cd "${srcdir}/${pkgname}-${pkgver}"
