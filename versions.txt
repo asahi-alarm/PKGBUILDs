@@ -5,7 +5,7 @@ asahi-alarm-keyring            /                              20241216-1
 asahi-audio                    3.4-2                          3.4-1                         
 asahi-bless                    0.4.2-1                        0.4.2-1                       
 asahi-btsync                   0.2.4-1                        0.2.4-1                       
-asahi-calamares-configs        20240509-6                     20260106-1                    
+asahi-calamares-configs        20240509-6                     20260128-2                    
 asahi-configs                  /                              20251217-1                    
 asahi-desktop-meta             /                              4-7                           
 asahi-fwextract                /                              0.7.9-1                       
