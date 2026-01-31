@@ -11,7 +11,7 @@ asahi-desktop-meta             /                              4-7
 asahi-fwextract                /                              0.7.9-1                       
 asahi-meta                     /                              5-4                           
 asahi-nvram                    0.2.3-1                        0.2.3-1                       
-asahi-scripts                  /                              20260127.1-1                  
+asahi-scripts                  20250713-5                     20260127.1-1                  
 asahi-wifisync                 0.2.2-1                        0.2.2-1                       
 bankstown                      1.1.0-3                        1.1.0-2                       
 binfmt-dispatcher              0.1.2-1                        0.1.2-1                       
