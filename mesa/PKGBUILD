@@ -5,7 +5,7 @@ highmem=1
 
 pkgname=(mesa mesa-fex-emu-overlay-x86_64 mesa-fex-emu-overlay-i386 mesa-dummy)
 pkgdesc="An open-source implementation of the OpenGL specification"
-pkgver=25.2.7
+pkgver=25.2.8
 pkgrel=1
 arch=('x86_64' 'aarch64')
 makedepends=('python-mako' 'libxml2' 'libx11' 'xorgproto' 'libdrm' 'libxshmfence' 'libxxf86vm'
@@ -30,7 +30,7 @@ source=(
   gnome-shell-glthread-disable.patch
   do_not_use_wl_display_dispatch_queue_timeout.diff
 )
-sha512sums=('87dd815e0d11d6ec0eb969ee93d3f376103bb899d90599e0b7902394e41c58139384df79f89633e132ca969348d3320f55308a74651d409b454d51f1bcda27bc'
+sha512sums=('a238965ee235bd9178d26b210fc3996b77927dab31964b76cd1e1e72cfffbefbd96e4a57ec4f5018205a58354cd41d6cf99bbc712b275a7518710a34511dfb13'
             'ecdabad21a86f04d51ba709a90fbeccb3004c6e8af3546edc530dcb4727787ed5d6a63043b6ab50b4c0a46de0894b6f3c594101b4d25f7831dee9f33fd2a7e31'
             'db08a07a6ee8cc09ae827688089e1e1e7aa2c43f9a1a9260012206052bcb9432d1c1a90657bc86618719632ba6cbb4502003c181321bc01c713f4e02dae8b4f1'
             '30f3b5c9b98b6dabf30c3f84a1389bdda9b329ef2997688b7d15d7a365bfb9b9575d085322c53087a990175bb6d1b12fb5cfdc010ae40b3bbcaa9662d0de5f3f')

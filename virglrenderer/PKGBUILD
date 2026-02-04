@@ -3,7 +3,7 @@
 
 pkgname=virglrenderer
 pkgver=1.2.0
-pkgrel=1
+pkgrel=2
 epoch=1
 pkgdesc='A virtual 3D GPU library, that allows the guest operating system to use the host GPU to accelerate 3D rendering'
 arch=('x86_64' 'aarch64')
@@ -14,13 +14,16 @@ makedepends=('git' 'meson' 'ninja' 'python-yaml') # Tools for building from Git
 conflicts=('virglrenderer-asahi')
 replaces=('virglrenderer-asahi')
 
-source=("${pkgname}-${pkgver}.tar.bz2::https://gitlab.freedesktop.org/virgl/virglrenderer/-/archive/${pkgver}/virglrenderer-${pkgver}.tar.bz2")
-sha256sums=('f4f52db11297b52b35c8c2d5bf5e21b7997b52f8bfad99ea2b1c155997cff4ad')
+source=("${pkgname}-${pkgver}.tar.bz2::https://gitlab.freedesktop.org/virgl/virglrenderer/-/archive/${pkgver}/virglrenderer-${pkgver}.tar.bz2"
+        0001-c11-threads-fix-build-on-c23.patch)
+sha256sums=('f4f52db11297b52b35c8c2d5bf5e21b7997b52f8bfad99ea2b1c155997cff4ad'
+            'd84399afea476045cfcba86a7d3fc92310931e7b361bfa8ff775c6cc8332d0c5')
 
 prepare() {
   cd "${srcdir}/${pkgname}-${pkgver}"
   # If there are submodules (unlikely here), uncomment:
   # git submodule update --init --recursive
+  cat ../0001-c11-threads-fix-build-on-c23.patch | patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
 }
 
 build() {
