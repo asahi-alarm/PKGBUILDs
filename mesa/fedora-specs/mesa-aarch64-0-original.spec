@@ -106,7 +106,10 @@
 
 Name:           mesa
 Summary:        Mesa graphics libraries
-%global ver 25.2.7
+%if 0%{?fedora} && 0%{?fedora} >= 44
+Vendor:         Fedora Asahi - Transitional
+%endif
+%global ver 25.2.8
 Version:        %{lua:ver = string.gsub(rpm.expand("%{ver}"), "-", "~"); print(ver)}
 # Keep `Release` smaller than 1 so that the Fedora packages always win version comparisons
 Release:        0.100%{?dist}

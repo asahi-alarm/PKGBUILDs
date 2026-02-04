@@ -2,13 +2,13 @@
 Name:           mesa
 Summary:        Mesa graphics libraries
 
-Version:        25.2.7
+Version:        25.2.8
 
 Release:        0.100
 License:        MIT AND BSD-3-Clause AND SGI-B-2.0
 URL:            http://www.mesa3d.org
 
-Source0:        https://archive.mesa3d.org/mesa-25.2.7.tar.xz
+Source0:        https://archive.mesa3d.org/mesa-25.2.8.tar.xz
 
 Source1:        Mesa-MLAA-License-Clarification-Email.txt
 
@@ -95,8 +95,8 @@ Mesa graphics libraries.
 
 %package filesystem
 Summary:        Mesa driver filesystem
-Provides:       mesa-dri-filesystem = 25.2.7-0.100
-Obsoletes:      mesa-omx-drivers < 25.2.7-0.100
+Provides:       mesa-dri-filesystem = 25.2.8-0.100
+Obsoletes:      mesa-omx-drivers < 25.2.8-0.100
 
 %description filesystem
 Mesa driver filesystem.
@@ -104,7 +104,7 @@ Mesa driver filesystem.
 %package libGL
 Summary:        Mesa libGL runtime libraries
 Requires:       libglvnd-glx(x86-64) >= 1:1.3.2
-Requires:       mesa-dri-drivers(x86-64) = 25.2.7-0.100
+Requires:       mesa-dri-drivers(x86-64) = 25.2.8-0.100
 Obsoletes:      mesa-libOSMesa < 25.1.0~rc2-1
 
 %description libGL
@@ -112,7 +112,7 @@ Mesa libGL runtime libraries.
 
 %package libGL-devel
 Summary:        Mesa libGL development package
-Requires:       (mesa-libGL(x86-64) = 25.2.7-0.100 if mesa-libGL(x86-64))
+Requires:       (mesa-libGL(x86-64) = 25.2.8-0.100 if mesa-libGL(x86-64))
 Requires:       libglvnd-devel(x86-64) >= 1:1.3.2
 Provides:       libGL-devel
 Provides:       libGL-devel(x86-64)
@@ -125,15 +125,15 @@ Mesa libGL development package.
 %package libEGL
 Summary:        Mesa libEGL runtime libraries
 Requires:       libglvnd-egl(x86-64) >= 1:1.3.2
-Requires:       mesa-libgbm(x86-64) = 25.2.7-0.100
-Requires:       mesa-dri-drivers(x86-64) = 25.2.7-0.100
+Requires:       mesa-libgbm(x86-64) = 25.2.8-0.100
+Requires:       mesa-dri-drivers(x86-64) = 25.2.8-0.100
 
 %description libEGL
 Mesa libEGL runtime libraries.
 
 %package libEGL-devel
 Summary:        Mesa libEGL development package
-Requires:       (mesa-libEGL(x86-64) = 25.2.7-0.100 if mesa-libEGL(x86-64))
+Requires:       (mesa-libEGL(x86-64) = 25.2.8-0.100 if mesa-libEGL(x86-64))
 Requires:       libglvnd-devel(x86-64) >= 1:1.3.2
 Requires:       mesa-khr-devel(x86-64)
 Provides:       libEGL-devel
@@ -144,7 +144,7 @@ Mesa libEGL development package.
 
 %package dri-drivers
 Summary:        Mesa-based DRI drivers
-Requires:       mesa-filesystem(x86-64) = 25.2.7-0.100
+Requires:       mesa-filesystem(x86-64) = 25.2.8-0.100
 
 Recommends:     mesa-va-drivers(x86-64)
 
@@ -156,7 +156,7 @@ Mesa-based DRI drivers.
 
 %package        va-drivers
 Summary:        Mesa-based VA-API video acceleration drivers
-Requires:       mesa-filesystem(x86-64) = 25.2.7-0.100
+Requires:       mesa-filesystem(x86-64) = 25.2.8-0.100
 Obsoletes:      mesa-vaapi-drivers < 22.2.0-5
 
 %description va-drivers
@@ -164,7 +164,7 @@ Mesa-based VA-API video acceleration drivers.
 
 %package        vdpau-drivers
 Summary:        Mesa-based VDPAU drivers
-Requires:       mesa-filesystem(x86-64) = 25.2.7-0.100
+Requires:       mesa-filesystem(x86-64) = 25.2.8-0.100
 
 %description vdpau-drivers
 Mesa-based VDPAU drivers.
@@ -173,16 +173,16 @@ Mesa-based VDPAU drivers.
 Summary:        Mesa gbm runtime library
 Provides:       libgbm
 Provides:       libgbm(x86-64)
-Recommends:     mesa-dri-drivers(x86-64) = 25.2.7-0.100
+Recommends:     mesa-dri-drivers(x86-64) = 25.2.8-0.100
 
-Requires:       (mesa-dri-drivers(x86-64) = 25.2.7-0.100 if mesa-dri-drivers(x86-64))
+Requires:       (mesa-dri-drivers(x86-64) = 25.2.8-0.100 if mesa-dri-drivers(x86-64))
 
 %description libgbm
 Mesa gbm runtime library.
 
 %package libgbm-devel
 Summary:        Mesa libgbm development package
-Requires:       mesa-libgbm(x86-64) = 25.2.7-0.100
+Requires:       mesa-libgbm(x86-64) = 25.2.8-0.100
 Provides:       libgbm-devel
 Provides:       libgbm-devel(x86-64)
 
@@ -193,7 +193,7 @@ Mesa libgbm development package.
 Summary:        Mesa OpenCL runtime library
 Requires:       (ocl-icd(x86-64) or OpenCL-ICD-Loader(x86-64))
 Requires:       libclc(x86-64)
-Requires:       mesa-libgbm(x86-64) = 25.2.7-0.100
+Requires:       mesa-libgbm(x86-64) = 25.2.8-0.100
 Requires:       opencl-filesystem
 
 %description libOpenCL
@@ -201,7 +201,7 @@ Mesa OpenCL runtime library.
 
 %package libOpenCL-devel
 Summary:        Mesa OpenCL development package
-Requires:       mesa-libOpenCL(x86-64) = 25.2.7-0.100
+Requires:       mesa-libOpenCL(x86-64) = 25.2.8-0.100
 
 %description libOpenCL-devel
 Mesa OpenCL development package.
@@ -215,8 +215,8 @@ Mesa TensorFlow Lite delegate.
 %package vulkan-drivers
 Summary:        Mesa Vulkan drivers
 Requires:       vulkan(x86-64)
-Requires:       mesa-filesystem(x86-64) = 25.2.7-0.100
-Obsoletes:      mesa-vulkan-devel < 25.2.7-0.100
+Requires:       mesa-filesystem(x86-64) = 25.2.8-0.100
+Obsoletes:      mesa-vulkan-devel < 25.2.8-0.100
 
 %description vulkan-drivers
 The drivers with support for the Vulkan API.
@@ -228,8 +228,8 @@ BuildRequires:  erofs-utils
 BuildRequires:  patchelf
 Requires:       fex-emu
 Supplements:    fex-emu-rootfs-fedora
-Provides:       fex-emu-overlay(x86_64)(mesa) = 25.2.7-0.100
-Provides:       bundled(mesa) = 25.2.7-0.100
+Provides:       fex-emu-overlay(x86_64)(mesa) = 25.2.8-0.100
+Provides:       bundled(mesa) = 25.2.8-0.100
 
 %description fex-emu-overlay-x86_64
 Mesa EGL/GL libraries and Gallium/OpenCL/Vulkan drivers for FEX-emu roots file system images.
@@ -237,13 +237,13 @@ Mesa EGL/GL libraries and Gallium/OpenCL/Vulkan drivers for FEX-emu roots file s
 %prep
 
 cd './'
-rm -rf 'mesa-25.2.7'
-rpmuncompress -x 'mesa-25.2.7.tar.xz'
+rm -rf 'mesa-25.2.8'
+rpmuncompress -x 'mesa-25.2.8.tar.xz'
 STATUS=$?
 if [ $STATUS -ne 0 ]; then
   exit $STATUS
 fi
-cd 'mesa-25.2.7'
+cd 'mesa-25.2.8'
 chmod -Rf a+rX,u+w,g-w,o-w .
 
 rpmuncompress gnome-shell-glthread-disable.patch | 
