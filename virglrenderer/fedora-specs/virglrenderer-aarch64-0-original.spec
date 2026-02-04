@@ -4,12 +4,16 @@
 
 Name:		virglrenderer
 Version:	1.2.0
-Release:	1.1%{?dist}
+Release:	1.5%{?dist}
+%if 0%{?fedora} && 0%{?fedora} >= 44
+Vendor:         Fedora Asahi - Transitional
+%endif
 
 Summary:	Virgl Rendering library.
 License:	MIT
 
 Source:         https://gitlab.freedesktop.org/virgl/virglrenderer/-/archive/%{version}/virglrenderer-%{version}.tar.bz2
+Patch0000:      0001-c11-threads-fix-build-on-c23.patch
 
 BuildRequires:  meson
 BuildRequires:  gcc
@@ -74,10 +78,22 @@ driver to test virgl rendering without GL.
 %{_bindir}/virgl_test_server
 
 %changelog
+* Wed Feb 04 2026 Janne Grunau >janne-fdr@jannau.net> - 1.2.0-1.5
+- Fix rawhide build
+
+* Tue Feb 03 2026 Janne Grunau >janne-fdr@jannau.net> - 1.2.0-1.4
+- Override vendor on Fedora 44+ to allow transition to fedora package
+
+* Thu Jan 29 2026 Marc-André Lureau <marcandre.lureau@redhat.com> - 1.2.0-4
+- Backport build fix, fixes FTBFS rhbz#2435177
+
+* Sat Jan 17 2026 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_44_Mass_Rebuild
+
 * Thu Sep 18 2025 Janne Grunau >janne-fdr@jannau.net> - 1.2.0-1.1
 - Use 1.1 as Release to sort below F43's 1.2.0-2 but exclude 1.2.0-1
 
-* Wed Sep 17 2025 Janne Grunau >janne-fdr@jannau.net> - 1.2.0-1
+* Wed Sep 17 2025 Janne Grunau >janne-fdr@jannau.net> - 1.2.0-2
 - Enable asahi,msm DRM native context support on aarch64
 
 * Tue Sep 09 2025 Marc-André Lureau <marcandre.lureau@redhat.com> - 1.2.0-1
