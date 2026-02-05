@@ -25,7 +25,7 @@ linux-asahi                    6.17.12-400.asahi              6.17.12.asahi1-1
 linux-asahi-headers            6.17.12-400.asahi              6.17.12.asahi1-1              
 lzfse                          /                              1.0-1                         
 m1n1                           1.5.2-1                        1.5.2-1                       
-mesa                           25.2.8-0.100                   25.2.7-1                      
+mesa                           25.2.8-0.100                   25.2.8-1                      
 muvm                           0.4.1-3                        0.4.1-1                       
 speakersafetyd                 1.0.2-4                        1.0.2-1                       
 startup-disk                   0.1.5-3                        0.1.5-2                       
@@ -33,5 +33,5 @@ steam                          0-14                           20241231-4
 tiny-dfr                       0.3.5-3                        0.3.5-2                       
 triforce-lv2                   0.3.2-1                        0.3.2-1                       
 uboot-asahi                    1:2025.10-100                  2025.10.asahi1-1              
-virglrenderer                  1.2.0-1.5                      1:1.2.0-1                     
+virglrenderer                  1.2.0-1.5                      1:1.2.0-2                     
 widevine                       /                              4.10.2891.0-1                 
