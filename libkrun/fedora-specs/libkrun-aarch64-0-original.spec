@@ -9,7 +9,7 @@
 %endif
 
 Name:           libkrun
-Version:        1.15.1
+Version:        1.17.2
 Release:        1%{?dist}
 Summary:        Dynamic library providing Virtualization-based process isolation capabilities
 
@@ -28,8 +28,8 @@ Patch0:         libkrun-remove-unused-deps.diff
 Patch1:         libkrun-remove-nitro-deps.diff
 # Disable TDX untile the dependencies are packaged.
 Patch2:         libkrun-remove-tdx-deps.diff
-# Allow building with 0.71 until 0.72 is packaged.
-Patch3:         libkrun-relax-bindgen-dep.diff
+# Bump bzip2 dependency to match the version packaged in Fedora.
+Patch3:         libkrun-bump-bzip-dep.diff
 # For aarch64, remove references to SEV and TDX deps which are only available on x86_64
 Patch4:         libkrun-remove-sev-deps.diff
 %endif
@@ -38,7 +38,7 @@ Patch4:         libkrun-remove-sev-deps.diff
 ExclusiveArch:  x86_64 aarch64
 
 # Starting 1.11.0, libkrunfw is no longer build-time linked.
-Requires:  libkrunfw >= 4.0.0
+Requires:  libkrunfw >= 5.0.0
 
 # While this project is composed mostly of Rust code, this is not a
 # conventional Rust crate. The root of the project is a workspace, there's a C
@@ -77,31 +77,27 @@ BuildRequires:  (crate(virtio-bindings/default) >= 0.2.0 with crate(virtio-bindi
 BuildRequires:  (crate(bitflags/default) >= 1.2.0 with crate(bitflags/default) < 2.0.0~)
 BuildRequires:  (crate(env_logger/default) >= 0.11.0 with crate(env_logger/default) < 0.12.0~)
 BuildRequires:  (crate(log/default) >= 0.4.0 with crate(log/default) < 0.5.0~)
-BuildRequires:  (crate(nix/default) >= 0.24.1 with crate(nix/default) < 0.25.0~)
-BuildRequires:  (crate(nix/default) >= 0.26.1 with crate(nix/default) < 0.27.0~)
-BuildRequires:  (crate(nix/default) >= 0.27.1 with crate(nix/default) < 0.28.0~)
+BuildRequires:  (crate(nix/default) >= 0.30.1 with crate(nix/default) < 0.31.0~)
+BuildRequires:  (crate(memoffset/default) >= 0.9.1 with crate(memoffset/default) < 0.10.0~)
 BuildRequires:  (crate(rand/default) >= 0.8.5 with crate(rand/default) < 0.9.0~)
 BuildRequires:  (crate(rand/default) >= 0.9.2 with crate(rand/default) < 0.10.0~)
 BuildRequires:  (crate(once_cell/default) >= 1.4.1 with crate(once_cell/default) < 2.0.0~)
 BuildRequires:  (crate(crossbeam-channel/default) >= 0.5.0 with crate(crossbeam-channel/default) < 0.6.0~)
 BuildRequires:  (crate(pipewire/default) >= 0.8.0 with crate(pipewire/default) < 0.9.0~)
-BuildRequires:  (crate(zerocopy/default) >= 0.6.0 with crate(zerocopy/default) < 0.7.0~)
-BuildRequires:  (crate(zerocopy/default) >= 0.7.0 with crate(zerocopy/default) < 0.8.0~)
+BuildRequires:  (crate(zerocopy/default) >= 0.8.0 with crate(zerocopy/default) < 0.9.0~)
 BuildRequires:  (crate(remain/default) >= 0.2.0 with crate(remain/default) < 0.3.0~)
 BuildRequires:  (crate(caps/default) >= 0.5.0 with crate(caps/default) < 0.6.0~)
-BuildRequires:  (crate(imago/default) >= 0.1.0 with crate(imago/default) < 0.2.0~)
+BuildRequires:  (crate(imago/default) >= 0.2.1 with crate(imago/default) < 0.3.0~)
 BuildRequires:  (crate(linux-loader/default) >= 0.13.0 with crate(linux-loader/default) < 0.14.0~)
-BuildRequires:  (crate(bzip2/default) >= 0.5.0 with crate(bzip2/default) < 0.6.0~)
+BuildRequires:  (crate(bzip2/default) >= 0.6.0 with crate(bzip2/default) < 0.7.0~)
 BuildRequires:  (crate(zstd/default) >= 0.13.0 with crate(zstd/default) < 0.14.0~)
 BuildRequires:  (crate(flate2/default) >= 1.0.0 with crate(flate2/default) < 2.0.0~)
 BuildRequires:  (crate(static_assertions/default) >= 1.1.0 with crate(static_assertions/default) < 2.0.0~)
 BuildRequires:  (crate(thiserror/default) >= 2.0.0 with crate(thiserror/default) < 3.0.0~)
 
-%ifarch x86_64
+%if 0%{?build_sev}
 # SEV variant dependencies
-BuildRequires:  (crate(kbs-types/default) >= 0.11.0 with crate(kbs-types/default) < 0.12.0~)
-BuildRequires:  (crate(kbs-types/tee-sev) >= 0.11.0 with crate(kbs-types/tee-sev) < 0.12.0~)
-BuildRequires:  (crate(kbs-types/tee-snp) >= 0.11.0 with crate(kbs-types/tee-snp) < 0.12.0~)
+BuildRequires:  (crate(kbs-types/default) >= 0.14.0 with crate(kbs-types/default) < 0.15.0~)
 BuildRequires:  (crate(codicon/default) >= 3.0.0 with crate(codicon/default) < 4.0.0~)
 BuildRequires:  (crate(curl/default) >= 0.4.0 with crate(curl/default) < 0.5.0~)
 BuildRequires:  (crate(procfs/default) >= 0.12.0 with crate(procfs/default) < 0.13.0~)
@@ -127,7 +123,7 @@ capabilities.
 
 # SEV is a feature provided by AMD EPYC processors, so only it's only
 # available on x86_64.
-%ifarch x86_64
+%if 0%{?build_sev}
 %package sev
 Summary: Dynamic library providing Virtualization-based process isolation capabilities (SEV variant)
 Requires:  libkrunfw-sev >= 4.0.0
@@ -158,7 +154,7 @@ capabilities.
 %patch -P 1 -p1
 %patch -P 2 -p1
 %patch -P 3 -p1
-%ifnarch x86_64
+%if ! 0%{?build_sev}
 %patch -P 4 -p1
 %endif
 %cargo_prep
@@ -168,7 +164,7 @@ capabilities.
 %make_build init/init
 %make_build libkrun.pc
 %make_build GPU=1 BLK=1 NET=1 SND=1
-%ifarch x86_64
+%if 0%{?build_sev}
     rm init/init
     %make_build SEV=1 init/init
     %cargo_build -f amd-sev
@@ -182,7 +178,7 @@ capabilities.
 
 %install
 %make_install PREFIX=%{_prefix}
-%ifarch x86_64
+%if 0%{?build_sev}
     %make_install SEV=1 PREFIX=%{_prefix}
 %endif
 
@@ -201,8 +197,9 @@ capabilities.
 %{_libdir}/pkgconfig/libkrun.pc
 %{_includedir}/libkrun.h
 %{_includedir}/libkrun_display.h
+%{_includedir}/libkrun_input.h
 
-%ifarch x86_64
+%if 0%{?build_sev}
 %files sev
 %license LICENSE
 %if 0%{?bundled_rust_deps}
@@ -223,6 +220,18 @@ capabilities.
 %endif
 
 %changelog
+* Wed Feb 04 2026 Sergio Lopez <slp@redhat.com> - 1.17.2-1
+- Update to version 1.17.2
+
+* Mon Jan 19 2026 Sergio Lopez <slp@redhat.com> - 1.17.0-3
+- Rebuilt for new side tag
+
+* Sat Jan 17 2026 Sergio Lopez <slp@redhat.com> - 1.17.0-2
+- Require libkrunfw >= 5.x.x
+
+* Fri Jan 16 2026 Sergio Lopez <slp@redhat.com> - 1.17.0-1
+- Update to version 1.17.0
+
 * Mon Sep 01 2025 Sergio Lopez <slp@redhat.com> - 1.15.1-1
 - Update to version 1.15.1
 

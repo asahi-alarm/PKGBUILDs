@@ -2,11 +2,11 @@
 # the VM's memory, so no useful debug info can be generated from it.
 %global debug_package %{nil}
 
-%global kernel linux-6.12.34
+%global kernel linux-6.12.68
 
 Name:           libkrunfw
-Version:        4.10.0
-Release:        2%{?dist}
+Version:        5.2.0
+Release:        1%{?dist}
 Summary:        A dynamic library bundling the guest payload consumed by libkrun
 # Automatically converted from old format: LGPLv2 and GPLv2 - review is highly recommended.
 License:        LicenseRef-Callaway-LGPLv2 AND GPL-2.0-only
@@ -97,7 +97,7 @@ cp %{SOURCE1} tarballs/
 %endif
 
 %files
-%{_libdir}/libkrunfw.so.4
+%{_libdir}/libkrunfw.so.5
 %{_libdir}/libkrunfw.so.%{version}
 
 %files devel
@@ -105,7 +105,7 @@ cp %{SOURCE1} tarballs/
 
 %ifarch x86_64
 %files sev
-%{_libdir}/libkrunfw-sev.so.4
+%{_libdir}/libkrunfw-sev.so.5
 %{_libdir}/libkrunfw-sev.so.%{version}
 %{_bindir}/krunfw_measurement
 
@@ -114,6 +114,18 @@ cp %{SOURCE1} tarballs/
 %endif
 
 %changelog
+* Mon Feb 02 2026 Sergio Lopez <slp@redhat.com> - 5.2.0-1
+- Update to 5.2.0 which bundles a 6.12.68 kernel
+
+* Mon Jan 19 2026 Sergio Lopez <slp@redhat.com> - 5.1.0-2
+- Rebuilt for new side tag
+
+* Sat Jan 17 2026 Sergio Lopez <slp@redhat.com> - 5.1.0-1
+- Update to 5.1.0 which bundles a 6.12.62 kernel
+
+* Fri Jan 16 2026 Fedora Release Engineering <releng@fedoraproject.org> - 4.10.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_44_Mass_Rebuild
+
 * Thu Jul 24 2025 Fedora Release Engineering <releng@fedoraproject.org> - 4.10.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_43_Mass_Rebuild
 

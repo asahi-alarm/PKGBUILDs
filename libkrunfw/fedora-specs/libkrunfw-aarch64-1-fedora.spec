@@ -1,14 +1,14 @@
 
 Name:           libkrunfw
-Version:        4.10.0
-Release:        2
+Version:        5.2.0
+Release:        1
 Summary:        A dynamic library bundling the guest payload consumed by libkrun
 
 License:        LicenseRef-Callaway-LGPLv2 AND GPL-2.0-only
 URL:            https://github.com/containers/libkrunfw
-Source0:        https://github.com/containers/libkrunfw/archive/refs/tags/v4.10.0.tar.gz
+Source0:        https://github.com/containers/libkrunfw/archive/refs/tags/v5.2.0.tar.gz
 
-Source1:        https://www.kernel.org/pub/linux/kernel/v6.x/linux-6.12.34.tar.xz
+Source1:        https://www.kernel.org/pub/linux/kernel/v6.x/linux-6.12.68.tar.xz
 
 ExclusiveArch:  x86_64 aarch64
 
@@ -30,7 +30,7 @@ A dynamic library bundling the guest payload consumed by libkrun
 
 %package devel
 Summary: Header files and libraries for libkrunfw development
-Requires: libkrunfw(aarch-64) = 4.10.0-2
+Requires: libkrunfw(aarch-64) = 5.2.0-1
 
 %description devel
 The libkrunfw-devel package contains the libraries needed to develop
@@ -39,13 +39,13 @@ programs that consume the guest payload integrated in libkrunfw.
 %prep
 
 cd './'
-rm -rf 'libkrunfw-4.10.0'
-rpmuncompress -x 'v4.10.0.tar.gz'
+rm -rf 'libkrunfw-5.2.0'
+rpmuncompress -x 'v5.2.0.tar.gz'
 STATUS=$?
 if [ $STATUS -ne 0 ]; then
   exit $STATUS
 fi
-cd 'libkrunfw-4.10.0'
+cd 'libkrunfw-5.2.0'
 chmod -Rf a+rX,u+w,g-w,o-w .
 
 /usr/bin/git init -q
@@ -54,12 +54,12 @@ chmod -Rf a+rX,u+w,g-w,o-w .
 /usr/bin/git config gc.auto 0
 /usr/bin/git add --force .
 GIT_COMMITTER_DATE=@${SOURCE_DATE_EPOCH:-${RPM_BUILD_TIME:?}} GIT_AUTHOR_DATE=@${SOURCE_DATE_EPOCH:-${RPM_BUILD_TIME:?}}\
-	/usr/bin/git commit -q --allow-empty -a\
-	--author "rpm-build <rpm-build>" -m "libkrunfw-4.10.0 base"
+	/usr/bin/git commit -q --no-gpg-sign --allow-empty -a\
+	--author "rpm-build <rpm-build>" -m "libkrunfw-5.2.0 base"
 /usr/bin/git checkout --track -b rpm-build
 
 mkdir tarballs
-cp linux-6.12.34.tar.xz tarballs/
+cp linux-6.12.68.tar.xz tarballs/
 
 %build
 /usr/bin/make -O -j${RPM_BUILD_NCPUS} V=1 VERBOSE=1
@@ -68,8 +68,8 @@ cp linux-6.12.34.tar.xz tarballs/
 /usr/bin/make install DESTDIR=fakeinstall INSTALL="install -p" PREFIX=/usr
 
 %files
-/usr/lib/libkrunfw.so.4
-/usr/lib/libkrunfw.so.4.10.0
+/usr/lib/libkrunfw.so.5
+/usr/lib/libkrunfw.so.5.2.0
 
 %files devel
 /usr/lib/libkrunfw.so
