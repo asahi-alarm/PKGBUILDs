@@ -19,8 +19,8 @@ calamares                      3.3.14-4                       3.3.14-3
 chromium                       144.0.7559.109-1               139.0.7258.66-1               
 FEX-Emu                        2509.1-1                       2509.1-2                      
 fex-emu-rootfs-arch            43^20251127.0-1                20251118-1                    
-libkrun                        1.15.1-1                       1.15.1-1                      
-libkrunfw                      4.10.0-1                       4.10.0-1                      
+libkrun                        1.17.2-1                       1.15.1-1                      
+libkrunfw                      5.2.0-1                        4.10.0-1                      
 linux-asahi                    6.17.12-400.asahi              6.17.12.asahi1-1              
 linux-asahi-headers            6.17.12-400.asahi              6.17.12.asahi1-1              
 lzfse                          /                              1.0-1                         
