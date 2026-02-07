@@ -1,8 +1,8 @@
 diff --git a/src/devices/Cargo.toml b/src/devices/Cargo.toml
-index 52b2bbf..1f879a6 100644
+index 9ec04c1..5c276d0 100644
 --- a/src/devices/Cargo.toml
 +++ b/src/devices/Cargo.toml
-@@ -41,7 +41,6 @@ imago = { version = "0.1.4", features = ["sync-wrappers", "vm-memory"] }
+@@ -42,7 +42,6 @@ imago = { version = "0.2.1", features = ["sync-wrappers", "vm-memory"] }
  
  [target.'cfg(target_os = "macos")'.dependencies]
  hvf = { path = "../hvf" }
@@ -11,12 +11,12 @@ index 52b2bbf..1f879a6 100644
  [target.'cfg(target_os = "linux")'.dependencies]
  rutabaga_gfx = { path = "../rutabaga_gfx", features = ["x"], optional = true }
 diff --git a/src/rutabaga_gfx/Cargo.toml b/src/rutabaga_gfx/Cargo.toml
-index 7e35bb8..4857815 100644
+index 6c8357b..bb2296c 100644
 --- a/src/rutabaga_gfx/Cargo.toml
 +++ b/src/rutabaga_gfx/Cargo.toml
 @@ -31,9 +31,6 @@ vmm-sys-util = ">=0.14"
  [target.'cfg(unix)'.dependencies]
- nix = "0.26.1"
+ nix = { version = "0.30.1", features = ["event", "feature", "fs", "mman", "socket", "uio", "ioctl"] }
  
 -[target.'cfg(windows)'.dependencies]
 -winapi = "0.3"
