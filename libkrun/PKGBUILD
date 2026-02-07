@@ -1,7 +1,7 @@
 # Maintainer: hexchain <arch at hexchain.org>
 
 pkgname=libkrun
-pkgver=1.15.1
+pkgver=1.17.2
 pkgrel=1
 pkgdesc="A dynamic library providing Virtualization-based process isolation capabilities"
 url='https://github.com/containers/libkrun'
@@ -13,14 +13,14 @@ source=("https://github.com/containers/libkrun/archive/refs/tags/v$pkgver/$pkgna
         libkrun-remove-nitro-deps.diff
         libkrun-remove-sev-deps.diff
         libkrun-remove-tdx-deps.diff
-        libkrun-relax-bindgen-dep.diff
+        libkrun-bump-bzip-dep.diff
         libkrun-remove-unused-deps.diff)
-sha256sums=('d01240bdd567de81ef8da9776595633f6fade694721622295a033c2c332a544f'
-            '3472ad7c6e4084c23bea817b9002bb3d1995910a6f541fcc82ad3c60fadb841c'
-            '64325e160648637ee967c1b692995d2cecdbf31e819f547d18c9f1f880d49576'
-            'f83b325333683274a9b23416edaceb235e88bad298dd9b8635e3a83ddab42bc6'
-            'f6ddd00c1bc8bf6a1562d9d41c8bd9a4485b6be0f404097a1f369f47cbf5af81'
-            'ba3e079dda1a65fa06a29bec4b2fc6d65c97bbaa3e979b385531c84c95cdd39f')
+sha256sums=('64447f7bb41a7c5291e685406c025a4c0002caf17c1e165543eb8a36ec5ef7db'
+            '9ec17a92baa157c890af4ff4446902ffcc4bb513c80785ab404e864d09fb653a'
+            '83622e6fa12d821c6c777512935bad95e06f39a0da56e355ef7cf1357841acbf'
+            '0b0cd747aababf0ad40a58e8ec7d78e70abc8a28aa02b96ebc70198794aa2b8d'
+            '6610eb8bca1ca7123f99d4614b18b615ba3e55ed1c54273c2278480876cbedaa'
+            '42164aa8e6562e5ffafcf04a70adab5cd67a333968d0ab9123e6ad3180cce199')
 
 prepare() {
   cd "$srcdir/$pkgname-$pkgver"
@@ -28,7 +28,7 @@ prepare() {
   patch --no-backup-if-mismatch -f -p1  --fuzz=0 < ../libkrun-remove-unused-deps.diff
   patch --no-backup-if-mismatch -f -p1  --fuzz=0 < ../libkrun-remove-nitro-deps.diff
   patch --no-backup-if-mismatch -f -p1  --fuzz=0 < ../libkrun-remove-tdx-deps.diff
-  patch --no-backup-if-mismatch -f -p1  --fuzz=0 < ../libkrun-relax-bindgen-dep.diff
+  patch --no-backup-if-mismatch -f -p1  --fuzz=0 < ../libkrun-bump-bzip-dep.diff
   patch --no-backup-if-mismatch -f -p1  --fuzz=0 < ../libkrun-remove-sev-deps.diff
 }
 
