@@ -1,7 +1,7 @@
 
   Name:     uboot-tools
   Version:  2025.10
-  Release:  100
+  Release:  101
   Epoch:    1
   Summary:  U-Boot utilities
 
@@ -96,6 +96,10 @@
   Patch126: https://github.com/AsahiLinux/u-boot/commit/8d259ae7a33e317fa04f590c3d2fe548e4e62c57.patch#/asahi-8d259ae7a33e317fa04f590c3d2fe548e4e62c57.patch
 
   Patch127: https://github.com/AsahiLinux/u-boot/commit/32e5c782a67af41306f3169000b527277860c44f.patch#/asahi-32e5c782a67af41306f3169000b527277860c44f.patch
+
+  Patch128: https://github.com/AsahiLinux/u-boot/commit/5191f0e2ceb6901289a1bb2c627890dbf8432f18.patch#/asahi-5191f0e2ceb6901289a1bb2c627890dbf8432f18.patch
+
+  Patch129: https://github.com/AsahiLinux/u-boot/commit/4411224f218ee67526f74d10cd3b3a7cd70ff2ad.patch#/asahi-4411224f218ee67526f74d10cd3b3a7cd70ff2ad.patch
 
   BuildRequires:  bc
   BuildRequires:  bison
@@ -247,6 +251,10 @@ prepare() {
   echo 'Cannot read asahi-8d259ae7a33e317fa04f590c3d2fe548e4e62c57.patch'; exit 1;
 
   echo 'Cannot read asahi-32e5c782a67af41306f3169000b527277860c44f.patch'; exit 1;
+
+  echo 'Cannot read asahi-5191f0e2ceb6901289a1bb2c627890dbf8432f18.patch'; exit 1;
+
+  echo 'Cannot read asahi-4411224f218ee67526f74d10cd3b3a7cd70ff2ad.patch'; exit 1;
 
 }
 

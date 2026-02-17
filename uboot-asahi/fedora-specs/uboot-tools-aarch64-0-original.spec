@@ -6,7 +6,7 @@
 
 Name:     uboot-tools
 Version:  2025.10
-Release:  100%{?candidate:.%{candidate}}%{?dist}
+Release:  101%{?candidate:.%{candidate}}%{?dist}
 Epoch:    1
 Summary:  U-Boot utilities
 # Automatically converted from old format: GPLv2+ BSD LGPL-2.1+ LGPL-2.0+ - review is highly recommended.
@@ -107,6 +107,10 @@ Patch125: https://github.com/AsahiLinux/u-boot/commit/24675d697e32b3b85e72dae9e7
 Patch126: https://github.com/AsahiLinux/u-boot/commit/8d259ae7a33e317fa04f590c3d2fe548e4e62c57.patch#/asahi-8d259ae7a33e317fa04f590c3d2fe548e4e62c57.patch
 # configs: apple: decrease boot delay to 1 second
 Patch127: https://github.com/AsahiLinux/u-boot/commit/32e5c782a67af41306f3169000b527277860c44f.patch#/asahi-32e5c782a67af41306f3169000b527277860c44f.patch
+# configs: apple: Enable SMBIOS / sysinfo
+Patch128: https://github.com/AsahiLinux/u-boot/commit/5191f0e2ceb6901289a1bb2c627890dbf8432f18.patch#/asahi-5191f0e2ceb6901289a1bb2c627890dbf8432f18.patch
+# configs: apple: Add 8k padding to default environment
+Patch129: https://github.com/AsahiLinux/u-boot/commit/4411224f218ee67526f74d10cd3b3a7cd70ff2ad.patch#/asahi-4411224f218ee67526f74d10cd3b3a7cd70ff2ad.patch
 
 BuildRequires:  bc
 BuildRequires:  bison
@@ -339,6 +343,10 @@ install -p -m 0755 builds/tools/env/fw_printenv %{buildroot}%{_bindir}
 %endif
 
 %changelog
+* Fri Jan 23 2026 Janne Grunau <j@jannau.net> - 1:2025.10-101
+- Enable SMBIOS support
+- Pad default env for m1n1's `./tools/linux.py --u-boot ...`
+
 * Sun Dec 21 2025 Janne Grunau <j@jannau.net> - 1:2025.10-100
 - Skip p3450-0000 on Fedora 41 / EPEL 10 due to build failure
 - import Asahi Linux patches for v2025.10 (asahi-v2025.10-1)
