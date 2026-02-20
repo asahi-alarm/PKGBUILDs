@@ -35,7 +35,7 @@ for srcpkg in $PKGS; do
   rm -rf src pkg
   # Remove any previously created packages
   rm -f -- *.pkg.tar.xz
-  makepkg -Cs --noconfirm
+  makepkg -CsA --noconfirm
   if [ "$srcpkg" == "mesa" ]; then
     # HACK: move the unwanted mesa-dummy package out of the way so it doesn't get picked up by 'ls'
     # we DO want it in packages though, but not install it since it conflicts with mesa
