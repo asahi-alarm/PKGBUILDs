@@ -10,12 +10,12 @@ steam                          0-14                           20241231-4
 startup-disk                   0.1.5-3                        0.1.5-2                       
 speakersafetyd                 1.0.2-6                        1.0.2-1                       
 muvm                           0.4.1-5                        0.4.1-1                       
-mesa                           25.2.8-0.100                   25.2.8-1                      
+mesa                           25.3.6-0.1                     25.2.8-1                      
 m1n1                           1.5.2-1                        1.5.2-1                       
 lzfse                          /                              1.0-1                         
 linux-asahi-headers            6.18.10-402.asahi              6.18.10.asahi1-1              
 linux-asahi                    6.18.10-402.asahi              6.18.10.asahi1-1              
-libkrunfw                      5.2.0-1                        5.2.0-1                       
+libkrunfw                      5.2.1-1                        5.2.0-1                       
 libkrun                        1.17.2-1                       1.17.2-1                      
 fex-emu-rootfs-arch            43^20251127.0-1                20251118-1                    
 FEX-Emu                        2509.1-1                       2509.1-2                      
