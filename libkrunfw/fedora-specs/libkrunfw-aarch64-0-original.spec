@@ -5,11 +5,10 @@
 %global kernel linux-6.12.68
 
 Name:           libkrunfw
-Version:        5.2.0
+Version:        5.2.1
 Release:        1%{?dist}
 Summary:        A dynamic library bundling the guest payload consumed by libkrun
-# Automatically converted from old format: LGPLv2 and GPLv2 - review is highly recommended.
-License:        LicenseRef-Callaway-LGPLv2 AND GPL-2.0-only
+License:        LGPL-2.1-only AND GPL-2.0-only
 URL:            https://github.com/containers/libkrunfw
 Source0:        https://github.com/containers/libkrunfw/archive/refs/tags/v%{version}.tar.gz
 # This package bundles a customized Linux kernel in a format that can only be
@@ -25,7 +24,7 @@ Source1:        https://www.kernel.org/pub/linux/kernel/v6.x/%{kernel}.tar.xz
 
 # libkrunfw only provides configs for x86_64 and aarch64 as libkrun (the only
 # consumer of this library) only supports those architectures.
-ExclusiveArch:  x86_64 aarch64
+ExclusiveArch:  x86_64 aarch64 riscv64
 
 # libkrunfw + packaging requirements
 BuildRequires:  gcc
@@ -39,7 +38,7 @@ BuildRequires:  bc
 BuildRequires:  bison
 BuildRequires:  elfutils-devel
 BuildRequires:  flex
-%ifarch aarch64
+%ifarch aarch64 riscv64
 BuildRequires:  perl-interpreter
 %endif
 
@@ -114,6 +113,12 @@ cp %{SOURCE1} tarballs/
 %endif
 
 %changelog
+* Tue Feb 17 2026 Sergio Lopez <slp@redhat.com> - 5.2.1-1
+- Update to 5.2.1 with no kernel update
+
+* Thu Feb 12 2026 David Abdurachmanov <davidlt@rivosinc.com> - 5.2.0-2
+- Enable riscv64 arch
+
 * Mon Feb 02 2026 Sergio Lopez <slp@redhat.com> - 5.2.0-1
 - Update to 5.2.0 which bundles a 6.12.68 kernel
 

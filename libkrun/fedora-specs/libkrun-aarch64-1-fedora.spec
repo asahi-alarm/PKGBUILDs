@@ -1,12 +1,12 @@
 
 Name:           libkrun
-Version:        1.17.2
+Version:        1.17.4
 Release:        1
 Summary:        Dynamic library providing Virtualization-based process isolation capabilities
 
 License:        Apache-2.0
 URL:            https://github.com/containers/libkrun
-Source:         https://github.com/containers/libkrun/archive/refs/tags/v1.17.2.tar.gz
+Source:         https://github.com/containers/libkrun/archive/refs/tags/v1.17.4.tar.gz
 
 Patch0:         libkrun-remove-unused-deps.diff
 
@@ -64,13 +64,14 @@ BuildRequires:  (crate(zstd/default) >= 0.13.0 with crate(zstd/default) < 0.14.0
 BuildRequires:  (crate(flate2/default) >= 1.0.0 with crate(flate2/default) < 2.0.0~)
 BuildRequires:  (crate(static_assertions/default) >= 1.1.0 with crate(static_assertions/default) < 2.0.0~)
 BuildRequires:  (crate(thiserror/default) >= 2.0.0 with crate(thiserror/default) < 3.0.0~)
+BuildRequires:  (crate(capng/default) >= 0.2.3 with crate(capng/default) < 0.3.0~)
 
 %description
 Dynamic library providing Virtualization-based process isolation capabilities.
 
 %package devel
 Summary: Header files and libraries for libkrun development
-Requires:       libkrun(aarch-64) = 1.17.2-1
+Requires:       libkrun(aarch-64) = 1.17.4-1
 
 %description devel
 The libkrun-devel package containes the libraries and headers needed to
@@ -80,7 +81,7 @@ capabilities.
 %prep
 cd './'
 rm -rf 'libkrun-%{version_no_tilde}'
-rpmuncompress -x 'v1.17.2.tar.gz'
+rpmuncompress -x 'v1.17.4.tar.gz'
 STATUS=$?
 if [ $STATUS -ne 0 ]; then
   exit $STATUS
@@ -116,7 +117,7 @@ patch --no-backup-if-mismatch -f -p1  --fuzz=0 < libkrun-remove-sev-deps.diff
 %files
 %license LICENSE
 %doc README.md
-/usr/lib/libkrun.so.1.17.2
+/usr/lib/libkrun.so.1.17.4
 /usr/lib/libkrun.so.1
 
 %files devel

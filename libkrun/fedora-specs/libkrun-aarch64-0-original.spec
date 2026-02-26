@@ -9,7 +9,7 @@
 %endif
 
 Name:           libkrun
-Version:        1.17.2
+Version:        1.17.4
 Release:        1%{?dist}
 Summary:        Dynamic library providing Virtualization-based process isolation capabilities
 
@@ -94,6 +94,7 @@ BuildRequires:  (crate(zstd/default) >= 0.13.0 with crate(zstd/default) < 0.14.0
 BuildRequires:  (crate(flate2/default) >= 1.0.0 with crate(flate2/default) < 2.0.0~)
 BuildRequires:  (crate(static_assertions/default) >= 1.1.0 with crate(static_assertions/default) < 2.0.0~)
 BuildRequires:  (crate(thiserror/default) >= 2.0.0 with crate(thiserror/default) < 3.0.0~)
+BuildRequires:  (crate(capng/default) >= 0.2.3 with crate(capng/default) < 0.3.0~)
 
 %if 0%{?build_sev}
 # SEV variant dependencies
@@ -220,6 +221,9 @@ capabilities.
 %endif
 
 %changelog
+* Wed Feb 18 2026 Sergio Lopez <slp@redhat.com> - 1.17.4-1
+- Update to version 1.17.4
+
 * Wed Feb 04 2026 Sergio Lopez <slp@redhat.com> - 1.17.2-1
 - Update to version 1.17.2
 

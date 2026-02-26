@@ -1,12 +1,12 @@
 
   Name:           libkrun
-  Version:        1.17.2
+  Version:        1.17.4
   Release:        1
   Summary:        Dynamic library providing Virtualization-based process isolation capabilities
 
   License:        Apache-2.0
   URL:            https://github.com/containers/libkrun
-  Source:         https://github.com/containers/libkrun/archive/refs/tags/v1.17.2.tar.gz
+  Source:         https://github.com/containers/libkrun/archive/refs/tags/v1.17.4.tar.gz
 
   Patch0:         libkrun-remove-unused-deps.diff
 
@@ -64,13 +64,14 @@
   BuildRequires:  (crate(flate2/default) >= 1.0.0 with crate(flate2/default) < 2.0.0~)
   BuildRequires:  (crate(static_assertions/default) >= 1.1.0 with crate(static_assertions/default) < 2.0.0~)
   BuildRequires:  (crate(thiserror/default) >= 2.0.0 with crate(thiserror/default) < 3.0.0~)
+  BuildRequires:  (crate(capng/default) >= 0.2.3 with crate(capng/default) < 0.3.0~)
 
   %description
   Dynamic library providing Virtualization-based process isolation capabilities.
 
   %package devel
   Summary: Header files and libraries for libkrun development
-  Requires:       libkrun(aarch-64) = 1.17.2-1
+  Requires:       libkrun(aarch-64) = 1.17.4-1
 
   %description devel
   The libkrun-devel package containes the libraries and headers needed to
@@ -80,7 +81,7 @@
 prepare() {
   cd './'
   rm -rf 'libkrun-%{version_no_tilde}'
-  tar -xf 'v1.17.2.tar.gz'
+  tar -xf 'v1.17.4.tar.gz'
   STATUS=$?
   if [ $STATUS -ne 0 ]; then
     exit $STATUS
@@ -120,7 +121,7 @@ package() {
   # A spec %files section (it could be that part of the next lines duplicate part of the package() function)
   install -Dpm0755 -t ${pkgdir}/usr/share/licenses/libkrun/ LICENSE
   install -Dpm0755 -t ${pkgdir}/usr/share/doc/libkrun/  README.md
-  _install fakeinstall/usr/lib/libkrun.so.1.17.2
+  _install fakeinstall/usr/lib/libkrun.so.1.17.4
   _install fakeinstall/usr/lib/libkrun.so.1
 
   # devel

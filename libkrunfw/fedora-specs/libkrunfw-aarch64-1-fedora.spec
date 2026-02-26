@@ -1,16 +1,15 @@
 
 Name:           libkrunfw
-Version:        5.2.0
+Version:        5.2.1
 Release:        1
 Summary:        A dynamic library bundling the guest payload consumed by libkrun
-
-License:        LicenseRef-Callaway-LGPLv2 AND GPL-2.0-only
+License:        LGPL-2.1-only AND GPL-2.0-only
 URL:            https://github.com/containers/libkrunfw
-Source0:        https://github.com/containers/libkrunfw/archive/refs/tags/v5.2.0.tar.gz
+Source0:        https://github.com/containers/libkrunfw/archive/refs/tags/v5.2.1.tar.gz
 
 Source1:        https://www.kernel.org/pub/linux/kernel/v6.x/linux-6.12.68.tar.xz
 
-ExclusiveArch:  x86_64 aarch64
+ExclusiveArch:  x86_64 aarch64 riscv64
 
 BuildRequires:  gcc
 BuildRequires:  git-core
@@ -30,7 +29,7 @@ A dynamic library bundling the guest payload consumed by libkrun
 
 %package devel
 Summary: Header files and libraries for libkrunfw development
-Requires: libkrunfw(aarch-64) = 5.2.0-1
+Requires: libkrunfw(aarch-64) = 5.2.1-1
 
 %description devel
 The libkrunfw-devel package contains the libraries needed to develop
@@ -39,13 +38,13 @@ programs that consume the guest payload integrated in libkrunfw.
 %prep
 
 cd './'
-rm -rf 'libkrunfw-5.2.0'
-rpmuncompress -x 'v5.2.0.tar.gz'
+rm -rf 'libkrunfw-5.2.1'
+rpmuncompress -x 'v5.2.1.tar.gz'
 STATUS=$?
 if [ $STATUS -ne 0 ]; then
   exit $STATUS
 fi
-cd 'libkrunfw-5.2.0'
+cd 'libkrunfw-5.2.1'
 chmod -Rf a+rX,u+w,g-w,o-w .
 
 /usr/bin/git init -q
@@ -55,7 +54,7 @@ chmod -Rf a+rX,u+w,g-w,o-w .
 /usr/bin/git add --force .
 GIT_COMMITTER_DATE=@${SOURCE_DATE_EPOCH:-${RPM_BUILD_TIME:?}} GIT_AUTHOR_DATE=@${SOURCE_DATE_EPOCH:-${RPM_BUILD_TIME:?}}\
 	/usr/bin/git commit -q --no-gpg-sign --allow-empty -a\
-	--author "rpm-build <rpm-build>" -m "libkrunfw-5.2.0 base"
+	--author "rpm-build <rpm-build>" -m "libkrunfw-5.2.1 base"
 /usr/bin/git checkout --track -b rpm-build
 
 mkdir tarballs
@@ -69,7 +68,7 @@ cp linux-6.12.68.tar.xz tarballs/
 
 %files
 /usr/lib/libkrunfw.so.5
-/usr/lib/libkrunfw.so.5.2.0
+/usr/lib/libkrunfw.so.5.2.1
 
 %files devel
 /usr/lib/libkrunfw.so
