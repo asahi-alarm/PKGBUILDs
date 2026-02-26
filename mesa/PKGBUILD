@@ -5,18 +5,18 @@ highmem=1
 
 pkgname=(mesa mesa-fex-emu-overlay-x86_64 mesa-fex-emu-overlay-i386 mesa-dummy)
 pkgdesc="An open-source implementation of the OpenGL specification"
-pkgver=25.2.8
+pkgver=25.3.6
 pkgrel=1
 arch=('x86_64' 'aarch64')
 makedepends=('python-mako' 'libxml2' 'libx11' 'xorgproto' 'libdrm' 'libxshmfence' 'libxxf86vm'
-  'libxdamage' 'libvdpau' 'libva' 'wayland' 'wayland-protocols' 'zstd' 'elfutils' 'llvm' 'spirv-llvm-translator'
+  'libxdamage' 'libva' 'wayland' 'wayland-protocols' 'zstd' 'elfutils' 'llvm' 'spirv-llvm-translator'
   'libomxil-bellagio' 'libclc' 'clang' 'libglvnd' 'libunwind' 'lm_sensors' 'libxrandr'
   'systemd' 'valgrind' 'glslang' 'vulkan-icd-loader' 'directx-headers' 'cmake' 'meson' 'python-pycparser' 'python-packaging' 'python-pyaml'
   'erofs-utils' 'lz4' 'patchelf' 'rust-bindgen')
 
 # to build the 32 bit overlay you need these on the host machine
 #    'lib32-llvm' 'lib32-llvm-libs' 'lib32-libpciaccess' 'lib32-libglvnd' 'lib32-libxrandr' 'lib32-spirv-tools'
-#    'lib32-spirv-llvm-translator' 'lib32-clang' 'lib32-libxfixes' 'lib32-libvdpau' 'lib32-libva' 'lib32-xcb-util-keysyms'
+#    'lib32-spirv-llvm-translator' 'lib32-clang' 'lib32-libxfixes' 'lib32-libva' 'lib32-xcb-util-keysyms'
 
 depends=('egl-wayland' 'libdrm' 'wayland' 'libxxf86vm' 'libxdamage' 'libxshmfence' 'libelf' 'libomxil-bellagio'
   'libunwind' 'llvm-libs' 'lm_sensors' 'libglvnd' 'zstd' 'vulkan-icd-loader')
@@ -27,24 +27,14 @@ options=('!debug' '!lto')
 source=(
   https://archive.mesa3d.org/mesa-$pkgver.tar.xz
   Mesa-MLAA-License-Clarification-Email.txt
-  gnome-shell-glthread-disable.patch
-  do_not_use_wl_display_dispatch_queue_timeout.diff
 )
-sha512sums=('a238965ee235bd9178d26b210fc3996b77927dab31964b76cd1e1e72cfffbefbd96e4a57ec4f5018205a58354cd41d6cf99bbc712b275a7518710a34511dfb13'
-            'ecdabad21a86f04d51ba709a90fbeccb3004c6e8af3546edc530dcb4727787ed5d6a63043b6ab50b4c0a46de0894b6f3c594101b4d25f7831dee9f33fd2a7e31'
-            'db08a07a6ee8cc09ae827688089e1e1e7aa2c43f9a1a9260012206052bcb9432d1c1a90657bc86618719632ba6cbb4502003c181321bc01c713f4e02dae8b4f1'
-            '30f3b5c9b98b6dabf30c3f84a1389bdda9b329ef2997688b7d15d7a365bfb9b9575d085322c53087a990175bb6d1b12fb5cfdc010ae40b3bbcaa9662d0de5f3f')
+sha512sums=('73620003e1e67c6b5ad076afb19e0b250214cfb6ed830166fb70058173ec3b19a2a8f5b5a78d8cce7a70745f5e4fa439913d15d8b38ca0002455b238f5865d38'
+            'ecdabad21a86f04d51ba709a90fbeccb3004c6e8af3546edc530dcb4727787ed5d6a63043b6ab50b4c0a46de0894b6f3c594101b4d25f7831dee9f33fd2a7e31')
 
 prepare() {
   cd mesa-$pkgver
 
   chmod -Rf a+rX,u+w,g-w,o-w .
-
-  cat ../gnome-shell-glthread-disable.patch |
-    patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
-
-  cat ../do_not_use_wl_display_dispatch_queue_timeout.diff |
-    patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
 }
 
 meson_build() {
@@ -61,14 +51,12 @@ meson_build() {
     -Db_lto=false \
     -Dplatforms=x11,wayland \
     -Dgallium-drivers=llvmpipe,virgl,asahi,zink \
-    -Dgallium-vdpau=enabled \
     -Dgallium-va=enabled \
     -Dgallium-mediafoundation=disabled \
     -Dteflon=$TEFLON \
     -Dgallium-rusticl=true \
     -Dvulkan-drivers=swrast,virtio,asahi \
     -Dvulkan-layers=device-select \
-    -Dshared-glapi=enabled \
     -Dgles1=enabled \
     -Dgles2=enabled \
     -Dopengl=true \
@@ -83,6 +71,7 @@ meson_build() {
     -Dvalgrind=disabled \
     -Dbuild-tests=false \
     -Dandroid-libbacktrace=disabled \
+    -Dspirv-tools=enabled \
     -Dglx-read-only-text=$GLX_READ_ONLY_TEXT
 
   # Print config
@@ -121,7 +110,7 @@ _install() {
 }
 
 package_mesa() {
-  provides=('mesa-libgl' 'opengl-driver' 'vdpau-driver' 'libva-mesa-driver' 'vulkan-asahi' 'vulkan-driver' 'opencl-driver' 'opencl-rusticl-mesa' 'libva-driver')
+  provides=('mesa-libgl' 'opengl-driver' 'libva-mesa-driver' 'vulkan-asahi' 'vulkan-driver' 'opencl-driver' 'opencl-rusticl-mesa' 'libva-driver')
   conflicts=('mesa-asahi' 'mesa-asahi-edge' 'mesa-libgl' 'vulkan-swrast')
   replaces=('mesa-asahi' 'mesa-asahi-edge' 'mesa-libgl' 'vulkan-swrast')
 
@@ -131,8 +120,6 @@ package_mesa() {
 
   LIBDIR=lib
 
-  # libvdpau opens the versioned name, don't bother including the unversioned
-  rm -vf fakeinstall/usr/lib/vdpau/*.so
   # likewise glvnd
   rm -vf fakeinstall/usr/lib/libGLX_mesa.so
   rm -vf fakeinstall/usr/lib/libEGL_mesa.so
@@ -227,10 +214,6 @@ package_mesa() {
   # va-drivers
   _install fakeinstall/usr/lib/dri/virtio_gpu_drv_video.so
 
-  # vdpau-drivers
-  install -m755 -d ${pkgdir}/usr/lib/vdpau
-  _install fakeinstall/usr/lib/vdpau/libvdpau_virtio_gpu.so.1*
-
   # vulkan-drivers
   _install fakeinstall/usr/lib/libvulkan_lvp.so
   _install fakeinstall/usr/share/vulkan/icd.d/lvp_icd.*.json
@@ -251,8 +234,6 @@ package_mesa() {
 create_overlay() {
   OVERLAY_NAME=$1
 
-  # libvdpau opens the versioned name, don't bother including the unversioned
-  rm -vf fakeinstall/usr/$LIBDIR/vdpau/*.so
   # likewise glvnd
   rm -vf fakeinstall/usr/$LIBDIR/libGLX_mesa.so
   rm -vf fakeinstall/usr/$LIBDIR/libEGL_mesa.so
@@ -262,13 +243,6 @@ create_overlay() {
   # glvnd needs a default provider for indirect rendering where it cannot
   # determine the vendor
   ln -s /usr/$LIBDIR/libGLX_mesa.so.0 fakeinstall/usr/$LIBDIR/libGLX_system.so.0
-
-  # this keeps breaking, check it early.  note that the exit from eu-ftr is odd.
-  pushd fakeinstall/usr/$LIBDIR
-  for i in libGL.so; do
-    eu-findtextrel $i && exit 1
-  done
-  popd
 
   mkdir -p fexov
 

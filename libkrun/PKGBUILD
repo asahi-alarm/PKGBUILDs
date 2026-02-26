@@ -1,7 +1,7 @@
 # Maintainer: hexchain <arch at hexchain.org>
 
 pkgname=libkrun
-pkgver=1.17.2
+pkgver=1.17.4
 pkgrel=1
 pkgdesc="A dynamic library providing Virtualization-based process isolation capabilities"
 url='https://github.com/containers/libkrun'
@@ -15,7 +15,7 @@ source=("https://github.com/containers/libkrun/archive/refs/tags/v$pkgver/$pkgna
         libkrun-remove-tdx-deps.diff
         libkrun-bump-bzip-dep.diff
         libkrun-remove-unused-deps.diff)
-sha256sums=('64447f7bb41a7c5291e685406c025a4c0002caf17c1e165543eb8a36ec5ef7db'
+sha256sums=('2708a3c207c5493ee02de1781836c2511e54eb280633fcc7058fee983a6c2fe3'
             '9ec17a92baa157c890af4ff4446902ffcc4bb513c80785ab404e864d09fb653a'
             '83622e6fa12d821c6c777512935bad95e06f39a0da56e355ef7cf1357841acbf'
             '0b0cd747aababf0ad40a58e8ec7d78e70abc8a28aa02b96ebc70198794aa2b8d'
