@@ -6,7 +6,7 @@ highmem=1
 pkgname=(mesa mesa-fex-emu-overlay-x86_64 mesa-fex-emu-overlay-i386 mesa-dummy)
 pkgdesc="An open-source implementation of the OpenGL specification"
 pkgver=25.3.6
-pkgrel=1
+pkgrel=2
 arch=('x86_64' 'aarch64')
 makedepends=('python-mako' 'libxml2' 'libx11' 'xorgproto' 'libdrm' 'libxshmfence' 'libxxf86vm'
   'libxdamage' 'libva' 'wayland' 'wayland-protocols' 'zstd' 'elfutils' 'llvm' 'spirv-llvm-translator'
@@ -285,6 +285,7 @@ create_overlay() {
 
   install -Dpm0755 -s -t "fexov/usr/$LIBDIR/" \
     fakeinstall/usr/$LIBDIR/libgbm.so.1.0.0
+  ln -s libgbm.so.1.0.0 "fexov/usr/$LIBDIR/libgbm.so.1"
   install -Dpm0755 -s -t "fexov/usr/$LIBDIR/gbm/" \
     fakeinstall/usr/$LIBDIR/gbm/dri_gbm.so
 
