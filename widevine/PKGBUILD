@@ -27,7 +27,7 @@ source_aarch64=("lacros-arm64.squashfs::${_lacros_url}${_lacros_img_aarch64}-${_
 source_armv7h=("lacros-arm.squashfs::${_lacros_url}${_lacros_img_armv7h}-${_lacros_version}"
                "widevine_fixup_32.py")
 
-sha256sums=('5c06a0b34b235497450b3eebc156416fd51d1f5d2dc9da6bc5f0815be426f7f7'
+sha256sums=('fee5c7346453914f865d592281deec9d532c62a4f53550cc30ae929073431e67'
             '5ffda209f750c8ba31800b5e28c9d32f04c4b261eeec09784ff7045b694456f4')
 sha256sums_x86_64=('d36111684f13d2f76f181eb0117a873e12e4ee6f0f9a3027a9d022b787d74eb2')
 sha256sums_aarch64=('38a57cc3975af68675a1219b00354f08890ff58d0c54b690dcf5d2dd904b1576'
