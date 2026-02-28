@@ -3,8 +3,8 @@
 
 pkgbase=FEX-Emu
 pkgname=FEX-Emu
-pkgver=2509.1
-pkgrel=2
+pkgver=2601
+pkgrel=1
 pkgdesc="Fast x86 emulation frontend"
 arch=(aarch64)
 url="https://github.com/FEX-Emu/FEX"
@@ -12,6 +12,7 @@ license=(MIT)
 makedepends=(
   pkgconf
   cmake
+  nasm
   catch2
   ninja
   fmt
@@ -41,8 +42,8 @@ depends=(
 )
 source=("git+https://github.com/FEX-Emu/FEX.git#tag=FEX-${pkgver}"
         "cmake.patch")
-sha256sums=('7504b88dd52f697c2a3b9f34b3532d3091f049d51c3e44cef48db2fa04df5130'
-            'c2bdb2a93342605fc2604181d350a88a3455dfe97ec316e39df127e5f4bec2c4')
+sha256sums=('7777e08e14633d18a323e95d8b7eb015d3404d27d7b0a93ed164ba500805f0bb'
+            '3f66fc27d99b463ac2116d321ea626a9f0be5c3ddad544911b6db66545f8ddcc')
 install=FEX-Emu.install
 
 prepare() {
@@ -70,9 +71,7 @@ build() {
     -DCMAKE_BUILD_TYPE=Release \
     -DUSE_LINKER=lld \
     -DENABLE_LTO=ON \
-    -DBUILD_TESTS=OFF \
-    -DBUILD_FEX_LINUX_TESTS=OFF \
-    -DENABLE_ASSERTIONS=ON \
+    -DBUILD_TESTING=FALSE \
     -DTUNE_CPU=apple-m1 \
     -DTUNE_ARCH=armv8-a \
     ..
