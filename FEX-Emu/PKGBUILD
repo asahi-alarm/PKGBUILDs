@@ -72,6 +72,7 @@ build() {
     -DUSE_LINKER=lld \
     -DENABLE_LTO=ON \
     -DBUILD_TESTING=FALSE \
+    -DENABLE_ASSERTIONS=ON \
     -DTUNE_CPU=apple-m1 \
     -DTUNE_ARCH=armv8-a \
     ..
