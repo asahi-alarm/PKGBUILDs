@@ -8,7 +8,7 @@ pkgdesc='Linux Userspace Audio Configuration'
 arch=('aarch64')
 url='http://asahilinux.org'
 license=('MIT')
-makedepends=(wireplumber pipewire)
+makedepends=(wireplumber pipewire make)
 depends=('wireplumber>=0.5.1' 'pipewire>=1.0' 'bankstown>=1.1.0' 'lsp-plugins-lv2>=1.2.15' speakersafetyd triforce-lv2)
 source=(
   "${pkgname}-${pkgver}.tar.gz::https://github.com/AsahiLinux/${pkgname}/archive/refs/tags/v${pkgver}.tar.gz"
