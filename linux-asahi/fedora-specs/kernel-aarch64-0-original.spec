@@ -173,18 +173,18 @@ Summary: The Linux kernel
 #  the --with-release option overrides this setting.)
 %define debugbuildsenabled 1
 # define buildid .local
-%define specrpmversion 6.18.10
-%define specversion 6.18.10
+%define specrpmversion 6.18.15
+%define specversion 6.18.15
 %define patchversion 6.18
-%define pkgrelease 402.asahi
+%define pkgrelease 400.asahi
 %define kversion 6
-%define tarfile_release 6.18.10
+%define tarfile_release 6.18.15
 # This is needed to do merge window version magic
 %define patchlevel 18
 # This allows pkg_release to have configurable %%{?dist} tag
-%define specrelease 402.asahi%{?buildid}%{?dist}
+%define specrelease 400.asahi%{?buildid}%{?dist}
 # This defines the kabi tarball version
-%define kabiversion 6.18.10
+%define kabiversion 6.18.15
 
 # If this variable is set to 1, a bpf selftests build failure will cause a
 # fatal kernel package build error
@@ -4513,15 +4513,7 @@ fi\
 #
 #
 %changelog
-* Sat Feb 14 2026 Neal Gompa <neal@gompa.dev> [6.18.10-402.asahi]
-- fixup! drm/asahi: Add the Asahi driver for Apple AGX GPUs (Janne Grunau)
-- drm/asahi: workqueue: Drop completed work items (Janne Grunau)
-- drm/tegra: hdmi: sor: Fix error: variable ‘j’ set but not used (Brahmajit Das)
-
-* Sat Feb 14 2026 Neal Gompa <neal@gompa.dev> [6.18.10-401.asahi]
-- drm/amd: Fix set but not used warnings (Tiezhu Yang)
-
-* Sat Feb 14 2026 Neal Gompa <neal@gompa.dev> [6.18.10-400.asahi]
+* Tue Mar 03 2026 Neal Gompa <neal@gompa.dev> [6.18.15-400.asahi]
 - redhat/configs: aarch64: Enable dwc3 Apple variant driver (Neal Gompa)
 - redhat/configs: aarch64: Enable macsmc drivers on Fedora (Neal Gompa)
 - redhat/configs: Disable Nova GPU driver (Neal Gompa)
@@ -4543,6 +4535,7 @@ fi\
 - redhat/configs: aarch64: Enable ARM64_MEMORY_MODEL_CONTROL (Neal Gompa)
 - redhat/configs: s390x: Drop CONFIG_BACKLIGHT_CLASS_DEVICE=m for Fedora (Neal Gompa)
 - redhat/configs: aarch64: asahi: Turn on downstream Apple Silicon configs (Neal Gompa)
+- drm/amd: Fix set but not used warnings (Tiezhu Yang)
 - clk: clk-apple-nco: Add "apple,t8103-nco" compatible (Janne Grunau)
 - watchdog: apple: Add "apple,t8103-wdt" compatible (Janne Grunau)
 - spmi: apple: Add "apple,t8103-spmi" compatible (Janne Grunau)
@@ -4625,6 +4618,8 @@ fi\
 - arm64: Introduce scaffolding to add ACTLR_EL1 to thread state (Hector Martin)
 - arm64: Implement PR_{GET,SET}_MEM_MODEL for always-TSO CPUs (Hector Martin)
 - prctl: Introduce PR_{SET,GET}_MEM_MODEL (Hector Martin)
+- fixup! drm/asahi: Add the Asahi driver for Apple AGX GPUs (Janne Grunau)
+- drm/asahi: workqueue: Drop completed work items (Janne Grunau)
 - Revert "rust: drm: gpuvm: Add a missing lock" (Janne Grunau)
 - rust: drm: gpuvm: Add a missing lock (Sasha Finkelstein)
 - drm/asahi: Switch gpuvm to DRM_GPUVM_IMMEDIATE_MODE (Janne Grunau)
@@ -5398,6 +5393,19 @@ fi\
 - arm64: dts: apple: t8103: Add ps_pmp dependency to ps_gfx (Janne Grunau)
 - arm64: dts: apple: t8103: Mark ATC USB AON domains as always-on (Hector Martin)
 - arm64: dts: apple: t8112-j473: Keep the HDMI port powered on (Janne Grunau)
+
+* Fri Feb 27 2026 Justin M. Forbes <jforbes@fedoraproject.org> [6.18.15-0]
+- Linux v6.18.15
+
+* Thu Feb 26 2026 Augusto Caringi <acaringi@redhat.com> [6.18.14-0]
+- Fix up the config for CONFIG_MFD_TN48M_CPLD (Augusto Caringi)
+- Linux v6.18.14
+
+* Thu Feb 19 2026 Augusto Caringi <acaringi@redhat.com> [6.18.13-0]
+- Linux v6.18.13
+
+* Mon Feb 16 2026 Justin M. Forbes <jforbes@fedoraproject.org> [6.18.12-0]
+- Linux v6.18.12
 
 * Wed Feb 11 2026 Augusto Caringi <acaringi@redhat.com> [6.18.10-0]
 - Linux v6.18.10

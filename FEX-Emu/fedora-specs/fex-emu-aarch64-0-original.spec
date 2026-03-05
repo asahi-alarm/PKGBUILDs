@@ -32,16 +32,16 @@
 %bcond x86_debug 0
 
 Name:       fex-emu
-Version:    2509.1%{?commit:^%{date}git%{commit}}
+Version:    2601%{?commit:^%{date}git%{commit}}
 Release:    %autorelease
 Summary:    Fast usermode x86 and x86-64 emulator for ARM64
 
 # FEX itself is MIT, see below for the bundled libraries
-%global fex_license MIT AND Apache-2.0 AND BSD-3-Clause AND GPL-2.0-only
+%global fex_license MIT AND Apache-2.0 AND BSL-1.0 AND BSD-3-Clause AND GPL-2.0-only
 License:    %{fex_license}
 URL:        https://fex-emu.com
 %if %{defined commit}
-Source0:    %{forgeurl}/commit/%{commit}/%{srcname}-%{commit}.tar.gz
+Source0:     %{forgeurl}/archive/%{commit}/%{srcname}-%{commit}.tar.gz
 %else
 Source0:    %{forgeurl}/archive/%{srcname}-%{version}/%{srcname}-%{srcname}-%{version}.tar.gz
 %endif
@@ -65,15 +65,22 @@ SourceLicense: %{fex_license} %{sysroot_license}
 # These are too entangled with the build system to unbundle for now
 # https://github.com/FEX-Emu/FEX/issues/2996
 # https://github.com/FEX-Emu/FEX/issues/4267
+#
+# Run "spectool -g fex-emu.spec" to download archives after updating "externals".
+#
 %{lua:
 local externals = {
-  { name="cpp-optparse", ref="9f94388", owner="Sonicadvance1", path="../Source/Common/cpp-optparse", license="MIT" },
-  { name="drm-headers", ref="0675d2f", owner="FEX-Emu", package="kernel", version="6.13", license="GPL-2.0-only" },
-  { name="jemalloc", ref="ce24593", owner="FEX-Emu", version="5.3.0", license="MIT" },
-  { name="jemalloc", ref="8436195", owner="FEX-Emu", path="jemalloc_glibc", version="5.3.0", license="MIT" },
-  { name="range-v3", ref="ca1388f", owner="ericniebler", version="0.12.0", license="BSL-1.0 AND BSD-3-Clause AND MIT" },
-  { name="robin-map", ref="d5683d9", owner="FEX-Emu", version="1.3.0", license="MIT" },
-  { name="Vulkan-Headers", ref="cacef30", owner="KhronosGroup", package="vulkan-headers", version="1.4.310", license="Apache-2.0" },
+  { name="cpp-optparse",    ref="9f94388",   owner="Sonicadvance1",  path="../Source/Common/cpp-optparse",                      license="MIT"},
+  { name="drm-headers",     ref="3e49836",   owner="FEX-Emu",        package="kernel",                      version="6.17",     license="GPL-2.0-only"},
+  { name="jemalloc",        ref="97d98699",  owner="FEX-Emu",                                               version="5.3.0",    license="MIT"},
+  { name="jemalloc",        ref="8436195a",  owner="FEX-Emu",        path="jemalloc_glibc",                 version="5.3.0",    license="MIT"},
+  { name="range-v3",        ref="ca1388fb9", owner="ericniebler",                                           version="0.12.0",   license="BSL-1.0 AND BSD-3-Clause AND MIT"},
+  { name="rpmalloc",        ref="2ada50c",   owner="FEX-Emu",                                               version="1.3.0",    license="MIT"},
+  { name="robin-map",       ref="d5683d9",   owner="FEX-Emu",                                               version="1.3.0",    license="MIT"},
+  { name="Vulkan-Headers",  ref="450bd22",   owner="KhronosGroup",   package="vulkan-headers",              version="1.4.337",  license="Apache-2.0"},
+  { name="vixl",            ref="1620d87",   owner="FEX-Emu",                                                                   license="MIT"},
+  { name="unordered_dense", ref="3234af2",   owner="martinus",                                                                  license="MIT"},
+  { name="zydis",           ref="9bfadd6",   owner="zyantific",                                                                 license="MIT"},
 }
 
 for i, s in ipairs(externals) do
@@ -119,7 +126,7 @@ BuildRequires:  nasm
 BuildRequires:  python3-clang
 %endif
 
-BuildRequires:  catch2-devel
+BuildRequires:  catch-devel
 BuildRequires:  fmt-devel
 BuildRequires:  libepoxy-devel
 BuildRequires:  SDL2-devel
@@ -246,9 +253,9 @@ sed -i FEXCore/Source/CMakeLists.txt \
     -DENABLE_CLANG_THUNKS=ON \
 %endif
 %if %{with check}
-    -DBUILD_TESTS=ON \
+    -DBUILD_TESTING=ON \
 %else
-    -DBUILD_TESTS=OFF \
+    -DBUILD_TESTING=OFF \
 %endif
 %if %{with integration}
     -DBUILD_FEX_LINUX_TESTS=ON \
@@ -273,8 +280,10 @@ install -Ddpm0755 %{buildroot}%{_datadir}/fex-emu/RootFS/
 install -Ddpm0755 %{buildroot}%{_datadir}/fex-emu/overlays/
 
 %if %{with thunks}
+%if %{with integration}
 # This is for running tests only (and gets installed into the wrong libdir)
 rm %{buildroot}/usr/lib/libfex_thunk_test.so
+%endif
 %else
 # Not useful without thunks
 rm %{buildroot}%{_datadir}/fex-emu/ThunksDB.json
@@ -293,10 +302,11 @@ fi
 %files
 %license LICENSE
 %doc Readme.md README.fedora docs
+%{_bindir}/FEX
 %{_bindir}/FEXBash
 %{_bindir}/FEXGetConfig
 %{_bindir}/FEXInterpreter
-%{_bindir}/FEXLoader
+%{_bindir}/FEXOfflineCompiler
 %{_bindir}/FEXpidof
 %{_bindir}/FEXServer
 %{_libdir}/libFEXCore.so.%{version}
