@@ -20,7 +20,7 @@ chromium                       145.0.7632.159-1               145.0.7632.116-1
 FEX-Emu                        2601-3                         2601-1                        
 fex-emu-rootfs-arch            43^20251127.0-1                20260226-1                    
 libkrun                        1.17.4-1                       1.17.4-1                      
-libkrunfw                      5.2.1-1                        5.2.1-1                       
+libkrunfw                      /                              5.2.1-1                       
 linux-asahi                    6.18.15-400.asahi              6.18.15.asahi1-1              
 linux-asahi-headers            6.18.15-400.asahi              6.18.15.asahi1-1              
 lzfse                          /                              1.0-1                         
