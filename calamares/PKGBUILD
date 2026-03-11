@@ -1,74 +1,69 @@
-# Maintainer: Philip Müller <philm[at]manjaro[dog]org>
+# Maintainer:
+# Contributor: Rustmilian Rustmilian@proton.me
 
-pkgname=calamares
-pkgver=3.3.14
-pkgrel=3
-pkgdesc='Distribution-independent installer framework'
-arch=('i686' 'x86_64' 'aarch64')
-license=('BSD-2-Clause AND CC0-1.0 AND CC-BY-4.0 AND GPL-3.0-or-later AND LGPL-2.0-only AND LGPL-2.1-only AND LGPL-3.0-or-later AND MIT')
-url="https://github.com/calamares/calamares"
-depends=('kconfig' 'kcoreaddons' 'kiconthemes' 'ki18n' 'solid' 'yaml-cpp' 'kpmcore'
-	'boost-libs' 'qt6-svg' 'polkit-qt6'
-	'squashfs-tools' 'libpwquality' 'python')
-makedepends=('extra-cmake-modules' 'qt6-tools' 'qt6-translations' 'git' 'boost')
-backup=('usr/share/calamares/modules/bootloader.conf'
-        'usr/share/calamares/modules/displaymanager.conf'
-        'usr/share/calamares/modules/initcpio.conf'
-        'usr/share/calamares/modules/unpackfs.conf')
+_pkgname="calamares"
+pkgname="$_pkgname"
+pkgver=3.4.2
+pkgrel=1
+pkgdesc="Distribution-independent installer framework"
+url="https://codeberg.org/Calamares/calamares"
+license=("GPL-3.0-or-later")
+arch=('i686' 'x86_64')
 
-source+=("$pkgname-$pkgver.tar.gz::$url//archive/refs/tags/v$pkgver.tar.gz")
-sha256sums=('fa158d679bb9384beaf4a2f821be6da63500b13631ad14acec9bb446565dad4a')
+depends=(
+  'kcoreaddons'
+  'kpmcore'
+  'libpwquality'
+  'qt6-declarative'
+  'qt6-svg'
+  'yaml-cpp'
+)
+makedepends=(
+  'extra-cmake-modules'
+  'libglvnd'
+  'ninja'
+  'qt6-tools'
+  'qt6-translations'
+)
 
-prepare() {
-	cd ${srcdir}/calamares-${pkgver}
-
-	#_ver="$(cat CMakeLists.txt | grep -m3 -e "  VERSION" | grep -o "[[:digit:]]*" | xargs | sed s'/ /./g')"
-	_ver="$pkgver"
-	printf 'Version: %s-%s' "${_ver}" "${pkgrel}"
-	echo ""
-	sed -i -e "s|\${CALAMARES_VERSION_MAJOR}.\${CALAMARES_VERSION_MINOR}.\${CALAMARES_VERSION_PATCH}|${_ver}-${pkgrel}|g" CMakeLists.txt
-	sed -i -e "s|CALAMARES_VERSION_RC 1|CALAMARES_VERSION_RC 0|g" CMakeLists.txt
-
-	# Apply patches
-	local src
-	for src in "${source[@]}"; do
-		src="${src%%::*}"
-		src="${src##*/}"
-		[[ $src = *.patch ]] || continue
-		msg2 "Applying patch: $src..."
-		patch -Np1 < "../$src"
-	done
-}
+_pkgsrc="$_pkgname"
+_pkgext="tar.gz"
+source=("$_pkgname-$pkgver.$_pkgext"::"$url/archive/v$pkgver.$_pkgext")
+sha256sums=('7b8d0ee09645ad9d625baaebe0ba9ffd5baedbe92153347fd4d0a003a2d7639c')
 
 build() {
-	cd ${srcdir}/calamares-${pkgver}
+  local _skip_modules=(
+    dracut
+    dracutlukscfg
+    dummycpp
+    dummyprocess
+    dummypython
+    dummypythonqt
+    initramfs
+    initramfscfg
+    interactiveterminal
+    services-openrc
+  )
 
-	mkdir -p build
-	cd build
-        cmake .. \
-              -DCMAKE_BUILD_TYPE=Debug \
-              -DCMAKE_INSTALL_PREFIX=/usr \
-              -DCMAKE_INSTALL_LIBDIR=lib \
-              -DWITH_QT6=ON \
-              -DINSTALL_CONFIG=ON \
-              -DSKIP_MODULES="initramfs initramfscfg \
-                              dummyprocess dummypython \
-                              dummycpp dummypythonqt \
-                              services-openrc"
-        make -j $(nproc)
+  local _cmake_options=(
+    -B build
+    -S "$_pkgsrc"
+    -G Ninja
+    -DCMAKE_BUILD_TYPE=Release
+    -DCMAKE_INSTALL_PREFIX='/usr'
+    -DCMAKE_INSTALL_LIBDIR='lib'
+    -DWITH_QT6=ON
+    -DINSTALL_CONFIG=ON
+    -DSKIP_MODULES="${_skip_modules[*]}"
+    -DBUILD_TESTING=OFF
+    -Wno-dev
+  )
+
+  cmake "${_cmake_options[@]}"
+  cmake --build build
 }
 
 package() {
-	cd ${srcdir}/calamares-${pkgver}/build
-	make DESTDIR="$pkgdir" install
-	# install -Dm644 "../data/calamares.desktop" "$pkgdir/usr/share/applications/calamares.desktop"
-	# install -Dm755 "../data/calamares_polkit" "$pkgdir/usr/bin/calamares_polkit"
-	# install -Dm644 "../data/49-nopasswd-calamares.rules" "$pkgdir/etc/polkit-1/rules.d/49-nopasswd-calamares.rules"
-	# chmod 750      "$pkgdir"/etc/polkit-1/rules.d
-
-	# rename services-systemd back to services
-	mv "$pkgdir/usr/lib/calamares/modules/services-systemd" "$pkgdir/usr/lib/calamares/modules/services"
-	mv "$pkgdir/usr/share/calamares/modules/services-systemd.conf" "$pkgdir/usr/share/calamares/modules/services.conf"
-	sed -i -e 's/-systemd//' "$pkgdir/usr/lib/calamares/modules/services/module.desc"
-	sed -i -e 's/-systemd//' "$pkgdir/usr/share/calamares/settings.conf"
+  DESTDIR="$pkgdir" cmake --install build
 }
+
