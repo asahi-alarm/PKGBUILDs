@@ -32,7 +32,7 @@
 %bcond x86_debug 0
 
 Name:       fex-emu
-Version:    2601%{?commit:^%{date}git%{commit}}
+Version:    2603%{?commit:^%{date}git%{commit}}
 Release:    %autorelease
 Summary:    Fast usermode x86 and x86-64 emulator for ARM64
 
@@ -72,13 +72,11 @@ SourceLicense: %{fex_license} %{sysroot_license}
 local externals = {
   { name="cpp-optparse",    ref="9f94388",   owner="Sonicadvance1",  path="../Source/Common/cpp-optparse",                      license="MIT"},
   { name="drm-headers",     ref="3e49836",   owner="FEX-Emu",        package="kernel",                      version="6.17",     license="GPL-2.0-only"},
-  { name="jemalloc",        ref="97d98699",  owner="FEX-Emu",                                               version="5.3.0",    license="MIT"},
-  { name="jemalloc",        ref="8436195a",  owner="FEX-Emu",        path="jemalloc_glibc",                 version="5.3.0",    license="MIT"},
+  { name="jemalloc",        ref="8436195",   owner="FEX-Emu",        path="jemalloc_glibc",                 version="5.3.0",    license="MIT"},
   { name="range-v3",        ref="ca1388fb9", owner="ericniebler",                                           version="0.12.0",   license="BSL-1.0 AND BSD-3-Clause AND MIT"},
-  { name="rpmalloc",        ref="2ada50c",   owner="FEX-Emu",                                               version="1.3.0",    license="MIT"},
-  { name="robin-map",       ref="d5683d9",   owner="FEX-Emu",                                               version="1.3.0",    license="MIT"},
+  { name="rpmalloc",        ref="1f6fb49",   owner="FEX-Emu",                                               version="1.3.0",    license="MIT"},
   { name="Vulkan-Headers",  ref="450bd22",   owner="KhronosGroup",   package="vulkan-headers",              version="1.4.337",  license="Apache-2.0"},
-  { name="vixl",            ref="1620d87",   owner="FEX-Emu",                                                                   license="MIT"},
+  { name="vixl",            ref="5f41844",   owner="FEX-Emu",                                                                   license="MIT"},
   { name="unordered_dense", ref="3234af2",   owner="martinus",                                                                  license="MIT"},
   { name="zydis",           ref="9bfadd6",   owner="zyantific",                                                                 license="MIT"},
 }

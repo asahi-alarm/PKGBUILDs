@@ -1,13 +1,13 @@
 
   Name:       fex-emu
-  Version:    2601
+  Version:    2603
   Release:    1
   Summary:    Fast usermode x86 and x86-64 emulator for ARM64
 
   License:    MIT AND Apache-2.0 AND BSL-1.0 AND BSD-3-Clause AND GPL-2.0-only
   URL:        https://fex-emu.com
 
-  Source0:    https://github.com/FEX-Emu/FEX/archive/FEX-2601/FEX-FEX-2601.tar.gz
+  Source0:    https://github.com/FEX-Emu/FEX/archive/FEX-2603/FEX-FEX-2603.tar.gz
 
   Source1:    README.fedora
 
@@ -23,23 +23,19 @@
   Provides: bundled(cpp-optparse) = 0
   Source102: https://github.com/FEX-Emu/drm-headers/archive/3e49836/drm-headers-3e49836.tar.gz
   Provides: bundled(kernel) = 6.17
-  Source103: https://github.com/FEX-Emu/jemalloc/archive/97d98699/jemalloc-97d98699.tar.gz
+  Source103: https://github.com/FEX-Emu/jemalloc/archive/8436195/jemalloc-8436195.tar.gz
   Provides: bundled(jemalloc) = 5.3.0
-  Source104: https://github.com/FEX-Emu/jemalloc/archive/8436195a/jemalloc-8436195a.tar.gz
-  Provides: bundled(jemalloc) = 5.3.0
-  Source105: https://github.com/ericniebler/range-v3/archive/ca1388fb9/range-v3-ca1388fb9.tar.gz
+  Source104: https://github.com/ericniebler/range-v3/archive/ca1388fb9/range-v3-ca1388fb9.tar.gz
   Provides: bundled(range-v3) = 0.12.0
-  Source106: https://github.com/FEX-Emu/rpmalloc/archive/2ada50c/rpmalloc-2ada50c.tar.gz
+  Source105: https://github.com/FEX-Emu/rpmalloc/archive/1f6fb49/rpmalloc-1f6fb49.tar.gz
   Provides: bundled(rpmalloc) = 1.3.0
-  Source107: https://github.com/FEX-Emu/robin-map/archive/d5683d9/robin-map-d5683d9.tar.gz
-  Provides: bundled(robin-map) = 1.3.0
-  Source108: https://github.com/KhronosGroup/Vulkan-Headers/archive/450bd22/Vulkan-Headers-450bd22.tar.gz
+  Source106: https://github.com/KhronosGroup/Vulkan-Headers/archive/450bd22/Vulkan-Headers-450bd22.tar.gz
   Provides: bundled(vulkan-headers) = 1.4.337
-  Source109: https://github.com/FEX-Emu/vixl/archive/1620d87/vixl-1620d87.tar.gz
+  Source107: https://github.com/FEX-Emu/vixl/archive/5f41844/vixl-5f41844.tar.gz
   Provides: bundled(vixl) = 0
-  Source110: https://github.com/martinus/unordered_dense/archive/3234af2/unordered_dense-3234af2.tar.gz
+  Source108: https://github.com/martinus/unordered_dense/archive/3234af2/unordered_dense-3234af2.tar.gz
   Provides: bundled(unordered_dense) = 0
-  Source111: https://github.com/zyantific/zydis/archive/9bfadd6/zydis-9bfadd6.tar.gz
+  Source109: https://github.com/zyantific/zydis/archive/9bfadd6/zydis-9bfadd6.tar.gz
   Provides: bundled(zydis) = 0
 
   ExclusiveArch:  aarch64
@@ -79,9 +75,9 @@
   BuildRequires:  cmake(Qt6Widgets)
 
   Requires:       systemd-udev
-  Requires:       fex-emu-filesystem = 2601-1
+  Requires:       fex-emu-filesystem = 2603-1
 
-  Recommends:     fex-emu-thunks = 2601-1
+  Recommends:     fex-emu-thunks = 2603-1
 
   Recommends:     fex-emu-rootfs-fedora
   Recommends:     erofs-fuse
@@ -90,7 +86,7 @@
   Recommends:     squashfuse
 
   Obsoletes:      fex-emu-gdb < 2409-4
-  Provides:       fex-emu-gdb = 2601-1
+  Provides:       fex-emu-gdb = 2603-1
 
   %description
   FEX allows you to run x86 and x86-64 binaries on an AArch64 host, similar to
@@ -109,34 +105,34 @@
 
   %package        devel
   Summary:        Development headers and libraries for fex-emu
-  Requires:       fex-emu(aarch-64) = 2601-1
+  Requires:       fex-emu(aarch-64) = 2603-1
 
   %description    devel
   This package provides development headers and libraries for fex-emu.
 
   %package        utils
   Summary:        Utility tools for fex-emu
-  Requires:       fex-emu(aarch-64) = 2601-1
+  Requires:       fex-emu(aarch-64) = 2603-1
 
   %description    utils
   This package provides utility tools for fex-emu for advanced users.
 
   %package        thunks
   Summary:        Thunk libraries for fex-emu
-  Requires:       fex-emu(aarch-64) = 2601-1
+  Requires:       fex-emu(aarch-64) = 2603-1
 
   %description    thunks
   This package provides host library thunks for fex-emu.
 
 prepare() {
   cd './'
-  rm -rf 'FEX-FEX-2601'
-  tar -xf 'FEX-FEX-2601.tar.gz'
+  rm -rf 'FEX-FEX-2603'
+  tar -xf 'FEX-FEX-2603.tar.gz'
   STATUS=$?
   if [ $STATUS -ne 0 ]; then
     exit $STATUS
   fi
-  cd 'FEX-FEX-2601'
+  cd 'FEX-FEX-2603'
   chmod -Rf a+rX,u+w,g-w,o-w .
 
   # Copy in our README.fedora
@@ -146,20 +142,16 @@ prepare() {
   tar -xzf cpp-optparse-9f94388.tar.gz --strip-components=1 -C External/../Source/Common/cpp-optparse
   mkdir -p External/drm-headers
   tar -xzf drm-headers-3e49836.tar.gz --strip-components=1 -C External/drm-headers
-  mkdir -p External/jemalloc
-  tar -xzf jemalloc-97d98699.tar.gz --strip-components=1 -C External/jemalloc
   mkdir -p External/jemalloc_glibc
-  tar -xzf jemalloc-8436195a.tar.gz --strip-components=1 -C External/jemalloc_glibc
+  tar -xzf jemalloc-8436195.tar.gz --strip-components=1 -C External/jemalloc_glibc
   mkdir -p External/range-v3
   tar -xzf range-v3-ca1388fb9.tar.gz --strip-components=1 -C External/range-v3
   mkdir -p External/rpmalloc
-  tar -xzf rpmalloc-2ada50c.tar.gz --strip-components=1 -C External/rpmalloc
-  mkdir -p External/robin-map
-  tar -xzf robin-map-d5683d9.tar.gz --strip-components=1 -C External/robin-map
+  tar -xzf rpmalloc-1f6fb49.tar.gz --strip-components=1 -C External/rpmalloc
   mkdir -p External/Vulkan-Headers
   tar -xzf Vulkan-Headers-450bd22.tar.gz --strip-components=1 -C External/Vulkan-Headers
   mkdir -p External/vixl
-  tar -xzf vixl-1620d87.tar.gz --strip-components=1 -C External/vixl
+  tar -xzf vixl-5f41844.tar.gz --strip-components=1 -C External/vixl
   mkdir -p External/unordered_dense
   tar -xzf unordered_dense-3234af2.tar.gz --strip-components=1 -C External/unordered_dense
   mkdir -p External/zydis
@@ -170,7 +162,7 @@ prepare() {
 
   # Ensure library soversion is set
   sed -i FEXCore/Source/CMakeLists.txt \
-    -e '/PROPERTIES OUTPUT_NAME/aset_target_properties(${Name} PROPERTIES VERSION 2601)'
+    -e '/PROPERTIES OUTPUT_NAME/aset_target_properties(${Name} PROPERTIES VERSION 2603)'
 
   # Set up sysroot and toolchain files
 
@@ -221,7 +213,7 @@ package() {
   _install fakeinstall/usr/bin/FEXOfflineCompiler
   _install fakeinstall/usr/bin/FEXpidof
   _install fakeinstall/usr/bin/FEXServer
-  _install fakeinstall/usr/lib/libFEXCore.so.2601
+  _install fakeinstall/usr/lib/libFEXCore.so.2603
   %{_binfmtdir}/FEX-x86.conf
   %{_binfmtdir}/FEX-x86_64.conf
   _install fakeinstall/usr/share/fex-emu/AppConfig/
