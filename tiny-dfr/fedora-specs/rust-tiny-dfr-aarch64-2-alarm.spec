@@ -1,6 +1,6 @@
 
   Name:           rust-tiny-dfr
-  Version:        0.3.5
+  Version:        0.3.7
   Release:        1
   Summary:        Most basic dynamic function row daemon possible
 
@@ -8,7 +8,7 @@
   URL:            https://crates.io/crates/tiny-dfr
   Source:         %{crates_source}
 
-  Patch:          tiny-dfr-fix-metadata.diff
+  Patch2:         https://github.com/AsahiLinux/tiny-dfr/pull/81.patch
 
   BuildRequires:  cargo-rpm-macros >= 24
   BuildRequires:  systemd-rpm-macros
@@ -29,16 +29,16 @@
 prepare() {
 
   cd './'
-  rm -rf 'tiny-dfr-0.3.5'
+  rm -rf 'tiny-dfr-0.3.7'
   tar -xf '%{crates_source}'
   STATUS=$?
   if [ $STATUS -ne 0 ]; then
     exit $STATUS
   fi
-  cd 'tiny-dfr-0.3.5'
+  cd 'tiny-dfr-0.3.7'
   chmod -Rf a+rX,u+w,g-w,o-w .
 
-  cat tiny-dfr-fix-metadata.diff | 
+  cat 81.patch | 
   patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
 
   %cargo_prep
