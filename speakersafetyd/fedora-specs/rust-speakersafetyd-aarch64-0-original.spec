@@ -14,6 +14,8 @@ Source:         %{crates_source}
 # Manually created patch for downstream crate metadata changes
 # * relax alsa dependency to allow both v0.9 and v0.10:
 #   https://github.com/AsahiLinux/speakersafetyd/issues/29
+# * relax simple_logger dependency to allow both v4 and v5:
+#   https://github.com/AsahiLinux/speakersafetyd/pull/30
 Patch:          speakersafetyd-fix-metadata.diff
 
 BuildRequires:  cargo-rpm-macros >= 24
