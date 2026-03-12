@@ -55,6 +55,7 @@ declare -A PACKAGES=(
     ["m1n1"]="fsrc+rpms/m1n1,m1n1.spec|aarch64"
     ["mesa"]="copr+mesa/mesa.git,mesa.spec|aarch64,x86_64,i386"
     ["muvm"]="fsrc+rpms/rust-muvm,rust-muvm.spec|aarch64"
+    ["startup-disk"]="fsrc+rpms/rust-startup-disk,rust-startup-disk.spec|aarch64"
     ["speakersafetyd"]="fsrc+rpms/rust-speakersafetyd,rust-speakersafetyd.spec|aarch64"
     ["steam"]="copr+steam/steam.git,steam.spec|aarch64"
     ["tiny-dfr"]="fsrc+rpms/rust-tiny-dfr,rust-tiny-dfr.spec|aarch64"
