@@ -2,8 +2,8 @@
 # Maintainer: Matthias Kurz <m.kurz@irregular.at>
 
 pkgname=tiny-dfr
-pkgver=0.3.5
-pkgrel=2
+pkgver=0.3.7
+pkgrel=1
 pkgdesc='Apple silicon touch bar input / display daemon'
 arch=('aarch64')
 url=https://crates.io/crates/tiny-dfr
@@ -12,14 +12,14 @@ makedepends=('rustup')
 depends=('pango' 'libinput' 'gdk-pixbuf2' 'librsvg')
 source=(
   "$pkgname-$pkgver.crate::https://crates.io/api/v1/crates/tiny-dfr/$pkgver/download"
-  'tiny-dfr-fix-metadata.diff')
-sha512sums=('0406ad4a8ab3557db4f04128834084d0c872540b4e160a11aec5efe2ca29a7fe512063d50ea713c6d68939ea3d08c0178971c13e0e2bf14face5eafa9f6a891f'
-            '90a82d2e25d29cf1501a5222665296128032ee29f04bc6930f60f1234c0a300ae7fdb22962dd6434095f0e0b16c9b07032ab185aff4268ae52a440f2cabee508')
+  '81.patch')
+sha512sums=('af8ac6116c80cf7e87f06158c0917af4faad1804531666bd21d8382d729b969cc8902e0e1b9e78e628f4bda4f54ae942a36ce64d8388edb0db2b6ce167214cb7'
+            '7ee49f123225757b57b89ae21b5ed53cc3249e51c5ed24caf55edf5b5f4a77c2c6bc2e34f4dc81a4db23e85b57c74b9d3f14f63c2700905fbf285a26943a2cfb')
 
 prepare() {
   tar -xf $pkgname-$pkgver.crate
   cd $pkgname-$pkgver
-  cat ../tiny-dfr-fix-metadata.diff | patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
+  cat ../81.patch | patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
   cargo fetch --target "$CARCH-unknown-linux-gnu"
 }
 
