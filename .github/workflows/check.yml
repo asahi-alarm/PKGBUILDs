@@ -14,7 +14,7 @@ jobs:
       output1: ${{ steps.store.outputs.changed }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v6
         with:
           fetch-depth: 10 # Fetch enough history for diff; adjust as needed.
       - name: Store the changed files
@@ -34,7 +34,7 @@ jobs:
     steps:
       - name: Check out the repo
         if: contains(needs.changed.outputs.output1, 'mesa')
-        uses: actions/checkout@v2
+        uses: actions/checkout@v6
       - name: Display runner UID and GID
         run: |
           echo "Runner UID: $(id -u)"
@@ -67,7 +67,7 @@ jobs:
     steps:
       - name: Check out the repo
         if: needs.changed.outputs.output1 != ''
-        uses: actions/checkout@v2
+        uses: actions/checkout@v6
       - name: Display runner UID and GID
         run: |
           echo "Runner UID: $(id -u)"

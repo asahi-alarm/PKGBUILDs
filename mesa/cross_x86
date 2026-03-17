@@ -9,6 +9,7 @@ rust = ['rustc', '--target', 'i686-unknown-linux-gnu']
 rust_ld = 'cc'
 
 [properties]
+needs_exe_wrapper = false
 c_args = ['-m32', '-march=i686', '-L/usr/lib32']
 c_link_args = ['-m32', '-march=i686', '-L/usr/lib32']
 cpp_args = ['-m32', '-march=i686', '-L/usr/lib32']
