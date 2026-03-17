@@ -54,7 +54,7 @@ jobs:
             cd mesa && makepkg -sC --noconfirm
       - name: Upload build artifacts
         if: contains(needs.changed.outputs.output1, 'mesa')
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: overlays
           path: |
@@ -75,7 +75,7 @@ jobs:
         id: get_ids
       - name: download overlays
         if: needs.changed.outputs.output1 != ''
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         continue-on-error: true
         with:
           name: overlays
@@ -116,7 +116,7 @@ jobs:
               echo "nothing to build"
             fi
       - name: upload artefacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: packages
           path: packages/*.xz
