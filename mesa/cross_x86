@@ -10,6 +10,8 @@ rust_ld = 'cc'
 
 [properties]
 needs_exe_wrapper = false
+
+[built-in options]
 c_args = ['-m32', '-march=i686', '-L/usr/lib32']
 c_link_args = ['-m32', '-march=i686', '-L/usr/lib32']
 cpp_args = ['-m32', '-march=i686', '-L/usr/lib32']
