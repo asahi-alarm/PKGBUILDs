@@ -12,20 +12,29 @@ install=asahi-desktop-meta.install
 
 package() {
   depends=(
-    bluez-utils
-    bluez-tools
-    pipewire
-    pipewire-audio
-    pipewire-pulse
-    pipewire-alsa
-    wireplumber
+    alsa-tools
+    alsa-utils
+    arch-install-scripts
     asahi-audio
     bankstown
-    speakersafetyd
+    bluez-tools
+    bluez-utils
+    glmark2
     mesa
-    widevine
-    virglrenderer
+    mesa-demos
+    mesa-utils
+    pacman-contrib
+    pavucontrol
+    pipewire
+    pipewire-alsa
+    pipewire-audio
+    pipewire-jack
+    pipewire-pulse
+    speakersafetyd
     startup-disk
+    virglrenderer
+    widevine
+    wireplumber
     xkeyboard-config)
 }
 
