@@ -19,6 +19,7 @@ package() {
     bankstown
     bluez-tools
     bluez-utils
+    drm-info
     glmark2
     mesa
     mesa-demos
