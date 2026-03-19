@@ -6,7 +6,7 @@ highmem=1
 pkgname=(mesa mesa-fex-emu-overlay-x86_64 mesa-fex-emu-overlay-i386 mesa-dummy)
 pkgdesc="An open-source implementation of the OpenGL specification"
 pkgver=25.3.6
-pkgrel=3
+pkgrel=4
 arch=('x86_64' 'aarch64')
 makedepends=('python-mako' 'libxml2' 'libx11' 'xorgproto' 'libdrm' 'libxshmfence' 'libxxf86vm'
   'libxdamage' 'libva' 'wayland' 'wayland-protocols' 'zstd' 'elfutils' 'llvm' 'spirv-llvm-translator'
@@ -19,7 +19,7 @@ makedepends=('python-mako' 'libxml2' 'libx11' 'xorgproto' 'libdrm' 'libxshmfence
 #    'lib32-spirv-llvm-translator' 'lib32-clang' 'lib32-libxfixes' 'lib32-libva' 'lib32-xcb-util-keysyms'
 
 depends=('egl-wayland' 'libdrm' 'wayland' 'libxxf86vm' 'libxdamage' 'libxshmfence' 'libelf' 'libomxil-bellagio'
-  'libunwind' 'llvm-libs' 'lm_sensors' 'libglvnd' 'zstd' 'vulkan-icd-loader')
+  'libunwind' 'llvm-libs' 'lm_sensors' 'libglvnd' 'zstd' 'vulkan-icd-loader' 'spirv-tools')
 optdepends=('vulkan-mesa-layers: additional vulkan layers')
 url="https://www.mesa3d.org/"
 license=('MIT AND BSD-3-Clause AND SGI-B-2.0')
