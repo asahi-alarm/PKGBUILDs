@@ -14,7 +14,6 @@ package() {
   depends=(
     alsa-tools
     alsa-utils
-    arch-install-scripts
     asahi-audio
     bankstown
     bluez-tools
@@ -29,7 +28,6 @@ package() {
     pipewire
     pipewire-alsa
     pipewire-audio
-    pipewire-jack
     pipewire-pulse
     speakersafetyd
     startup-disk
