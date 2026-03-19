@@ -3,7 +3,7 @@
 
 pkgname=asahi-desktop-meta
 pkgver=4
-pkgrel=7
+pkgrel=8
 pkgdesc='Asahi Linux desktop support meta package'
 url='https://www.asahilinux.org'
 arch=('any')
@@ -33,6 +33,7 @@ package() {
     speakersafetyd
     startup-disk
     virglrenderer
+    vulkan-tools
     widevine
     wireplumber
     xkeyboard-config)
