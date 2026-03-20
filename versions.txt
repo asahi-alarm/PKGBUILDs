@@ -5,9 +5,9 @@ asahi-alarm-keyring            /                              20241216-1
 asahi-audio                    3.4-2                          3.4-1                         
 asahi-bless                    0.4.2-1                        0.4.2-1                       
 asahi-btsync                   0.2.4-1                        0.2.4-1                       
-asahi-calamares-configs        20240509-6                     20260311-1                    
+asahi-calamares-configs        20240509-6                     20260319-2                    
 asahi-configs                  /                              20251217-1                    
-asahi-desktop-meta             /                              4-7                           
+asahi-desktop-meta             /                              4-8                           
 asahi-fwextract                /                              0.7.9-1                       
 asahi-meta                     /                              5-4                           
 asahi-nvram                    0.2.3-1                        0.2.3-1                       
@@ -25,8 +25,8 @@ linux-asahi                    6.18.15-400.asahi              6.18.15.asahi1-1
 linux-asahi-headers            6.18.15-400.asahi              6.18.15.asahi1-1              
 lzfse                          /                              1.0-1                         
 m1n1                           1.5.2-1                        1.5.2-1                       
-mesa                           25.3.6-0.1                     25.3.6-3                      
-muvm                           0.4.1-5                        0.4.1-1                       
+mesa                           25.3.6-0.1                     25.3.6-4                      
+muvm                           0.5.1-1                        0.4.1-1                       
 speakersafetyd                 1.0.2-6                        1.0.2-1                       
 startup-disk                   0.1.6-1                        0.1.6-1                       
 steam                          0-14                           20241231-4                    
