@@ -7,7 +7,7 @@
 %global crate muvm
 
 Name:           rust-muvm
-Version:        0.4.1
+Version:        0.5.1
 Release:        %autorelease
 Summary:        Run programs from your system in a microVM
 
@@ -16,9 +16,6 @@ URL:            https://crates.io/crates/muvm
 Source:         %{crates_source}
 Source2:        50-muvm-access.conf
 Source3:        access-muvm.lua
-# Manually created patch for downstream crate metadata changes
-# * Allow procfs 0.18: https://github.com/AsahiLinux/muvm/pull/210
-Patch:          muvm-fix-metadata.diff
 
 BuildRequires:  cargo-rpm-macros >= 26
 

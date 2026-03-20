@@ -1,6 +1,6 @@
 
   Name:           rust-muvm
-  Version:        0.4.1
+  Version:        0.5.1
   Release:        1
   Summary:        Run programs from your system in a microVM
 
@@ -9,8 +9,6 @@
   Source:         %{crates_source}
   Source2:        50-muvm-access.conf
   Source3:        access-muvm.lua
-
-  Patch:          muvm-fix-metadata.diff
 
   BuildRequires:  cargo-rpm-macros >= 26
 
@@ -37,17 +35,14 @@
 prepare() {
 
   cd './'
-  rm -rf 'muvm-0.4.1'
+  rm -rf 'muvm-0.5.1'
   tar -xf '%{crates_source}'
   STATUS=$?
   if [ $STATUS -ne 0 ]; then
     exit $STATUS
   fi
-  cd 'muvm-0.4.1'
+  cd 'muvm-0.5.1'
   chmod -Rf a+rX,u+w,g-w,o-w .
-
-  cat muvm-fix-metadata.diff | 
-  patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
 
   %cargo_prep
 
