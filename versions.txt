@@ -16,7 +16,7 @@ asahi-wifisync                 0.2.2-1                        0.2.2-1
 bankstown                      1.1.0-3                        1.1.0-2                       
 binfmt-dispatcher              0.1.2-1                        0.1.2-1                       
 calamares                      3.3.14-4                       3.4.2-2                       
-chromium                       146.0.7680.153-1               145.0.7632.116-1              
+chromium                       146.0.7680.164-1               145.0.7632.116-1              
 FEX-Emu                        2603-1                         2603-1                        
 fex-emu-rootfs-arch            43^20251127.0-1                20260318-1                    
 libkrun                        1.17.4-1                       1.17.4-1                      
