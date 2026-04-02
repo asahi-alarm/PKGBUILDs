@@ -2,10 +2,10 @@
 # the VM's memory, so no useful debug info can be generated from it.
 %global debug_package %{nil}
 
-%global kernel linux-6.12.68
+%global kernel linux-6.12.76
 
 Name:           libkrunfw
-Version:        5.2.1
+Version:        5.3.0
 Release:        1%{?dist}
 Summary:        A dynamic library bundling the guest payload consumed by libkrun
 License:        LGPL-2.1-only AND GPL-2.0-only
@@ -113,6 +113,9 @@ cp %{SOURCE1} tarballs/
 %endif
 
 %changelog
+* Wed Mar 18 2026 Sergio Lopez <slp@redhat.com> - 5.3.0-1
+- Update to 5.3.0 which bundles a 6.12.76 kernel
+
 * Tue Feb 17 2026 Sergio Lopez <slp@redhat.com> - 5.2.1-1
 - Update to 5.2.1 with no kernel update
 
