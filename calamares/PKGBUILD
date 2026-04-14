@@ -4,7 +4,7 @@
 _pkgname="calamares"
 pkgname="$_pkgname"
 pkgver=3.4.2
-pkgrel=2
+pkgrel=3
 pkgdesc="Distribution-independent installer framework"
 url="https://codeberg.org/Calamares/calamares"
 license=("GPL-3.0-or-later")
@@ -56,6 +56,7 @@ build() {
     -DINSTALL_CONFIG=ON
     -DSKIP_MODULES="${_skip_modules[*]}"
     -DBUILD_TESTING=OFF
+    -DCMAKE_BUILD_WITH_INSTALL_RPATH=ON
     -Wno-dev
   )
 
