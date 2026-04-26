@@ -1,9 +1,8 @@
 
   Name:           mesa
   Summary:        Mesa graphics libraries
-
   Version:        25.3.6
-  Release:        0.1
+  Release:        0.3
   License:        MIT AND BSD-3-Clause AND SGI-B-2.0
   URL:            https://mesa3d.org
 
@@ -17,6 +16,8 @@
   Source13:       https://crates.io/api/v1/crates/syn/2.0.106/download#/syn-2.0.106.tar.gz
   Source14:       https://crates.io/api/v1/crates/unicode-ident/1.0.18/download#/unicode-ident-1.0.18.tar.gz
   Source15:       https://crates.io/api/v1/crates/rustc-hash/2.1.1/download#/rustc-hash-2.1.1.tar.gz
+
+  Patch10:        zink-fixes.patch
 
   BuildRequires:  meson >= 1.3.0
   BuildRequires:  gcc
@@ -97,11 +98,11 @@
 
   %package filesystem
   Summary:        Mesa driver filesystem
-  Provides:       mesa-dri-filesystem = 25.3.6-0.1
-  Obsoletes:      mesa-omx-drivers < 25.3.6-0.1
-  Obsoletes:      mesa-libd3d < 25.3.6-0.1
-  Obsoletes:      mesa-libd3d-devel < 25.3.6-0.1
-  Obsoletes:      mesa-vdpau-drivers < 25.3.6-0.1
+  Provides:       mesa-dri-filesystem = 25.3.6-0.3
+  Obsoletes:      mesa-omx-drivers < 25.3.6-0.3
+  Obsoletes:      mesa-libd3d < 25.3.6-0.3
+  Obsoletes:      mesa-libd3d-devel < 25.3.6-0.3
+  Obsoletes:      mesa-vdpau-drivers < 25.3.6-0.3
 
   %description filesystem
   Mesa driver filesystem.
@@ -109,7 +110,7 @@
   %package libGL
   Summary:        Mesa libGL runtime libraries
   Requires:       libglvnd-glx(x86-64) >= 1:1.3.2
-  Requires:       mesa-dri-drivers(x86-64) = 25.3.6-0.1
+  Requires:       mesa-dri-drivers(x86-64) = 25.3.6-0.3
   Obsoletes:      mesa-libOSMesa < 25.1.0~rc2-1
 
   %description libGL
@@ -117,10 +118,10 @@
 
   %package libGL-devel
   Summary:        Mesa libGL development package
-  Requires:       (mesa-libGL(x86-64) = 25.3.6-0.1 if mesa-libGL(x86-64))
+  Requires:       (mesa-libGL(x86-64) = 25.3.6-0.3 if mesa-libGL(x86-64))
   Requires:       libglvnd-devel(x86-64) >= 1:1.3.2
-  Provides:       libGL-devel = 25.3.6-0.1
-  Provides:       libGL-devel(x86-64) = 25.3.6-0.1
+  Provides:       libGL-devel = 25.3.6-0.3
+  Provides:       libGL-devel(x86-64) = 25.3.6-0.3
   Recommends:     gl-manpages
   Obsoletes:      mesa-libOSMesa-devel < 25.1.0~rc2-1
 
@@ -130,26 +131,26 @@
   %package libEGL
   Summary:        Mesa libEGL runtime libraries
   Requires:       libglvnd-egl(x86-64) >= 1:1.3.2
-  Requires:       mesa-libgbm(x86-64) = 25.3.6-0.1
-  Requires:       mesa-dri-drivers(x86-64) = 25.3.6-0.1
+  Requires:       mesa-libgbm(x86-64) = 25.3.6-0.3
+  Requires:       mesa-dri-drivers(x86-64) = 25.3.6-0.3
 
   %description libEGL
   Mesa libEGL runtime libraries.
 
   %package libEGL-devel
   Summary:        Mesa libEGL development package
-  Requires:       (mesa-libEGL(x86-64) = 25.3.6-0.1 if mesa-libEGL(x86-64))
+  Requires:       (mesa-libEGL(x86-64) = 25.3.6-0.3 if mesa-libEGL(x86-64))
   Requires:       libglvnd-devel(x86-64) >= 1:1.3.2
   Requires:       mesa-khr-devel(x86-64)
-  Provides:       libEGL-devel = 25.3.6-0.1
-  Provides:       libEGL-devel(x86-64) = 25.3.6-0.1
+  Provides:       libEGL-devel = 25.3.6-0.3
+  Provides:       libEGL-devel(x86-64) = 25.3.6-0.3
 
   %description libEGL-devel
   Mesa libEGL development package.
 
   %package dri-drivers
   Summary:        Mesa-based DRI drivers
-  Requires:       mesa-filesystem(x86-64) = 25.3.6-0.1
+  Requires:       mesa-filesystem(x86-64) = 25.3.6-0.3
 
   Recommends:     mesa-va-drivers(x86-64)
 
@@ -161,7 +162,7 @@
 
   %package        va-drivers
   Summary:        Mesa-based VA-API video acceleration drivers
-  Requires:       mesa-filesystem(x86-64) = 25.3.6-0.1
+  Requires:       mesa-filesystem(x86-64) = 25.3.6-0.3
   Obsoletes:      mesa-vaapi-drivers < 22.2.0-5
 
   %description va-drivers
@@ -169,20 +170,20 @@
 
   %package libgbm
   Summary:        Mesa gbm runtime library
-  Provides:       libgbm = 25.3.6-0.1
-  Provides:       libgbm(x86-64) = 25.3.6-0.1
-  Recommends:     mesa-dri-drivers(x86-64) = 25.3.6-0.1
+  Provides:       libgbm = 25.3.6-0.3
+  Provides:       libgbm(x86-64) = 25.3.6-0.3
+  Recommends:     mesa-dri-drivers(x86-64) = 25.3.6-0.3
 
-  Requires:       (mesa-dri-drivers(x86-64) = 25.3.6-0.1 if mesa-dri-drivers(x86-64))
+  Requires:       (mesa-dri-drivers(x86-64) = 25.3.6-0.3 if mesa-dri-drivers(x86-64))
 
   %description libgbm
   Mesa gbm runtime library.
 
   %package libgbm-devel
   Summary:        Mesa libgbm development package
-  Requires:       mesa-libgbm(x86-64) = 25.3.6-0.1
-  Provides:       libgbm-devel = 25.3.6-0.1
-  Provides:       libgbm-devel(x86-64) = 25.3.6-0.1
+  Requires:       mesa-libgbm(x86-64) = 25.3.6-0.3
+  Provides:       libgbm-devel = 25.3.6-0.3
+  Provides:       libgbm-devel(x86-64) = 25.3.6-0.3
 
   %description libgbm-devel
   Mesa libgbm development package.
@@ -191,7 +192,7 @@
   Summary:        Mesa OpenCL runtime library
   Requires:       (ocl-icd(x86-64) or OpenCL-ICD-Loader(x86-64))
   Requires:       libclc(x86-64)
-  Requires:       mesa-libgbm(x86-64) = 25.3.6-0.1
+  Requires:       mesa-libgbm(x86-64) = 25.3.6-0.3
   Requires:       opencl-filesystem
 
   %description libOpenCL
@@ -199,7 +200,7 @@
 
   %package libOpenCL-devel
   Summary:        Mesa OpenCL development package
-  Requires:       mesa-libOpenCL(x86-64) = 25.3.6-0.1
+  Requires:       mesa-libOpenCL(x86-64) = 25.3.6-0.3
 
   %description libOpenCL-devel
   Mesa OpenCL development package.
@@ -213,8 +214,8 @@
   %package vulkan-drivers
   Summary:        Mesa Vulkan drivers
   Requires:       vulkan(x86-64)
-  Requires:       mesa-filesystem(x86-64) = 25.3.6-0.1
-  Obsoletes:      mesa-vulkan-devel < 25.3.6-0.1
+  Requires:       mesa-filesystem(x86-64) = 25.3.6-0.3
+  Obsoletes:      mesa-vulkan-devel < 25.3.6-0.3
   Obsoletes:      VK_hdr_layer < 1
 
   %description vulkan-drivers
@@ -231,6 +232,9 @@ prepare() {
   fi
   cd 'mesa-25.3.6'
   chmod -Rf a+rX,u+w,g-w,o-w .
+
+  cat zink-fixes.patch | 
+  patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
 
   # Extract Rust crates meson cache directory
 

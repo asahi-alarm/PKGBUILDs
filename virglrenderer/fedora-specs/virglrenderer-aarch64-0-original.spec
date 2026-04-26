@@ -4,10 +4,7 @@
 
 Name:		virglrenderer
 Version:	1.2.0
-Release:	1.5%{?dist}
-%if 0%{?fedora} && 0%{?fedora} >= 44
-Vendor:         Fedora Asahi - Transitional
-%endif
+Release:	1.6%{?dist}
 
 Summary:	Virgl Rendering library.
 License:	MIT
@@ -78,6 +75,9 @@ driver to test virgl rendering without GL.
 %{_bindir}/virgl_test_server
 
 %changelog
+* Sat Apr 25 2026 Janne Grunau <janne-fdr@jannau.net> - 1.2.0-1.6
+- Drop F44 Vendor override
+
 * Wed Feb 04 2026 Janne Grunau >janne-fdr@jannau.net> - 1.2.0-1.5
 - Fix rawhide build
 

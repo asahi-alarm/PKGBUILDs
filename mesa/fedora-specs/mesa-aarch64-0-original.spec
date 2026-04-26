@@ -82,11 +82,8 @@
 
 Name:           mesa
 Summary:        Mesa graphics libraries
-%if 0%{?fedora} && 0%{?fedora} >= 44
-Vendor:         Fedora Asahi - Transitional
-%endif
 Version:        25.3.6
-Release:        0.1%{?dist}
+Release:        0.3%{?dist}
 License:        MIT AND BSD-3-Clause AND SGI-B-2.0
 URL:            https://mesa3d.org
 
@@ -118,6 +115,8 @@ Source13:       https://crates.io/api/v1/crates/syn/%{rust_syn_ver}/download#/sy
 Source14:       https://crates.io/api/v1/crates/unicode-ident/%{rust_unicode_ident_ver}/download#/unicode-ident-%{rust_unicode_ident_ver}.tar.gz
 Source15:       https://crates.io/api/v1/crates/rustc-hash/%{rustc_hash_ver}/download#/rustc-hash-%{rustc_hash_ver}.tar.gz
 
+### backport some zink fixes for nvk/chrome
+Patch10:        zink-fixes.patch
 
 BuildRequires:  meson >= 1.3.0
 BuildRequires:  gcc

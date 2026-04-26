@@ -1,7 +1,7 @@
 
   Name:		virglrenderer
   Version:	1.2.0
-  Release:	1.5
+  Release:	1.6
 
   Summary:	Virgl Rendering library.
   License:	MIT
@@ -28,7 +28,7 @@
   %package devel
   Summary: Virgil3D renderer development files
 
-  Requires: virglrenderer(aarch-64) = 1.2.0-1.5
+  Requires: virglrenderer(aarch-64) = 1.2.0-1.6
 
   %description devel
   Virgil3D renderer development files, used by
@@ -37,7 +37,7 @@
   %package test-server
   Summary: Virgil3D renderer testing server
 
-  Requires: virglrenderer(aarch-64) = 1.2.0-1.5
+  Requires: virglrenderer(aarch-64) = 1.2.0-1.6
 
   %description test-server
   Virgil3D renderer testing server is a server
