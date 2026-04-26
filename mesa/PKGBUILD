@@ -27,14 +27,18 @@ options=('!debug' '!lto')
 source=(
   https://archive.mesa3d.org/mesa-$pkgver.tar.xz
   Mesa-MLAA-License-Clarification-Email.txt
+  zink-fixes.patch
 )
 sha512sums=('73620003e1e67c6b5ad076afb19e0b250214cfb6ed830166fb70058173ec3b19a2a8f5b5a78d8cce7a70745f5e4fa439913d15d8b38ca0002455b238f5865d38'
-            'ecdabad21a86f04d51ba709a90fbeccb3004c6e8af3546edc530dcb4727787ed5d6a63043b6ab50b4c0a46de0894b6f3c594101b4d25f7831dee9f33fd2a7e31')
+            'ecdabad21a86f04d51ba709a90fbeccb3004c6e8af3546edc530dcb4727787ed5d6a63043b6ab50b4c0a46de0894b6f3c594101b4d25f7831dee9f33fd2a7e31'
+            '9bd3ae23524994adfd58627afb67a05ecdf65d8fa809cf5ae1a1445be8d6c217393f95a7049f5af7e27572474291197662fd6bfde94fcfa33df7b8d95379ff1d')
 
 prepare() {
   cd mesa-$pkgver
 
   chmod -Rf a+rX,u+w,g-w,o-w .
+
+  cat ../zink-fixes.patch | patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
 }
 
 meson_build() {
