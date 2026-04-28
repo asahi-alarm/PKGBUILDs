@@ -1,13 +1,13 @@
 
   Name:       fex-emu
-  Version:    2603
+  Version:    2604
   Release:    1
   Summary:    Fast usermode x86 and x86-64 emulator for ARM64
 
   License:    MIT AND Apache-2.0 AND BSL-1.0 AND BSD-3-Clause AND GPL-2.0-only
   URL:        https://fex-emu.com
 
-  Source0:    https://github.com/FEX-Emu/FEX/archive/FEX-2603/FEX-FEX-2603.tar.gz
+  Source0:    https://github.com/FEX-Emu/FEX/archive/FEX-2604/FEX-FEX-2604.tar.gz
 
   Source1:    README.fedora
 
@@ -75,9 +75,9 @@
   BuildRequires:  cmake(Qt6Widgets)
 
   Requires:       systemd-udev
-  Requires:       fex-emu-filesystem = 2603-1
+  Requires:       fex-emu-filesystem = 2604-1
 
-  Recommends:     fex-emu-thunks = 2603-1
+  Recommends:     fex-emu-thunks = 2604-1
 
   Recommends:     fex-emu-rootfs-fedora
   Recommends:     erofs-fuse
@@ -86,7 +86,7 @@
   Recommends:     squashfuse
 
   Obsoletes:      fex-emu-gdb < 2409-4
-  Provides:       fex-emu-gdb = 2603-1
+  Provides:       fex-emu-gdb = 2604-1
 
   %description
   FEX allows you to run x86 and x86-64 binaries on an AArch64 host, similar to
@@ -105,34 +105,34 @@
 
   %package        devel
   Summary:        Development headers and libraries for fex-emu
-  Requires:       fex-emu(aarch-64) = 2603-1
+  Requires:       fex-emu(aarch-64) = 2604-1
 
   %description    devel
   This package provides development headers and libraries for fex-emu.
 
   %package        utils
   Summary:        Utility tools for fex-emu
-  Requires:       fex-emu(aarch-64) = 2603-1
+  Requires:       fex-emu(aarch-64) = 2604-1
 
   %description    utils
   This package provides utility tools for fex-emu for advanced users.
 
   %package        thunks
   Summary:        Thunk libraries for fex-emu
-  Requires:       fex-emu(aarch-64) = 2603-1
+  Requires:       fex-emu(aarch-64) = 2604-1
 
   %description    thunks
   This package provides host library thunks for fex-emu.
 
 prepare() {
   cd './'
-  rm -rf 'FEX-FEX-2603'
-  tar -xf 'FEX-FEX-2603.tar.gz'
+  rm -rf 'FEX-FEX-2604'
+  tar -xf 'FEX-FEX-2604.tar.gz'
   STATUS=$?
   if [ $STATUS -ne 0 ]; then
     exit $STATUS
   fi
-  cd 'FEX-FEX-2603'
+  cd 'FEX-FEX-2604'
   chmod -Rf a+rX,u+w,g-w,o-w .
 
   # Copy in our README.fedora
@@ -162,7 +162,7 @@ prepare() {
 
   # Ensure library soversion is set
   sed -i FEXCore/Source/CMakeLists.txt \
-    -e '/PROPERTIES OUTPUT_NAME/aset_target_properties(${Name} PROPERTIES VERSION 2603)'
+    -e '/PROPERTIES OUTPUT_NAME/aset_target_properties(${Name} PROPERTIES VERSION 2604)'
 
   # Set up sysroot and toolchain files
 
@@ -213,7 +213,7 @@ package() {
   _install fakeinstall/usr/bin/FEXOfflineCompiler
   _install fakeinstall/usr/bin/FEXpidof
   _install fakeinstall/usr/bin/FEXServer
-  _install fakeinstall/usr/lib/libFEXCore.so.2603
+  _install fakeinstall/usr/lib/libFEXCore.so.2604
   %{_binfmtdir}/FEX-x86.conf
   %{_binfmtdir}/FEX-x86_64.conf
   _install fakeinstall/usr/share/fex-emu/AppConfig/

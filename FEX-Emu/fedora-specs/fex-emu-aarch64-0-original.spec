@@ -32,7 +32,7 @@
 %bcond x86_debug 0
 
 Name:       fex-emu
-Version:    2603%{?commit:^%{date}git%{commit}}
+Version:    2604%{?commit:^%{date}git%{commit}}
 Release:    %autorelease
 Summary:    Fast usermode x86 and x86-64 emulator for ARM64
 
