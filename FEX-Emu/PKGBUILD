@@ -3,7 +3,7 @@
 
 pkgbase=FEX-Emu
 pkgname=FEX-Emu
-pkgver=2603
+pkgver=2604
 pkgrel=1
 pkgdesc="Fast x86 emulation frontend"
 arch=(aarch64)
@@ -42,7 +42,7 @@ depends=(
 )
 source=("git+https://github.com/FEX-Emu/FEX.git#tag=FEX-${pkgver}"
         "cmake.patch")
-sha256sums=('2a003a8e1dca94211a67773a8e26e138f051934db383c4235205dc85c3382390'
+sha256sums=('e025f760e492abed386bf606e260ebb7a4ff87849404a568fc9f1ae9d24fa681'
             '3f66fc27d99b463ac2116d321ea626a9f0be5c3ddad544911b6db66545f8ddcc')
 install=FEX-Emu.install
 
