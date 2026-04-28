@@ -39,7 +39,7 @@ copr["fedora-remix-scripts"]="calamares-firstboot-config"
 
 DB=asahi-alarm.db.tar.gz
 
-FEDORA_REPO="F43"
+FEDORA_REPO="F44"
 
 if [ $# == 1 ]; then
   FEDORA_REPO=$1
