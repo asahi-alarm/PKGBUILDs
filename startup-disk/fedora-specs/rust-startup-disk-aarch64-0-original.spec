@@ -5,7 +5,7 @@
 %global app_id org.startup_disk.StartupDisk
 
 Name:           rust-startup-disk
-Version:        0.1.6
+Version:        0.1.7
 Release:        %autorelease
 Summary:        Interface to choose the startup volume on Apple Silicon systems
 
@@ -28,12 +28,15 @@ Silicon Macs running Asahi Linux.}
 
 %package     -n %{crate}
 Summary:        %{summary}
+# (Apache-2.0 OR MIT) AND CC0-1.0
+# 0BSD OR MIT OR Apache-2.0
 # Apache-2.0 OR MIT
 # MIT
 # MIT OR Apache-2.0
+# MIT OR Zlib OR Apache-2.0
 # Unlicense OR MIT
 # Zlib
-License:        (Apache-2.0 OR MIT) AND MIT AND (MIT OR Apache-2.0) AND (Unlicense OR MIT) AND Zlib
+License:        ((Apache-2.0 OR MIT) AND (0BSD OR MIT OR Apache-2.0) AND (Apache-2.0 OR MIT) AND MIT AND (MIT OR Apache-2.0) AND (MIT OR Zlib OR Apache-2.0) AND (Unlicense OR MIT) AND Zlib
 # LICENSE.dependencies contains a full license breakdown
 Requires:       hicolor-icon-theme
 Requires:       polkit

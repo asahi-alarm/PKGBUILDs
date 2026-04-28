@@ -1,6 +1,6 @@
 
   Name:           rust-startup-disk
-  Version:        0.1.6
+  Version:        0.1.7
   Release:        1
   Summary:        Interface to choose the startup volume on Apple Silicon systems
 
@@ -21,7 +21,7 @@
   %package     -n startup-disk
   Summary:        Interface to choose the startup volume on Apple Silicon systems
 
-  License:        (Apache-2.0 OR MIT) AND MIT AND (MIT OR Apache-2.0) AND (Unlicense OR MIT) AND Zlib
+  License:        ((Apache-2.0 OR MIT) AND (0BSD OR MIT OR Apache-2.0) AND (Apache-2.0 OR MIT) AND MIT AND (MIT OR Apache-2.0) AND (MIT OR Zlib OR Apache-2.0) AND (Unlicense OR MIT) AND Zlib
 
   Requires:       hicolor-icon-theme
   Requires:       polkit
@@ -34,13 +34,13 @@
 prepare() {
 
   cd './'
-  rm -rf 'startup-disk-0.1.6'
+  rm -rf 'startup-disk-0.1.7'
   tar -xf '%{crates_source}'
   STATUS=$?
   if [ $STATUS -ne 0 ]; then
     exit $STATUS
   fi
-  cd 'startup-disk-0.1.6'
+  cd 'startup-disk-0.1.7'
   chmod -Rf a+rX,u+w,g-w,o-w .
 
   %cargo_prep
