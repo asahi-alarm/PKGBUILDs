@@ -53,7 +53,7 @@ declare -A PACKAGES=(
     ["linux-asahi"]="copr+kernel/kernel.git,kernel.spec|aarch64"
     #["lzfse"]=""
     ["m1n1"]="fsrc+rpms/m1n1,m1n1.spec|aarch64"
-    ["mesa"]="copr+mesa/mesa.git,mesa.spec|aarch64,x86_64,i386"
+    ["mesa"]="fsrc+rpms/mesa,mesa.spec|aarch64,x86_64,i386"
     ["muvm"]="fsrc+rpms/rust-muvm,rust-muvm.spec|aarch64"
     ["startup-disk"]="fsrc+rpms/rust-startup-disk,rust-startup-disk.spec|aarch64"
     ["speakersafetyd"]="fsrc+rpms/rust-speakersafetyd,rust-speakersafetyd.spec|aarch64"
@@ -61,7 +61,7 @@ declare -A PACKAGES=(
     ["tiny-dfr"]="fsrc+rpms/rust-tiny-dfr,rust-tiny-dfr.spec|aarch64"
     ["triforce-lv2"]="fsrc+rpms/rust-triforce-lv2,rust-triforce-lv2.spec|aarch64"
     ["uboot-asahi"]="copr+u-boot/uboot-tools.git,uboot-tools.spec|aarch64"
-    ["virglrenderer"]="copr+mesa/virglrenderer.git,virglrenderer.spec|aarch64"
+    ["virglrenderer"]="fsrc+rpms/virglrenderer,virglrenderer.spec|aarch64"
     #["widevine"]=""
     ["fex-emu-rootfs-arch"]="fsrc+rpms/fex-emu-rootfs-fedora,fex-emu-rootfs-fedora.spec|aarch64"
 )
