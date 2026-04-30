@@ -1,0 +1,99 @@
+From 3b3485efa6c5ad38a21819f111bee052be05acb0 Mon Sep 17 00:00:00 2001
+From: Ryan Houdek <Sonicadvance1@gmail.com>
+Date: Tue, 17 Feb 2026 14:52:50 -0800
+Subject: [PATCH] freedreno/fdl: Fix compiling with GCC and AVX2
+
+Clang is more lenient around casting same size vectors between the
+different AVX types, GCC on the other hand is not. Add appropriate
+casting between the different register typings to make GCC happy.
+
+No functional change.
+
+Closes: https://gitlab.freedesktop.org/mesa/mesa/-/issues/14876
+Fixes: b554e4c727c90b88a542b86989f6664537658f85
+Part-of: <https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/39951>
+---
+ src/freedreno/fdl/fd6_tiled_memcpy.cc | 40 +++++++++++++--------------
+ 1 file changed, 20 insertions(+), 20 deletions(-)
+
+diff --git a/src/freedreno/fdl/fd6_tiled_memcpy.cc b/src/freedreno/fdl/fd6_tiled_memcpy.cc
+index 7bde850b4049..470db29aa938 100644
+--- a/src/freedreno/fdl/fd6_tiled_memcpy.cc
++++ b/src/freedreno/fdl/fd6_tiled_memcpy.cc
+@@ -459,10 +459,10 @@ linear_to_tiled_1cpp(char *_tiled, char *_linear, uint32_t linear_pitch)
+       auto linear2 = _mm256_loadu_ps((float const*)(_linear + 2 * linear_pitch));
+       auto linear3 = _mm256_loadu_ps((float const*)(_linear + 3 * linear_pitch));
+ 
+-      auto linear_0_1_low = _mm256_unpacklo_epi16(linear0, linear1);
+-      auto linear_2_3_low = _mm256_unpacklo_epi16(linear2, linear3);
+-      auto linear_0_1_high = _mm256_unpackhi_epi16(linear0, linear1);
+-      auto linear_2_3_high = _mm256_unpackhi_epi16(linear2, linear3);
++      auto linear_0_1_low = _mm256_unpacklo_epi16(_mm256_castps_si256(linear0), _mm256_castps_si256(linear1));
++      auto linear_2_3_low = _mm256_unpacklo_epi16(_mm256_castps_si256(linear2), _mm256_castps_si256(linear3));
++      auto linear_0_1_high = _mm256_unpackhi_epi16(_mm256_castps_si256(linear0), _mm256_castps_si256(linear1));
++      auto linear_2_3_high = _mm256_unpackhi_epi16(_mm256_castps_si256(linear2), _mm256_castps_si256(linear3));
+ 
+       // Effectively 256-bit zip1 ARM equivalent
+       auto r1_zip1 = _mm256_permute4x64_epi64(linear_2_3_low, 0x60);
+@@ -482,10 +482,10 @@ linear_to_tiled_1cpp(char *_tiled, char *_linear, uint32_t linear_pitch)
+       auto r4_zip2 = _mm256_permute4x64_epi64(linear_0_1_high, 0xf6);
+       auto r4 = _mm256_blend_epi32(r4_zip2, r4_zip1, 0xcc);
+ 
+-      _mm256_storeu_ps((float*)tiled, r1); tiled++;
+-      _mm256_storeu_ps((float*)tiled, r2); tiled++;
+-      _mm256_storeu_ps((float*)tiled, r3); tiled++;
+-      _mm256_storeu_ps((float*)tiled, r4); tiled++;
++      _mm256_storeu_ps((float*)tiled, _mm256_castsi256_ps(r1)); tiled++;
++      _mm256_storeu_ps((float*)tiled, _mm256_castsi256_ps(r2)); tiled++;
++      _mm256_storeu_ps((float*)tiled, _mm256_castsi256_ps(r3)); tiled++;
++      _mm256_storeu_ps((float*)tiled, _mm256_castsi256_ps(r4)); tiled++;
+    }
+ #else
+    memcpy_small<1, LINEAR_TO_TILED, FDL_MACROTILE_4_CHANNEL>(
+@@ -571,20 +571,20 @@ linear_to_tiled_2cpp(char *_tiled, char *_linear, uint32_t linear_pitch)
+       auto linear2 = _mm256_loadu_ps((float const*)(_linear + 2 * linear_pitch));
+       auto linear3 = _mm256_loadu_ps((float const*)(_linear + 3 * linear_pitch));
+ 
+-      auto linear_0_1_low = _mm256_unpacklo_epi32(linear0, linear1);
+-      auto linear_2_3_low = _mm256_unpacklo_epi32(linear2, linear3);
+-      auto linear_0_1_high = _mm256_unpackhi_epi32(linear0, linear1);
+-      auto linear_2_3_high = _mm256_unpackhi_epi32(linear2, linear3);
++      auto linear_0_1_low = _mm256_unpacklo_epi32(_mm256_castps_si256(linear0), _mm256_castps_si256(linear1));
++      auto linear_2_3_low = _mm256_unpacklo_epi32(_mm256_castps_si256(linear2), _mm256_castps_si256(linear3));
++      auto linear_0_1_high = _mm256_unpackhi_epi32(_mm256_castps_si256(linear0), _mm256_castps_si256(linear1));
++      auto linear_2_3_high = _mm256_unpackhi_epi32(_mm256_castps_si256(linear2), _mm256_castps_si256(linear3));
+ 
+       auto r1 = _mm256_inserti128_si256(linear_0_1_low, _mm256_castsi256_si128(linear_2_3_low), 1);
+       auto r2 = _mm256_inserti128_si256(linear_0_1_high, _mm256_castsi256_si128(linear_2_3_high), 1);
+       auto r3 = _mm256_permute2f128_si256(linear_0_1_low, linear_2_3_low, 0x31);
+       auto r4 = _mm256_permute2f128_si256(linear_0_1_high, linear_2_3_high, 0x31);
+ 
+-      _mm256_storeu_ps((float*)tiled, r1); tiled++;
+-      _mm256_storeu_ps((float*)tiled, r2); tiled++;
+-      _mm256_storeu_ps((float*)tiled, r3); tiled++;
+-      _mm256_storeu_ps((float*)tiled, r4); tiled++;
++      _mm256_storeu_ps((float*)tiled, _mm256_castsi256_ps(r1)); tiled++;
++      _mm256_storeu_ps((float*)tiled, _mm256_castsi256_ps(r2)); tiled++;
++      _mm256_storeu_ps((float*)tiled, _mm256_castsi256_ps(r3)); tiled++;
++      _mm256_storeu_ps((float*)tiled, _mm256_castsi256_ps(r4)); tiled++;
+    }
+ #else
+    memcpy_small<2, LINEAR_TO_TILED, FDL_MACROTILE_4_CHANNEL>(
+@@ -670,10 +670,10 @@ linear_to_tiled_4cpp(char *_tiled, char *_linear, uint32_t linear_pitch)
+       auto linear2 = _mm256_loadu_ps((float const*)(_linear + 2 * linear_pitch));
+       auto linear3 = _mm256_loadu_ps((float const*)(_linear + 3 * linear_pitch));
+ 
+-      auto r1 = _mm256_blend_ps(_mm256_permute4x64_pd(linear0, 0xd4), _mm256_permute4x64_pd(linear1, 0x60), 0xcc);
+-      auto r2 = _mm256_blend_ps(_mm256_permute4x64_pd(linear2, 0xd4), _mm256_permute4x64_pd(linear3, 0x60), 0xcc);
+-      auto r3 = _mm256_blend_ps(_mm256_permute4x64_pd(linear0, 0xf6), _mm256_permute4x64_pd(linear1, 0xe8), 0xcc);
+-      auto r4 = _mm256_blend_ps(_mm256_permute4x64_pd(linear2, 0xf6), _mm256_permute4x64_pd(linear3, 0xe8), 0xcc);
++      auto r1 = _mm256_blend_ps(_mm256_castpd_ps(_mm256_permute4x64_pd(_mm256_castps_pd(linear0), 0xd4)), _mm256_castpd_ps(_mm256_permute4x64_pd(_mm256_castps_pd(linear1), 0x60)), 0xcc);
++      auto r2 = _mm256_blend_ps(_mm256_castpd_ps(_mm256_permute4x64_pd(_mm256_castps_pd(linear2), 0xd4)), _mm256_castpd_ps(_mm256_permute4x64_pd(_mm256_castps_pd(linear3), 0x60)), 0xcc);
++      auto r3 = _mm256_blend_ps(_mm256_castpd_ps(_mm256_permute4x64_pd(_mm256_castps_pd(linear0), 0xf6)), _mm256_castpd_ps(_mm256_permute4x64_pd(_mm256_castps_pd(linear1), 0xe8)), 0xcc);
++      auto r4 = _mm256_blend_ps(_mm256_castpd_ps(_mm256_permute4x64_pd(_mm256_castps_pd(linear2), 0xf6)), _mm256_castpd_ps(_mm256_permute4x64_pd(_mm256_castps_pd(linear3), 0xe8)), 0xcc);
+ 
+       _mm256_storeu_ps((float*)tiled, r1); tiled++;
+       _mm256_storeu_ps((float*)tiled, r2); tiled++;
+-- 
+GitLab
+

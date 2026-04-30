@@ -1,23 +1,23 @@
 
   Name:           mesa
   Summary:        Mesa graphics libraries
-  Version:        25.3.6
-  Release:        0.3
+  Version:        26.0.6
+  Release:        1
   License:        MIT AND BSD-3-Clause AND SGI-B-2.0
   URL:            https://mesa3d.org
 
-  Source0:        https://archive.mesa3d.org/mesa-25.3.6.tar.xz
+  Source0:        https://archive.mesa3d.org/mesa-26.0.6.tar.xz
 
   Source1:        Mesa-MLAA-License-Clarification-Email.txt
 
   Source10:       https://crates.io/api/v1/crates/paste/1.0.15/download#/paste-1.0.15.tar.gz
-  Source11:       https://crates.io/api/v1/crates/proc-macro2/1.0.101/download#/proc-macro2-1.0.101.tar.gz
-  Source12:       https://crates.io/api/v1/crates/quote/1.0.40/download#/quote-1.0.40.tar.gz
-  Source13:       https://crates.io/api/v1/crates/syn/2.0.106/download#/syn-2.0.106.tar.gz
-  Source14:       https://crates.io/api/v1/crates/unicode-ident/1.0.18/download#/unicode-ident-1.0.18.tar.gz
+  Source11:       https://crates.io/api/v1/crates/proc-macro2/1.0.106/download#/proc-macro2-1.0.106.tar.gz
+  Source12:       https://crates.io/api/v1/crates/quote/1.0.44/download#/quote-1.0.44.tar.gz
+  Source13:       https://crates.io/api/v1/crates/syn/2.0.115/download#/syn-2.0.115.tar.gz
+  Source14:       https://crates.io/api/v1/crates/unicode-ident/1.0.23/download#/unicode-ident-1.0.23.tar.gz
   Source15:       https://crates.io/api/v1/crates/rustc-hash/2.1.1/download#/rustc-hash-2.1.1.tar.gz
 
-  Patch10:        zink-fixes.patch
+  Patch21:        39951.patch
 
   BuildRequires:  meson >= 1.3.0
   BuildRequires:  gcc
@@ -93,16 +93,18 @@
 
   BuildRequires:  pkgconfig(vulkan)
 
+  BuildRequires:  pkgconfig(DirectX-Headers) >= 1.618.1
+
   %description
   Mesa graphics libraries.
 
   %package filesystem
   Summary:        Mesa driver filesystem
-  Provides:       mesa-dri-filesystem = 25.3.6-0.3
-  Obsoletes:      mesa-omx-drivers < 25.3.6-0.3
-  Obsoletes:      mesa-libd3d < 25.3.6-0.3
-  Obsoletes:      mesa-libd3d-devel < 25.3.6-0.3
-  Obsoletes:      mesa-vdpau-drivers < 25.3.6-0.3
+  Provides:       mesa-dri-filesystem = 26.0.6-1
+  Obsoletes:      mesa-omx-drivers < 26.0.6-1
+  Obsoletes:      mesa-libd3d < 26.0.6-1
+  Obsoletes:      mesa-libd3d-devel < 26.0.6-1
+  Obsoletes:      mesa-vdpau-drivers < 26.0.6-1
 
   %description filesystem
   Mesa driver filesystem.
@@ -110,7 +112,7 @@
   %package libGL
   Summary:        Mesa libGL runtime libraries
   Requires:       libglvnd-glx(aarch-64) >= 1:1.3.2
-  Requires:       mesa-dri-drivers(aarch-64) = 25.3.6-0.3
+  Requires:       mesa-dri-drivers(aarch-64) = 26.0.6-1
   Obsoletes:      mesa-libOSMesa < 25.1.0~rc2-1
 
   %description libGL
@@ -118,10 +120,10 @@
 
   %package libGL-devel
   Summary:        Mesa libGL development package
-  Requires:       (mesa-libGL(aarch-64) = 25.3.6-0.3 if mesa-libGL(aarch-64))
+  Requires:       (mesa-libGL(aarch-64) = 26.0.6-1 if mesa-libGL(aarch-64))
   Requires:       libglvnd-devel(aarch-64) >= 1:1.3.2
-  Provides:       libGL-devel = 25.3.6-0.3
-  Provides:       libGL-devel(aarch-64) = 25.3.6-0.3
+  Provides:       libGL-devel = 26.0.6-1
+  Provides:       libGL-devel(aarch-64) = 26.0.6-1
   Recommends:     gl-manpages
   Obsoletes:      mesa-libOSMesa-devel < 25.1.0~rc2-1
 
@@ -131,59 +133,52 @@
   %package libEGL
   Summary:        Mesa libEGL runtime libraries
   Requires:       libglvnd-egl(aarch-64) >= 1:1.3.2
-  Requires:       mesa-libgbm(aarch-64) = 25.3.6-0.3
-  Requires:       mesa-dri-drivers(aarch-64) = 25.3.6-0.3
+  Requires:       mesa-libgbm(aarch-64) = 26.0.6-1
+  Requires:       mesa-dri-drivers(aarch-64) = 26.0.6-1
 
   %description libEGL
   Mesa libEGL runtime libraries.
 
   %package libEGL-devel
   Summary:        Mesa libEGL development package
-  Requires:       (mesa-libEGL(aarch-64) = 25.3.6-0.3 if mesa-libEGL(aarch-64))
+  Requires:       (mesa-libEGL(aarch-64) = 26.0.6-1 if mesa-libEGL(aarch-64))
   Requires:       libglvnd-devel(aarch-64) >= 1:1.3.2
   Requires:       mesa-khr-devel(aarch-64)
-  Provides:       libEGL-devel = 25.3.6-0.3
-  Provides:       libEGL-devel(aarch-64) = 25.3.6-0.3
+  Provides:       libEGL-devel = 26.0.6-1
+  Provides:       libEGL-devel(aarch-64) = 26.0.6-1
 
   %description libEGL-devel
   Mesa libEGL development package.
 
   %package dri-drivers
   Summary:        Mesa-based DRI drivers
-  Requires:       mesa-filesystem(aarch-64) = 25.3.6-0.3
-
-  Recommends:     mesa-va-drivers(aarch-64)
-
+  Requires:       mesa-filesystem(aarch-64) = 26.0.6-1
+  Requires:       mesa-libgbm(aarch-64) = 26.0.6-1
   Obsoletes:      mesa-libglapi < 25.0.0~rc2-1
-  Provides:       mesa-libglapi >= 25.0.0~rc2-1
+  Obsoletes:      mesa-va-drivers < 26.0.0-5
+  Provides:       mesa-va-drivers = 26.0.6-1
+  Provides:       mesa-va-drivers(aarch-64) = 26.0.6-1
+  Obsoletes:      mesa-vaapi-drivers < 22.2.0-5
 
   %description dri-drivers
   Mesa-based DRI drivers.
 
-  %package        va-drivers
-  Summary:        Mesa-based VA-API video acceleration drivers
-  Requires:       mesa-filesystem(aarch-64) = 25.3.6-0.3
-  Obsoletes:      mesa-vaapi-drivers < 22.2.0-5
-
-  %description va-drivers
-  Mesa-based VA-API video acceleration drivers.
-
   %package libgbm
   Summary:        Mesa gbm runtime library
-  Provides:       libgbm = 25.3.6-0.3
-  Provides:       libgbm(aarch-64) = 25.3.6-0.3
-  Recommends:     mesa-dri-drivers(aarch-64) = 25.3.6-0.3
+  Provides:       libgbm = 26.0.6-1
+  Provides:       libgbm(aarch-64) = 26.0.6-1
+  Recommends:     mesa-dri-drivers(aarch-64) = 26.0.6-1
 
-  Requires:       (mesa-dri-drivers(aarch-64) = 25.3.6-0.3 if mesa-dri-drivers(aarch-64))
+  Requires:       (mesa-dri-drivers(aarch-64) = 26.0.6-1 if mesa-dri-drivers(aarch-64))
 
   %description libgbm
   Mesa gbm runtime library.
 
   %package libgbm-devel
   Summary:        Mesa libgbm development package
-  Requires:       mesa-libgbm(aarch-64) = 25.3.6-0.3
-  Provides:       libgbm-devel = 25.3.6-0.3
-  Provides:       libgbm-devel(aarch-64) = 25.3.6-0.3
+  Requires:       mesa-libgbm(aarch-64) = 26.0.6-1
+  Provides:       libgbm-devel = 26.0.6-1
+  Provides:       libgbm-devel(aarch-64) = 26.0.6-1
 
   %description libgbm-devel
   Mesa libgbm development package.
@@ -192,7 +187,7 @@
   Summary:        Mesa OpenCL runtime library
   Requires:       (ocl-icd(aarch-64) or OpenCL-ICD-Loader(aarch-64))
   Requires:       libclc(aarch-64)
-  Requires:       mesa-libgbm(aarch-64) = 25.3.6-0.3
+  Requires:       mesa-libgbm(aarch-64) = 26.0.6-1
   Requires:       opencl-filesystem
 
   %description libOpenCL
@@ -200,7 +195,7 @@
 
   %package libOpenCL-devel
   Summary:        Mesa OpenCL development package
-  Requires:       mesa-libOpenCL(aarch-64) = 25.3.6-0.3
+  Requires:       mesa-libOpenCL(aarch-64) = 26.0.6-1
 
   %description libOpenCL-devel
   Mesa OpenCL development package.
@@ -211,11 +206,18 @@
   %description libTeflon
   Mesa TensorFlow Lite delegate.
 
+  %package dxil-devel
+  Summary:        Mesa SPIR-V to DXIL binary
+  Requires:       mesa-filesystem(aarch-64) = 26.0.6-1
+
+  %description dxil-devel
+  Development tools for translating SPIR-V shader code to DXIL for Direct3D 12
+
   %package vulkan-drivers
   Summary:        Mesa Vulkan drivers
   Requires:       vulkan(aarch-64)
-  Requires:       mesa-filesystem(aarch-64) = 25.3.6-0.3
-  Obsoletes:      mesa-vulkan-devel < 25.3.6-0.3
+  Requires:       mesa-filesystem(aarch-64) = 26.0.6-1
+  Obsoletes:      mesa-vulkan-devel < 26.0.6-1
   Obsoletes:      VK_hdr_layer < 1
 
   %description vulkan-drivers
@@ -224,16 +226,16 @@
 prepare() {
 
   cd './'
-  rm -rf 'mesa-25.3.6'
-  tar -xf 'mesa-25.3.6.tar.xz'
+  rm -rf 'mesa-26.0.6'
+  tar -xf 'mesa-26.0.6.tar.xz'
   STATUS=$?
   if [ $STATUS -ne 0 ]; then
     exit $STATUS
   fi
-  cd 'mesa-25.3.6'
+  cd 'mesa-26.0.6'
   chmod -Rf a+rX,u+w,g-w,o-w .
 
-  cat zink-fixes.patch | 
+  cat 39951.patch | 
   patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
 
   # Extract Rust crates meson cache directory
@@ -241,7 +243,7 @@ prepare() {
   cat > Cargo.toml <<_EOF
   [package]
   name = "mesa"
-  version = "25.3.6"
+  version = "26.0.6"
   edition = "2021"
 
   [lib]
@@ -298,12 +300,12 @@ build() {
 
   %meson \
     -Dplatforms=x11,wayland \
-    -Dgallium-drivers=llvmpipe,virgl,nouveau,r300,svga,radeonsi,r600,asahi,freedreno,etnaviv,tegra,vc4,v3d,lima,panfrost,zink,ethosu,rocket \
+    -Dgallium-drivers=llvmpipe,virgl,nouveau,r300,svga,radeonsi,r600,asahi,freedreno,etnaviv,tegra,vc4,v3d,lima,panfrost,zink,d3d12,ethosu,rocket \
     -Dgallium-va=enabled \
     -Dgallium-mediafoundation=disabled \
     -Dteflon=true \
     -Dgallium-rusticl=true \
-    -Dvulkan-drivers=swrast,amd,asahi,broadcom,freedreno,panfrost,imagination,nouveau,virtio \
+    -Dvulkan-drivers=swrast,amd,asahi,broadcom,freedreno,panfrost,imagination,nouveau,virtio,microsoft-experimental \
     -Dvulkan-layers=device-select \
     -Dgles1=enabled \
     -Dgles2=enabled \
@@ -336,7 +338,7 @@ package() {
 
   # glvnd needs a default provider for indirect rendering where it cannot
   # determine the vendor
-  ln -s /usr/lib/libGLX_mesa.so.0 fakeinstall/usr/lib/libGLX_system.so.0
+  ln -s libGLX_mesa.so.0 fakeinstall/usr/lib/libGLX_system.so.0
 
   # filesystem
   install -Dpm0755 -t ${pkgdir}/usr/share/doc/mesa/ Mesa-MLAA-License-Clarification-Email.txt
@@ -393,6 +395,7 @@ package() {
   _install fakeinstall/usr/lib/dri/radeonsi_dri.so
   _install fakeinstall/usr/lib/dri/apple_dri.so
   _install fakeinstall/usr/lib/dri/asahi_dri.so
+  _install fakeinstall/usr/lib/dri/d3d12_dri.so
   _install fakeinstall/usr/lib/dri/ingenic-drm_dri.so
   _install fakeinstall/usr/lib/dri/imx-drm_dri.so
   _install fakeinstall/usr/lib/dri/imx-lcdif_dri.so
@@ -441,12 +444,16 @@ package() {
   _install fakeinstall/usr/lib/dri/vkms_dri.so
   _install fakeinstall/usr/lib/dri/zynqmp-dpsub_dri.so
   _install fakeinstall/usr/lib/dri/zink_dri.so
-
-  # va-drivers
   _install fakeinstall/usr/lib/dri/nouveau_drv_video.so
   _install fakeinstall/usr/lib/dri/r600_drv_video.so
   _install fakeinstall/usr/lib/dri/radeonsi_drv_video.so
+  _install fakeinstall/usr/lib/dri/d3d12_drv_video.so
   _install fakeinstall/usr/lib/dri/virtio_gpu_drv_video.so
+
+  # dxil-devel
+  _install fakeinstall/usr/bin/spirv2dxil
+  _install fakeinstall/usr/lib/libspirv_to_dxil.a
+  _install fakeinstall/usr/lib/libspirv_to_dxil.so
 
   # vulkan-drivers
   install -Dpm0755 -t ${pkgdir}/usr/share/licenses/mesa/ LICENSE.dependencies
@@ -461,6 +468,8 @@ package() {
   _install fakeinstall/usr/share/vulkan/icd.d/radeon_icd.*.json
   _install fakeinstall/usr/lib/libvulkan_nouveau.so
   _install fakeinstall/usr/share/vulkan/icd.d/nouveau_icd.*.json
+  _install fakeinstall/usr/lib/libvulkan_dzn.so
+  _install fakeinstall/usr/share/vulkan/icd.d/dzn_icd.*.json
   _install fakeinstall/usr/lib/libvulkan_asahi.so
   _install fakeinstall/usr/share/vulkan/icd.d/asahi_icd.*.json
   _install fakeinstall/usr/lib/libvulkan_broadcom.so
