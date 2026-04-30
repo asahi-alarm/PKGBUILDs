@@ -3,14 +3,13 @@
 %endif
 
 Name:		virglrenderer
-Version:	1.2.0
-Release:	1.6%{?dist}
+Version:	1.3.0
+Release:	1%{?dist}
 
 Summary:	Virgl Rendering library.
 License:	MIT
 
 Source:         https://gitlab.freedesktop.org/virgl/virglrenderer/-/archive/%{version}/virglrenderer-%{version}.tar.bz2
-Patch0000:      0001-c11-threads-fix-build-on-c23.patch
 
 BuildRequires:  meson
 BuildRequires:  gcc
@@ -22,7 +21,6 @@ BuildRequires:	libdrm-devel
 BuildRequires:  libva-devel
 BuildRequires:  vulkan-loader-devel
 BuildRequires:  python3-pyyaml
-Provides:       virglrenderer(asahi)
 
 %description
 The virgil3d rendering library is a library used by
@@ -75,14 +73,8 @@ driver to test virgl rendering without GL.
 %{_bindir}/virgl_test_server
 
 %changelog
-* Sat Apr 25 2026 Janne Grunau <janne-fdr@jannau.net> - 1.2.0-1.6
-- Drop F44 Vendor override
-
-* Wed Feb 04 2026 Janne Grunau >janne-fdr@jannau.net> - 1.2.0-1.5
-- Fix rawhide build
-
-* Tue Feb 03 2026 Janne Grunau >janne-fdr@jannau.net> - 1.2.0-1.4
-- Override vendor on Fedora 44+ to allow transition to fedora package
+* Wed Feb 11 2026 Marc-André Lureau <marcandre.lureau@redhat.com> - 1.3.0-1
+- new version v1.3.0, fixes rhbz#2438458
 
 * Thu Jan 29 2026 Marc-André Lureau <marcandre.lureau@redhat.com> - 1.2.0-4
 - Backport build fix, fixes FTBFS rhbz#2435177
@@ -90,47 +82,26 @@ driver to test virgl rendering without GL.
 * Sat Jan 17 2026 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_44_Mass_Rebuild
 
-* Thu Sep 18 2025 Janne Grunau >janne-fdr@jannau.net> - 1.2.0-1.1
-- Use 1.1 as Release to sort below F43's 1.2.0-2 but exclude 1.2.0-1
-
 * Wed Sep 17 2025 Janne Grunau >janne-fdr@jannau.net> - 1.2.0-2
 - Enable asahi,msm DRM native context support on aarch64
 
 * Tue Sep 09 2025 Marc-André Lureau <marcandre.lureau@redhat.com> - 1.2.0-1
 - Update to v1.2.0, fixes rhbz#2393984
 
-* Wed Aug 06 2025 Janne Grunau <janne-fdr@jannau.net> - 1.1.1^git20250806.b997bc1-1
-- Bump to virglrenderer-1.1.1^git20250806.b997bc1
+* Fri Jul 25 2025 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_43_Mass_Rebuild
 
-* Wed Dec 04 2024 Asahi Lina <lina@asahilina.net> - 1.0.1^asahipost20241205.2-1
-- Bump to virglrenderer-asahi-20241205.2
+* Wed Apr 02 2025 Marc-André Lureau <marcandre.lureau@redhat.com> - 1.1.1-1
+- new version, fixes rhbz#2357013
 
-* Wed Dec 04 2024 Asahi Lina <lina@asahilina.net> - 1.0.1^asahipost20241205.1-1
-- Bump to virglrenderer-asahi-20241205.1
+* Sun Jan 19 2025 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_42_Mass_Rebuild
 
-* Wed Dec 04 2024 Asahi Lina <lina@asahilina.net> - 1.0.1^asahipost20241205-1
-- Bump to virglrenderer-asahi-20241205
+* Tue Sep 10 2024 Marc-André Lureau <marcandre.lureau@redhat.com> - 1.1.0-1
+- new version
 
-* Wed Dec 04 2024 Asahi Lina <lina@asahilina.net> - 1.0.1^asahipost20241204-1
-- Bump to virglrenderer-asahi-20241204
-
-* Thu Nov 28 2024 Asahi Lina <lina@asahilina.net> - 1.0.1^asahipost20241129-1
-- Bump to virglrenderer-asahi-20241129
-
-* Thu Nov 28 2024 Asahi Lina <lina@asahilina.net> - 1.0.1^asahipost20241128-2
-- Bump release to clean up COPR builds
-
-* Thu Nov 28 2024 Asahi Lina <lina@asahilina.net> - 1.0.1^asahipost20241128-1
-- Bump to virglrenderer-asahi-20241128
-
-* Wed Oct 09 2024 Janne Grunau <janne-fdr@jannau.net> - 1.0.1^asahipost20240925-2
-- Provide virglrenderer(asahi) so that steam can depend on it
-
-* Thu Sep 26 2024 Janne Grunau <j@jannau.net> - 1.0.1^asahipost20240925-1
-- Bump to virglrenderer-asahi-20240925
-
-* Sun Sep 01 2024 Davide Cavalca <dcavalca@fedoraproject.org> - 1.0.1^asahipost20240831-1
-- Update version and source for Asahi
+* Sun Sep 01 2024 Davide Cavalca <dcavalca@fedoraproject.org> - 1.0.1-5
+- Update spec to the latest guidelines
 
 * Tue Aug 06 2024 Sandro Bonazzola <sbonazzo@redhat.com> - 1.0.1-4
 - Drop xorg-x11-util-macros dependency as it's not needed anymore
@@ -259,3 +230,5 @@ driver to test virgl rendering without GL.
 
 * Wed Apr 01 2015 Dave Airlie <airlied@redhat.com> 0.0.1-0.20150401gita9ba2c442
 - initial virglrenderer spec
+
+
