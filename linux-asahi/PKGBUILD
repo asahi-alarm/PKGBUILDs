@@ -29,9 +29,9 @@ source=(
   config         # the main kernel config file
 )
 sha256sums=('bfeade7323c0bed9fb6d5f0927fa1d3f347eab1e3ecdb5d2508bc22b3ccce3d6'
-            '206762f30d63281afd1db239f4be3fd3bf3f328b95c899ed23197b649e096e97')
+            'eb0099bac1b46d837d38fb249bb8045b393a15f8d1ffd2f12902ff5b179692bb')
 b2sums=('2059fa40f6c66d832e8532432c6746b55569090a75088c435f1bc3b594c68fa8a24c674aedc50cdd4b15e6d794f27808efc5f152597239a10204baaebe96eb7c'
-        'a75c07738e5d61c7089996761dcd86159036e628da88d781ec1166f367e973d3d81f3869adbcd120bdeb17ef24e210ab979881e538ceeb8f70f7f596e2e0822e')
+        'f60369d7b798adaf0758923a1145c37e9dfbabd92cf29ee44cde817b4d6e3cdf5795db17f125967cdc11862ab6a1e3a4e79c72a186450f115fdc896ec822e507')
 export KBUILD_BUILD_HOST=archlinux
 export KBUILD_BUILD_USER=$pkgbase
 export KBUILD_BUILD_TIMESTAMP="$(date -Ru${SOURCE_DATE_EPOCH:+d @$SOURCE_DATE_EPOCH})"
