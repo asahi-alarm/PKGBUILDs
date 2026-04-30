@@ -5,8 +5,8 @@ highmem=1
 
 pkgname=(mesa mesa-fex-emu-overlay-x86_64 mesa-fex-emu-overlay-i386 mesa-dummy)
 pkgdesc="An open-source implementation of the OpenGL specification"
-pkgver=25.3.6
-pkgrel=5
+pkgver=26.0.6
+pkgrel=1
 arch=('x86_64' 'aarch64')
 makedepends=('python-mako' 'libxml2' 'libx11' 'xorgproto' 'libdrm' 'libxshmfence' 'libxxf86vm'
   'libxdamage' 'libva' 'wayland' 'wayland-protocols' 'zstd' 'elfutils' 'llvm' 'spirv-llvm-translator'
@@ -27,18 +27,18 @@ options=('!debug' '!lto')
 source=(
   https://archive.mesa3d.org/mesa-$pkgver.tar.xz
   Mesa-MLAA-License-Clarification-Email.txt
-  zink-fixes.patch
+  39951.patch
 )
-sha512sums=('73620003e1e67c6b5ad076afb19e0b250214cfb6ed830166fb70058173ec3b19a2a8f5b5a78d8cce7a70745f5e4fa439913d15d8b38ca0002455b238f5865d38'
+sha512sums=('7f298234cb7b353ac40dc4d116866115160d1a52de6da8d4f1343af7ed47ca11e1a07b70aad8d24221906e0b520a4c140c12ffa7e7e706e3f25f301842a37e68'
             'ecdabad21a86f04d51ba709a90fbeccb3004c6e8af3546edc530dcb4727787ed5d6a63043b6ab50b4c0a46de0894b6f3c594101b4d25f7831dee9f33fd2a7e31'
-            '9bd3ae23524994adfd58627afb67a05ecdf65d8fa809cf5ae1a1445be8d6c217393f95a7049f5af7e27572474291197662fd6bfde94fcfa33df7b8d95379ff1d')
+            'c97ce5dc24d61e8f5248237e92f22a128fad3dfcf52cce0fbf6c3ea8f788a5ab0ced247b82a0616ed58e378f976859daf5fb6815b1413e86004a53383804342a')
 
 prepare() {
   cd mesa-$pkgver
 
   chmod -Rf a+rX,u+w,g-w,o-w .
 
-  cat ../zink-fixes.patch | patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
+  cat ../39951.patch | patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
 }
 
 meson_build() {
