@@ -20,11 +20,11 @@ FEX-Emu                        2604-1                         2604-1
 fex-emu-rootfs-arch            44^20260410.n.0-1              20260318-1                    
 libkrun                        1.17.4-1                       1.17.4-1                      
 libkrunfw                      5.3.0-1                        5.3.0-1                       
-linux-asahi                    6.19.13-400.asahi              6.19.12.asahi1-1              
-linux-asahi-headers            6.19.13-400.asahi              6.19.12.asahi1-1              
+linux-asahi                    6.19.13-400.asahi              6.19.14.asahi1-1              
+linux-asahi-headers            6.19.13-400.asahi              6.19.14.asahi1-1              
 lzfse                          /                              1.0-1                         
 m1n1                           1.5.2-1                        1.5.2-1                       
-mesa                           25.3.6-0.3                     25.3.6-4                      
+mesa                           26.0.5-3                       25.3.6-4                      
 muvm                           0.5.1-1                        0.5.1-1                       
 speakersafetyd                 1.0.2-7                        1.0.2-1                       
 startup-disk                   0.1.6-1                        0.1.7-1                       
@@ -32,5 +32,5 @@ steam                          0-14                           20241231-4
 tiny-dfr                       0.3.7-3                        0.3.7-1                       
 triforce-lv2                   /                              0.3.2-1                       
 uboot-asahi                    1:2025.10-101                  2025.10.asahi2-1              
-virglrenderer                  1.2.0-1.6                      1:1.2.0-3                     
+virglrenderer                  1.3.0-1                        1:1.2.0-3                     
 widevine                       /                              4.10.2891.0-1                 
