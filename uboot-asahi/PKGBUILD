@@ -2,8 +2,8 @@
 # Maintainer: Matthias Kurz <m.kurz@irregular.at>
 
 pkgname=uboot-asahi
-_ver=2025.10
-_asahirel=2
+_ver=2026.04
+_asahirel=1
 
 pkgver=${_ver}.asahi${_asahirel}
 pkgrel=1
@@ -24,16 +24,21 @@ source=(
   'uefi-initial-find_fdt_location-for-finding-the-DT-on-disk.patch'
   'uefi-enable-SetVariableRT-with-volotile-storage.patch'
   'uefi-enable-https-boot-by-default.patch'
+  'efi_loader-disk-Add-EFI_PARTITION_INFO_PROTOCOL-support-for-MBR.patch'
   'USB-PD-TCPM-improvements.patch'
   'rockchip-Enable-preboot-start-for-pci-usb.patch'
-  'Initial-MNT-Reform2-support.patch'
+  'rockchip-rk3568-nanopi-r5-Drop-duplicated-extra-sdhc.patch'
+  'rockchip-rk356x-Stop-overriding-sdhci-mmc-aliases.patch'
   'p3450-fix-board.patch'
   'JetsonTX2-Fix-upstream-device-tree-naming.patch'
   'Allwinner-fix-booting-on-a-number-of-devices.patch'
-  'Improve-RaspBerry-Pi-5-support-part1-Fixes.patch'
+  'ARM-RPi5-Enable-PCIe.patch'
+  '0001-Add-bcm2712-compat.patch'
+  'ARM-RPi-PCIe-fixes.patch'
+  'raspberrypi-Add-quirk-for-RPi5-2Gb-rev-1.0.patch'
   'openssl-no-engine.patch'
 )
-sha256sums=('899895de62aeef3d6c7360133396089bdf85ac09490429b2b3f69a4dfdfcb415'
+sha256sums=('72b8e06d55361ecde3bb37b071c3e2a501be4f2b56f36a1d9680b4f352539830'
             '501fe48668729525520253228945dc728c9bf2d9f0a41744711ca51a060e9c7b'
             '9d1796f8c1492bb50c13f865b4bc6854f825218836e55ce36e348c4dd77caa74'
             '0f980cf61fab268a6aa2440408548d3874aee1de6eb6e3be291690b1d2eb6904'
@@ -42,15 +47,20 @@ sha256sums=('899895de62aeef3d6c7360133396089bdf85ac09490429b2b3f69a4dfdfcb415'
             'f4f37d4ee8840d035ee6ec6a215e740ef236f13213840ead7a6ce55d0651d6ef'
             'c77853d6c25b11b7ffca8d522e03bf8e1305b8637e27c5074ddeef3a22956bbf'
             '404e5111fba40d234f3172e9d024e8e2b2d5d98406aba592b59ebde43fd0f19f'
+            '9100a7f26289008862f3374c21ef8ea207a05582bca0fad3134802c9e0830e80'
             '3dd92f1f51fccfbb1ceae701db68a6ae42916ddc2d4645b3a61486b582721a54'
             'c5f1e19161fdd6e8893b6b1a989eab2d1ba2c345c602b447661d027f886d3d56'
-            '217b4a8bb045dc2b1319b5248f99afa16bd17f705e0ce3f003091bb218b326d8'
+            '064e51eabf34d04cfade37115d3fd76c4e8005973faf4dedf410f0b5bbd1ea18'
+            '4aa93c1c3ae7fe20e844505d521b921b9649dae03b74ad847ebd6318f02f71a2'
             '9cf3e7694efd82a0fe6725069b12971a4f32d05e4e9862089cbf1779a7d2df7c'
             '77aff72eb2319d3a80e0ccb63bdfb7d1c503c91fb515acc9525d029b25bb1fdc'
             '0bb2e47484d67935f1ef6107433f51747211a143f549b4ba60081a143026fb22'
-            '049940cba61d947fc8f6430a5dbf732a099eb6643f58ccecef0731502356286a'
+            '7ababe1d1e717dac86740ad1adbc0cadbbe6eeafa3d1c5604f74482630105990'
+            '1ab8dcd2ca4cf878b03540b13745ccfc6a7efc9eedae9c41a7ba8145d07be18a'
+            '9bd7391965a6c6998a43c32574a73ea61f3bbdea582e4e26f6a5499424d1aef5'
+            'dbc08bd374f299d92fc0e9022e37a1629055675bc874a904c1eefe5fb9699e2f'
             '3ede37fd744d60d934a7d5186f0bcd13d67ae9a48d973283356bbe7451d337e4')
-b2sums=('50f8233ced5927267a3b345e89927223ba811523830c61c05e8641693b79aa4dbe3bf5abde1cdf932b159141540d40be0aa01baeeba8e1843c85205a0a64c3bc'
+b2sums=('e131dbc7925ebaebfb7cfce0aea7af1d9ece98604ec83818a9dacfd48fe9c0ac8c5f36732b5c85a156edfa981cafb94154f86071a2233e692701383bd4459030'
         '8fcba2b6c098125fc6ddee33b634af35bc6a8ae93c4f9cf3698f3f4455f97e22c6d8630c60776710770128f73377d2a9364c70dab6705707c1f3223e7493ce14'
         '79709278b47f8e21e7376031c3dc472070c5b18b29b48eefc9d3a4d97b69104eae9325ed8fff8e7a509a89727c8335c90345807d72afacee069557e46ff5724c'
         '34bebf1fe1126ff03d31abaca5908036268c231a77beebbe683cca3f80a4add12faf0e0ed27975c5fa1ba2a9994395ad0ee8115e9ecb8d3686975602981bf136'
@@ -59,13 +69,18 @@ b2sums=('50f8233ced5927267a3b345e89927223ba811523830c61c05e8641693b79aa4dbe3bf5a
         '3446af0dc21f9b294794fbf747b8fa8693506d07a8556623bf28adee0b61e03666dd0c64ea142c4571f2ab81b1974a11134fe17dbc258ceab3612b5045649be7'
         '2a61869cdefd59715d8d860e4860d52a6e3fc33f2b8511c5d6f78c68f7dda00195b29bf9a213668a3eedf445958b923bc7051fc38c6965c3b7803266cae16bb2'
         '5c2609eca8cf3631407752f5bcf5dc077447cc0ea8e31a523a29cba1d1a51dfc1682248a4bf7be0667bd747784783c307092c635995cdfaf488337f9313b85ec'
+        '2b0454901139acf75640367b5b1196dea2881f00ccf0f659a3ca20b028fa8006a3c731605034e090111b7cd5dd784f11fdb7f08abcb84c18deee7fddab430313'
         '6cf5a8fe4631a60247df626e4fea6efadad4d2ccf62dd30330fa0a98546deee17a394d8b7fef8fa5446311f01c05a303f88818a4ffa6b49810c5ec06fae1aa46'
         'ffd266fac8409bd6528cbbb7803c689a98427015d673558cdafb4abf557497f43e86de26672d2fe0c9aae60a9955cd41d92fcbc31820f434555e35b90fc4af42'
-        '373e94e5eb8ad557ee29e0d79b3825c72a102209cd7ca654f1f4fab562737debb9678ba8c3846d15765ca4a41264ad55e9c9545272c7ff002cc69a3595b5104f'
+        '3905954cb92f54a9b1f479515a1f8b949b2692eeabad1955ec2c013bf920e2c79a2008408fc569f246c1184443baea4c96a63226cd32afd1149b681adb5b07d4'
+        'ab734d11f811c467bad6e417700c67188dd82593e636172ac75f36aded39eea095b7a432ab7b4d377d4bb5e824a99592fb99017b7437b6f9bfeeb1cf962f35a6'
         '828275a8cdda2df5ef0698f12871cb24bcd758373d43907120495eb094fc1ddf6e25414384a52c56f2c5629a2b1702571fd368c02f1ae67ae25a2d59c0a850f3'
         '08bd592cc066e2dc9216228384a6c1d650860479ae3fa8fbe4ac0b6cf8596a25e5c11bbb52a19e3c35a4de279b4746e30e376ba4273f0121c2889d7ebc6a938d'
         'b018ec8f631f9ec15bb054f85b526fb4b4bb04b954ef9a038a6c9fd1230bbbb5af8d82b04d30c220820cb5f35c77ad1e3763835244da93486f3261fe12d1f06a'
-        '75b6b4aca2e4ee036b3dce5b1eba718e5f4d8aae64625a67990190e237bb22c6c4937eccafacff2b23763eedfbb631fdfbd31ddd4480cd315678140281185864'
+        '2256c1078251d9c31d97bff6a20383a5d82ac5c6095de9d602173b365208df8f4495ef9bc85e1627e5f14cfa05fdfbcaf8a19d9b53723f5253a504d0d12e0ae2'
+        '0de6d5102c8363e8268b3ab2e1257d5847c1e8a293b236d84d30d80a6476c19b9abb996c292900806c3dd3dcd8286a568ca61e00d8faa4858b32556cde164cbb'
+        '54c0cec5a90112da91f21d06c68ee5a4d5eb0b54233b11e040a13625b975f43fd65ec6a324f524c3c58b7567e22c369ff7f6279723828dddf988f49f2d64f421'
+        'd63591d50862f07faf35e0adb52d73c669b4c29d046585878dcd4142faa049dd84088a9f21d34159f7103971b2b443d33f8a28ed77f4265f0e9d976bd66334f8'
         '81a2b3b089267d636cc60f23a0f4f82ba36ecb5e210c84c7cbdf2af1b764e0c40ba3b22fec26bc7c8eab052cfa30893aac4b3c76b9a56d763841b8f7821820de')
 
 prepare() {
@@ -79,13 +94,18 @@ prepare() {
   cat ../uefi-initial-find_fdt_location-for-finding-the-DT-on-disk.patch | patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
   cat ../uefi-enable-SetVariableRT-with-volotile-storage.patch | patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
   cat ../uefi-enable-https-boot-by-default.patch | patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
+  cat ../efi_loader-disk-Add-EFI_PARTITION_INFO_PROTOCOL-support-for-MBR.patch | patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
   cat ../USB-PD-TCPM-improvements.patch | patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
   cat ../rockchip-Enable-preboot-start-for-pci-usb.patch | patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
-  cat ../Initial-MNT-Reform2-support.patch | patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
+  cat ../rockchip-rk3568-nanopi-r5-Drop-duplicated-extra-sdhc.patch | patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
+  cat ../rockchip-rk356x-Stop-overriding-sdhci-mmc-aliases.patch | patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
   cat ../p3450-fix-board.patch | patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
   cat ../JetsonTX2-Fix-upstream-device-tree-naming.patch | patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
   cat ../Allwinner-fix-booting-on-a-number-of-devices.patch | patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
-  cat ../Improve-RaspBerry-Pi-5-support-part1-Fixes.patch | patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
+  cat ../ARM-RPi5-Enable-PCIe.patch | patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
+  cat ../0001-Add-bcm2712-compat.patch | patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
+  cat ../ARM-RPi-PCIe-fixes.patch | patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
+  cat ../raspberrypi-Add-quirk-for-RPi5-2Gb-rev-1.0.patch | patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
   cat ../openssl-no-engine.patch | patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
 
   make apple_m1_defconfig
