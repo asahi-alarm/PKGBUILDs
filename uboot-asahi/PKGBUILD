@@ -109,6 +109,10 @@ prepare() {
   cat ../openssl-no-engine.patch | patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
 
   make apple_m1_defconfig
+  scripts/config --file .config \
+    -e OF_UPSTREAM_BUILD_VENDOR \
+    --set-str OF_UPSTREAM_VENDOR apple
+  make olddefconfig
 }
 
 build() {
@@ -120,7 +124,24 @@ package() {
   cd "${srcdir}"
 
   tgtdir="$pkgdir/usr/lib/asahi-boot"
+  dtbdir="$_srcname/dts/upstream/src/arm64/apple"
 
   install -Dt "$tgtdir" -m644 "$_srcname/u-boot-nodtb.bin"
-  install -Dt "$tgtdir/dtb" -m644 "$_srcname/arch/arm/dts/"t[86]*.dtb
+  install -d "$tgtdir/dtb"
+
+  # Exclude known non-Apple-Silicon DT families:
+  # t7000: A8-based iPhone 6 / 6 Plus
+  # t7001: A8X-based iPad Air 2
+  # t8010: A10-based iPhone 7 / 7 Plus, iPad 6 / 7, iPod touch 7
+  # t8011: A10X-based Apple TV 4K (1st gen), iPad Pro 10.5 / 12.9 (2nd gen)
+  # t8012: T2-based Intel Macs
+  # t8015: A11-based iPhone 8 / 8 Plus / X
+  find "$dtbdir" -maxdepth 1 -type f -name 't*.dtb' \
+    ! -name 't7000-*.dtb' \
+    ! -name 't7001-*.dtb' \
+    ! -name 't8010-*.dtb' \
+    ! -name 't8011-*.dtb' \
+    ! -name 't8012-*.dtb' \
+    ! -name 't8015-*.dtb' \
+    -exec install -m644 -t "$tgtdir/dtb" {} +
 }
