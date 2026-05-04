@@ -1,0 +1,36 @@
+From 9404f356e394604d1d3d6dbffc52abd54260e4d4 Mon Sep 17 00:00:00 2001
+From: Lubomir Rintel <lkundrak@v3.sk>
+Date: Tue, 27 Oct 2015 08:56:35 +0100
+Subject: [PATCH] wpa_supplicant: allow overriding the names of the Qt4 tools
+
+This is useful for distributions that ship different versions of Qt in
+different locations.
+---
+ wpa_supplicant/Makefile | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+--- a/wpa_supplicant/Makefile
++++ b/wpa_supplicant/Makefile
+@@ -35,6 +35,9 @@ export INCDIR ?= /usr/local/include
+ export BINDIR ?= /usr/local/sbin
+ PKG_CONFIG ?= pkg-config
+ 
++QMAKE ?= qmake
++LRELEASE ?= lrelease
++
+ CFLAGS += $(EXTRA_CFLAGS)
+ CFLAGS += -I$(abspath ../src)
+ CFLAGS += -I$(abspath ../src/utils)
+@@ -2039,10 +2042,10 @@ wpa_gui:
+ 	@echo "wpa_gui has been removed - see wpa_gui-qt4 for replacement"
+ 
+ wpa_gui-qt4/Makefile:
+-	qmake -o wpa_gui-qt4/Makefile wpa_gui-qt4/wpa_gui.pro
++	$(QMAKE) -o wpa_gui-qt4/Makefile wpa_gui-qt4/wpa_gui.pro
+ 
+ wpa_gui-qt4/lang/wpa_gui_de.qm: wpa_gui-qt4/lang/wpa_gui_de.ts
+-	lrelease wpa_gui-qt4/wpa_gui.pro
++	$(LRELEASE) wpa_gui-qt4/wpa_gui.pro
+ 
+ wpa_gui-qt4: wpa_gui-qt4/Makefile wpa_gui-qt4/lang/wpa_gui_de.qm
+ 	$(MAKE) -C wpa_gui-qt4

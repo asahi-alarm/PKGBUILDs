@@ -64,6 +64,7 @@ declare -A PACKAGES=(
     ["virglrenderer"]="fsrc+rpms/virglrenderer,virglrenderer.spec|aarch64"
     #["widevine"]=""
     ["fex-emu-rootfs-arch"]="fsrc+rpms/fex-emu-rootfs-fedora,fex-emu-rootfs-fedora.spec|aarch64"
+    ["wpa_supplicant"]="fsrc+rpms/wpa_supplicant,wpa_supplicant.spec|aarch64"
 )
 
 echo "Working... Be patient, I also have to download stuff..."

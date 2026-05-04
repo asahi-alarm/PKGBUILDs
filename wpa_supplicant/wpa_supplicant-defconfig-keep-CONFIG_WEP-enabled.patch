@@ -1,0 +1,31 @@
+From bcf14fa3f3075bb212a77b3e874438588314fa98 Mon Sep 17 00:00:00 2001
+From: Lubomir Rintel <lkundrak@v3.sk>
+Date: Sun, 13 Mar 2022 18:31:56 +0100
+Subject: [PATCH 2/5] defconfig: keep CONFIG_WEP enabled
+
+We intentionally deviate from upstream here. If we disabled WEP at this
+point, we'd likely break a lot of user installations.
+
+We'd likely end up eventually phasing WEP out, but before that we need
+to adjust the rest of userspace to communicate that we're doing that and
+why we're doing that.
+---
+ wpa_supplicant/defconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/wpa_supplicant/defconfig b/wpa_supplicant/defconfig
+index 85a50e9..07d9752 100644
+--- a/wpa_supplicant/defconfig
++++ b/wpa_supplicant/defconfig
+@@ -618,7 +618,7 @@ CONFIG_DPP2=y
+ # functionality needed to use WEP is available in the current wpa_supplicant
+ # release under this optional build parameter. This functionality is subject to
+ # be completely removed in a future release.
+-#CONFIG_WEP=y
++CONFIG_WEP=y
+ 
+ # Remove all TKIP functionality
+ # TKIP is an old cryptographic data confidentiality algorithm that is not
+-- 
+2.35.1
+

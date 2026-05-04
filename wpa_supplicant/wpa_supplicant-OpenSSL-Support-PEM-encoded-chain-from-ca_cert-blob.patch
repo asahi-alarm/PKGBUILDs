@@ -1,0 +1,160 @@
+From b8819826d55c20f90d58e3e99b3eb3c7aac8fccb Mon Sep 17 00:00:00 2001
+From: Beniamino Galvani <bgalvani@redhat.com>
+Date: Fri, 19 Dec 2025 12:09:05 +0100
+Subject: [PATCH] OpenSSL: Support PEM encoded chain from ca_cert blob
+
+Support configuring a chain of certificates through a ca_cert blob.
+
+Since the code to to add the certificate to the store is used in
+multiple places in tls_connection_ca_cert(), extract it to a separate
+function.
+
+Signed-off-by: Beniamino Galvani <bgalvani@redhat.com>
+(cherry picked from commit 9bb25b01fe843924113883a93236d43bb77d4cb1)
+---
+ src/crypto/tls_openssl.c | 113 +++++++++++++++++++++++++++------------
+ 1 file changed, 79 insertions(+), 34 deletions(-)
+
+diff --git a/src/crypto/tls_openssl.c b/src/crypto/tls_openssl.c
+index 2ca81e401..a77d5e99b 100644
+--- a/src/crypto/tls_openssl.c
++++ b/src/crypto/tls_openssl.c
+@@ -2943,6 +2943,31 @@ static int tls_load_ca_der(struct tls_data *data, const char *ca_cert)
+ #endif /* OPENSSL_NO_STDIO */
+ 
+ 
++static int tls_add_ca_cert(SSL_CTX *ssl_ctx, X509 *cert)
++{
++	unsigned long err;
++
++	if (X509_STORE_add_cert(SSL_CTX_get_cert_store(ssl_ctx), cert) == 1)
++		return 0;
++
++	err = ERR_peek_error();
++
++	if (ERR_GET_LIB(err) == ERR_LIB_X509 &&
++	    ERR_GET_REASON(err) == X509_R_CERT_ALREADY_IN_HASH_TABLE) {
++		ERR_get_error();
++		wpa_printf(MSG_DEBUG,
++			   "OpenSSL: %s - ignoring cert already in hash table error",
++			   __func__);
++		return 0;
++	}
++
++	tls_show_errors(MSG_WARNING, __func__,
++			"Failed to add ca_cert_blob to certificate store");
++
++	return -1;
++}
++
++
+ static int tls_connection_ca_cert(struct tls_data *data,
+ 				  struct tls_connection *conn,
+ 				  const char *ca_cert, const u8 *ca_cert_blob,
+@@ -3005,49 +3030,69 @@ static int tls_connection_ca_cert(struct tls_data *data,
+ 	}
+ 
+ 	if (ca_cert_blob) {
+-		X509 *cert = d2i_X509(NULL,
+-				      (const unsigned char **) &ca_cert_blob,
+-				      ca_cert_blob_len);
+-		if (cert == NULL) {
+-			BIO *bio = BIO_new_mem_buf(ca_cert_blob,
+-						   ca_cert_blob_len);
+-
+-			if (bio) {
+-				cert = PEM_read_bio_X509(bio, NULL, NULL, NULL);
+-				BIO_free(bio);
+-			}
++		unsigned long err;
++		X509 *cert;
++		int count;
++		BIO *bio;
+ 
+-			if (!cert) {
+-				tls_show_errors(MSG_WARNING, __func__,
+-						"Failed to parse ca_cert_blob");
++		cert = d2i_X509(NULL,
++				(const unsigned char **) &ca_cert_blob,
++				ca_cert_blob_len);
++		if (cert) {
++			if (tls_add_ca_cert(ssl_ctx, cert) < 0) {
++				X509_free(cert);
+ 				return -1;
+ 			}
+ 
+-			while (ERR_get_error()) {
+-				/* Ignore errors from DER conversion. */
+-			}
++			wpa_printf(MSG_DEBUG,
++				   "OpenSSL: %s - added ca_cert_blob to certificate store",
++				   __func__);
++			X509_free(cert);
++			return 0;
+ 		}
+ 
+-		if (!X509_STORE_add_cert(SSL_CTX_get_cert_store(ssl_ctx),
+-					 cert)) {
+-			unsigned long err = ERR_peek_error();
+-			tls_show_errors(MSG_WARNING, __func__,
+-					"Failed to add ca_cert_blob to "
+-					"certificate store");
+-			if (ERR_GET_LIB(err) == ERR_LIB_X509 &&
+-			    ERR_GET_REASON(err) ==
+-			    X509_R_CERT_ALREADY_IN_HASH_TABLE) {
+-				wpa_printf(MSG_DEBUG, "OpenSSL: %s - ignoring "
+-					   "cert already in hash table error",
+-					   __func__);
+-			} else {
++		count = 0;
++		bio = BIO_new_mem_buf(ca_cert_blob, ca_cert_blob_len);
++		if (bio) {
++			while ((cert = PEM_read_bio_X509(bio, NULL, NULL,
++							 NULL))) {
++				if (count == 0) {
++					/* Ignore errors from DER conversion
++					 * if we detect a certificate in PEM
++					 * format. */
++					ERR_clear_error();
++				}
++				count++;
++				if (tls_add_ca_cert(ssl_ctx, cert) < 0) {
++					X509_free(cert);
++					BIO_free(bio);
++					return -1;
++				}
+ 				X509_free(cert);
+-				return -1;
+ 			}
++			BIO_free(bio);
+ 		}
+-		X509_free(cert);
+-		wpa_printf(MSG_DEBUG, "OpenSSL: %s - added ca_cert_blob "
+-			   "to certificate store", __func__);
++
++		if (count == 0) {
++			tls_show_errors(MSG_WARNING, __func__,
++					"Failed to parse ca_cert_blob");
++			return -1;
++		}
++
++		/* When the loop ends successfully, it's because of EOF */
++		err = ERR_peek_last_error();
++		if (ERR_GET_LIB(err) != ERR_LIB_PEM ||
++		    ERR_GET_REASON(err) != PEM_R_NO_START_LINE) {
++			tls_show_errors(MSG_WARNING, __func__,
++					"Failed to parse ca_cert_blob bundle");
++			return -1;
++		}
++
++		ERR_clear_error();
++
++		wpa_printf(MSG_DEBUG,
++			   "OpenSSL: %s - added %d ca_cert_blob certificates to certificate store",
++			   __func__, count);
+ 		return 0;
+ 	}
+ 
+-- 
+2.52.0
+

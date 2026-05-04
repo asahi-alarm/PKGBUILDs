@@ -1,0 +1,29 @@
+From 6da60b83423a882c376374d83d01cca3591a6000 Mon Sep 17 00:00:00 2001
+From: Lubomir Rintel <lkundrak@v3.sk>
+Date: Sun, 13 Mar 2022 18:31:11 +0100
+Subject: [PATCH 4/5] defconfig: enable OCV support
+
+This was enabled in rpms/wpa_supplicant.git in commit b0ac7025d794
+('defconfig: enable OCV support'), without further explanation.
+
+FIXME: It needs to be either upstreamed or dropped.
+---
+ wpa_supplicant/defconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/wpa_supplicant/defconfig b/wpa_supplicant/defconfig
+index 3f73282..efdfa81 100644
+--- a/wpa_supplicant/defconfig
++++ b/wpa_supplicant/defconfig
+@@ -311,7 +311,7 @@ CONFIG_BACKEND=file
+ #CONFIG_NO_LINUX_PACKET_SOCKET_WAR=y
+ 
+ # Support Operating Channel Validation
+-#CONFIG_OCV=y
++CONFIG_OCV=y
+ 
+ # Select TLS implementation
+ # openssl = OpenSSL (default)
+-- 
+2.35.1
+

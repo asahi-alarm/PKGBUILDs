@@ -1,0 +1,62 @@
+From 060c09b4704ac84502df5321ec4073c062923128 Mon Sep 17 00:00:00 2001
+From: Lubomir Rintel <lkundrak@v3.sk>
+Date: Sun, 13 Mar 2022 18:33:15 +0100
+Subject: [PATCH 1/5] defconfig: keep options we've traditionally used enabled
+
+These are deviations from the upstream defconfig we've inherited when we
+switched to basing our configuration on upstream defconfig.
+---
+ wpa_supplicant/defconfig | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
+
+diff --git a/wpa_supplicant/defconfig b/wpa_supplicant/defconfig
+index a4719db..85a50e9 100644
+--- a/wpa_supplicant/defconfig
++++ b/wpa_supplicant/defconfig
+@@ -146,7 +146,7 @@ CONFIG_EAP_PAX=y
+ CONFIG_EAP_LEAP=y
+ 
+ # EAP-AKA (enable CONFIG_PCSC, if EAP-AKA is used)
+-#CONFIG_EAP_AKA=y
++CONFIG_EAP_AKA=y
+ 
+ # EAP-AKA' (enable CONFIG_PCSC, if EAP-AKA' is used).
+ # This requires CONFIG_EAP_AKA to be enabled, too.
+@@ -338,6 +338,7 @@ CONFIG_BACKEND=file
+ # Select which ciphers to use by default with OpenSSL if the user does not
+ # specify them.
+ #CONFIG_TLS_DEFAULT_CIPHERS="DEFAULT:!EXP:!LOW"
++CONFIG_TLS_DEFAULT_CIPHERS="PROFILE=SYSTEM:3DES"
+ 
+ # If CONFIG_TLS=internal is used, additional library and include paths are
+ # needed for LibTomMath. Alternatively, an integrated, minimal version of
+@@ -469,7 +470,7 @@ CONFIG_DEBUG_SYSLOG=y
+ # Should we attempt to use the getrandom(2) call that provides more reliable
+ # yet secure randomness source than /dev/random on Linux 3.17 and newer.
+ # Requires glibc 2.25 to build, falls back to /dev/random if unavailable.
+-#CONFIG_GETRANDOM=y
++CONFIG_GETRANDOM=y
+ 
+ # IEEE 802.11ac (Very High Throughput) support (mainly for AP mode)
+ CONFIG_IEEE80211AC=y
+@@ -587,7 +588,7 @@ CONFIG_IBSS_RSN=y
+ #CONFIG_PMKSA_CACHE_EXTERNAL=y
+ 
+ # Mesh Networking (IEEE 802.11s)
+-#CONFIG_MESH=y
++CONFIG_MESH=y
+ 
+ # Background scanning modules
+ # These can be used to request wpa_supplicant to perform background scanning
+@@ -601,7 +602,7 @@ CONFIG_BGSCAN_SIMPLE=y
+ 
+ # Opportunistic Wireless Encryption (OWE)
+ # Experimental implementation of draft-harkins-owe-07.txt
+-#CONFIG_OWE=y
++CONFIG_OWE=y
+ 
+ # Device Provisioning Protocol (DPP) (also known as Wi-Fi Easy Connect)
+ CONFIG_DPP=y
+-- 
+2.35.1
+

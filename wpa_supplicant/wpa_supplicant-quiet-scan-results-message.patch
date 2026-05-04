@@ -1,0 +1,30 @@
+From 763a4ef660e2bd81f6cdc71a2f29a0a3e71b2ebc Mon Sep 17 00:00:00 2001
+From: Dan Williams <dcbw@redhat.com>
+Date: Tue, 22 Nov 2016 15:48:17 +0100
+Subject: [PATCH 1/2] quiet an annoying and frequent syslog message
+
+---
+ wpa_supplicant/events.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/wpa_supplicant/events.c b/wpa_supplicant/events.c
+index abe3b47..72a0412 100644
+--- a/wpa_supplicant/events.c
++++ b/wpa_supplicant/events.c
+@@ -1555,11 +1555,11 @@ static int _wpa_supplicant_event_scan_results(struct wpa_supplicant *wpa_s,
+ 	if (wpa_s->last_scan_req == MANUAL_SCAN_REQ &&
+ 	    wpa_s->manual_scan_use_id && wpa_s->own_scan_running &&
+ 	    own_request && !(data && data->scan_info.external_scan)) {
+-		wpa_msg_ctrl(wpa_s, MSG_INFO, WPA_EVENT_SCAN_RESULTS "id=%u",
++		wpa_msg_ctrl(wpa_s, MSG_DEBUG, WPA_EVENT_SCAN_RESULTS "id=%u",
+ 			     wpa_s->manual_scan_id);
+ 		wpa_s->manual_scan_use_id = 0;
+ 	} else {
+-		wpa_msg_ctrl(wpa_s, MSG_INFO, WPA_EVENT_SCAN_RESULTS);
++		wpa_msg_ctrl(wpa_s, MSG_DEBUG, WPA_EVENT_SCAN_RESULTS);
+ 	}
+ 	wpas_notify_scan_results(wpa_s);
+ 
+-- 
+2.9.3
+
