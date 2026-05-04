@@ -13,7 +13,7 @@ _srcname=u-boot-${_commit_id}
 arch=('aarch64')
 url='http://asahilinux.org'
 license=('MIT' 'GPL2')
-makedepends=( bc imagemagick )
+makedepends=( base-devel bc imagemagick )
 source=(
   "u-boot-${_commit_id}.tar.gz::https://github.com/AsahiLinux/u-boot/archive/${_commit_id}.tar.gz"
   'disable-VBE-by-default.patch'
