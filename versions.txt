@@ -27,7 +27,7 @@ m1n1                           1.5.2-1                        1.5.2-1
 mesa                           26.0.5-3                       26.0.6-1                      
 muvm                           0.5.1-1                        0.5.1-1                       
 speakersafetyd                 1.0.2-7                        1.0.2-1                       
-startup-disk                   0.1.6-1                        0.1.7-1                       
+startup-disk                   0.1.7-1                        0.1.7-1                       
 steam                          0-14                           20241231-4                    
 tiny-dfr                       0.3.7-3                        0.3.7-1                       
 triforce-lv2                   /                              0.3.2-1                       
