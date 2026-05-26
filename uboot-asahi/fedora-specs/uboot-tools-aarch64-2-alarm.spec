@@ -1,7 +1,7 @@
 
   Name:     uboot-tools
   Version:  2026.04
-  Release:  101
+  Release:  102
   Epoch:    1
   Summary:  U-Boot utilities
 
@@ -112,6 +112,20 @@
   Patch131: https://github.com/AsahiLinux/u-boot/commit/ab751ea6edc26fa86cbe6d4ed7eb9f240a9ebeec.patch#/asahi-ab751ea6edc26fa86cbe6d4ed7eb9f240a9ebeec.patch
 
   Patch132: https://github.com/AsahiLinux/u-boot/commit/595eafa2bdcd249f80fd52041388ba69ab010777.patch#/asahi-595eafa2bdcd249f80fd52041388ba69ab010777.patch
+
+  Patch133: https://github.com/AsahiLinux/u-boot/commit/3fa16d88dce40faf60b55863bb6dc51fbd670362.patch#/asahi-3fa16d88dce40faf60b55863bb6dc51fbd670362.patch
+
+  Patch134: https://github.com/AsahiLinux/u-boot/commit/10c5e0e5f01bf7360ecb8dc06e02daba4c6b60e4.patch#/asahi-10c5e0e5f01bf7360ecb8dc06e02daba4c6b60e4.patch
+
+  Patch135: https://github.com/AsahiLinux/u-boot/commit/d7263c63a95ecd3cba539f8b92fb0058db0bb303.patch#/asahi-d7263c63a95ecd3cba539f8b92fb0058db0bb303.patch
+
+  Patch136: https://github.com/AsahiLinux/u-boot/commit/01c2642c3a86e343915042eeaf2f47bda62781d4.patch#/asahi-01c2642c3a86e343915042eeaf2f47bda62781d4.patch
+
+  Patch137: https://github.com/AsahiLinux/u-boot/commit/cf58ab5d145c9ab586a4c018b17221cc09555343.patch#/asahi-cf58ab5d145c9ab586a4c018b17221cc09555343.patch
+
+  Patch138: https://github.com/AsahiLinux/u-boot/commit/79cc635b73dbae8535558ebaf74d8bf841c35765.patch#/asahi-79cc635b73dbae8535558ebaf74d8bf841c35765.patch
+
+  Patch139: https://github.com/AsahiLinux/u-boot/commit/3b233f59d0b6b57eae5add46a6fa7787ea11388e.patch#/asahi-3b233f59d0b6b57eae5add46a6fa7787ea11388e.patch
 
   BuildRequires:  bc
   BuildRequires:  bison
@@ -289,6 +303,20 @@ prepare() {
   echo 'Cannot read asahi-ab751ea6edc26fa86cbe6d4ed7eb9f240a9ebeec.patch'; exit 1;
 
   echo 'Cannot read asahi-595eafa2bdcd249f80fd52041388ba69ab010777.patch'; exit 1;
+
+  echo 'Cannot read asahi-3fa16d88dce40faf60b55863bb6dc51fbd670362.patch'; exit 1;
+
+  echo 'Cannot read asahi-10c5e0e5f01bf7360ecb8dc06e02daba4c6b60e4.patch'; exit 1;
+
+  echo 'Cannot read asahi-d7263c63a95ecd3cba539f8b92fb0058db0bb303.patch'; exit 1;
+
+  echo 'Cannot read asahi-01c2642c3a86e343915042eeaf2f47bda62781d4.patch'; exit 1;
+
+  echo 'Cannot read asahi-cf58ab5d145c9ab586a4c018b17221cc09555343.patch'; exit 1;
+
+  echo 'Cannot read asahi-79cc635b73dbae8535558ebaf74d8bf841c35765.patch'; exit 1;
+
+  echo 'Cannot read asahi-3b233f59d0b6b57eae5add46a6fa7787ea11388e.patch'; exit 1;
 
 }
 

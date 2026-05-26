@@ -6,7 +6,7 @@
 
 Name:     uboot-tools
 Version:  2026.04
-Release:  101%{?candidate:.%{candidate}}%{?dist}
+Release:  102%{?candidate:.%{candidate}}%{?dist}
 Epoch:    1
 Summary:  U-Boot utilities
 # Automatically converted from old format: GPLv2+ BSD LGPL-2.1+ LGPL-2.0+ - review is highly recommended.
@@ -123,6 +123,20 @@ Patch130: https://github.com/AsahiLinux/u-boot/commit/3aea66db69f0aca940e24aac17
 Patch131: https://github.com/AsahiLinux/u-boot/commit/ab751ea6edc26fa86cbe6d4ed7eb9f240a9ebeec.patch#/asahi-ab751ea6edc26fa86cbe6d4ed7eb9f240a9ebeec.patch
 # arm: apple: Add Apple M3 (t8122) support
 Patch132: https://github.com/AsahiLinux/u-boot/commit/595eafa2bdcd249f80fd52041388ba69ab010777.patch#/asahi-595eafa2bdcd249f80fd52041388ba69ab010777.patch
+# fixup! arm: dts: Switch Apple silicon devices to dts/upstream
+Patch133: https://github.com/AsahiLinux/u-boot/commit/3fa16d88dce40faf60b55863bb6dc51fbd670362.patch#/asahi-3fa16d88dce40faf60b55863bb6dc51fbd670362.patch
+# scripts/dtc: Add support for floating-point literals
+Patch134: https://github.com/AsahiLinux/u-boot/commit/10c5e0e5f01bf7360ecb8dc06e02daba4c6b60e4.patch#/asahi-10c5e0e5f01bf7360ecb8dc06e02daba4c6b60e4.patch
+# Revert "arm: apple: Add Apple M3 (t8122) support"
+Patch135: https://github.com/AsahiLinux/u-boot/commit/d7263c63a95ecd3cba539f8b92fb0058db0bb303.patch#/asahi-d7263c63a95ecd3cba539f8b92fb0058db0bb303.patch
+# arm: apple: Add Apple M3 (t8122) support
+Patch136: https://github.com/AsahiLinux/u-boot/commit/01c2642c3a86e343915042eeaf2f47bda62781d4.patch#/asahi-01c2642c3a86e343915042eeaf2f47bda62781d4.patch
+# arm: apple: Add Apple M3 Pro and Max (t603[014]) support
+Patch137: https://github.com/AsahiLinux/u-boot/commit/cf58ab5d145c9ab586a4c018b17221cc09555343.patch#/asahi-cf58ab5d145c9ab586a4c018b17221cc09555343.patch
+# arm: apple: Add Apple M3 Ultra (t6032) support
+Patch138: https://github.com/AsahiLinux/u-boot/commit/79cc635b73dbae8535558ebaf74d8bf841c35765.patch#/asahi-79cc635b73dbae8535558ebaf74d8bf841c35765.patch
+# power: domain: apple: Ignore power states with auto enable flag
+Patch139: https://github.com/AsahiLinux/u-boot/commit/3b233f59d0b6b57eae5add46a6fa7787ea11388e.patch#/asahi-3b233f59d0b6b57eae5add46a6fa7787ea11388e.patch
 
 BuildRequires:  bc
 BuildRequires:  bison
@@ -387,6 +401,9 @@ install -p -m 0755 builds/tools/env/fw_printenv %{buildroot}%{_bindir}
 %endif
 
 %changelog
+* Sun May 24 2026 Janne Grunau <j@jannau.net> - 1:2026.04-102
+- Add patchers from asahi-v2026.04-2 for M3 Pro/Max/Ultra support
+
 * Fri May 01 2026 Janne Grunau <j@jannau.net> - 1:2026.04-101
 - Import asahi u-boot downstream patches for v2026.04
 
