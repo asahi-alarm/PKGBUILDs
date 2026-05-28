@@ -5,7 +5,7 @@ highmem=1
 
 pkgname=(mesa mesa-fex-emu-overlay-x86_64 mesa-fex-emu-overlay-i386 mesa-dummy)
 pkgdesc="An open-source implementation of the OpenGL specification"
-pkgver=26.0.6
+pkgver=26.0.8
 pkgrel=1
 arch=('x86_64' 'aarch64')
 makedepends=('python-mako' 'libxml2' 'libx11' 'xorgproto' 'libdrm' 'libxshmfence' 'libxxf86vm'
@@ -29,7 +29,7 @@ source=(
   Mesa-MLAA-License-Clarification-Email.txt
   39951.patch
 )
-sha512sums=('7f298234cb7b353ac40dc4d116866115160d1a52de6da8d4f1343af7ed47ca11e1a07b70aad8d24221906e0b520a4c140c12ffa7e7e706e3f25f301842a37e68'
+sha512sums=('3a43648a86c1bc48161a1669733b6c6a9294bf27ffb529f2ce078c2daa3b90b8c53b9cc06312197fb3a0830303d0b326d7535fb15849e6c26fad58009f3a6112'
             'ecdabad21a86f04d51ba709a90fbeccb3004c6e8af3546edc530dcb4727787ed5d6a63043b6ab50b4c0a46de0894b6f3c594101b4d25f7831dee9f33fd2a7e31'
             'c97ce5dc24d61e8f5248237e92f22a128fad3dfcf52cce0fbf6c3ea8f788a5ab0ced247b82a0616ed58e378f976859daf5fb6815b1413e86004a53383804342a')
 
