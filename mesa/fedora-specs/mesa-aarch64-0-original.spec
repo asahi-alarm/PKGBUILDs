@@ -80,7 +80,7 @@
 
 Name:           mesa
 Summary:        Mesa graphics libraries
-Version:        26.0.6
+Version:        26.0.8
 Release:        %autorelease
 License:        MIT AND BSD-3-Clause AND SGI-B-2.0
 URL:            https://mesa3d.org
@@ -120,6 +120,7 @@ Patch21:        39951.patch
 BuildRequires:  meson >= 1.3.0
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
+BuildRequires:  libstdc++-static
 BuildRequires:  gettext
 %if 0%{?with_hardware}
 BuildRequires:  kernel-headers

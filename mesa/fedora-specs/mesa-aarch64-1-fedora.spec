@@ -1,12 +1,12 @@
 
 Name:           mesa
 Summary:        Mesa graphics libraries
-Version:        26.0.6
+Version:        26.0.8
 Release:        1
 License:        MIT AND BSD-3-Clause AND SGI-B-2.0
 URL:            https://mesa3d.org
 
-Source0:        https://archive.mesa3d.org/mesa-26.0.6.tar.xz
+Source0:        https://archive.mesa3d.org/mesa-26.0.8.tar.xz
 
 Source1:        Mesa-MLAA-License-Clarification-Email.txt
 
@@ -22,6 +22,7 @@ Patch21:        39951.patch
 BuildRequires:  meson >= 1.3.0
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
+BuildRequires:  libstdc++-static
 BuildRequires:  gettext
 
 BuildRequires:  kernel-headers
@@ -100,11 +101,11 @@ Mesa graphics libraries.
 
 %package filesystem
 Summary:        Mesa driver filesystem
-Provides:       mesa-dri-filesystem = 26.0.6-1
-Obsoletes:      mesa-omx-drivers < 26.0.6-1
-Obsoletes:      mesa-libd3d < 26.0.6-1
-Obsoletes:      mesa-libd3d-devel < 26.0.6-1
-Obsoletes:      mesa-vdpau-drivers < 26.0.6-1
+Provides:       mesa-dri-filesystem = 26.0.8-1
+Obsoletes:      mesa-omx-drivers < 26.0.8-1
+Obsoletes:      mesa-libd3d < 26.0.8-1
+Obsoletes:      mesa-libd3d-devel < 26.0.8-1
+Obsoletes:      mesa-vdpau-drivers < 26.0.8-1
 
 %description filesystem
 Mesa driver filesystem.
@@ -112,7 +113,7 @@ Mesa driver filesystem.
 %package libGL
 Summary:        Mesa libGL runtime libraries
 Requires:       libglvnd-glx(aarch-64) >= 1:1.3.2
-Requires:       mesa-dri-drivers(aarch-64) = 26.0.6-1
+Requires:       mesa-dri-drivers(aarch-64) = 26.0.8-1
 Obsoletes:      mesa-libOSMesa < 25.1.0~rc2-1
 
 %description libGL
@@ -120,10 +121,10 @@ Mesa libGL runtime libraries.
 
 %package libGL-devel
 Summary:        Mesa libGL development package
-Requires:       (mesa-libGL(aarch-64) = 26.0.6-1 if mesa-libGL(aarch-64))
+Requires:       (mesa-libGL(aarch-64) = 26.0.8-1 if mesa-libGL(aarch-64))
 Requires:       libglvnd-devel(aarch-64) >= 1:1.3.2
-Provides:       libGL-devel = 26.0.6-1
-Provides:       libGL-devel(aarch-64) = 26.0.6-1
+Provides:       libGL-devel = 26.0.8-1
+Provides:       libGL-devel(aarch-64) = 26.0.8-1
 Recommends:     gl-manpages
 Obsoletes:      mesa-libOSMesa-devel < 25.1.0~rc2-1
 
@@ -133,31 +134,31 @@ Mesa libGL development package.
 %package libEGL
 Summary:        Mesa libEGL runtime libraries
 Requires:       libglvnd-egl(aarch-64) >= 1:1.3.2
-Requires:       mesa-libgbm(aarch-64) = 26.0.6-1
-Requires:       mesa-dri-drivers(aarch-64) = 26.0.6-1
+Requires:       mesa-libgbm(aarch-64) = 26.0.8-1
+Requires:       mesa-dri-drivers(aarch-64) = 26.0.8-1
 
 %description libEGL
 Mesa libEGL runtime libraries.
 
 %package libEGL-devel
 Summary:        Mesa libEGL development package
-Requires:       (mesa-libEGL(aarch-64) = 26.0.6-1 if mesa-libEGL(aarch-64))
+Requires:       (mesa-libEGL(aarch-64) = 26.0.8-1 if mesa-libEGL(aarch-64))
 Requires:       libglvnd-devel(aarch-64) >= 1:1.3.2
 Requires:       mesa-khr-devel(aarch-64)
-Provides:       libEGL-devel = 26.0.6-1
-Provides:       libEGL-devel(aarch-64) = 26.0.6-1
+Provides:       libEGL-devel = 26.0.8-1
+Provides:       libEGL-devel(aarch-64) = 26.0.8-1
 
 %description libEGL-devel
 Mesa libEGL development package.
 
 %package dri-drivers
 Summary:        Mesa-based DRI drivers
-Requires:       mesa-filesystem(aarch-64) = 26.0.6-1
-Requires:       mesa-libgbm(aarch-64) = 26.0.6-1
+Requires:       mesa-filesystem(aarch-64) = 26.0.8-1
+Requires:       mesa-libgbm(aarch-64) = 26.0.8-1
 Obsoletes:      mesa-libglapi < 25.0.0~rc2-1
 Obsoletes:      mesa-va-drivers < 26.0.0-5
-Provides:       mesa-va-drivers = 26.0.6-1
-Provides:       mesa-va-drivers(aarch-64) = 26.0.6-1
+Provides:       mesa-va-drivers = 26.0.8-1
+Provides:       mesa-va-drivers(aarch-64) = 26.0.8-1
 Obsoletes:      mesa-vaapi-drivers < 22.2.0-5
 
 %description dri-drivers
@@ -165,20 +166,20 @@ Mesa-based DRI drivers.
 
 %package libgbm
 Summary:        Mesa gbm runtime library
-Provides:       libgbm = 26.0.6-1
-Provides:       libgbm(aarch-64) = 26.0.6-1
-Recommends:     mesa-dri-drivers(aarch-64) = 26.0.6-1
+Provides:       libgbm = 26.0.8-1
+Provides:       libgbm(aarch-64) = 26.0.8-1
+Recommends:     mesa-dri-drivers(aarch-64) = 26.0.8-1
 
-Requires:       (mesa-dri-drivers(aarch-64) = 26.0.6-1 if mesa-dri-drivers(aarch-64))
+Requires:       (mesa-dri-drivers(aarch-64) = 26.0.8-1 if mesa-dri-drivers(aarch-64))
 
 %description libgbm
 Mesa gbm runtime library.
 
 %package libgbm-devel
 Summary:        Mesa libgbm development package
-Requires:       mesa-libgbm(aarch-64) = 26.0.6-1
-Provides:       libgbm-devel = 26.0.6-1
-Provides:       libgbm-devel(aarch-64) = 26.0.6-1
+Requires:       mesa-libgbm(aarch-64) = 26.0.8-1
+Provides:       libgbm-devel = 26.0.8-1
+Provides:       libgbm-devel(aarch-64) = 26.0.8-1
 
 %description libgbm-devel
 Mesa libgbm development package.
@@ -187,7 +188,7 @@ Mesa libgbm development package.
 Summary:        Mesa OpenCL runtime library
 Requires:       (ocl-icd(aarch-64) or OpenCL-ICD-Loader(aarch-64))
 Requires:       libclc(aarch-64)
-Requires:       mesa-libgbm(aarch-64) = 26.0.6-1
+Requires:       mesa-libgbm(aarch-64) = 26.0.8-1
 Requires:       opencl-filesystem
 
 %description libOpenCL
@@ -195,7 +196,7 @@ Mesa OpenCL runtime library.
 
 %package libOpenCL-devel
 Summary:        Mesa OpenCL development package
-Requires:       mesa-libOpenCL(aarch-64) = 26.0.6-1
+Requires:       mesa-libOpenCL(aarch-64) = 26.0.8-1
 
 %description libOpenCL-devel
 Mesa OpenCL development package.
@@ -208,7 +209,7 @@ Mesa TensorFlow Lite delegate.
 
 %package dxil-devel
 Summary:        Mesa SPIR-V to DXIL binary
-Requires:       mesa-filesystem(aarch-64) = 26.0.6-1
+Requires:       mesa-filesystem(aarch-64) = 26.0.8-1
 
 %description dxil-devel
 Development tools for translating SPIR-V shader code to DXIL for Direct3D 12
@@ -216,8 +217,8 @@ Development tools for translating SPIR-V shader code to DXIL for Direct3D 12
 %package vulkan-drivers
 Summary:        Mesa Vulkan drivers
 Requires:       vulkan(aarch-64)
-Requires:       mesa-filesystem(aarch-64) = 26.0.6-1
-Obsoletes:      mesa-vulkan-devel < 26.0.6-1
+Requires:       mesa-filesystem(aarch-64) = 26.0.8-1
+Obsoletes:      mesa-vulkan-devel < 26.0.8-1
 Obsoletes:      VK_hdr_layer < 1
 
 %description vulkan-drivers
@@ -226,13 +227,13 @@ The drivers with support for the Vulkan API.
 %prep
 
 cd './'
-rm -rf 'mesa-26.0.6'
-rpmuncompress -x 'mesa-26.0.6.tar.xz'
+rm -rf 'mesa-26.0.8'
+rpmuncompress -x 'mesa-26.0.8.tar.xz'
 STATUS=$?
 if [ $STATUS -ne 0 ]; then
   exit $STATUS
 fi
-cd 'mesa-26.0.6'
+cd 'mesa-26.0.8'
 chmod -Rf a+rX,u+w,g-w,o-w .
 
 rpmuncompress 39951.patch | 
@@ -245,7 +246,7 @@ cp Mesa-MLAA-License-Clarification-Email.txt docs/
 cat > Cargo.toml <<_EOF
 [package]
 name = "mesa"
-version = "26.0.6"
+version = "26.0.8"
 edition = "2021"
 
 [lib]
