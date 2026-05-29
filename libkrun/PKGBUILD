@@ -1,7 +1,7 @@
 # Maintainer: hexchain <arch at hexchain.org>
 
 pkgname=libkrun
-pkgver=1.17.4
+pkgver=1.18.0
 pkgrel=1
 pkgdesc="A dynamic library providing Virtualization-based process isolation capabilities"
 url='https://github.com/containers/libkrun'
@@ -14,13 +14,17 @@ source=("https://github.com/containers/libkrun/archive/refs/tags/v$pkgver/$pkgna
         libkrun-remove-sev-deps.diff
         libkrun-remove-tdx-deps.diff
         libkrun-bump-bzip-dep.diff
+        libkrun-bump-kvm-bindings-dep.diff
+        libkrun-bump-kvm-ioctls-dep.diff
         libkrun-remove-unused-deps.diff)
-sha256sums=('2708a3c207c5493ee02de1781836c2511e54eb280633fcc7058fee983a6c2fe3'
-            '9ec17a92baa157c890af4ff4446902ffcc4bb513c80785ab404e864d09fb653a'
-            '83622e6fa12d821c6c777512935bad95e06f39a0da56e355ef7cf1357841acbf'
-            '0b0cd747aababf0ad40a58e8ec7d78e70abc8a28aa02b96ebc70198794aa2b8d'
-            '6610eb8bca1ca7123f99d4614b18b615ba3e55ed1c54273c2278480876cbedaa'
-            '42164aa8e6562e5ffafcf04a70adab5cd67a333968d0ab9123e6ad3180cce199')
+sha256sums=('3aad8087049c77424b2675ba08fe7b53708000e6df242d606e45af731f8a62cd'
+            'bc18abd207307cb7a31cd1c1ed469cd86b9ed213aeb929086486558f30bf9206'
+            'c7da9549bf963e9b9447a31d564d55d741c2183de0889fc36472f32b490b1874'
+            'dbc46ecc7da646d8a070b508081b8caa46976404cbdfff5119fa16c6240f1d72'
+            '76d986e5e17e4a1209e246184528cfda1088c8168442652e06d773caabc70fa1'
+            '51d1559afd7cb5fe569c94ca736255399154e0c5a17263da7ec4d6ac60003341'
+            '1122f37f5a5ca7540b6e2a6cf63553534a62c7c9d2d8a2c7cb214874f69f1b22'
+            'ecb87924f28316a7046564326f2ac33c15e9329deb3004551b196f522bb43b88')
 
 prepare() {
   cd "$srcdir/$pkgname-$pkgver"
@@ -29,6 +33,8 @@ prepare() {
   patch --no-backup-if-mismatch -f -p1  --fuzz=0 < ../libkrun-remove-nitro-deps.diff
   patch --no-backup-if-mismatch -f -p1  --fuzz=0 < ../libkrun-remove-tdx-deps.diff
   patch --no-backup-if-mismatch -f -p1  --fuzz=0 < ../libkrun-bump-bzip-dep.diff
+  patch --no-backup-if-mismatch -f -p1  --fuzz=0 < ../libkrun-bump-kvm-bindings-dep.diff
+  patch --no-backup-if-mismatch -f -p1  --fuzz=0 < ../libkrun-bump-kvm-ioctls-dep.diff
   patch --no-backup-if-mismatch -f -p1  --fuzz=0 < ../libkrun-remove-sev-deps.diff
 }
 
