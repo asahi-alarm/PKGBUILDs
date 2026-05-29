@@ -1,12 +1,12 @@
 
 Name:           libkrun
-Version:        1.17.4
+Version:        1.18.0
 Release:        1
 Summary:        Dynamic library providing Virtualization-based process isolation capabilities
 
 License:        Apache-2.0
 URL:            https://github.com/containers/libkrun
-Source:         https://github.com/containers/libkrun/archive/refs/tags/v1.17.4.tar.gz
+Source:         https://github.com/containers/libkrun/archive/refs/tags/v1.18.0.tar.gz
 
 Patch0:         libkrun-remove-unused-deps.diff
 
@@ -16,7 +16,11 @@ Patch2:         libkrun-remove-tdx-deps.diff
 
 Patch3:         libkrun-bump-bzip-dep.diff
 
-Patch4:         libkrun-remove-sev-deps.diff
+Patch4:         libkrun-bump-kvm-bindings-dep.diff
+
+Patch5:         libkrun-bump-kvm-ioctls-dep.diff
+
+Patch6:         libkrun-remove-sev-deps.diff
 
 ExclusiveArch:  x86_64 aarch64
 
@@ -25,10 +29,14 @@ Requires:  libkrunfw >= 5.0.0
 BuildRequires:  rust-packaging >= 21
 BuildRequires:  glibc-static
 BuildRequires:  binutils
+BuildRequires:  libcap-ng-devel
+
 BuildRequires:  libepoxy-devel
 BuildRequires:  libdrm-devel
 BuildRequires:  virglrenderer-devel
+
 BuildRequires:  pipewire-devel
+
 BuildRequires:  clang-devel
 BuildRequires:  openssl-devel
 BuildRequires:  libcurl-devel
@@ -71,7 +79,7 @@ Dynamic library providing Virtualization-based process isolation capabilities.
 
 %package devel
 Summary: Header files and libraries for libkrun development
-Requires:       libkrun(aarch-64) = 1.17.4-1
+Requires:       libkrun(aarch-64) = 1.18.0-1
 
 %description devel
 The libkrun-devel package containes the libraries and headers needed to
@@ -81,7 +89,7 @@ capabilities.
 %prep
 cd './'
 rm -rf 'libkrun-%{version_no_tilde}'
-rpmuncompress -x 'v1.17.4.tar.gz'
+rpmuncompress -x 'v1.18.0.tar.gz'
 STATUS=$?
 if [ $STATUS -ne 0 ]; then
   exit $STATUS
@@ -101,15 +109,19 @@ patch --no-backup-if-mismatch -f -p1  --fuzz=0 < libkrun-remove-tdx-deps.diff
 echo "Patch #3 (libkrun-bump-bzip-dep.diff):"
 patch --no-backup-if-mismatch -f -p1  --fuzz=0 < libkrun-bump-bzip-dep.diff
 
-echo "Patch #4 (libkrun-remove-sev-deps.diff):"
+echo "Patch #4 (libkrun-bump-kvm-bindings-dep.diff):"
+patch --no-backup-if-mismatch -f -p1  --fuzz=0 < libkrun-bump-kvm-bindings-dep.diff
+
+echo "Patch #5 (libkrun-bump-kvm-ioctls-dep.diff):"
+patch --no-backup-if-mismatch -f -p1  --fuzz=0 < libkrun-bump-kvm-ioctls-dep.diff
+
+echo "Patch #6 (libkrun-remove-sev-deps.diff):"
 patch --no-backup-if-mismatch -f -p1  --fuzz=0 < libkrun-remove-sev-deps.diff
 
 %cargo_prep
 
 %build
-/usr/bin/make -O -j${RPM_BUILD_NCPUS} V=1 VERBOSE=1 init/init
-/usr/bin/make -O -j${RPM_BUILD_NCPUS} V=1 VERBOSE=1 libkrun.pc
-/usr/bin/make -O -j${RPM_BUILD_NCPUS} V=1 VERBOSE=1 GPU=1 BLK=1 NET=1 SND=1
+/usr/bin/make -O -j${RPM_BUILD_NCPUS} V=1 VERBOSE=1 BLK=1 NET=1 GPU=1 SND=1
 
 %install
 /usr/bin/make install DESTDIR=fakeinstall INSTALL="install -p" PREFIX=/usr
@@ -117,7 +129,7 @@ patch --no-backup-if-mismatch -f -p1  --fuzz=0 < libkrun-remove-sev-deps.diff
 %files
 %license LICENSE
 %doc README.md
-/usr/lib/libkrun.so.1.17.4
+/usr/lib/libkrun.so.1.18.0
 /usr/lib/libkrun.so.1
 
 %files devel
