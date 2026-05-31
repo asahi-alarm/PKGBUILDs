@@ -360,10 +360,6 @@ EOF
   git commit -m "Case insens fix"
 fi
 
-if [ ! -d asahi-alarm ]; then
-  git clone --depth=1 https://github.com/asahi-alarm/PKGBUILDs -b main asahi-alarm
-fi
-
 cp ../../linux-asahi/config linux/.config
 
 (
