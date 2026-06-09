@@ -18,7 +18,7 @@ binfmt-dispatcher              /                              0.1.2-1
 calamares                      3.3.14-5                       3.4.2-4                       
 FEX-Emu                        2604-1                         2604-1                        
 fex-emu-rootfs-arch            44^20260410.n.0-1              20260318-1                    
-libkrun                        1.18.0-1                       1.17.4-1                      
+libkrun                        1.18.0-1                       1.18.0-1                      
 libkrunfw                      5.3.0-1                        5.3.0-1                       
 linux-asahi                    6.19.14-400.asahi              6.19.14.asahi2-1              
 linux-asahi-headers            6.19.14-400.asahi              6.19.14.asahi2-1              
