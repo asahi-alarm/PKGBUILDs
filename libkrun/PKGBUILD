@@ -16,7 +16,9 @@ source=("https://github.com/containers/libkrun/archive/refs/tags/v$pkgver/$pkgna
         libkrun-bump-bzip-dep.diff
         libkrun-bump-kvm-bindings-dep.diff
         libkrun-bump-kvm-ioctls-dep.diff
-        libkrun-remove-unused-deps.diff)
+        libkrun-remove-unused-deps.diff
+        "libspa-sys-0.8.0.crate::https://static.crates.io/crates/libspa-sys/libspa-sys-0.8.0.crate")
+noextract=('libspa-sys-0.8.0.crate')
 sha256sums=('3aad8087049c77424b2675ba08fe7b53708000e6df242d606e45af731f8a62cd'
             'bc18abd207307cb7a31cd1c1ed469cd86b9ed213aeb929086486558f30bf9206'
             'c7da9549bf963e9b9447a31d564d55d741c2183de0889fc36472f32b490b1874'
@@ -24,7 +26,8 @@ sha256sums=('3aad8087049c77424b2675ba08fe7b53708000e6df242d606e45af731f8a62cd'
             '76d986e5e17e4a1209e246184528cfda1088c8168442652e06d773caabc70fa1'
             '51d1559afd7cb5fe569c94ca736255399154e0c5a17263da7ec4d6ac60003341'
             '1122f37f5a5ca7540b6e2a6cf63553534a62c7c9d2d8a2c7cb214874f69f1b22'
-            'ecb87924f28316a7046564326f2ac33c15e9329deb3004551b196f522bb43b88')
+            'ecb87924f28316a7046564326f2ac33c15e9329deb3004551b196f522bb43b88'
+            'bf0d9716420364790e85cbb9d3ac2c950bde16a7dd36f3209b7dfdfc4a24d01f')
 
 prepare() {
   cd "$srcdir/$pkgname-$pkgver"
@@ -36,6 +39,22 @@ prepare() {
   patch --no-backup-if-mismatch -f -p1  --fuzz=0 < ../libkrun-bump-kvm-bindings-dep.diff
   patch --no-backup-if-mismatch -f -p1  --fuzz=0 < ../libkrun-bump-kvm-ioctls-dep.diff
   patch --no-backup-if-mismatch -f -p1  --fuzz=0 < ../libkrun-remove-sev-deps.diff
+
+  # libspa-sys 0.8.0 pins bindgen ^0.69, which mis-generates opaque structs
+  # (spa_pod_builder etc. become a bare `_address: u8`) when built against
+  # libclang >= 22, breaking libspa's hand-written builder.rs. The fix landed
+  # in bindgen 0.72.1 (rust-bindgen PR #3278), but no libspa-sys 0.8.x release
+  # carries it (the bump only appears in 0.9.2, which needs pipewire 0.9).
+  # Vendor libspa-sys 0.8.0 with the bindgen requirement relaxed to 0.72 and
+  # override it via [patch.crates-io]. bindgen 0.72.1 is already in the tree.
+  bsdtar -xf "$srcdir/libspa-sys-0.8.0.crate" -C "$srcdir"
+  sed -i '/\[build-dependencies.bindgen\]/,/^\[/ s/^version = "0.69"/version = "0.72"/' \
+    "$srcdir/libspa-sys-0.8.0/Cargo.toml"
+  cat >> Cargo.toml <<'EOF'
+
+[patch.crates-io]
+libspa-sys = { path = "../libspa-sys-0.8.0" }
+EOF
 }
 
 build() {
