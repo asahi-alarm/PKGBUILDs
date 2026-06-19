@@ -1,15 +1,15 @@
 # Maintainer: hexchain <arch at hexchain.org>
 
 pkgname=libkrun
-pkgver=1.18.0
+pkgver=1.19.0
 pkgrel=1
 pkgdesc="A dynamic library providing Virtualization-based process isolation capabilities"
-url='https://github.com/containers/libkrun'
+url='https://github.com/libkrun/libkrun'
 arch=('x86_64' 'aarch64')
 license=('Apache')
 makedepends=('rustup' 'virglrenderer')
 depends=('glibc' 'gcc-libs' 'libkrunfw' 'virglrenderer' 'pipewire' 'libva')
-source=("https://github.com/containers/libkrun/archive/refs/tags/v$pkgver/$pkgname-$pkgver.tar.gz"
+source=("https://github.com/libkrun/libkrun/archive/refs/tags/v$pkgver/$pkgname-$pkgver.tar.gz"
         libkrun-remove-nitro-deps.diff
         libkrun-remove-sev-deps.diff
         libkrun-remove-tdx-deps.diff
@@ -17,14 +17,14 @@ source=("https://github.com/containers/libkrun/archive/refs/tags/v$pkgver/$pkgna
         libkrun-bump-kvm-bindings-dep.diff
         libkrun-bump-kvm-ioctls-dep.diff
         libkrun-remove-unused-deps.diff)
-sha256sums=('3aad8087049c77424b2675ba08fe7b53708000e6df242d606e45af731f8a62cd'
-            'bc18abd207307cb7a31cd1c1ed469cd86b9ed213aeb929086486558f30bf9206'
-            'c7da9549bf963e9b9447a31d564d55d741c2183de0889fc36472f32b490b1874'
-            'dbc46ecc7da646d8a070b508081b8caa46976404cbdfff5119fa16c6240f1d72'
-            '76d986e5e17e4a1209e246184528cfda1088c8168442652e06d773caabc70fa1'
-            '51d1559afd7cb5fe569c94ca736255399154e0c5a17263da7ec4d6ac60003341'
-            '1122f37f5a5ca7540b6e2a6cf63553534a62c7c9d2d8a2c7cb214874f69f1b22'
-            'ecb87924f28316a7046564326f2ac33c15e9329deb3004551b196f522bb43b88')
+sha256sums=('832e76e93f1ea7a41e5c763a9710acf42d3d54f628015c1255f115a4b7ef2a06'
+            '273e5accd093cd9e8a9f3a32ec892dafbe3772dbc112fc2bc81ac0a7106d911a'
+            '19b79aaf6c0891993dc867a5e37327b0345d7b94b5fac81791425aa86b063f9c'
+            '57b8fc3b95a85b0f197a9284796fcef5e61536cdc10215c35705dac1c9b61b41'
+            '4049d93933c2fe7514dce7dd3ca618c1240f0d912791fa8e67c83fb8be5d334a'
+            'fbfffe967c71363a42232eff84660e2141524e3c3391a08e97ebff7f2a509c7d'
+            '5870247870a21295db6f4f9cd85d88aa8bd01c97616da8d755b0b178b41af38c'
+            '7d9bc4b8fbeec882ac7f032a9396fb05ed114da2b96ca6daf1ddfcdb34b1bc0c')
 
 prepare() {
   cd "$srcdir/$pkgname-$pkgver"

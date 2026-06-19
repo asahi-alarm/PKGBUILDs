@@ -1,17 +1,17 @@
 diff --git a/src/devices/Cargo.toml b/src/devices/Cargo.toml
-index 91b5e69..bdb1f1e 100644
+index ac5b263..b581bf0 100644
 --- a/src/devices/Cargo.toml
 +++ b/src/devices/Cargo.toml
 @@ -46,7 +46,6 @@ imago = { version = "0.2.2", features = ["sync-wrappers", "vm-memory"] }
  
  [target.'cfg(target_os = "macos")'.dependencies]
- hvf = { package = "krun-hvf", version = "=0.1.0-1.18.0", path = "../hvf" }
+ hvf = { package = "krun-hvf", version = "=0.1.0-1.19.0", path = "../hvf" }
 -lru = ">=0.9"
  
  [target.'cfg(target_os = "linux")'.dependencies]
- rutabaga_gfx = { package = "krun-rutabaga-gfx", version = "=0.1.0-1.18.0", path = "../rutabaga_gfx", features = ["x"], optional = true }
+ rutabaga_gfx = { package = "krun-rutabaga-gfx", version = "=0.1.0-1.19.0", path = "../rutabaga_gfx", features = ["x"], optional = true }
 diff --git a/src/rutabaga_gfx/Cargo.toml b/src/rutabaga_gfx/Cargo.toml
-index f8e8efa..1746313 100644
+index e78f27a..b266b11 100644
 --- a/src/rutabaga_gfx/Cargo.toml
 +++ b/src/rutabaga_gfx/Cargo.toml
 @@ -32,9 +32,6 @@ vmm-sys-util = "0.14"

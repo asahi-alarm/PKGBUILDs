@@ -1,5 +1,5 @@
 diff --git a/src/vmm/Cargo.toml b/src/vmm/Cargo.toml
-index d01d6e0..1987080 100644
+index 6a5694f..5148f6e 100644
 --- a/src/vmm/Cargo.toml
 +++ b/src/vmm/Cargo.toml
 @@ -47,7 +47,7 @@ bitfield = { version = "0.19.4", optional = true }
@@ -8,6 +8,6 @@ index d01d6e0..1987080 100644
  [target.'cfg(target_arch = "x86_64")'.dependencies]
 -bzip2 = "0.5"
 +bzip2 = "0.6"
- cpuid = { package = "krun-cpuid", version = "=0.1.0-1.18.0", path = "../cpuid" }
+ cpuid = { package = "krun-cpuid", version = "=0.1.0-1.19.0", path = "../cpuid" }
  zstd = "0.13"
  

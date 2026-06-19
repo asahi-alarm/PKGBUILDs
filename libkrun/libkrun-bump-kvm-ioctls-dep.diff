@@ -1,8 +1,8 @@
 diff --git a/src/arch/Cargo.toml b/src/arch/Cargo.toml
-index 3b2dee0..9e04d85 100644
+index ea6ee2e..0c6e28a 100644
 --- a/src/arch/Cargo.toml
 +++ b/src/arch/Cargo.toml
-@@ -23,7 +23,7 @@ utils = { package = "krun-utils", version = "=0.1.0-1.18.0", path = "../utils" }
+@@ -23,7 +23,7 @@ utils = { package = "krun-utils", version = "=0.1.0-1.19.0", path = "../utils" }
  
  [target.'cfg(target_os = "linux")'.dependencies]
  kvm-bindings = { version = "0.13", features = ["fam-wrappers"] }
@@ -10,9 +10,9 @@ index 3b2dee0..9e04d85 100644
 +kvm-ioctls = "0.23"
  
  [dev-dependencies]
- utils = { package = "krun-utils", version = "=0.1.0-1.18.0", path = "../utils" }
+ utils = { package = "krun-utils", version = "=0.1.0-1.19.0", path = "../utils" }
 diff --git a/src/cpuid/Cargo.toml b/src/cpuid/Cargo.toml
-index d0141e3..1294742 100644
+index ed4d9ef..d59f36e 100644
 --- a/src/cpuid/Cargo.toml
 +++ b/src/cpuid/Cargo.toml
 @@ -15,4 +15,4 @@ vmm-sys-util = "0.14"
@@ -22,11 +22,11 @@ index d0141e3..1294742 100644
 -kvm-ioctls = "0.22"
 +kvm-ioctls = "0.23"
 diff --git a/src/devices/Cargo.toml b/src/devices/Cargo.toml
-index 70a6350..ea0dfc6 100644
+index 667ff79..8a0c533 100644
 --- a/src/devices/Cargo.toml
 +++ b/src/devices/Cargo.toml
-@@ -51,7 +51,7 @@ hvf = { package = "krun-hvf", version = "=0.1.0-1.18.0", path = "../hvf" }
- rutabaga_gfx = { package = "krun-rutabaga-gfx", version = "=0.1.0-1.18.0", path = "../rutabaga_gfx", features = ["x"], optional = true }
+@@ -51,7 +51,7 @@ hvf = { package = "krun-hvf", version = "=0.1.0-1.19.0", path = "../hvf" }
+ rutabaga_gfx = { package = "krun-rutabaga-gfx", version = "=0.1.0-1.19.0", path = "../rutabaga_gfx", features = ["x"], optional = true }
  caps = "0.5.5"
  kvm-bindings = { version = "0.13", features = ["fam-wrappers"] }
 -kvm-ioctls = "0.22"
@@ -35,10 +35,10 @@ index 70a6350..ea0dfc6 100644
  [target.'cfg(any(target_arch = "aarch64", target_arch = "riscv64"))'.dependencies]
  vm-fdt = ">= 0.2.0"
 diff --git a/src/libkrun/Cargo.toml b/src/libkrun/Cargo.toml
-index 63ab07a..a0135f2 100644
+index 97b35d6..16f8d28 100644
 --- a/src/libkrun/Cargo.toml
 +++ b/src/libkrun/Cargo.toml
-@@ -41,7 +41,7 @@ hvf = { package = "krun-hvf", version = "=0.1.0-1.18.0", path = "../hvf" }
+@@ -42,7 +42,7 @@ hvf = { package = "krun-hvf", version = "=0.1.0-1.19.0", path = "../hvf" }
  
  [target.'cfg(target_os = "linux")'.dependencies]
  kvm-bindings = { version = "0.13", features = ["fam-wrappers"] }
@@ -48,10 +48,10 @@ index 63ab07a..a0135f2 100644
  
  [lib]
 diff --git a/src/vmm/Cargo.toml b/src/vmm/Cargo.toml
-index 544410a..39c3dda 100644
+index 62e840f..aff9696 100644
 --- a/src/vmm/Cargo.toml
 +++ b/src/vmm/Cargo.toml
-@@ -44,7 +44,7 @@ zstd = "0.13"
+@@ -53,7 +53,7 @@ zstd = "0.13"
  
  [target.'cfg(target_os = "linux")'.dependencies]
  kvm-bindings = { version = "0.13", features = ["fam-wrappers"] }
@@ -59,4 +59,4 @@ index 544410a..39c3dda 100644
 +kvm-ioctls = "0.23"
  
  [target.'cfg(target_os = "macos")'.dependencies]
- hvf = { package = "krun-hvf", version = "=0.1.0-1.18.0", path = "../hvf" }
+ hvf = { package = "krun-hvf", version = "=0.1.0-1.19.0", path = "../hvf" }
