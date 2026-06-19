@@ -1,12 +1,12 @@
 
 Name:           libkrun
-Version:        1.18.0
+Version:        1.19.0
 Release:        1
 Summary:        Dynamic library providing Virtualization-based process isolation capabilities
 
 License:        Apache-2.0
-URL:            https://github.com/containers/libkrun
-Source:         https://github.com/containers/libkrun/archive/refs/tags/v1.18.0.tar.gz
+URL:            https://github.com/libkrun/libkrun
+Source:         https://github.com/libkrun/libkrun/archive/refs/tags/v1.19.0.tar.gz
 
 Patch0:         libkrun-remove-unused-deps.diff
 
@@ -61,7 +61,7 @@ BuildRequires:  (crate(rand/default) >= 0.8.5 with crate(rand/default) < 0.9.0~)
 BuildRequires:  (crate(rand/default) >= 0.9.2 with crate(rand/default) < 0.10.0~)
 BuildRequires:  (crate(once_cell/default) >= 1.4.1 with crate(once_cell/default) < 2.0.0~)
 BuildRequires:  (crate(crossbeam-channel/default) >= 0.5.0 with crate(crossbeam-channel/default) < 0.6.0~)
-BuildRequires:  (crate(pipewire/default) >= 0.8.0 with crate(pipewire/default) < 0.9.0~)
+BuildRequires:  (crate(pipewire/default) >= 0.9.0 with crate(pipewire/default) < 0.10.0~)
 BuildRequires:  (crate(zerocopy/default) >= 0.8.0 with crate(zerocopy/default) < 0.9.0~)
 BuildRequires:  (crate(remain/default) >= 0.2.0 with crate(remain/default) < 0.3.0~)
 BuildRequires:  (crate(caps/default) >= 0.5.0 with crate(caps/default) < 0.6.0~)
@@ -71,6 +71,7 @@ BuildRequires:  (crate(bzip2/default) >= 0.6.0 with crate(bzip2/default) < 0.7.0
 BuildRequires:  (crate(zstd/default) >= 0.13.0 with crate(zstd/default) < 0.14.0~)
 BuildRequires:  (crate(flate2/default) >= 1.0.0 with crate(flate2/default) < 2.0.0~)
 BuildRequires:  (crate(static_assertions/default) >= 1.1.0 with crate(static_assertions/default) < 2.0.0~)
+BuildRequires:  (crate(thiserror/default) >= 1.0.0 with crate(thiserror/default) < 2.0.0~)
 BuildRequires:  (crate(thiserror/default) >= 2.0.0 with crate(thiserror/default) < 3.0.0~)
 BuildRequires:  (crate(capng/default) >= 0.2.3 with crate(capng/default) < 0.3.0~)
 
@@ -79,7 +80,7 @@ Dynamic library providing Virtualization-based process isolation capabilities.
 
 %package devel
 Summary: Header files and libraries for libkrun development
-Requires:       libkrun(aarch-64) = 1.18.0-1
+Requires:       libkrun(aarch-64) = 1.19.0-1
 
 %description devel
 The libkrun-devel package containes the libraries and headers needed to
@@ -89,7 +90,7 @@ capabilities.
 %prep
 cd './'
 rm -rf 'libkrun-%{version_no_tilde}'
-rpmuncompress -x 'v1.18.0.tar.gz'
+rpmuncompress -x 'v1.19.0.tar.gz'
 STATUS=$?
 if [ $STATUS -ne 0 ]; then
   exit $STATUS
@@ -129,7 +130,7 @@ patch --no-backup-if-mismatch -f -p1  --fuzz=0 < libkrun-remove-sev-deps.diff
 %files
 %license LICENSE
 %doc README.md
-/usr/lib/libkrun.so.1.18.0
+/usr/lib/libkrun.so.1.19.0
 /usr/lib/libkrun.so.1
 
 %files devel

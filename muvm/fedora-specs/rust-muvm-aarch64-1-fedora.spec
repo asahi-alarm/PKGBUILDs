@@ -1,6 +1,6 @@
 
 Name:           rust-muvm
-Version:        0.5.1
+Version:        0.6.0
 Release:        1
 Summary:        Run programs from your system in a microVM
 
@@ -9,6 +9,8 @@ URL:            https://crates.io/crates/muvm
 Source:         %{crates_source}
 Source2:        50-muvm-access.conf
 Source3:        access-muvm.lua
+
+Patch:          muvm-fix-metadata.diff
 
 BuildRequires:  cargo-rpm-macros >= 26
 
@@ -20,7 +22,7 @@ Run programs from your system in a microVM.
 %package     -n muvm
 Summary:        Run programs from your system in a microVM
 
-License:        Apache-2.0 AND (Apache-2.0 OR BSL-1.0) AND (Apache-2.0 OR MIT) AND (Apache-2.0 WITH LLVM-exception OR Apache-2.0 OR MIT) AND MIT AND (MIT OR Apache-2.0) AND (Unlicense OR MIT)
+License:        Apache-2.0 AND (Apache-2.0 OR MIT) AND (Apache-2.0 WITH LLVM-exception OR Apache-2.0 OR MIT) AND BSD-3-Clause AND MIT AND (MIT OR Apache-2.0) AND (Unlicense OR MIT)
 
 Obsoletes:      krun < 0.1.0-2
 
@@ -43,14 +45,17 @@ Run programs from your system in a microVM.
 %prep
 
 cd './'
-rm -rf 'muvm-0.5.1'
+rm -rf 'muvm-0.6.0'
 rpmuncompress -x '%{crates_source}'
 STATUS=$?
 if [ $STATUS -ne 0 ]; then
   exit $STATUS
 fi
-cd 'muvm-0.5.1'
+cd 'muvm-0.6.0'
 chmod -Rf a+rX,u+w,g-w,o-w .
+
+rpmuncompress muvm-fix-metadata.diff | 
+patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
 
 %cargo_prep
 

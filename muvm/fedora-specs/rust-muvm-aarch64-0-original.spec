@@ -7,7 +7,7 @@
 %global crate muvm
 
 Name:           rust-muvm
-Version:        0.5.1
+Version:        0.6.0
 Release:        %autorelease
 Summary:        Run programs from your system in a microVM
 
@@ -16,6 +16,9 @@ URL:            https://crates.io/crates/muvm
 Source:         %{crates_source}
 Source2:        50-muvm-access.conf
 Source3:        access-muvm.lua
+# Manually created patch for downstream crate metadata changes
+# * allow const-str 1: https://github.com/AsahiLinux/muvm/pull/230
+Patch:          muvm-fix-metadata.diff
 
 BuildRequires:  cargo-rpm-macros >= 26
 
@@ -30,13 +33,13 @@ Run programs from your system in a microVM.}
 %package     -n %{crate}
 Summary:        %{summary}
 # Apache-2.0
-# Apache-2.0 OR BSL-1.0
 # Apache-2.0 OR MIT
 # Apache-2.0 WITH LLVM-exception OR Apache-2.0 OR MIT
+# BSD-3-Clause
 # MIT
 # MIT OR Apache-2.0
 # Unlicense OR MIT
-License:        Apache-2.0 AND (Apache-2.0 OR BSL-1.0) AND (Apache-2.0 OR MIT) AND (Apache-2.0 WITH LLVM-exception OR Apache-2.0 OR MIT) AND MIT AND (MIT OR Apache-2.0) AND (Unlicense OR MIT)
+License:        Apache-2.0 AND (Apache-2.0 OR MIT) AND (Apache-2.0 WITH LLVM-exception OR Apache-2.0 OR MIT) AND BSD-3-Clause AND MIT AND (MIT OR Apache-2.0) AND (Unlicense OR MIT)
 # LICENSE.dependencies contains a full license breakdown
 
 # This crate was renamed from krun to avoid a conflict with crun-krun. For

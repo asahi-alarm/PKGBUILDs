@@ -13,13 +13,13 @@
 %endif
 
 Name:           libkrun
-Version:        1.18.0
+Version:        1.19.0
 Release:        1%{?dist}
 Summary:        Dynamic library providing Virtualization-based process isolation capabilities
 
 License:        Apache-2.0
-URL:            https://github.com/containers/libkrun
-Source:         https://github.com/containers/libkrun/archive/refs/tags/v%{version}.tar.gz
+URL:            https://github.com/libkrun/libkrun
+Source:         https://github.com/libkrun/libkrun/archive/refs/tags/v%{version}.tar.gz
 %if 0%{?bundled_rust_deps}
 # Generated with:
 #  cargo vendor-filterer --platform=*-unknown-linux-gnu --features blk,net,gpu,snd,amd-sev
@@ -98,7 +98,7 @@ BuildRequires:  (crate(rand/default) >= 0.8.5 with crate(rand/default) < 0.9.0~)
 BuildRequires:  (crate(rand/default) >= 0.9.2 with crate(rand/default) < 0.10.0~)
 BuildRequires:  (crate(once_cell/default) >= 1.4.1 with crate(once_cell/default) < 2.0.0~)
 BuildRequires:  (crate(crossbeam-channel/default) >= 0.5.0 with crate(crossbeam-channel/default) < 0.6.0~)
-BuildRequires:  (crate(pipewire/default) >= 0.8.0 with crate(pipewire/default) < 0.9.0~)
+BuildRequires:  (crate(pipewire/default) >= 0.9.0 with crate(pipewire/default) < 0.10.0~)
 BuildRequires:  (crate(zerocopy/default) >= 0.8.0 with crate(zerocopy/default) < 0.9.0~)
 BuildRequires:  (crate(remain/default) >= 0.2.0 with crate(remain/default) < 0.3.0~)
 BuildRequires:  (crate(caps/default) >= 0.5.0 with crate(caps/default) < 0.6.0~)
@@ -108,6 +108,7 @@ BuildRequires:  (crate(bzip2/default) >= 0.6.0 with crate(bzip2/default) < 0.7.0
 BuildRequires:  (crate(zstd/default) >= 0.13.0 with crate(zstd/default) < 0.14.0~)
 BuildRequires:  (crate(flate2/default) >= 1.0.0 with crate(flate2/default) < 2.0.0~)
 BuildRequires:  (crate(static_assertions/default) >= 1.1.0 with crate(static_assertions/default) < 2.0.0~)
+BuildRequires:  (crate(thiserror/default) >= 1.0.0 with crate(thiserror/default) < 2.0.0~)
 BuildRequires:  (crate(thiserror/default) >= 2.0.0 with crate(thiserror/default) < 3.0.0~)
 BuildRequires:  (crate(capng/default) >= 0.2.3 with crate(capng/default) < 0.3.0~)
 
@@ -236,6 +237,9 @@ capabilities.
 %endif
 
 %changelog
+* Wed Jun 10 2026 Sergio Lopez <slp@redhat.com> - 1.19.0-1
+- Update to version 1.19.0
+
 * Tue Apr 28 2026 Sergio Lopez <slp@redhat.com> - 1.18.0-1
 - Update to version 1.18.0
 
