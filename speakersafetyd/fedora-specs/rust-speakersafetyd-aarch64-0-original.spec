@@ -16,6 +16,8 @@ Source:         %{crates_source}
 #   https://github.com/AsahiLinux/speakersafetyd/issues/29
 # * relax simple_logger dependency to allow both v4 and v5:
 #   https://github.com/AsahiLinux/speakersafetyd/pull/30
+# * relax clap-verbosity-flag dependency to allow both v2 and v3:
+#   https://github.com/AsahiLinux/speakersafetyd/commit/687a240fc153a528a1979c3f3776fd9992cddb1a
 Patch:          speakersafetyd-fix-metadata.diff
 
 BuildRequires:  cargo-rpm-macros >= 24
