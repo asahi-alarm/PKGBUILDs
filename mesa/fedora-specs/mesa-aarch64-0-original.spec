@@ -80,7 +80,7 @@
 
 Name:           mesa
 Summary:        Mesa graphics libraries
-Version:        26.0.8
+Version:        26.1.3
 Release:        %autorelease
 License:        MIT AND BSD-3-Clause AND SGI-B-2.0
 URL:            https://mesa3d.org
@@ -113,10 +113,6 @@ Source13:       https://crates.io/api/v1/crates/syn/%{rust_syn_ver}/download#/sy
 Source14:       https://crates.io/api/v1/crates/unicode-ident/%{rust_unicode_ident_ver}/download#/unicode-ident-%{rust_unicode_ident_ver}.tar.gz
 Source15:       https://crates.io/api/v1/crates/rustc-hash/%{rustc_hash_ver}/download#/rustc-hash-%{rustc_hash_ver}.tar.gz
 
-# Backport of https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/39951
-# which fixes compile-time conditional on AVX2 which is not built on Fedora
-Patch21:        39951.patch
-
 BuildRequires:  meson >= 1.3.0
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
@@ -129,7 +125,7 @@ BuildRequires:  systemd-devel
 # We only check for the minimum version of pkgconfig(libdrm) needed so that the
 # SRPMs for each arch still have the same build dependencies. See:
 # https://bugzilla.redhat.com/show_bug.cgi?id=1859515
-BuildRequires:  pkgconfig(libdrm) >= 2.4.122
+BuildRequires:  pkgconfig(libdrm) >= 2.4.133
 %if 0%{?with_libunwind}
 BuildRequires:  pkgconfig(libunwind)
 %endif
@@ -190,6 +186,9 @@ BuildRequires:  rust-toolset
 BuildRequires:  cargo-rpm-macros
 %endif
 %endif
+%if 0%{?with_opencl}
+BuildRequires:  libstdc++-static
+%endif
 %if 0%{?with_nvk}
 BuildRequires:  cbindgen
 %endif
@@ -206,7 +205,7 @@ BuildRequires:  glslang
 BuildRequires:  pkgconfig(vulkan)
 %endif
 %if 0%{?with_d3d12}
-BuildRequires:  pkgconfig(DirectX-Headers) >= 1.618.1
+BuildRequires:  pkgconfig(DirectX-Headers) >= 1.619.1
 %endif
 
 %description
