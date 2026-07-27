@@ -2,8 +2,7 @@
 # Maintainer: Matthias Kurz <m.kurz@irregular.at>
 
 pkgname=speakersafetyd
-pkgver=1.0.2
-commit=4a7272f1ec2cdebaa01acaf0b05d0fa75bae0492
+pkgver=2.0.1
 pkgrel=1
 pkgdesc='Asahi Linux speaker safety daemon'
 arch=('aarch64')
@@ -11,16 +10,23 @@ url='http://asahilinux.org'
 depends=('alsa-lib')
 license=('MIT')
 source=(
-  "speakersafetyd-${commit}.tar.gz::https://github.com/AsahiLinux/speakersafetyd/archive/${commit}.tar.gz"
+  "speakersafetyd-${pkgver}.tar.gz::https://github.com/AsahiLinux/speakersafetyd/archive/${pkgver}.tar.gz"
+  "0001-j504-Write-the-full-speaker-names-in-conf.patch"
 )
-sha256sums=('c069208a329e893d70e14296fb735e75f30ba1a5e201b77b0131435fb3a33480')
+sha256sums=('0e1cb05a2f5521d80f9a502daa0b75ef5c7f2b9e8913b0f88c2d19a97d4439e5'
+            '9c1060ca170f52ceb2a68fd1d3c67a31edc4171473b65c239de2115ac8c1870f')
+
+prepare() {
+  cd $pkgname-$pkgver
+  cat ../0001-j504-Write-the-full-speaker-names-in-conf.patch | patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
+}
 
 build() {
-  cd "${srcdir}/speakersafetyd-${commit}"
+  cd "${srcdir}/speakersafetyd-${pkgver}"
   make
 }
 
 package() {
-  cd "${srcdir}/speakersafetyd-${commit}"
+  cd "${srcdir}/speakersafetyd-${pkgver}"
   make DESTDIR="${pkgdir}" UNITDIR=/usr/lib/systemd/system UDEVDIR=/usr/lib/udev/rules.d install
 }
