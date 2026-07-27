@@ -1,6 +1,6 @@
 
 Name:           rust-speakersafetyd
-Version:        1.0.2
+Version:        2.0.1
 Release:        1
 Summary:        Speaker protection daemon for embedded Linux systems
 
@@ -9,6 +9,8 @@ URL:            https://crates.io/crates/speakersafetyd
 Source:         %{crates_source}
 
 Patch:          speakersafetyd-fix-metadata.diff
+
+Patch:          0001-j504-Write-the-full-speaker-names-in-conf.patch
 
 BuildRequires:  cargo-rpm-macros >= 24
 BuildRequires:  systemd-rpm-macros
@@ -48,16 +50,20 @@ Speaker protection daemon for embedded Linux systems.
 %prep
 
 cd './'
-rm -rf 'speakersafetyd-1.0.2'
+rm -rf 'speakersafetyd-2.0.1'
 rpmuncompress -x '%{crates_source}'
 STATUS=$?
 if [ $STATUS -ne 0 ]; then
   exit $STATUS
 fi
-cd 'speakersafetyd-1.0.2'
+cd 'speakersafetyd-2.0.1'
 chmod -Rf a+rX,u+w,g-w,o-w .
 
-echo 'Cannot read speakersafetyd-fix-metadata.diff'; exit 1;
+rpmuncompress speakersafetyd-fix-metadata.diff | 
+patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
+
+rpmuncompress 0001-j504-Write-the-full-speaker-names-in-conf.patch | 
+patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
 
 %cargo_prep
 

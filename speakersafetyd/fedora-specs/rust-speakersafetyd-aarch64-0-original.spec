@@ -4,7 +4,7 @@
 %global crate speakersafetyd
 
 Name:           rust-speakersafetyd
-Version:        1.0.2
+Version:        2.0.1
 Release:        %autorelease
 Summary:        Speaker protection daemon for embedded Linux systems
 
@@ -12,13 +12,9 @@ License:        MIT
 URL:            https://crates.io/crates/speakersafetyd
 Source:         %{crates_source}
 # Manually created patch for downstream crate metadata changes
-# * relax alsa dependency to allow both v0.9 and v0.10:
-#   https://github.com/AsahiLinux/speakersafetyd/issues/29
-# * relax simple_logger dependency to allow both v4 and v5:
-#   https://github.com/AsahiLinux/speakersafetyd/pull/30
-# * relax clap-verbosity-flag dependency to allow both v2 and v3:
-#   https://github.com/AsahiLinux/speakersafetyd/commit/687a240fc153a528a1979c3f3776fd9992cddb1a
 Patch:          speakersafetyd-fix-metadata.diff
+# backport https://github.com/AsahiLinux/speakersafetyd/pull/34 (j504 config fix)
+Patch:          0001-j504-Write-the-full-speaker-names-in-conf.patch
 
 BuildRequires:  cargo-rpm-macros >= 24
 BuildRequires:  systemd-rpm-macros
