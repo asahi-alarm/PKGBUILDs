@@ -34,7 +34,7 @@
   BuildRequires:  pkgconfig(zlib) >= 1.2.3
   BuildRequires:  pkgconfig(libzstd)
   BuildRequires:  pkgconfig(wayland-scanner)
-  BuildRequires:  pkgconfig(wayland-protocols) >= 1.34
+  BuildRequires:  pkgconfig(wayland-protocols) >= 1.41
   BuildRequires:  pkgconfig(wayland-client) >= 1.11
   BuildRequires:  pkgconfig(wayland-server) >= 1.11
   BuildRequires:  pkgconfig(wayland-egl-backend) >= 3
