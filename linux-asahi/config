@@ -1,6 +1,6 @@
 #
 # Automatically generated file; DO NOT EDIT.
-# Linux/arm64 7.1.5 Kernel Configuration
+# Linux/arm64 7.1.6 Kernel Configuration
 #
 CONFIG_CC_VERSION_TEXT="gcc (GCC) 15.2.1 20260209"
 CONFIG_CC_IS_GCC=y
@@ -6616,7 +6616,9 @@ CONFIG_TYPEC_TCPCI=m
 CONFIG_TYPEC_UCSI=m
 # CONFIG_UCSI_CCG is not set
 # CONFIG_UCSI_STM32G0 is not set
+CONFIG_TYPEC_TPS6598X_CORE=m
 CONFIG_TYPEC_TPS6598X=m
+# CONFIG_TYPEC_SN201202X is not set
 # CONFIG_TYPEC_ANX7411 is not set
 # CONFIG_TYPEC_RT1719 is not set
 # CONFIG_TYPEC_HD3SS3220 is not set
