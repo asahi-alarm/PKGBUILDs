@@ -187,18 +187,18 @@ Summary: The Linux kernel
 #  the --with-release option overrides this setting.)
 %define debugbuildsenabled 1
 # define buildid .local
-%define specrpmversion 7.1.5
-%define specversion 7.1.5
+%define specrpmversion 7.1.6
+%define specversion 7.1.6
 %define patchversion 7.1
 %define pkgrelease 400.asahi
 %define kversion 7
-%define tarfile_release 7.1.5
+%define tarfile_release 7.1.6
 # This is needed to do merge window version magic
 %define patchlevel 1
 # This allows pkg_release to have configurable %%{?dist} tag
 %define specrelease 400.asahi%{?buildid}%{?dist}
 # This defines the kabi tarball version
-%define kabiversion 7.1.5
+%define kabiversion 7.1.6
 
 # If this variable is set to 1, a bpf selftests build failure will cause a
 # fatal kernel package build error
@@ -1596,7 +1596,7 @@ AutoReqProv: no\
 %description %{?1:%{1}-}debuginfo\
 This package provides debug information for package %{name}%{?1:-%{1}}.\
 This is required to use SystemTap with %{name}%{?1:-%{1}}-%{KVERREL}.\
-%{expand:%%global _find_debuginfo_opts %{?_find_debuginfo_opts} --keep-section '.BTF' -p '.*\/usr\/src\/kernels/.*|XXX' -o ignored-debuginfo.list -p '/.*/%%{KVERREL_RE}%{?1:[+]%{1}}/.*|/.*%%{KVERREL_RE}%{?1:\+%{1}}(\.debug)?' -o debuginfo%{?1}.list}\
+%{expand:%%global _find_debuginfo_opts %{?_find_debuginfo_opts} --keep-section '.BTF' --keep-section '.rustc' -p '.*\/usr\/src\/kernels/.*|XXX' -o ignored-debuginfo.list -p '/.*/%%{KVERREL_RE}%{?1:[+]%{1}}/.*|/.*%%{KVERREL_RE}%{?1:\+%{1}}(\.debug)?' -o debuginfo%{?1}.list}\
 %{nil}
 
 #
@@ -2829,6 +2829,14 @@ BuildKernel() {
     fi
     if [ -f tools/objtool/fixdep ]; then
       cp -a tools/objtool/fixdep $RPM_BUILD_ROOT/lib/modules/$KernelVer/build/tools/objtool/ || :
+    fi
+    if ls rust/*.rmeta >/dev/null 2>&1; then
+      mkdir -p $RPM_BUILD_ROOT/lib/modules/$KernelVer/build/rust
+      cp -a rust/*.rmeta $RPM_BUILD_ROOT/lib/modules/$KernelVer/build/rust/ || :
+    fi
+    if ls rust/*.so >/dev/null 2>&1; then
+      mkdir -p $RPM_BUILD_ROOT/lib/modules/$KernelVer/build/rust
+      cp -a rust/*.so $RPM_BUILD_ROOT/lib/modules/$KernelVer/build/rust/ || :
     fi
     if [ -d arch/$Arch/scripts ]; then
       cp -a arch/$Arch/scripts $RPM_BUILD_ROOT/lib/modules/$KernelVer/build/arch/%{_arch} || :
@@ -4860,7 +4868,8 @@ fi\
 #
 #
 %changelog
-* Sun Jul 26 2026 Neal Gompa <neal@gompa.dev> [7.1.5-400.asahi]
+* Wed Aug 05 2026 Neal Gompa <neal@gompa.dev> [7.1.6-400.asahi]
+- redhat/configs: aarch64: Enable the sn201202x support driver for Fedora (Neal Gompa)
 - redhat/configs: aarch64: Enable Apple Video Decoder driver (Neal Gompa)
 - redhat/configs: Enable Broadcom Bluetooth extensions (Neal Gompa)
 - redhat: spec: Disable dtbloader flavor for <F43 (Neal Gompa)
@@ -4885,22 +4894,32 @@ fi\
 - redhat/configs: aarch64: Enable ARM64_MEMORY_MODEL_CONTROL (Neal Gompa)
 - redhat/configs: s390x: Drop CONFIG_BACKLIGHT_CLASS_DEVICE=m for Fedora (Neal Gompa)
 - redhat/configs: aarch64: asahi: Turn on downstream Apple Silicon configs (Neal Gompa)
-- power: supply: macsmc_power: Add CHWA / CHLS charge thresholds (Hector Martin)
-- fixup! media: apple: avd: add hevc support (sofus)
-- arm64: configs: asahi: Add new configs for v7.1 (Janne Grunau)
-- drm/asahi: Clean up deferred BOs when dropping a VM (DesktopECHO)
-- fixup! media: apple: avd: make get_ref_buf shared (sofus)
-- phy: apple: atc: Handle dummy pipehandler transisions (Janne Grunau)
 - mfd: macsmc: Add second gpio subdevice for 'gp00' keys (Janne Grunau)
 - gpio: gpio-macsmc: Support 'gp00' GPIO keys (Janne Grunau)
 - dt-bindings: gpio: apple,smc: Add compatible for 'gp00' keys (Janne Grunau)
 - driver-core: Add error message to device_links_missing_supplier WARN() (Janne Grunau)
 - Fail the build on RUST=y and RUST_IS_AVAILABLE=n (Sasha Finkelstein)
 - Bluetooth: Add Broadcom channel priority commands (Sasha Finkelstein)
+- power: supply: macsmc: Support macOS 27 SMC firmware (Sasha Finkelstein)
+- mm: pull writability check to follow_pfnmap_start() (Paolo Bonzini)
+- kvm: apply VM_READ/VM_WRITE checks to all VMA types (Paolo Bonzini)
+- drm/ttm, drm/vmwgfx: directly create writable PTEs when mkwrite is in use (Paolo Bonzini)
+- drm/shmem_helper: use vmf_insert_pfn_mkwrite() (Paolo Bonzini)
+- mm: export vmf_insert_pfn_prot_mkwrite(), change variants to inline (Paolo Bonzini)
 - mfd: macsmc: Fix key count endianness annotation (Sven Peter)
 - cpufreq: apple-soc: Calculate frequency as a 64-bit value (Sasha Finkelstein)
 - bus: simple-pm-bus: Add "apple,*-pmgr" compatibles (Janne Grunau)
 - nvmem: core: Fix OOB read for bit offsets of more than one byte (Janne Grunau)
+- spmi: apple: Add interrupt functionality (Alba Mendez)
+- spmi: apple: lock around FIFOs (Alba Mendez)
+- spmi: apple: Implement remaining commands (Alba Mendez)
+- spmi: apple: check transaction status (Alba Mendez)
+- spmi: apple: Validate FIFO state (Alba Mendez)
+- dt-bindings: spmi: apple,spmi: Add t603x (Sasha Finkelstein)
+- usb: typec: tipd: Add sn201202x support (Sasha Finkelstein)
+- usb: typec: tipd: Factor out i2c specifics (Alyssa Milburn)
+- dt-bindings: usb: tps6598x: Add sn201202x/ACE3 (Sasha Finkelstein)
+- ASoC: apple: aop: Add M3 generation built-in mics (Sasha Finkelstein)
 - fixup! soc: apple: Add support for the PMP co-processor (Janne Grunau)
 - soc: apple: Add support for the PMP co-processor (Sasha Finkelstein)
 - rust: bindings: WIP(?): Export various bits for PMP driver (Sasha Finkelstein)
@@ -4927,6 +4946,13 @@ fi\
 - rust: device: HACK? make parent() public (Janne Grunau)
 - rust: device: WIP(?): Make as_raw() public for AOP series (Sasha Finkelstein)
 - rust: property: HACK? make as_raw() public (Sasha Finkelstein)
+- media: apple: isp: add t8122 support (Janne Grunau)
+- media: apple: isp: add t6030 support (Sasha Finkelstein)
+- media: apple: avd: add av1 support (sofus)
+- media: apple: avd: define static values and bitmasks (sofus)
+- media: apple: avd: fix vp9 format selection (sofus)
+- fixup! media: apple: avd: add hevc support (sofus)
+- fixup! media: apple: avd: make get_ref_buf shared (sofus)
 - media: apple: avd: add hevc support (sofus)
 - fixup! media: apple: avd: vp9: remove undefined var (sofus)
 - media: apple: avd: make get_ref_buf shared (sofus)
@@ -4992,6 +5018,8 @@ fi\
 - arm64: Introduce scaffolding to add ACTLR_EL1 to thread state (Hector Martin)
 - arm64: Implement PR_{GET,SET}_MEM_MODEL for always-TSO CPUs (Hector Martin)
 - prctl: Introduce PR_{SET,GET}_MEM_MODEL (Hector Martin)
+- rust_binder: fix compilation error due to Owned<Page> allocation (#34d50740e253) (Neko-0v0)
+- drm/asahi: Clean up deferred BOs when dropping a VM (DesktopECHO)
 - rust/drm: gem: User kernel vertical style (Janne Grunau)
 - drm: asahi: rustfmt (Janne Grunau)
 - drm: asahi: v7.1 Mmio relaxed changes (Janne Grunau)
@@ -5271,6 +5299,8 @@ fi\
 - dmaengine: apple-sio: Add Apple SIO driver (Martin Povišer)
 - dt-bindings: dma: apple,sio: Add schema (Martin Povišer)
 - phy: apple: Add DP TX phy driver (Janne Grunau)
+- phy: apple: atc: Add initial M3 series support (Sasha Finkelstein)
+- phy: apple: atc: Handle dummy pipehandler transisions (Janne Grunau)
 - xhci-pci: asmedia: Add a firmware loader for ASM2214a chips (Hector Martin)
 - PCI: apple: Add depends on PAGE_SIZE_16KB (Janne Grunau)
 - NOT-FOR-UPSTREAM: PCI: apple: Use up to 4 "reset-gpios" (Janne Grunau)
@@ -5282,7 +5312,7 @@ fi\
 - PCI: apple: Add support for optional PWREN GPIO (Hector Martin)
 - PCI: apple: Probe all GPIOs for availability first (Hector Martin)
 - dt-bindings: pci: apple,pcie: Add subnode binding, pwren-gpios property (Hector Martin)
-- power: supply: macsmc: Support macOS 27 SMC firmware (Sasha Finkelstein)
+- power: supply: macsmc_power: Add CHWA / CHLS charge thresholds (Hector Martin)
 - input: macsmc-input: Prefer `true` as boolean literal (Janne Grunau)
 - input: macsmc-input: Fix wakeup from s2idle (Janne Grunau)
 - power: supply: macsmc_power: Add a debug mode to print power usage (Hector Martin)
@@ -5353,6 +5383,8 @@ fi\
 - wifi: brcmfmac: Fix logic for deciding which doorbell registers to use (Hector Martin)
 - wifi: brcmfmac: Handle PCIe MSI properly (Hector Martin)
 - wifi: brcmfmac: Add missing shared area defines to pcie.c (Hector Martin)
+- dmaengine: apple-admac: Add M3 generation ADMACs (Sasha Finkelstein)
+- dt-bindings: dma: apple,admac: Add M3 generation ADMACs (Sasha Finkelstein)
 - ASoC: macaudio: Add comments for M3 machines (James Calligeros)
 - fixup! ASoC: apple: Add macaudio machine driver (James Calligeros)
 - ASoC: macaudio: Use upstreamed bus keeper configuration mechanism (James Calligeros)
@@ -5434,6 +5466,7 @@ fi\
 - ASoC: ops: Accept patterns in snd_soc_limit_volume (Martin Povišer)
 - ASoC: ops: Move guts out of snd_soc_limit_volume (Martin Povišer)
 - apple-nvme: defer cache flushes by a specified amount (Jens Axboe)
+- arm64: configs: asahi: Add new configs for v7.1 (Janne Grunau)
 - arm64: configs: asahi: Add new configs for v6.19 (Janne Grunau)
 - pmdomain: apple: Add PMP reporting interface (Sasha Finkelstein)
 - power: hibernate: Disable hibernation on Apple Silicon (Sven Peter)
@@ -5468,6 +5501,7 @@ fi\
 - iommu: apple-dart: Enable runtime PM (Hector Martin)
 - iommu: apple-dart: Link to consumers with blanket RPM_ACTIVE (Martin Povišer)
 - iommu: apple-dart: Power on device when handling IRQs (Asahi Lina)
+- soc: apple: tunable: Allow passing NULL to tunable_apply (Sasha Finkelstein)
 - soc: apple: rtkit: Pass 0 as size for a NULL crashlog buffer (Janne Grunau)
 - soc: apple: rtkit: Use scope-based cleanup in apple_rtkit_crashlog_rx() (Janne Grunau)
 - cpuidle-apple: load on M3 / Pro / Max / Ultra (Yureka)
@@ -5478,6 +5512,15 @@ fi\
 - dt-bindings: power: apple,pmgr-pwrstate: Add force-{disable,reset} (Asahi Lina)
 - soc: apple: Add driver for Apple PMGR misc controls (Hector Martin)
 - soc: apple: rtkit: Add devm_apple_rtkit_free() (Janne Grunau)
+- arm64: dts: apple: t600x-j314-j316: Change Type-C port label (Janne Grunau)
+- arm64: dts: apple: t603x: Add usb/atcphy nodes (Sasha Finkelstein)
+- arm64: dts: apple: t8122: Add usb/atcphy nodes (Sasha Finkelstein)
+- arm64: dts: apple: t603x: Add ACE3 pd controllers (Sasha Finkelstein)
+- arm64: dts: apple: t603x: Add usb-related spmi controllers (Sasha Finkelstein)
+- arm64: dts: apple: t8122: Add ISP nodes (Janne Grunau)
+- arm64: dts: apple: t6030: Add isp nodes (Sasha Finkelstein)
+- arm64: dts: apple: t603x: Add aop/admac nodes (Sasha Finkelstein)
+- arm64: dts: apple: t8122: Add aop/admac nodes (Sasha Finkelstein)
 - arm64: dts: apple: t6031: add avd nodes (sofus)
 - arm64: dts: apple: t6030: add avd nodes (sofus)
 - arm64: dts: apple: t8122: add avd nodes (sofus)
@@ -5669,6 +5712,37 @@ fi\
 - dt-bindings: power: apple,pmgr-pwrstate: Add t8122 compatible (Janne Grunau)
 - dt-bindings: arm: apple: apple,pmgr: Add t8122 compatible (Janne Grunau)
 - dt-bindings: watchdog: apple,wdt: Add t8122 compatible (Janne Grunau)
+
+* Mon Aug 03 2026 Justin M. Forbes <jforbes@fedoraproject.org> [7.1.6-1]
+- vhost: reset the vring metadata cache on vring reconfiguration (Jun Yang)
+
+* Mon Aug 03 2026 Justin M. Forbes <jforbes@fedoraproject.org> [7.1.6-1]
+- vhost: reset the vring metadata cache on vring reconfiguration (Jun Yang)
+
+* Mon Aug 03 2026 Augusto Caringi <acaringi@redhat.com> [7.1.6-0]
+- New config for stable (Justin M. Forbes)
+- acpi: battery: Sanitise model_number by dropping unprintable characters (Kate Hsuan)
+- redhat: configs: Enable AMD ISP4 MIPI camera solution (Kate Hsuan)
+- media: platform: amd: add DRM_AMDGPU dependency (Arnd Bergmann)
+- media: platform: amd: isp4: drop stale list reinit before free (Bin Du)
+- media: platform: amd: isp4 debug fs logging and more descriptive errors (Bin Du)
+- media: platform: amd: isp4 video node and buffers handling added (Bin Du)
+- media: platform: amd: isp4 subdev and firmware loading handling added (Bin Du)
+- media: platform: amd: Add isp4 fw and hw interface (Bin Du)
+- media: platform: amd: low level support for isp4 firmware (Bin Du)
+- media: platform: amd: Introduce amd isp4 capture driver (Bin Du)
+- serial: 8250_mid: Fix NULL function pointer dereference on DNV/ICX-D/SNR platforms (Jiangshan Yi)
+- Linux v7.1.6
+
+* Tue Jul 28 2026 Justin M. Forbes <jforbes@fedoraproject.org> [7.1.5-1]
+- ASoC: cs42l43: Correct report for forced microphone jack (Charles Keepax)
+- platform/x86/intel-uncore-freq: Fix current_freq_khz after CPU hotplug (Guixiong Wei)
+- xfs: fix exchange-range reflink flag clearing issue with INO1_WRITTEN (Lin Jiapeng)
+- sched_ext: Record an error on errno-only sub-enable failure (Tejun Heo)
+- sched_ext: Enable tick for finite slices on nohz_full (Andrea Righi)
+- sched_ext: Don't warn on core-sched forced idle in put_prev_task_scx() (Tejun Heo)
+- sched_ext: Annotate ksyncs with __rcu in alloc/free_kick_syncs() (Tejun Heo)
+- sched_ext: Skip ops.set_weight() for disabled tasks (Kuba Piecuch)
 
 * Fri Jul 24 2026 Augusto Caringi <acaringi@redhat.com> [7.1.5-0]
 - redhat/configs: fix new config items for aarch64 and s390x (Augusto Caringi)

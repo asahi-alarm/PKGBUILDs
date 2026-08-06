@@ -4,19 +4,19 @@ Summary: The Linux kernel
 Name: kernel
 License: ((GPL-2.0-only WITH Linux-syscall-note) OR BSD-2-Clause) AND ((GPL-2.0-only WITH Linux-syscall-note) OR BSD-3-Clause) AND ((GPL-2.0-only WITH Linux-syscall-note) OR CDDL-1.0) AND ((GPL-2.0-only WITH Linux-syscall-note) OR Linux-OpenIB) AND ((GPL-2.0-only WITH Linux-syscall-note) OR MIT) AND ((GPL-2.0-or-later WITH Linux-syscall-note) OR BSD-3-Clause) AND ((GPL-2.0-or-later WITH Linux-syscall-note) OR MIT) AND 0BSD AND BSD-2-Clause AND (BSD-2-Clause OR Apache-2.0) AND BSD-3-Clause AND BSD-3-Clause-Clear AND CC0-1.0 AND GFDL-1.1-no-invariants-or-later AND GPL-1.0-or-later AND (GPL-1.0-or-later OR BSD-3-Clause) AND (GPL-1.0-or-later WITH Linux-syscall-note) AND GPL-2.0-only AND (GPL-2.0-only OR Apache-2.0) AND (GPL-2.0-only OR BSD-2-Clause) AND (GPL-2.0-only OR BSD-3-Clause) AND (GPL-2.0-only OR CDDL-1.0) AND (GPL-2.0-only OR GFDL-1.1-no-invariants-or-later) AND (GPL-2.0-only OR GFDL-1.2-no-invariants-only) AND (GPL-2.0-only OR GFDL-1.2-no-invariants-or-later) AND (GPL-2.0-only WITH Linux-syscall-note) AND GPL-2.0-or-later AND (GPL-2.0-or-later OR BSD-2-Clause) AND (GPL-2.0-or-later OR BSD-3-Clause) AND (GPL-2.0-or-later OR CC-BY-4.0) AND (GPL-2.0-or-later WITH GCC-exception-2.0) AND (GPL-2.0-or-later WITH Linux-syscall-note) AND ISC AND LGPL-2.0-or-later AND (LGPL-2.0-or-later OR BSD-2-Clause) AND (LGPL-2.0-or-later WITH Linux-syscall-note) AND LGPL-2.1-only AND (LGPL-2.1-only OR BSD-2-Clause) AND (LGPL-2.1-only WITH Linux-syscall-note) AND LGPL-2.1-or-later AND (LGPL-2.1-or-later WITH Linux-syscall-note) AND (Linux-OpenIB OR GPL-2.0-only) AND (Linux-OpenIB OR GPL-2.0-only OR BSD-2-Clause) AND Linux-man-pages-copyleft AND MIT AND (MIT OR Apache-2.0) AND (MIT OR GPL-2.0-only) AND (MIT OR GPL-2.0-or-later) AND (MIT OR LGPL-2.1-only) AND (MPL-1.1 OR GPL-2.0-only) AND (X11 OR GPL-2.0-only) AND (X11 OR GPL-2.0-or-later) AND Zlib AND (copyleft-next-0.3.1 OR GPL-2.0-or-later)
 URL: https://www.kernel.org/
-Version: 7.1.5
+Version: 7.1.6
 Release: 400.asahi
 
 ExclusiveArch: noarch x86_64 s390x aarch64 ppc64le riscv64
 
 ExclusiveOS: Linux
 
-Requires: kernel-core-uname-r = 7.1.5-400.asahi.aarch64
-Requires: kernel-modules-uname-r = 7.1.5-400.asahi.aarch64
-Requires: kernel-modules-core-uname-r = 7.1.5-400.asahi.aarch64
-Requires: ((kernel-modules-extra-uname-r = 7.1.5-400.asahi.aarch64) if kernel-modules-extra-matched)
+Requires: kernel-core-uname-r = 7.1.6-400.asahi.aarch64
+Requires: kernel-modules-uname-r = 7.1.6-400.asahi.aarch64
+Requires: kernel-modules-core-uname-r = 7.1.6-400.asahi.aarch64
+Requires: ((kernel-modules-extra-uname-r = 7.1.6-400.asahi.aarch64) if kernel-modules-extra-matched)
 
-Suggests: kernel-core = 7.1.5-400.asahi
+Suggests: kernel-core = 7.1.6-400.asahi
 Provides: installonlypkg(kernel)
 
 BuildRequires: kmod, bash, coreutils, tar, git-core, which
@@ -112,7 +112,7 @@ BuildRequires: systemd-boot-unsigned
 
 BuildRequires: systemd-ukify
 
-Source0: linux-7.1.5.tar.xz
+Source0: linux-7.1.6.tar.xz
 
 Source1: Makefile.rhelver
 Source2: kernel.changelog
@@ -208,8 +208,8 @@ Source212: Module.kabi_dup_s390x
 Source213: Module.kabi_dup_x86_64
 Source214: Module.kabi_dup_riscv64
 
-Source300: kernel-abi-stablelists-7.1.5.tar.xz
-Source301: kernel-kabi-dw-7.1.5.tar.xz
+Source300: kernel-abi-stablelists-7.1.6.tar.xz
+Source301: kernel-kabi-dw-7.1.6.tar.xz
 
 Source474: kernel-aarch64-rt-rhel.config
 Source475: kernel-aarch64-rt-debug-rhel.config
@@ -286,7 +286,7 @@ of the Linux kernel.
 %package -n perf-debuginfo
 
 Summary: Debug information for package perf
-Requires: kernel-debuginfo-common-aarch64 = 7.1.5-400.asahi
+Requires: kernel-debuginfo-common-aarch64 = 7.1.6-400.asahi
 AutoReqProv: no
 %description -n perf-debuginfo
 This package provides debug information for the perf package.
@@ -302,7 +302,7 @@ to manipulate perf events.
 %package -n python3-perf-debuginfo
 
 Summary: Debug information for package perf python bindings
-Requires: kernel-debuginfo-common-aarch64 = 7.1.5-400.asahi
+Requires: kernel-debuginfo-common-aarch64 = 7.1.6-400.asahi
 AutoReqProv: no
 %description -n python3-perf-debuginfo
 This package provides debug information for the perf python bindings.
@@ -314,7 +314,7 @@ This package contains the kernel source perf library.
 
 %package -n libperf-devel
 Summary: Developement files for the perf library from kernel source
-Requires: libperf = 7.1.5-400.asahi
+Requires: libperf = 7.1.6-400.asahi
 %description -n libperf-devel
 This package includes libraries and header files needed for development
 of applications which use perf library from kernel source.
@@ -322,7 +322,7 @@ of applications which use perf library from kernel source.
 %package -n libperf-debuginfo
 Summary: Debug information for package libperf
 Group: Development/Debug
-Requires: kernel-debuginfo-common-aarch64 = 7.1.5-400.asahi
+Requires: kernel-debuginfo-common-aarch64 = 7.1.6-400.asahi
 AutoReqProv: no
 %description -n libperf-debuginfo
 This package provides debug information for the libperf package.
@@ -337,7 +337,7 @@ Provides:  cpufrequtils = 1:009-0.6.p1
 Obsoletes: cpufreq-utils < 1:009-0.6.p1
 Obsoletes: cpufrequtils < 1:009-0.6.p1
 Obsoletes: cpuspeed < 1:1.5-16
-Requires: kernel-tools-libs = 7.1.5-400.asahi
+Requires: kernel-tools-libs = 7.1.6-400.asahi
 
 %description -n kernel-tools
 This package contains the tools/ directory from the kernel source
@@ -351,12 +351,12 @@ from the kernel source.
 
 %package -n kernel-tools-libs-devel
 Summary: Assortment of tools for the Linux kernel
-Requires: kernel-tools = 7.1.5-400.asahi
+Requires: kernel-tools = 7.1.6-400.asahi
 
 Provides:  cpupowerutils-devel = 1:009-0.6.p1
 Obsoletes: cpupowerutils-devel < 1:009-0.6.p1
 
-Requires: kernel-tools-libs = 7.1.5-400.asahi
+Requires: kernel-tools-libs = 7.1.6-400.asahi
 Provides: kernel-tools-devel
 %description -n kernel-tools-libs-devel
 This package contains the development files for the tools/ directory from
@@ -364,7 +364,7 @@ the kernel source.
 
 %package -n kernel-tools-debuginfo
 Summary: Debug information for package kernel-tools
-Requires: kernel-debuginfo-common-aarch64 = 7.1.5-400.asahi
+Requires: kernel-debuginfo-common-aarch64 = 7.1.6-400.asahi
 AutoReqProv: no
 %description -n kernel-tools-debuginfo
 This package provides debug information for package kernel-tools.
@@ -382,7 +382,7 @@ Requires: libtraceevent
 Requires: libtracefs
 Requires: libbpf
 
-Requires: kernel-tools-libs = 7.1.5-400.asahi
+Requires: kernel-tools-libs = 7.1.6-400.asahi
 
 %description -n rtla
 The rtla meta-tool includes a set of commands that aims to analyze
@@ -393,7 +393,7 @@ about the properties and root causes of unexpected results.
 %package -n rtla-debuginfo
 
 Summary: Debug information for package rtla
-Requires: kernel-debuginfo-common-aarch64 = 7.1.5-400.asahi
+Requires: kernel-debuginfo-common-aarch64 = 7.1.6-400.asahi
 AutoReqProv: no
 %description -n rtla-debuginfo
 This package provides debug information for the rtla package.
@@ -412,7 +412,7 @@ to analyze the logical and timing behavior of Linux.
 %package -n rv-debuginfo
 
 Summary: Debug information for package rv
-Requires: kernel-debuginfo-common-aarch64 = 7.1.5-400.asahi
+Requires: kernel-debuginfo-common-aarch64 = 7.1.6-400.asahi
 AutoReqProv: no
 %description -n rv-debuginfo
 This package provides debug information for the rv package.
@@ -426,15 +426,15 @@ Kernel sample programs and selftests.
 
 %package 16k-core
 Summary: The Linux kernel compiled for 16k pagesize usage
-Provides: kernel-16k-core-uname-r = 7.1.5-400.asahi.aarch64+16k
+Provides: kernel-16k-core-uname-r = 7.1.6-400.asahi.aarch64+16k
 Provides: installonlypkg(kernel)
 
-Provides: kernel = 7.1.5-400.asahi
-Provides: kernel = 7.1.5-400.asahi
+Provides: kernel = 7.1.6-400.asahi
+Provides: kernel = 7.1.6-400.asahi
 
-Provides: kernel-aarch64 = 7.1.5-400.asahi+16k
-Provides: kernel-uname-r = 7.1.5-400.asahi.aarch64+16k
-Requires: kernel-16k-modules-core-uname-r = 7.1.5-400.asahi.aarch64+16k
+Provides: kernel-aarch64 = 7.1.6-400.asahi+16k
+Provides: kernel-uname-r = 7.1.6-400.asahi.aarch64+16k
+Requires: kernel-16k-modules-core-uname-r = 7.1.6-400.asahi.aarch64+16k
 Requires(pre): coreutils, systemd >= 203-2, /usr/bin/kernel-install
 Requires(pre): dracut >= 027
 Requires(pre): ((linux-firmware >= 20150904-56.git6ebf5d57) if linux-firmware)
@@ -448,12 +448,12 @@ AutoProv: yes
 
 %package 16k
 summary: kernel meta-package for the 16k kernel
-Requires: kernel-16k-core-uname-r = 7.1.5-400.asahi.aarch64+16k
-Requires: kernel-16k-modules-uname-r = 7.1.5-400.asahi.aarch64+16k
-Requires: kernel-16k-modules-core-uname-r = 7.1.5-400.asahi.aarch64+16k
-Requires: ((kernel-16k-modules-extra-uname-r = 7.1.5-400.asahi.aarch64+16k) if kernel-modules-extra-matched)
+Requires: kernel-16k-core-uname-r = 7.1.6-400.asahi.aarch64+16k
+Requires: kernel-16k-modules-uname-r = 7.1.6-400.asahi.aarch64+16k
+Requires: kernel-16k-modules-core-uname-r = 7.1.6-400.asahi.aarch64+16k
+Requires: ((kernel-16k-modules-extra-uname-r = 7.1.6-400.asahi.aarch64+16k) if kernel-modules-extra-matched)
 
-Suggests: kernel-16k-core = 7.1.5-400.asahi
+Suggests: kernel-16k-core = 7.1.6-400.asahi
 
 Provides: installonlypkg(kernel)
 %description 16k
@@ -461,10 +461,10 @@ The meta-package for the 16k kernel
 
 %package 16k-devel
 Summary: Development package for building kernel modules to match the kernel
-Provides: kernel-16k-devel-aarch64 = 7.1.5-400.asahi
-Provides: kernel-devel-aarch64 = 7.1.5-400.asahi+16k
-Provides: kernel-devel-uname-r = 7.1.5-400.asahi.aarch64+16k
-Provides: kernel-devel-uname-r = 7.1.5-400.asahi.aarch64+16k
+Provides: kernel-16k-devel-aarch64 = 7.1.6-400.asahi
+Provides: kernel-devel-aarch64 = 7.1.6-400.asahi+16k
+Provides: kernel-devel-uname-r = 7.1.6-400.asahi.aarch64+16k
+Provides: kernel-devel-uname-r = 7.1.6-400.asahi.aarch64+16k
 Provides: installonlypkg(kernel)
 AutoReqProv: no
 Requires(pre): findutils
@@ -483,20 +483,20 @@ against the kernel package.
 
 %package 16k-devel-matched
 Summary: Meta package to install matching core and devel packages for a given kernel
-Requires: kernel-16k-devel = 7.1.5-400.asahi
-Requires: kernel-16k-core = 7.1.5-400.asahi
+Requires: kernel-16k-devel = 7.1.6-400.asahi
+Requires: kernel-16k-core = 7.1.6-400.asahi
 %description 16k-devel-matched
 This meta package is used to install matching core and devel packages for a given kernel.
 
 %package 16k-modules
 Summary: kernel modules to match the core kernel
-Provides: kernel-16k-modules-aarch64 = 7.1.5-400.asahi
-Provides: kernel-16k-modules-aarch64 = 7.1.5-400.asahi+16k
-Provides: kernel-16k-modules = 7.1.5-400.asahi+16k
+Provides: kernel-16k-modules-aarch64 = 7.1.6-400.asahi
+Provides: kernel-16k-modules-aarch64 = 7.1.6-400.asahi+16k
+Provides: kernel-16k-modules = 7.1.6-400.asahi+16k
 Provides: installonlypkg(kernel-module)
-Provides: kernel-16k-modules-uname-r = 7.1.5-400.asahi.aarch64+16k
-Requires: kernel-uname-r = 7.1.5-400.asahi.aarch64+16k
-Requires: kernel-16k-modules-core-uname-r = 7.1.5-400.asahi.aarch64+16k
+Provides: kernel-16k-modules-uname-r = 7.1.6-400.asahi.aarch64+16k
+Requires: kernel-uname-r = 7.1.6-400.asahi.aarch64+16k
+Requires: kernel-16k-modules-core-uname-r = 7.1.6-400.asahi.aarch64+16k
 
 AutoReq: no
 AutoProv: yes
@@ -505,12 +505,12 @@ This package provides commonly used kernel modules for the core kernel package.
 
 %package 16k-modules-core
 Summary: Core kernel modules to match the core kernel
-Provides: kernel-16k-modules-core-aarch64 = 7.1.5-400.asahi
-Provides: kernel-16k-modules-core-aarch64 = 7.1.5-400.asahi+16k
-Provides: kernel-16k-modules-core = 7.1.5-400.asahi+16k
+Provides: kernel-16k-modules-core-aarch64 = 7.1.6-400.asahi
+Provides: kernel-16k-modules-core-aarch64 = 7.1.6-400.asahi+16k
+Provides: kernel-16k-modules-core = 7.1.6-400.asahi+16k
 Provides: installonlypkg(kernel-module)
-Provides: kernel-16k-modules-core-uname-r = 7.1.5-400.asahi.aarch64+16k
-Requires: kernel-uname-r = 7.1.5-400.asahi.aarch64+16k
+Provides: kernel-16k-modules-core-uname-r = 7.1.6-400.asahi.aarch64+16k
+Requires: kernel-uname-r = 7.1.6-400.asahi.aarch64+16k
 
 AutoReq: no
 AutoProv: yes
@@ -519,14 +519,14 @@ This package provides essential kernel modules for the core kernel package.
 
 %package 16k-modules-extra
 Summary: Extra kernel modules to match the kernel
-Provides: kernel-16k-modules-extra-aarch64 = 7.1.5-400.asahi
-Provides: kernel-16k-modules-extra-aarch64 = 7.1.5-400.asahi+16k
-Provides: kernel-16k-modules-extra = 7.1.5-400.asahi+16k
+Provides: kernel-16k-modules-extra-aarch64 = 7.1.6-400.asahi
+Provides: kernel-16k-modules-extra-aarch64 = 7.1.6-400.asahi+16k
+Provides: kernel-16k-modules-extra = 7.1.6-400.asahi+16k
 Provides: installonlypkg(kernel-module)
-Provides: kernel-16k-modules-extra-uname-r = 7.1.5-400.asahi.aarch64+16k
-Requires: kernel-uname-r = 7.1.5-400.asahi.aarch64+16k
-Requires: kernel-16k-modules-uname-r = 7.1.5-400.asahi.aarch64+16k
-Requires: kernel-16k-modules-core-uname-r = 7.1.5-400.asahi.aarch64+16k
+Provides: kernel-16k-modules-extra-uname-r = 7.1.6-400.asahi.aarch64+16k
+Requires: kernel-uname-r = 7.1.6-400.asahi.aarch64+16k
+Requires: kernel-16k-modules-uname-r = 7.1.6-400.asahi.aarch64+16k
+Requires: kernel-16k-modules-core-uname-r = 7.1.6-400.asahi.aarch64+16k
 
 AutoReq: no
 AutoProv: yes
@@ -536,15 +536,15 @@ This package provides less commonly used kernel modules for the kernel package.
 %package 16k-modules-internal
 Summary: Extra kernel modules to match the kernel
 Group: System Environment/Kernel
-Provides: kernel-16k-modules-internal-aarch64 = 7.1.5-400.asahi
-Provides: kernel-16k-modules-internal-aarch64 = 7.1.5-400.asahi+16k
-Provides: kernel-16k-modules-internal = 7.1.5-400.asahi+16k
+Provides: kernel-16k-modules-internal-aarch64 = 7.1.6-400.asahi
+Provides: kernel-16k-modules-internal-aarch64 = 7.1.6-400.asahi+16k
+Provides: kernel-16k-modules-internal = 7.1.6-400.asahi+16k
 Provides: installonlypkg(kernel-module)
-Provides: kernel-16k-modules-internal-uname-r = 7.1.5-400.asahi.aarch64+16k
-Requires: kernel-uname-r = 7.1.5-400.asahi.aarch64+16k
-Requires: kernel-16k-modules-uname-r = 7.1.5-400.asahi.aarch64+16k
-Requires: kernel-16k-modules-core-uname-r = 7.1.5-400.asahi.aarch64+16k
-Supplements: (kernel-selftests-internal-present and kernel-uname-r = 7.1.5-400.asahi.aarch64+16k)
+Provides: kernel-16k-modules-internal-uname-r = 7.1.6-400.asahi.aarch64+16k
+Requires: kernel-uname-r = 7.1.6-400.asahi.aarch64+16k
+Requires: kernel-16k-modules-uname-r = 7.1.6-400.asahi.aarch64+16k
+Requires: kernel-16k-modules-core-uname-r = 7.1.6-400.asahi.aarch64+16k
+Supplements: (kernel-selftests-internal-present and kernel-uname-r = 7.1.6-400.asahi.aarch64+16k)
 AutoReq: no
 AutoProv: yes
 %description 16k-modules-internal
@@ -552,26 +552,26 @@ This package provides kernel modules for the kernel package for Red Hat internal
 
 %package 16k-debuginfo
 Summary: Debug information for package kernel-16k
-Requires: kernel-debuginfo-common-aarch64 = 7.1.5-400.asahi
-Provides: kernel-16k-debuginfo-aarch64 = 7.1.5-400.asahi
+Requires: kernel-debuginfo-common-aarch64 = 7.1.6-400.asahi
+Provides: kernel-16k-debuginfo-aarch64 = 7.1.6-400.asahi
 Provides: installonlypkg(kernel)
 AutoReqProv: no
 %description 16k-debuginfo
 This package provides debug information for package kernel-16k.
-This is required to use SystemTap with kernel-16k-7.1.5-400.asahi.aarch64.
+This is required to use SystemTap with kernel-16k-7.1.6-400.asahi.aarch64.
 
 %package 16k-uki-virt
 Summary: The Linux kernel compiled for 16k pagesize usage unified kernel image for virtual machines
 Provides: installonlypkg(kernel)
-Provides: kernel-uname-r = 7.1.5-400.asahi.aarch64+16k
-Requires: kernel-16k-modules-core-uname-r = 7.1.5-400.asahi.aarch64+16k
+Provides: kernel-uname-r = 7.1.6-400.asahi.aarch64+16k
+Requires: kernel-16k-modules-core-uname-r = 7.1.6-400.asahi.aarch64+16k
 Requires(pre): coreutils, systemd >= 203-2, /usr/bin/kernel-install
 Requires(pre): systemd >= 254-1
 Recommends: uki-direct
 %package 16k-uki-virt-addons
 Summary: The Linux kernel compiled for 16k pagesize usage unified kernel image addons for virtual machines
 Provides: installonlypkg(kernel)
-Requires: kernel-16k-uki-virt = 7.1.5-400.asahi
+Requires: kernel-16k-uki-virt = 7.1.6-400.asahi
 Requires(pre): systemd >= 254-1
 
 %description 16k-core
@@ -580,15 +580,15 @@ a 16K page size.
 
 %package 16k-debug-core
 Summary: The Linux kernel compiled with extra debugging enabled
-Provides: kernel-16k-debug-core-uname-r = 7.1.5-400.asahi.aarch64+16k_debug
+Provides: kernel-16k-debug-core-uname-r = 7.1.6-400.asahi.aarch64+16k_debug
 Provides: installonlypkg(kernel)
 
-Provides: kernel = 7.1.5-400.asahi
-Provides: kernel = 7.1.5-400.asahi
+Provides: kernel = 7.1.6-400.asahi
+Provides: kernel = 7.1.6-400.asahi
 
-Provides: kernel-aarch64 = 7.1.5-400.asahi+16k_debug
-Provides: kernel-uname-r = 7.1.5-400.asahi.aarch64+16k_debug
-Requires: kernel-16k-debug-modules-core-uname-r = 7.1.5-400.asahi.aarch64+16k_debug
+Provides: kernel-aarch64 = 7.1.6-400.asahi+16k_debug
+Provides: kernel-uname-r = 7.1.6-400.asahi.aarch64+16k_debug
+Requires: kernel-16k-debug-modules-core-uname-r = 7.1.6-400.asahi.aarch64+16k_debug
 Requires(pre): coreutils, systemd >= 203-2, /usr/bin/kernel-install
 Requires(pre): dracut >= 027
 Requires(pre): ((linux-firmware >= 20150904-56.git6ebf5d57) if linux-firmware)
@@ -602,12 +602,12 @@ AutoProv: yes
 
 %package 16k-debug
 summary: kernel meta-package for the 16k-debug kernel
-Requires: kernel-16k-debug-core-uname-r = 7.1.5-400.asahi.aarch64+16k_debug
-Requires: kernel-16k-debug-modules-uname-r = 7.1.5-400.asahi.aarch64+16k_debug
-Requires: kernel-16k-debug-modules-core-uname-r = 7.1.5-400.asahi.aarch64+16k_debug
-Requires: ((kernel-16k-debug-modules-extra-uname-r = 7.1.5-400.asahi.aarch64+16k_debug) if kernel-modules-extra-matched)
+Requires: kernel-16k-debug-core-uname-r = 7.1.6-400.asahi.aarch64+16k_debug
+Requires: kernel-16k-debug-modules-uname-r = 7.1.6-400.asahi.aarch64+16k_debug
+Requires: kernel-16k-debug-modules-core-uname-r = 7.1.6-400.asahi.aarch64+16k_debug
+Requires: ((kernel-16k-debug-modules-extra-uname-r = 7.1.6-400.asahi.aarch64+16k_debug) if kernel-modules-extra-matched)
 
-Suggests: kernel-16k-debug-core = 7.1.5-400.asahi
+Suggests: kernel-16k-debug-core = 7.1.6-400.asahi
 
 Provides: installonlypkg(kernel)
 %description 16k-debug
@@ -615,10 +615,10 @@ The meta-package for the 16k-debug kernel
 
 %package 16k-debug-devel
 Summary: Development package for building kernel modules to match the kernel
-Provides: kernel-16k-debug-devel-aarch64 = 7.1.5-400.asahi
-Provides: kernel-devel-aarch64 = 7.1.5-400.asahi+16k_debug
-Provides: kernel-devel-uname-r = 7.1.5-400.asahi.aarch64+16k_debug
-Provides: kernel-devel-uname-r = 7.1.5-400.asahi.aarch64+16k_debug
+Provides: kernel-16k-debug-devel-aarch64 = 7.1.6-400.asahi
+Provides: kernel-devel-aarch64 = 7.1.6-400.asahi+16k_debug
+Provides: kernel-devel-uname-r = 7.1.6-400.asahi.aarch64+16k_debug
+Provides: kernel-devel-uname-r = 7.1.6-400.asahi.aarch64+16k_debug
 Provides: installonlypkg(kernel)
 AutoReqProv: no
 Requires(pre): findutils
@@ -637,20 +637,20 @@ against the kernel package.
 
 %package 16k-debug-devel-matched
 Summary: Meta package to install matching core and devel packages for a given kernel
-Requires: kernel-16k-debug-devel = 7.1.5-400.asahi
-Requires: kernel-16k-debug-core = 7.1.5-400.asahi
+Requires: kernel-16k-debug-devel = 7.1.6-400.asahi
+Requires: kernel-16k-debug-core = 7.1.6-400.asahi
 %description 16k-debug-devel-matched
 This meta package is used to install matching core and devel packages for a given kernel.
 
 %package 16k-debug-modules
 Summary: kernel modules to match the core kernel
-Provides: kernel-16k-debug-modules-aarch64 = 7.1.5-400.asahi
-Provides: kernel-16k-debug-modules-aarch64 = 7.1.5-400.asahi+16k_debug
-Provides: kernel-16k-debug-modules = 7.1.5-400.asahi+16k_debug
+Provides: kernel-16k-debug-modules-aarch64 = 7.1.6-400.asahi
+Provides: kernel-16k-debug-modules-aarch64 = 7.1.6-400.asahi+16k_debug
+Provides: kernel-16k-debug-modules = 7.1.6-400.asahi+16k_debug
 Provides: installonlypkg(kernel-module)
-Provides: kernel-16k-debug-modules-uname-r = 7.1.5-400.asahi.aarch64+16k_debug
-Requires: kernel-uname-r = 7.1.5-400.asahi.aarch64+16k_debug
-Requires: kernel-16k-debug-modules-core-uname-r = 7.1.5-400.asahi.aarch64+16k_debug
+Provides: kernel-16k-debug-modules-uname-r = 7.1.6-400.asahi.aarch64+16k_debug
+Requires: kernel-uname-r = 7.1.6-400.asahi.aarch64+16k_debug
+Requires: kernel-16k-debug-modules-core-uname-r = 7.1.6-400.asahi.aarch64+16k_debug
 
 AutoReq: no
 AutoProv: yes
@@ -659,12 +659,12 @@ This package provides commonly used kernel modules for the core kernel package.
 
 %package 16k-debug-modules-core
 Summary: Core kernel modules to match the core kernel
-Provides: kernel-16k-debug-modules-core-aarch64 = 7.1.5-400.asahi
-Provides: kernel-16k-debug-modules-core-aarch64 = 7.1.5-400.asahi+16k_debug
-Provides: kernel-16k-debug-modules-core = 7.1.5-400.asahi+16k_debug
+Provides: kernel-16k-debug-modules-core-aarch64 = 7.1.6-400.asahi
+Provides: kernel-16k-debug-modules-core-aarch64 = 7.1.6-400.asahi+16k_debug
+Provides: kernel-16k-debug-modules-core = 7.1.6-400.asahi+16k_debug
 Provides: installonlypkg(kernel-module)
-Provides: kernel-16k-debug-modules-core-uname-r = 7.1.5-400.asahi.aarch64+16k_debug
-Requires: kernel-uname-r = 7.1.5-400.asahi.aarch64+16k_debug
+Provides: kernel-16k-debug-modules-core-uname-r = 7.1.6-400.asahi.aarch64+16k_debug
+Requires: kernel-uname-r = 7.1.6-400.asahi.aarch64+16k_debug
 
 AutoReq: no
 AutoProv: yes
@@ -673,14 +673,14 @@ This package provides essential kernel modules for the core kernel package.
 
 %package 16k-debug-modules-extra
 Summary: Extra kernel modules to match the kernel
-Provides: kernel-16k-debug-modules-extra-aarch64 = 7.1.5-400.asahi
-Provides: kernel-16k-debug-modules-extra-aarch64 = 7.1.5-400.asahi+16k_debug
-Provides: kernel-16k-debug-modules-extra = 7.1.5-400.asahi+16k_debug
+Provides: kernel-16k-debug-modules-extra-aarch64 = 7.1.6-400.asahi
+Provides: kernel-16k-debug-modules-extra-aarch64 = 7.1.6-400.asahi+16k_debug
+Provides: kernel-16k-debug-modules-extra = 7.1.6-400.asahi+16k_debug
 Provides: installonlypkg(kernel-module)
-Provides: kernel-16k-debug-modules-extra-uname-r = 7.1.5-400.asahi.aarch64+16k_debug
-Requires: kernel-uname-r = 7.1.5-400.asahi.aarch64+16k_debug
-Requires: kernel-16k-debug-modules-uname-r = 7.1.5-400.asahi.aarch64+16k_debug
-Requires: kernel-16k-debug-modules-core-uname-r = 7.1.5-400.asahi.aarch64+16k_debug
+Provides: kernel-16k-debug-modules-extra-uname-r = 7.1.6-400.asahi.aarch64+16k_debug
+Requires: kernel-uname-r = 7.1.6-400.asahi.aarch64+16k_debug
+Requires: kernel-16k-debug-modules-uname-r = 7.1.6-400.asahi.aarch64+16k_debug
+Requires: kernel-16k-debug-modules-core-uname-r = 7.1.6-400.asahi.aarch64+16k_debug
 
 AutoReq: no
 AutoProv: yes
@@ -690,15 +690,15 @@ This package provides less commonly used kernel modules for the kernel package.
 %package 16k-debug-modules-internal
 Summary: Extra kernel modules to match the kernel
 Group: System Environment/Kernel
-Provides: kernel-16k-debug-modules-internal-aarch64 = 7.1.5-400.asahi
-Provides: kernel-16k-debug-modules-internal-aarch64 = 7.1.5-400.asahi+16k_debug
-Provides: kernel-16k-debug-modules-internal = 7.1.5-400.asahi+16k_debug
+Provides: kernel-16k-debug-modules-internal-aarch64 = 7.1.6-400.asahi
+Provides: kernel-16k-debug-modules-internal-aarch64 = 7.1.6-400.asahi+16k_debug
+Provides: kernel-16k-debug-modules-internal = 7.1.6-400.asahi+16k_debug
 Provides: installonlypkg(kernel-module)
-Provides: kernel-16k-debug-modules-internal-uname-r = 7.1.5-400.asahi.aarch64+16k_debug
-Requires: kernel-uname-r = 7.1.5-400.asahi.aarch64+16k_debug
-Requires: kernel-16k-debug-modules-uname-r = 7.1.5-400.asahi.aarch64+16k_debug
-Requires: kernel-16k-debug-modules-core-uname-r = 7.1.5-400.asahi.aarch64+16k_debug
-Supplements: (kernel-selftests-internal-present and kernel-uname-r = 7.1.5-400.asahi.aarch64+16k_debug)
+Provides: kernel-16k-debug-modules-internal-uname-r = 7.1.6-400.asahi.aarch64+16k_debug
+Requires: kernel-uname-r = 7.1.6-400.asahi.aarch64+16k_debug
+Requires: kernel-16k-debug-modules-uname-r = 7.1.6-400.asahi.aarch64+16k_debug
+Requires: kernel-16k-debug-modules-core-uname-r = 7.1.6-400.asahi.aarch64+16k_debug
+Supplements: (kernel-selftests-internal-present and kernel-uname-r = 7.1.6-400.asahi.aarch64+16k_debug)
 AutoReq: no
 AutoProv: yes
 %description 16k-debug-modules-internal
@@ -706,26 +706,26 @@ This package provides kernel modules for the kernel package for Red Hat internal
 
 %package 16k-debug-debuginfo
 Summary: Debug information for package kernel-16k-debug
-Requires: kernel-debuginfo-common-aarch64 = 7.1.5-400.asahi
-Provides: kernel-16k-debug-debuginfo-aarch64 = 7.1.5-400.asahi
+Requires: kernel-debuginfo-common-aarch64 = 7.1.6-400.asahi
+Provides: kernel-16k-debug-debuginfo-aarch64 = 7.1.6-400.asahi
 Provides: installonlypkg(kernel)
 AutoReqProv: no
 %description 16k-debug-debuginfo
 This package provides debug information for package kernel-16k-debug.
-This is required to use SystemTap with kernel-16k-debug-7.1.5-400.asahi.aarch64.
+This is required to use SystemTap with kernel-16k-debug-7.1.6-400.asahi.aarch64.
 
 %package 16k-debug-uki-virt
 Summary: The Linux kernel compiled with extra debugging enabled unified kernel image for virtual machines
 Provides: installonlypkg(kernel)
-Provides: kernel-uname-r = 7.1.5-400.asahi.aarch64+16k_debug
-Requires: kernel-16k-debug-modules-core-uname-r = 7.1.5-400.asahi.aarch64+16k_debug
+Provides: kernel-uname-r = 7.1.6-400.asahi.aarch64+16k_debug
+Requires: kernel-16k-debug-modules-core-uname-r = 7.1.6-400.asahi.aarch64+16k_debug
 Requires(pre): coreutils, systemd >= 203-2, /usr/bin/kernel-install
 Requires(pre): systemd >= 254-1
 Recommends: uki-direct
 %package 16k-debug-uki-virt-addons
 Summary: The Linux kernel compiled with extra debugging enabled unified kernel image addons for virtual machines
 Provides: installonlypkg(kernel)
-Requires: kernel-16k-debug-uki-virt = 7.1.5-400.asahi
+Requires: kernel-16k-debug-uki-virt = 7.1.6-400.asahi
 Requires(pre): systemd >= 254-1
 
 %description 16k-debug-core
@@ -737,15 +737,15 @@ on kernel bugs, as some of these options impact performance noticably.
 
 %package debug-core
 Summary: The Linux kernel compiled with extra debugging enabled
-Provides: kernel-debug-core-uname-r = 7.1.5-400.asahi.aarch64+debug
+Provides: kernel-debug-core-uname-r = 7.1.6-400.asahi.aarch64+debug
 Provides: installonlypkg(kernel)
 
-Provides: kernel = 7.1.5-400.asahi
-Provides: kernel = 7.1.5-400.asahi
+Provides: kernel = 7.1.6-400.asahi
+Provides: kernel = 7.1.6-400.asahi
 
-Provides: kernel-aarch64 = 7.1.5-400.asahi+debug
-Provides: kernel-uname-r = 7.1.5-400.asahi.aarch64+debug
-Requires: kernel-debug-modules-core-uname-r = 7.1.5-400.asahi.aarch64+debug
+Provides: kernel-aarch64 = 7.1.6-400.asahi+debug
+Provides: kernel-uname-r = 7.1.6-400.asahi.aarch64+debug
+Requires: kernel-debug-modules-core-uname-r = 7.1.6-400.asahi.aarch64+debug
 Requires(pre): coreutils, systemd >= 203-2, /usr/bin/kernel-install
 Requires(pre): dracut >= 027
 Requires(pre): ((linux-firmware >= 20150904-56.git6ebf5d57) if linux-firmware)
@@ -759,12 +759,12 @@ AutoProv: yes
 
 %package debug
 summary: kernel meta-package for the debug kernel
-Requires: kernel-debug-core-uname-r = 7.1.5-400.asahi.aarch64+debug
-Requires: kernel-debug-modules-uname-r = 7.1.5-400.asahi.aarch64+debug
-Requires: kernel-debug-modules-core-uname-r = 7.1.5-400.asahi.aarch64+debug
-Requires: ((kernel-debug-modules-extra-uname-r = 7.1.5-400.asahi.aarch64+debug) if kernel-modules-extra-matched)
+Requires: kernel-debug-core-uname-r = 7.1.6-400.asahi.aarch64+debug
+Requires: kernel-debug-modules-uname-r = 7.1.6-400.asahi.aarch64+debug
+Requires: kernel-debug-modules-core-uname-r = 7.1.6-400.asahi.aarch64+debug
+Requires: ((kernel-debug-modules-extra-uname-r = 7.1.6-400.asahi.aarch64+debug) if kernel-modules-extra-matched)
 
-Suggests: kernel-debug-core = 7.1.5-400.asahi
+Suggests: kernel-debug-core = 7.1.6-400.asahi
 
 Provides: installonlypkg(kernel)
 %description debug
@@ -772,10 +772,10 @@ The meta-package for the debug kernel
 
 %package debug-devel
 Summary: Development package for building kernel modules to match the kernel
-Provides: kernel-debug-devel-aarch64 = 7.1.5-400.asahi
-Provides: kernel-devel-aarch64 = 7.1.5-400.asahi+debug
-Provides: kernel-devel-uname-r = 7.1.5-400.asahi.aarch64+debug
-Provides: kernel-devel-uname-r = 7.1.5-400.asahi.aarch64+debug
+Provides: kernel-debug-devel-aarch64 = 7.1.6-400.asahi
+Provides: kernel-devel-aarch64 = 7.1.6-400.asahi+debug
+Provides: kernel-devel-uname-r = 7.1.6-400.asahi.aarch64+debug
+Provides: kernel-devel-uname-r = 7.1.6-400.asahi.aarch64+debug
 Provides: installonlypkg(kernel)
 AutoReqProv: no
 Requires(pre): findutils
@@ -794,20 +794,20 @@ against the kernel package.
 
 %package debug-devel-matched
 Summary: Meta package to install matching core and devel packages for a given kernel
-Requires: kernel-debug-devel = 7.1.5-400.asahi
-Requires: kernel-debug-core = 7.1.5-400.asahi
+Requires: kernel-debug-devel = 7.1.6-400.asahi
+Requires: kernel-debug-core = 7.1.6-400.asahi
 %description debug-devel-matched
 This meta package is used to install matching core and devel packages for a given kernel.
 
 %package debug-modules
 Summary: kernel modules to match the core kernel
-Provides: kernel-debug-modules-aarch64 = 7.1.5-400.asahi
-Provides: kernel-debug-modules-aarch64 = 7.1.5-400.asahi+debug
-Provides: kernel-debug-modules = 7.1.5-400.asahi+debug
+Provides: kernel-debug-modules-aarch64 = 7.1.6-400.asahi
+Provides: kernel-debug-modules-aarch64 = 7.1.6-400.asahi+debug
+Provides: kernel-debug-modules = 7.1.6-400.asahi+debug
 Provides: installonlypkg(kernel-module)
-Provides: kernel-debug-modules-uname-r = 7.1.5-400.asahi.aarch64+debug
-Requires: kernel-uname-r = 7.1.5-400.asahi.aarch64+debug
-Requires: kernel-debug-modules-core-uname-r = 7.1.5-400.asahi.aarch64+debug
+Provides: kernel-debug-modules-uname-r = 7.1.6-400.asahi.aarch64+debug
+Requires: kernel-uname-r = 7.1.6-400.asahi.aarch64+debug
+Requires: kernel-debug-modules-core-uname-r = 7.1.6-400.asahi.aarch64+debug
 
 AutoReq: no
 AutoProv: yes
@@ -816,12 +816,12 @@ This package provides commonly used kernel modules for the core kernel package.
 
 %package debug-modules-core
 Summary: Core kernel modules to match the core kernel
-Provides: kernel-debug-modules-core-aarch64 = 7.1.5-400.asahi
-Provides: kernel-debug-modules-core-aarch64 = 7.1.5-400.asahi+debug
-Provides: kernel-debug-modules-core = 7.1.5-400.asahi+debug
+Provides: kernel-debug-modules-core-aarch64 = 7.1.6-400.asahi
+Provides: kernel-debug-modules-core-aarch64 = 7.1.6-400.asahi+debug
+Provides: kernel-debug-modules-core = 7.1.6-400.asahi+debug
 Provides: installonlypkg(kernel-module)
-Provides: kernel-debug-modules-core-uname-r = 7.1.5-400.asahi.aarch64+debug
-Requires: kernel-uname-r = 7.1.5-400.asahi.aarch64+debug
+Provides: kernel-debug-modules-core-uname-r = 7.1.6-400.asahi.aarch64+debug
+Requires: kernel-uname-r = 7.1.6-400.asahi.aarch64+debug
 
 AutoReq: no
 AutoProv: yes
@@ -830,14 +830,14 @@ This package provides essential kernel modules for the core kernel package.
 
 %package debug-modules-extra
 Summary: Extra kernel modules to match the kernel
-Provides: kernel-debug-modules-extra-aarch64 = 7.1.5-400.asahi
-Provides: kernel-debug-modules-extra-aarch64 = 7.1.5-400.asahi+debug
-Provides: kernel-debug-modules-extra = 7.1.5-400.asahi+debug
+Provides: kernel-debug-modules-extra-aarch64 = 7.1.6-400.asahi
+Provides: kernel-debug-modules-extra-aarch64 = 7.1.6-400.asahi+debug
+Provides: kernel-debug-modules-extra = 7.1.6-400.asahi+debug
 Provides: installonlypkg(kernel-module)
-Provides: kernel-debug-modules-extra-uname-r = 7.1.5-400.asahi.aarch64+debug
-Requires: kernel-uname-r = 7.1.5-400.asahi.aarch64+debug
-Requires: kernel-debug-modules-uname-r = 7.1.5-400.asahi.aarch64+debug
-Requires: kernel-debug-modules-core-uname-r = 7.1.5-400.asahi.aarch64+debug
+Provides: kernel-debug-modules-extra-uname-r = 7.1.6-400.asahi.aarch64+debug
+Requires: kernel-uname-r = 7.1.6-400.asahi.aarch64+debug
+Requires: kernel-debug-modules-uname-r = 7.1.6-400.asahi.aarch64+debug
+Requires: kernel-debug-modules-core-uname-r = 7.1.6-400.asahi.aarch64+debug
 
 AutoReq: no
 AutoProv: yes
@@ -847,15 +847,15 @@ This package provides less commonly used kernel modules for the kernel package.
 %package debug-modules-internal
 Summary: Extra kernel modules to match the kernel
 Group: System Environment/Kernel
-Provides: kernel-debug-modules-internal-aarch64 = 7.1.5-400.asahi
-Provides: kernel-debug-modules-internal-aarch64 = 7.1.5-400.asahi+debug
-Provides: kernel-debug-modules-internal = 7.1.5-400.asahi+debug
+Provides: kernel-debug-modules-internal-aarch64 = 7.1.6-400.asahi
+Provides: kernel-debug-modules-internal-aarch64 = 7.1.6-400.asahi+debug
+Provides: kernel-debug-modules-internal = 7.1.6-400.asahi+debug
 Provides: installonlypkg(kernel-module)
-Provides: kernel-debug-modules-internal-uname-r = 7.1.5-400.asahi.aarch64+debug
-Requires: kernel-uname-r = 7.1.5-400.asahi.aarch64+debug
-Requires: kernel-debug-modules-uname-r = 7.1.5-400.asahi.aarch64+debug
-Requires: kernel-debug-modules-core-uname-r = 7.1.5-400.asahi.aarch64+debug
-Supplements: (kernel-selftests-internal-present and kernel-uname-r = 7.1.5-400.asahi.aarch64+debug)
+Provides: kernel-debug-modules-internal-uname-r = 7.1.6-400.asahi.aarch64+debug
+Requires: kernel-uname-r = 7.1.6-400.asahi.aarch64+debug
+Requires: kernel-debug-modules-uname-r = 7.1.6-400.asahi.aarch64+debug
+Requires: kernel-debug-modules-core-uname-r = 7.1.6-400.asahi.aarch64+debug
+Supplements: (kernel-selftests-internal-present and kernel-uname-r = 7.1.6-400.asahi.aarch64+debug)
 AutoReq: no
 AutoProv: yes
 %description debug-modules-internal
@@ -863,37 +863,37 @@ This package provides kernel modules for the kernel package for Red Hat internal
 
 %package debug-debuginfo
 Summary: Debug information for package kernel-debug
-Requires: kernel-debuginfo-common-aarch64 = 7.1.5-400.asahi
-Provides: kernel-debug-debuginfo-aarch64 = 7.1.5-400.asahi
+Requires: kernel-debuginfo-common-aarch64 = 7.1.6-400.asahi
+Provides: kernel-debug-debuginfo-aarch64 = 7.1.6-400.asahi
 Provides: installonlypkg(kernel)
 AutoReqProv: no
 %description debug-debuginfo
 This package provides debug information for package kernel-debug.
-This is required to use SystemTap with kernel-debug-7.1.5-400.asahi.aarch64.
+This is required to use SystemTap with kernel-debug-7.1.6-400.asahi.aarch64.
 
 %package debug-uki-virt
 Summary: The Linux kernel compiled with extra debugging enabled unified kernel image for virtual machines
 Provides: installonlypkg(kernel)
-Provides: kernel-uname-r = 7.1.5-400.asahi.aarch64+debug
-Requires: kernel-debug-modules-core-uname-r = 7.1.5-400.asahi.aarch64+debug
+Provides: kernel-uname-r = 7.1.6-400.asahi.aarch64+debug
+Requires: kernel-debug-modules-core-uname-r = 7.1.6-400.asahi.aarch64+debug
 Requires(pre): coreutils, systemd >= 203-2, /usr/bin/kernel-install
 Requires(pre): systemd >= 254-1
 Recommends: uki-direct
 %package debug-uki-virt-addons
 Summary: The Linux kernel compiled with extra debugging enabled unified kernel image addons for virtual machines
 Provides: installonlypkg(kernel)
-Requires: kernel-debug-uki-virt = 7.1.5-400.asahi
+Requires: kernel-debug-uki-virt = 7.1.6-400.asahi
 Requires(pre): systemd >= 254-1
 
 %package debug-uki-dtbloader
 Summary: The Linux kernel compiled with extra debugging enabled with systemd-stub for auto DTB loading
 Provides: installonlypkg(kernel)
-Provides: kernel-uname-r = 7.1.5-400.asahi.aarch64+debug
-Provides: kernel-debug-core-uname-r = 7.1.5-400.asahi.aarch64+debug
-Requires: kernel-debug-modules-core-uname-r = 7.1.5-400.asahi.aarch64+debug
+Provides: kernel-uname-r = 7.1.6-400.asahi.aarch64+debug
+Provides: kernel-debug-core-uname-r = 7.1.6-400.asahi.aarch64+debug
+Requires: kernel-debug-modules-core-uname-r = 7.1.6-400.asahi.aarch64+debug
 Requires(pre): coreutils, systemd >= 203-2, /usr/bin/kernel-install
 
-Conflicts: kernel-debug-core = 7.1.5-400.asahi
+Conflicts: kernel-debug-core = 7.1.6-400.asahi
 
 %description debug-core
 The kernel package contains the Linux kernel (vmlinuz), the core of any
@@ -907,15 +907,15 @@ on kernel bugs, as some of these options impact performance noticably.
 
 %package core
 Summary: The Linux kernel
-Provides: kernel-core-uname-r = 7.1.5-400.asahi.aarch64
+Provides: kernel-core-uname-r = 7.1.6-400.asahi.aarch64
 Provides: installonlypkg(kernel)
 
-Provides: kernel = 7.1.5-400.asahi
-Provides: kernel = 7.1.5-400.asahi
+Provides: kernel = 7.1.6-400.asahi
+Provides: kernel = 7.1.6-400.asahi
 
-Provides: kernel-aarch64 = 7.1.5-400.asahi
-Provides: kernel-uname-r = 7.1.5-400.asahi.aarch64
-Requires: kernel-modules-core-uname-r = 7.1.5-400.asahi.aarch64
+Provides: kernel-aarch64 = 7.1.6-400.asahi
+Provides: kernel-uname-r = 7.1.6-400.asahi.aarch64
+Requires: kernel-modules-core-uname-r = 7.1.6-400.asahi.aarch64
 Requires(pre): coreutils, systemd >= 203-2, /usr/bin/kernel-install
 Requires(pre): dracut >= 027
 Requires(pre): ((linux-firmware >= 20150904-56.git6ebf5d57) if linux-firmware)
@@ -929,10 +929,10 @@ AutoProv: yes
 
 %package devel
 Summary: Development package for building kernel modules to match the kernel
-Provides: kernel-devel-aarch64 = 7.1.5-400.asahi
-Provides: kernel-devel-aarch64 = 7.1.5-400.asahi
-Provides: kernel-devel-uname-r = 7.1.5-400.asahi.aarch64
-Provides: kernel-devel-uname-r = 7.1.5-400.asahi.aarch64
+Provides: kernel-devel-aarch64 = 7.1.6-400.asahi
+Provides: kernel-devel-aarch64 = 7.1.6-400.asahi
+Provides: kernel-devel-uname-r = 7.1.6-400.asahi.aarch64
+Provides: kernel-devel-uname-r = 7.1.6-400.asahi.aarch64
 Provides: installonlypkg(kernel)
 AutoReqProv: no
 Requires(pre): findutils
@@ -951,20 +951,20 @@ against the kernel package.
 
 %package devel-matched
 Summary: Meta package to install matching core and devel packages for a given kernel
-Requires: kernel-devel = 7.1.5-400.asahi
-Requires: kernel-core = 7.1.5-400.asahi
+Requires: kernel-devel = 7.1.6-400.asahi
+Requires: kernel-core = 7.1.6-400.asahi
 %description devel-matched
 This meta package is used to install matching core and devel packages for a given kernel.
 
 %package modules
 Summary: kernel modules to match the core kernel
-Provides: kernel-modules-aarch64 = 7.1.5-400.asahi
-Provides: kernel-modules-aarch64 = 7.1.5-400.asahi
-Provides: kernel-modules = 7.1.5-400.asahi
+Provides: kernel-modules-aarch64 = 7.1.6-400.asahi
+Provides: kernel-modules-aarch64 = 7.1.6-400.asahi
+Provides: kernel-modules = 7.1.6-400.asahi
 Provides: installonlypkg(kernel-module)
-Provides: kernel-modules-uname-r = 7.1.5-400.asahi.aarch64
-Requires: kernel-uname-r = 7.1.5-400.asahi.aarch64
-Requires: kernel-modules-core-uname-r = 7.1.5-400.asahi.aarch64
+Provides: kernel-modules-uname-r = 7.1.6-400.asahi.aarch64
+Requires: kernel-uname-r = 7.1.6-400.asahi.aarch64
+Requires: kernel-modules-core-uname-r = 7.1.6-400.asahi.aarch64
 
 AutoReq: no
 AutoProv: yes
@@ -973,12 +973,12 @@ This package provides commonly used kernel modules for the core kernel package.
 
 %package modules-core
 Summary: Core kernel modules to match the core kernel
-Provides: kernel-modules-core-aarch64 = 7.1.5-400.asahi
-Provides: kernel-modules-core-aarch64 = 7.1.5-400.asahi
-Provides: kernel-modules-core = 7.1.5-400.asahi
+Provides: kernel-modules-core-aarch64 = 7.1.6-400.asahi
+Provides: kernel-modules-core-aarch64 = 7.1.6-400.asahi
+Provides: kernel-modules-core = 7.1.6-400.asahi
 Provides: installonlypkg(kernel-module)
-Provides: kernel-modules-core-uname-r = 7.1.5-400.asahi.aarch64
-Requires: kernel-uname-r = 7.1.5-400.asahi.aarch64
+Provides: kernel-modules-core-uname-r = 7.1.6-400.asahi.aarch64
+Requires: kernel-uname-r = 7.1.6-400.asahi.aarch64
 
 AutoReq: no
 AutoProv: yes
@@ -987,14 +987,14 @@ This package provides essential kernel modules for the core kernel package.
 
 %package modules-extra
 Summary: Extra kernel modules to match the kernel
-Provides: kernel-modules-extra-aarch64 = 7.1.5-400.asahi
-Provides: kernel-modules-extra-aarch64 = 7.1.5-400.asahi
-Provides: kernel-modules-extra = 7.1.5-400.asahi
+Provides: kernel-modules-extra-aarch64 = 7.1.6-400.asahi
+Provides: kernel-modules-extra-aarch64 = 7.1.6-400.asahi
+Provides: kernel-modules-extra = 7.1.6-400.asahi
 Provides: installonlypkg(kernel-module)
-Provides: kernel-modules-extra-uname-r = 7.1.5-400.asahi.aarch64
-Requires: kernel-uname-r = 7.1.5-400.asahi.aarch64
-Requires: kernel-modules-uname-r = 7.1.5-400.asahi.aarch64
-Requires: kernel-modules-core-uname-r = 7.1.5-400.asahi.aarch64
+Provides: kernel-modules-extra-uname-r = 7.1.6-400.asahi.aarch64
+Requires: kernel-uname-r = 7.1.6-400.asahi.aarch64
+Requires: kernel-modules-uname-r = 7.1.6-400.asahi.aarch64
+Requires: kernel-modules-core-uname-r = 7.1.6-400.asahi.aarch64
 
 AutoReq: no
 AutoProv: yes
@@ -1004,15 +1004,15 @@ This package provides less commonly used kernel modules for the kernel package.
 %package modules-internal
 Summary: Extra kernel modules to match the kernel
 Group: System Environment/Kernel
-Provides: kernel-modules-internal-aarch64 = 7.1.5-400.asahi
-Provides: kernel-modules-internal-aarch64 = 7.1.5-400.asahi
-Provides: kernel-modules-internal = 7.1.5-400.asahi
+Provides: kernel-modules-internal-aarch64 = 7.1.6-400.asahi
+Provides: kernel-modules-internal-aarch64 = 7.1.6-400.asahi
+Provides: kernel-modules-internal = 7.1.6-400.asahi
 Provides: installonlypkg(kernel-module)
-Provides: kernel-modules-internal-uname-r = 7.1.5-400.asahi.aarch64
-Requires: kernel-uname-r = 7.1.5-400.asahi.aarch64
-Requires: kernel-modules-uname-r = 7.1.5-400.asahi.aarch64
-Requires: kernel-modules-core-uname-r = 7.1.5-400.asahi.aarch64
-Supplements: (kernel-selftests-internal-present and kernel-uname-r = 7.1.5-400.asahi.aarch64)
+Provides: kernel-modules-internal-uname-r = 7.1.6-400.asahi.aarch64
+Requires: kernel-uname-r = 7.1.6-400.asahi.aarch64
+Requires: kernel-modules-uname-r = 7.1.6-400.asahi.aarch64
+Requires: kernel-modules-core-uname-r = 7.1.6-400.asahi.aarch64
+Supplements: (kernel-selftests-internal-present and kernel-uname-r = 7.1.6-400.asahi.aarch64)
 AutoReq: no
 AutoProv: yes
 %description modules-internal
@@ -1020,37 +1020,37 @@ This package provides kernel modules for the kernel package for Red Hat internal
 
 %package debuginfo
 Summary: Debug information for package kernel
-Requires: kernel-debuginfo-common-aarch64 = 7.1.5-400.asahi
-Provides: kernel-debuginfo-aarch64 = 7.1.5-400.asahi
+Requires: kernel-debuginfo-common-aarch64 = 7.1.6-400.asahi
+Provides: kernel-debuginfo-aarch64 = 7.1.6-400.asahi
 Provides: installonlypkg(kernel)
 AutoReqProv: no
 %description debuginfo
 This package provides debug information for package kernel.
-This is required to use SystemTap with kernel-7.1.5-400.asahi.aarch64.
+This is required to use SystemTap with kernel-7.1.6-400.asahi.aarch64.
 
 %package uki-virt
 Summary: The Linux kernel unified kernel image for virtual machines
 Provides: installonlypkg(kernel)
-Provides: kernel-uname-r = 7.1.5-400.asahi.aarch64
-Requires: kernel-modules-core-uname-r = 7.1.5-400.asahi.aarch64
+Provides: kernel-uname-r = 7.1.6-400.asahi.aarch64
+Requires: kernel-modules-core-uname-r = 7.1.6-400.asahi.aarch64
 Requires(pre): coreutils, systemd >= 203-2, /usr/bin/kernel-install
 Requires(pre): systemd >= 254-1
 Recommends: uki-direct
 %package uki-virt-addons
 Summary: The Linux kernel unified kernel image addons for virtual machines
 Provides: installonlypkg(kernel)
-Requires: kernel-uki-virt = 7.1.5-400.asahi
+Requires: kernel-uki-virt = 7.1.6-400.asahi
 Requires(pre): systemd >= 254-1
 
 %package uki-dtbloader
 Summary: The Linux kernel with systemd-stub for auto DTB loading
 Provides: installonlypkg(kernel)
-Provides: kernel-uname-r = 7.1.5-400.asahi.aarch64
-Provides: kernel-core-uname-r = 7.1.5-400.asahi.aarch64
-Requires: kernel-modules-core-uname-r = 7.1.5-400.asahi.aarch64
+Provides: kernel-uname-r = 7.1.6-400.asahi.aarch64
+Provides: kernel-core-uname-r = 7.1.6-400.asahi.aarch64
+Requires: kernel-modules-core-uname-r = 7.1.6-400.asahi.aarch64
 Requires(pre): coreutils, systemd >= 203-2, /usr/bin/kernel-install
 
-Conflicts: kernel-core = 7.1.5-400.asahi
+Conflicts: kernel-core = 7.1.6-400.asahi
 
 %description core
 The kernel package contains the Linux kernel (vmlinuz), the core of any
@@ -1171,19 +1171,19 @@ ApplyOptionalPatch()
 	echo "kernel.spec:${_log_msglineno}: "Untar kernel tarball"" 
 	set -x
 cd './'
-rm -rf 'kernel-7.1.5'
-mkdir -p 'kernel-7.1.5'
-cd 'kernel-7.1.5'
-rpmuncompress -x 'linux-7.1.5.tar.xz'
+rm -rf 'kernel-7.1.6'
+mkdir -p 'kernel-7.1.6'
+cd 'kernel-7.1.6'
+rpmuncompress -x 'linux-7.1.6.tar.xz'
 STATUS=$?
 if [ $STATUS -ne 0 ]; then
   exit $STATUS
 fi
 chmod -Rf a+rX,u+w,g-w,o-w .
 
-mv linux-7.1.5 linux-7.1.5-400.asahi.aarch64
+mv linux-7.1.6 linux-7.1.6-400.asahi.aarch64
 
-cd linux-7.1.5-400.asahi.aarch64
+cd linux-7.1.6-400.asahi.aarch64
 cp -a Makefile.rhelver .
 
 	{ set +x; } 2>/dev/null 
@@ -1208,7 +1208,7 @@ ApplyOptionalPatch linux-kernel-test.patch
 	echo "kernel.spec:${_log_msglineno}: "Pre-build tree manipulations"" 
 	set -x
 chmod +x scripts/checkpatch.pl
-mv COPYING COPYING-7.1.5-400.asahi
+mv COPYING COPYING-7.1.6-400.asahi
 
 # on linux-next prevent scripts/setlocalversion from mucking with our version numbers
 rm -f localversion-next localversion-rt
@@ -1237,10 +1237,10 @@ rm -f localversion-next localversion-rt
 	scripts/clang-tools 2> /dev/null
 
 # SBAT data
-sed -e s,@KVER,7.1.5-400.asahi.aarch64, -e s,@SBAT_SUFFIX,fedora, dtbloader.sbat.template > dtbloader.sbat
-sed -e s,@KVER,7.1.5-400.asahi.aarch64, -e s,@SBAT_SUFFIX,fedora, uki.sbat.template > uki.sbat
-sed -e s,@KVER,7.1.5-400.asahi.aarch64, -e s,@SBAT_SUFFIX,fedora, uki-addons.sbat.template > uki-addons.sbat
-sed -e s,@KVER,7.1.5-400.asahi.aarch64, -e s,@SBAT_SUFFIX,fedora, kernel.sbat.template > kernel.sbat
+sed -e s,@KVER,7.1.6-400.asahi.aarch64, -e s,@SBAT_SUFFIX,fedora, dtbloader.sbat.template > dtbloader.sbat
+sed -e s,@KVER,7.1.6-400.asahi.aarch64, -e s,@SBAT_SUFFIX,fedora, uki.sbat.template > uki.sbat
+sed -e s,@KVER,7.1.6-400.asahi.aarch64, -e s,@SBAT_SUFFIX,fedora, uki-addons.sbat.template > uki-addons.sbat
+sed -e s,@KVER,7.1.6-400.asahi.aarch64, -e s,@SBAT_SUFFIX,fedora, kernel.sbat.template > kernel.sbat
 
 # only deal with configs if we are going to build for the arch
 
@@ -1262,7 +1262,7 @@ cp merge.py .
 # kernel-local - rename and copy for partial snippet config process
 cp kernel-local partial-kernel-local-snip.config
 cp kernel-local partial-kernel-local-debug-snip.config
-FLAVOR=fedora SPECPACKAGE_NAME=kernel SPECVERSION=7.1.5 SPECRPMVERSION=7.1.5 ./generate_all_configs.sh 1
+FLAVOR=fedora SPECPACKAGE_NAME=kernel SPECVERSION=7.1.6 SPECRPMVERSION=7.1.6 ./generate_all_configs.sh 1
 
 # Collect custom defined config options
 
@@ -1292,7 +1292,7 @@ GetArch()
 	_log_msglineno=$(grep -n "Merge in any user-provided local config option changes" /SPECS/${RPM_PACKAGE_NAME}.spec | grep log_msg | cut -d":" -f1) 
 	echo "kernel.spec:${_log_msglineno}: "Merge in any user-provided local config option changes"" 
 	set -x
-for i in kernel-7.1.5-*.config
+for i in kernel-7.1.6-*.config
 do
   kern_arch="$(GetArch $i)"
   kern_debug="$(echo $i | grep -q debug && echo "debug" || echo "")"
@@ -1336,7 +1336,7 @@ OPTS="-w -n -c"
 	_log_msglineno=$(grep -n "Generate redhat configs" /SPECS/${RPM_PACKAGE_NAME}.spec | grep log_msg | cut -d":" -f1) 
 	echo "kernel.spec:${_log_msglineno}: "Generate redhat configs"" 
 	set -x
-RHJOBS=$RPM_BUILD_NCPUS SPECPACKAGE_NAME=kernel ./process_configs.sh $OPTS 7.1.5
+RHJOBS=$RPM_BUILD_NCPUS SPECPACKAGE_NAME=kernel ./process_configs.sh $OPTS 7.1.6
 
 # We may want to override files from the primary target in case of building
 # against a flavour of it (eg. centos not rhel), thus override it here if
@@ -1425,10 +1425,10 @@ InitBuildVars() {
     Variant=$1
 
     # Pick the right kernel config file
-    Config=kernel-7.1.5-aarch64${Variant:+-${Variant}}.config
-    DevelDir=/usr/src/kernels/7.1.5-400.asahi.aarch64${Variant:++${Variant}}
+    Config=kernel-7.1.6-aarch64${Variant:+-${Variant}}.config
+    DevelDir=/usr/src/kernels/7.1.6-400.asahi.aarch64${Variant:++${Variant}}
 
-    KernelVer=7.1.5-400.asahi.aarch64${Variant:++${Variant}}
+    KernelVer=7.1.6-400.asahi.aarch64${Variant:++${Variant}}
 
 	{ set +x; } 2>/dev/null 
 	_log_msglineno=$(grep -n "InitBuildVars: Update Makefile" /SPECS/${RPM_PACKAGE_NAME}.spec | grep log_msg | cut -d":" -f1) 
@@ -1522,7 +1522,7 @@ BuildKernel() {
 	echo "kernel.spec:${_log_msglineno}: "Setup build-ids"" 
 	set -x
     # This ensures build-ids are unique to allow parallel debuginfo
-    perl -p -i -e "s/^CONFIG_BUILD_SALT.*/CONFIG_BUILD_SALT=\"7.1.5-400.asahi.aarch64\"/" .config
+    perl -p -i -e "s/^CONFIG_BUILD_SALT.*/CONFIG_BUILD_SALT=\"7.1.6-400.asahi.aarch64\"/" .config
     /usr/bin/make  V=1 HOSTCFLAGS="-O2 -g" HOSTLDFLAGS="" ARCH=$Arch KCFLAGS="$KCFLAGS" WITH_GCOV="0" -j${RPM_BUILD_NCPUS} $MakeTarget  
     if [ $DoModules -eq 1 ]; then
 	/usr/bin/make  V=1 HOSTCFLAGS="-O2 -g" HOSTLDFLAGS="" ARCH=$Arch KCFLAGS="$KCFLAGS" WITH_GCOV="0" -j${RPM_BUILD_NCPUS} modules  || exit 1
@@ -1782,6 +1782,14 @@ BuildKernel() {
     fi
     if [ -f tools/objtool/fixdep ]; then
       cp -a tools/objtool/fixdep $RPM_BUILD_ROOT/lib/modules/$KernelVer/build/tools/objtool/ || :
+    fi
+    if ls rust/*.rmeta >/dev/null 2>&1; then
+      mkdir -p $RPM_BUILD_ROOT/lib/modules/$KernelVer/build/rust
+      cp -a rust/*.rmeta $RPM_BUILD_ROOT/lib/modules/$KernelVer/build/rust/ || :
+    fi
+    if ls rust/*.so >/dev/null 2>&1; then
+      mkdir -p $RPM_BUILD_ROOT/lib/modules/$KernelVer/build/rust
+      cp -a rust/*.so $RPM_BUILD_ROOT/lib/modules/$KernelVer/build/rust/ || :
     fi
     if [ -d arch/$Arch/scripts ]; then
       cp -a arch/$Arch/scripts $RPM_BUILD_ROOT/lib/modules/$KernelVer/build/arch/aarch64 || :
@@ -2229,7 +2237,7 @@ rm -rf $RPM_BUILD_ROOT
 mkdir -p $RPM_BUILD_ROOT/boot
 mkdir -p $RPM_BUILD_ROOT/usr/lib/linux-asahi
 
-cd linux-7.1.5-400.asahi.aarch64
+cd linux-7.1.6-400.asahi.aarch64
 
 BuildKernel vmlinuz.efi arch/arm64/boot/vmlinuz.efi 1 16k-debug
 
@@ -2495,7 +2503,7 @@ popd
 
 %install
 
-cd linux-7.1.5-400.asahi.aarch64
+cd linux-7.1.6-400.asahi.aarch64
 
 # re-define RPM_VMLINUX_H, because it doesn't carry over from %build
 RPM_VMLINUX_H="$(cat ../vmlinux_h_path)"
@@ -2973,12 +2981,12 @@ popd
 #
 
 %posttrans uki-virt
-rm -f /var/lib/rpm-state/kernel/installing_core_7.1.5-400.asahi.aarch64
-/bin/kernel-install add 7.1.5-400.asahi.aarch64 /lib/modules/7.1.5-400.asahi.aarch64/vmlinuz-virt.efi || exit 0
-if [[ ! -e "/boot/symvers-7.1.5-400.asahi.aarch64.xz" ]]; then
-    cp "/lib/modules/7.1.5-400.asahi.aarch64/symvers.xz" "/boot/symvers-7.1.5-400.asahi.aarch64.xz"
+rm -f /var/lib/rpm-state/kernel/installing_core_7.1.6-400.asahi.aarch64
+/bin/kernel-install add 7.1.6-400.asahi.aarch64 /lib/modules/7.1.6-400.asahi.aarch64/vmlinuz-virt.efi || exit 0
+if [[ ! -e "/boot/symvers-7.1.6-400.asahi.aarch64.xz" ]]; then
+    cp "/lib/modules/7.1.6-400.asahi.aarch64/symvers.xz" "/boot/symvers-7.1.6-400.asahi.aarch64.xz"
     if command -v restorecon &>/dev/null; then
-        restorecon "/boot/symvers-7.1.5-400.asahi.aarch64.xz"
+        restorecon "/boot/symvers-7.1.6-400.asahi.aarch64.xz"
     fi
 fi
 
@@ -2988,29 +2996,29 @@ entry_type=""
 /bin/kernel-install --help|grep -q -- '--entry-type=' &&
     entry_type="--entry-type type2" 
 
-/bin/kernel-install remove 7.1.5-400.asahi.aarch64 $entry_type || exit 0
+/bin/kernel-install remove 7.1.6-400.asahi.aarch64 $entry_type || exit 0
 if [ -x /usr/bin/weak-modules ]
 then
-    /usr/bin/weak-modules --remove-kernel 7.1.5-400.asahi.aarch64 || exit 0
+    /usr/bin/weak-modules --remove-kernel 7.1.6-400.asahi.aarch64 || exit 0
 fi
 
 %posttrans uki-dtbloader
-rm -f /var/lib/rpm-state/kernel/installing_core_7.1.5-400.asahi.aarch64
-/bin/kernel-install add 7.1.5-400.asahi.aarch64 /lib/modules/7.1.5-400.asahi.aarch64/vmlinuz-dtbloader.efi || exit 0
-if [[ ! -e "/boot/symvers-7.1.5-400.asahi.aarch64.xz" ]]; then
-    cp "/lib/modules/7.1.5-400.asahi.aarch64/symvers.xz" "/boot/symvers-7.1.5-400.asahi.aarch64.xz"
+rm -f /var/lib/rpm-state/kernel/installing_core_7.1.6-400.asahi.aarch64
+/bin/kernel-install add 7.1.6-400.asahi.aarch64 /lib/modules/7.1.6-400.asahi.aarch64/vmlinuz-dtbloader.efi || exit 0
+if [[ ! -e "/boot/symvers-7.1.6-400.asahi.aarch64.xz" ]]; then
+    cp "/lib/modules/7.1.6-400.asahi.aarch64/symvers.xz" "/boot/symvers-7.1.6-400.asahi.aarch64.xz"
     if command -v restorecon &>/dev/null; then
-        restorecon "/boot/symvers-7.1.5-400.asahi.aarch64.xz"
+        restorecon "/boot/symvers-7.1.6-400.asahi.aarch64.xz"
     fi
 fi
 
 %preun uki-dtbloader
 entry_type=""
 
-/bin/kernel-install remove 7.1.5-400.asahi.aarch64 $entry_type || exit 0
+/bin/kernel-install remove 7.1.6-400.asahi.aarch64 $entry_type || exit 0
 if [ -x /usr/bin/weak-modules ]
 then
-    /usr/bin/weak-modules --remove-kernel 7.1.5-400.asahi.aarch64 || exit 0
+    /usr/bin/weak-modules --remove-kernel 7.1.6-400.asahi.aarch64 || exit 0
 fi
 
 %preun core
@@ -3019,10 +3027,10 @@ entry_type=""
 /bin/kernel-install --help|grep -q -- '--entry-type=' &&
     entry_type="--entry-type type1" 
 
-/bin/kernel-install remove 7.1.5-400.asahi.aarch64 $entry_type || exit 0
+/bin/kernel-install remove 7.1.6-400.asahi.aarch64 $entry_type || exit 0
 if [ -x /usr/bin/weak-modules ]
 then
-    /usr/bin/weak-modules --remove-kernel 7.1.5-400.asahi.aarch64 || exit 0
+    /usr/bin/weak-modules --remove-kernel 7.1.6-400.asahi.aarch64 || exit 0
 fi
 
 %post devel
@@ -3032,7 +3040,7 @@ then
 fi
 if [ "$HARDLINK" != "no" -a -x /usr/bin/hardlink -a ! -e /run/ostree-booted ] 
 then
-    (cd /usr/src/kernels/7.1.5-400.asahi.aarch64 &&
+    (cd /usr/src/kernels/7.1.6-400.asahi.aarch64 &&
      /usr/bin/find . -type f | while read f; do
        hardlink -c /usr/src/kernels/*.*/$f $f > /dev/null
      done;
@@ -3041,61 +3049,61 @@ then
 fi
 
 %post modules
-/sbin/depmod -a 7.1.5-400.asahi.aarch64
-if [ -f /lib/modules/7.1.5-400.asahi.aarch64/vmlinuz ] &&
-[ -f /boot/initramfs-7.1.5-400.asahi.aarch64.img ] &&
-[ ! -f /var/lib/rpm-state/kernel/installing_core_7.1.5-400.asahi.aarch64 ]; then
+/sbin/depmod -a 7.1.6-400.asahi.aarch64
+if [ -f /lib/modules/7.1.6-400.asahi.aarch64/vmlinuz ] &&
+[ -f /boot/initramfs-7.1.6-400.asahi.aarch64.img ] &&
+[ ! -f /var/lib/rpm-state/kernel/installing_core_7.1.6-400.asahi.aarch64 ]; then
 	mkdir -p /var/lib/rpm-state/kernel
-	touch /var/lib/rpm-state/kernel/need_to_run_dracut_7.1.5-400.asahi.aarch64
+	touch /var/lib/rpm-state/kernel/need_to_run_dracut_7.1.6-400.asahi.aarch64
 fi
 
 %postun modules
-/sbin/depmod -a 7.1.5-400.asahi.aarch64
+/sbin/depmod -a 7.1.6-400.asahi.aarch64
 
 %posttrans modules
-if [ -f /var/lib/rpm-state/kernel/need_to_run_dracut_7.1.5-400.asahi.aarch64 ]; then
-	rm -f /var/lib/rpm-state/kernel/need_to_run_dracut_7.1.5-400.asahi.aarch64
-	echo "Running: dracut -f --kver 7.1.5-400.asahi.aarch64 /boot/initramfs-7.1.5-400.asahi.aarch64.img"
-	dracut -f --kver "7.1.5-400.asahi.aarch64" /boot/initramfs-7.1.5-400.asahi.aarch64.img || exit 0
+if [ -f /var/lib/rpm-state/kernel/need_to_run_dracut_7.1.6-400.asahi.aarch64 ]; then
+	rm -f /var/lib/rpm-state/kernel/need_to_run_dracut_7.1.6-400.asahi.aarch64
+	echo "Running: dracut -f --kver 7.1.6-400.asahi.aarch64 /boot/initramfs-7.1.6-400.asahi.aarch64.img"
+	dracut -f --kver "7.1.6-400.asahi.aarch64" /boot/initramfs-7.1.6-400.asahi.aarch64.img || exit 0
 fi
 
 %posttrans modules-core
-/sbin/depmod -a 7.1.5-400.asahi.aarch64
+/sbin/depmod -a 7.1.6-400.asahi.aarch64
 
 %post modules-extra
-/sbin/depmod -a 7.1.5-400.asahi.aarch64
+/sbin/depmod -a 7.1.6-400.asahi.aarch64
 
 %postun modules-extra
-/sbin/depmod -a 7.1.5-400.asahi.aarch64
+/sbin/depmod -a 7.1.6-400.asahi.aarch64
 
 %post modules-internal
-/sbin/depmod -a 7.1.5-400.asahi.aarch64
+/sbin/depmod -a 7.1.6-400.asahi.aarch64
 
 %postun modules-internal
-/sbin/depmod -a 7.1.5-400.asahi.aarch64
+/sbin/depmod -a 7.1.6-400.asahi.aarch64
 
 %posttrans core
-rm -f /var/lib/rpm-state/kernel/installing_core_7.1.5-400.asahi.aarch64
-/bin/kernel-install add 7.1.5-400.asahi.aarch64 /lib/modules/7.1.5-400.asahi.aarch64/vmlinuz || exit 0
-if [[ ! -e "/boot/symvers-7.1.5-400.asahi.aarch64.xz" ]]; then
-    cp "/lib/modules/7.1.5-400.asahi.aarch64/symvers.xz" "/boot/symvers-7.1.5-400.asahi.aarch64.xz"
+rm -f /var/lib/rpm-state/kernel/installing_core_7.1.6-400.asahi.aarch64
+/bin/kernel-install add 7.1.6-400.asahi.aarch64 /lib/modules/7.1.6-400.asahi.aarch64/vmlinuz || exit 0
+if [[ ! -e "/boot/symvers-7.1.6-400.asahi.aarch64.xz" ]]; then
+    cp "/lib/modules/7.1.6-400.asahi.aarch64/symvers.xz" "/boot/symvers-7.1.6-400.asahi.aarch64.xz"
     if command -v restorecon &>/dev/null; then
-        restorecon "/boot/symvers-7.1.5-400.asahi.aarch64.xz"
+        restorecon "/boot/symvers-7.1.6-400.asahi.aarch64.xz"
     fi
 fi
 
 %post core
 
 mkdir -p /var/lib/rpm-state/kernel
-touch /var/lib/rpm-state/kernel/installing_core_7.1.5-400.asahi.aarch64
+touch /var/lib/rpm-state/kernel/installing_core_7.1.6-400.asahi.aarch64
 
 %posttrans debug-uki-virt
-rm -f /var/lib/rpm-state/kernel/installing_core_7.1.5-400.asahi.aarch64+debug
-/bin/kernel-install add 7.1.5-400.asahi.aarch64+debug /lib/modules/7.1.5-400.asahi.aarch64+debug/vmlinuz-virt.efi || exit 0
-if [[ ! -e "/boot/symvers-7.1.5-400.asahi.aarch64+debug.xz" ]]; then
-    cp "/lib/modules/7.1.5-400.asahi.aarch64+debug/symvers.xz" "/boot/symvers-7.1.5-400.asahi.aarch64+debug.xz"
+rm -f /var/lib/rpm-state/kernel/installing_core_7.1.6-400.asahi.aarch64+debug
+/bin/kernel-install add 7.1.6-400.asahi.aarch64+debug /lib/modules/7.1.6-400.asahi.aarch64+debug/vmlinuz-virt.efi || exit 0
+if [[ ! -e "/boot/symvers-7.1.6-400.asahi.aarch64+debug.xz" ]]; then
+    cp "/lib/modules/7.1.6-400.asahi.aarch64+debug/symvers.xz" "/boot/symvers-7.1.6-400.asahi.aarch64+debug.xz"
     if command -v restorecon &>/dev/null; then
-        restorecon "/boot/symvers-7.1.5-400.asahi.aarch64+debug.xz"
+        restorecon "/boot/symvers-7.1.6-400.asahi.aarch64+debug.xz"
     fi
 fi
 
@@ -3105,29 +3113,29 @@ entry_type=""
 /bin/kernel-install --help|grep -q -- '--entry-type=' &&
     entry_type="--entry-type type2" 
 
-/bin/kernel-install remove 7.1.5-400.asahi.aarch64+debug $entry_type || exit 0
+/bin/kernel-install remove 7.1.6-400.asahi.aarch64+debug $entry_type || exit 0
 if [ -x /usr/bin/weak-modules ]
 then
-    /usr/bin/weak-modules --remove-kernel 7.1.5-400.asahi.aarch64+debug || exit 0
+    /usr/bin/weak-modules --remove-kernel 7.1.6-400.asahi.aarch64+debug || exit 0
 fi
 
 %posttrans debug-uki-dtbloader
-rm -f /var/lib/rpm-state/kernel/installing_core_7.1.5-400.asahi.aarch64+debug
-/bin/kernel-install add 7.1.5-400.asahi.aarch64+debug /lib/modules/7.1.5-400.asahi.aarch64+debug/vmlinuz-dtbloader.efi || exit 0
-if [[ ! -e "/boot/symvers-7.1.5-400.asahi.aarch64+debug.xz" ]]; then
-    cp "/lib/modules/7.1.5-400.asahi.aarch64+debug/symvers.xz" "/boot/symvers-7.1.5-400.asahi.aarch64+debug.xz"
+rm -f /var/lib/rpm-state/kernel/installing_core_7.1.6-400.asahi.aarch64+debug
+/bin/kernel-install add 7.1.6-400.asahi.aarch64+debug /lib/modules/7.1.6-400.asahi.aarch64+debug/vmlinuz-dtbloader.efi || exit 0
+if [[ ! -e "/boot/symvers-7.1.6-400.asahi.aarch64+debug.xz" ]]; then
+    cp "/lib/modules/7.1.6-400.asahi.aarch64+debug/symvers.xz" "/boot/symvers-7.1.6-400.asahi.aarch64+debug.xz"
     if command -v restorecon &>/dev/null; then
-        restorecon "/boot/symvers-7.1.5-400.asahi.aarch64+debug.xz"
+        restorecon "/boot/symvers-7.1.6-400.asahi.aarch64+debug.xz"
     fi
 fi
 
 %preun debug-uki-dtbloader
 entry_type=""
 
-/bin/kernel-install remove 7.1.5-400.asahi.aarch64+debug $entry_type || exit 0
+/bin/kernel-install remove 7.1.6-400.asahi.aarch64+debug $entry_type || exit 0
 if [ -x /usr/bin/weak-modules ]
 then
-    /usr/bin/weak-modules --remove-kernel 7.1.5-400.asahi.aarch64+debug || exit 0
+    /usr/bin/weak-modules --remove-kernel 7.1.6-400.asahi.aarch64+debug || exit 0
 fi
 
 %preun debug-core
@@ -3136,10 +3144,10 @@ entry_type=""
 /bin/kernel-install --help|grep -q -- '--entry-type=' &&
     entry_type="--entry-type type1" 
 
-/bin/kernel-install remove 7.1.5-400.asahi.aarch64+debug $entry_type || exit 0
+/bin/kernel-install remove 7.1.6-400.asahi.aarch64+debug $entry_type || exit 0
 if [ -x /usr/bin/weak-modules ]
 then
-    /usr/bin/weak-modules --remove-kernel 7.1.5-400.asahi.aarch64+debug || exit 0
+    /usr/bin/weak-modules --remove-kernel 7.1.6-400.asahi.aarch64+debug || exit 0
 fi
 
 %post debug-devel
@@ -3149,7 +3157,7 @@ then
 fi
 if [ "$HARDLINK" != "no" -a -x /usr/bin/hardlink -a ! -e /run/ostree-booted ] 
 then
-    (cd /usr/src/kernels/7.1.5-400.asahi.aarch64+debug &&
+    (cd /usr/src/kernels/7.1.6-400.asahi.aarch64+debug &&
      /usr/bin/find . -type f | while read f; do
        hardlink -c /usr/src/kernels/*.*/$f $f > /dev/null
      done;
@@ -3158,53 +3166,53 @@ then
 fi
 
 %post debug-modules
-/sbin/depmod -a 7.1.5-400.asahi.aarch64+debug
-if [ -f /lib/modules/7.1.5-400.asahi.aarch64+debug/vmlinuz ] &&
-[ -f /boot/initramfs-7.1.5-400.asahi.aarch64+debug.img ] &&
-[ ! -f /var/lib/rpm-state/kernel/installing_core_7.1.5-400.asahi.aarch64+debug ]; then
+/sbin/depmod -a 7.1.6-400.asahi.aarch64+debug
+if [ -f /lib/modules/7.1.6-400.asahi.aarch64+debug/vmlinuz ] &&
+[ -f /boot/initramfs-7.1.6-400.asahi.aarch64+debug.img ] &&
+[ ! -f /var/lib/rpm-state/kernel/installing_core_7.1.6-400.asahi.aarch64+debug ]; then
 	mkdir -p /var/lib/rpm-state/kernel
-	touch /var/lib/rpm-state/kernel/need_to_run_dracut_7.1.5-400.asahi.aarch64+debug
+	touch /var/lib/rpm-state/kernel/need_to_run_dracut_7.1.6-400.asahi.aarch64+debug
 fi
 
 %postun debug-modules
-/sbin/depmod -a 7.1.5-400.asahi.aarch64+debug
+/sbin/depmod -a 7.1.6-400.asahi.aarch64+debug
 
 %posttrans debug-modules
-if [ -f /var/lib/rpm-state/kernel/need_to_run_dracut_7.1.5-400.asahi.aarch64+debug ]; then
-	rm -f /var/lib/rpm-state/kernel/need_to_run_dracut_7.1.5-400.asahi.aarch64+debug
-	echo "Running: dracut -f --kver 7.1.5-400.asahi.aarch64+debug /boot/initramfs-7.1.5-400.asahi.aarch64+debug.img"
-	dracut -f --kver "7.1.5-400.asahi.aarch64+debug" /boot/initramfs-7.1.5-400.asahi.aarch64+debug.img || exit 0
+if [ -f /var/lib/rpm-state/kernel/need_to_run_dracut_7.1.6-400.asahi.aarch64+debug ]; then
+	rm -f /var/lib/rpm-state/kernel/need_to_run_dracut_7.1.6-400.asahi.aarch64+debug
+	echo "Running: dracut -f --kver 7.1.6-400.asahi.aarch64+debug /boot/initramfs-7.1.6-400.asahi.aarch64+debug.img"
+	dracut -f --kver "7.1.6-400.asahi.aarch64+debug" /boot/initramfs-7.1.6-400.asahi.aarch64+debug.img || exit 0
 fi
 
 %posttrans debug-modules-core
-/sbin/depmod -a 7.1.5-400.asahi.aarch64+debug
+/sbin/depmod -a 7.1.6-400.asahi.aarch64+debug
 
 %post debug-modules-extra
-/sbin/depmod -a 7.1.5-400.asahi.aarch64+debug
+/sbin/depmod -a 7.1.6-400.asahi.aarch64+debug
 
 %postun debug-modules-extra
-/sbin/depmod -a 7.1.5-400.asahi.aarch64+debug
+/sbin/depmod -a 7.1.6-400.asahi.aarch64+debug
 
 %post debug-modules-internal
-/sbin/depmod -a 7.1.5-400.asahi.aarch64+debug
+/sbin/depmod -a 7.1.6-400.asahi.aarch64+debug
 
 %postun debug-modules-internal
-/sbin/depmod -a 7.1.5-400.asahi.aarch64+debug
+/sbin/depmod -a 7.1.6-400.asahi.aarch64+debug
 
 %posttrans debug-core
-rm -f /var/lib/rpm-state/kernel/installing_core_7.1.5-400.asahi.aarch64+debug
-/bin/kernel-install add 7.1.5-400.asahi.aarch64+debug /lib/modules/7.1.5-400.asahi.aarch64+debug/vmlinuz || exit 0
-if [[ ! -e "/boot/symvers-7.1.5-400.asahi.aarch64+debug.xz" ]]; then
-    cp "/lib/modules/7.1.5-400.asahi.aarch64+debug/symvers.xz" "/boot/symvers-7.1.5-400.asahi.aarch64+debug.xz"
+rm -f /var/lib/rpm-state/kernel/installing_core_7.1.6-400.asahi.aarch64+debug
+/bin/kernel-install add 7.1.6-400.asahi.aarch64+debug /lib/modules/7.1.6-400.asahi.aarch64+debug/vmlinuz || exit 0
+if [[ ! -e "/boot/symvers-7.1.6-400.asahi.aarch64+debug.xz" ]]; then
+    cp "/lib/modules/7.1.6-400.asahi.aarch64+debug/symvers.xz" "/boot/symvers-7.1.6-400.asahi.aarch64+debug.xz"
     if command -v restorecon &>/dev/null; then
-        restorecon "/boot/symvers-7.1.5-400.asahi.aarch64+debug.xz"
+        restorecon "/boot/symvers-7.1.6-400.asahi.aarch64+debug.xz"
     fi
 fi
 
 %post debug-core
 
 mkdir -p /var/lib/rpm-state/kernel
-touch /var/lib/rpm-state/kernel/installing_core_7.1.5-400.asahi.aarch64+debug
+touch /var/lib/rpm-state/kernel/installing_core_7.1.6-400.asahi.aarch64+debug
 
 %preun 16k-core
 entry_type=""
@@ -3212,10 +3220,10 @@ entry_type=""
 /bin/kernel-install --help|grep -q -- '--entry-type=' &&
     entry_type="--entry-type type1" 
 
-/bin/kernel-install remove 7.1.5-400.asahi.aarch64+16k $entry_type || exit 0
+/bin/kernel-install remove 7.1.6-400.asahi.aarch64+16k $entry_type || exit 0
 if [ -x /usr/bin/weak-modules ]
 then
-    /usr/bin/weak-modules --remove-kernel 7.1.5-400.asahi.aarch64+16k || exit 0
+    /usr/bin/weak-modules --remove-kernel 7.1.6-400.asahi.aarch64+16k || exit 0
 fi
 
 %post 16k-devel
@@ -3225,7 +3233,7 @@ then
 fi
 if [ "$HARDLINK" != "no" -a -x /usr/bin/hardlink -a ! -e /run/ostree-booted ] 
 then
-    (cd /usr/src/kernels/7.1.5-400.asahi.aarch64+16k &&
+    (cd /usr/src/kernels/7.1.6-400.asahi.aarch64+16k &&
      /usr/bin/find . -type f | while read f; do
        hardlink -c /usr/src/kernels/*.*/$f $f > /dev/null
      done;
@@ -3234,53 +3242,53 @@ then
 fi
 
 %post 16k-modules
-/sbin/depmod -a 7.1.5-400.asahi.aarch64+16k
-if [ -f /lib/modules/7.1.5-400.asahi.aarch64+16k/vmlinuz ] &&
-[ -f /boot/initramfs-7.1.5-400.asahi.aarch64+16k.img ] &&
-[ ! -f /var/lib/rpm-state/kernel/installing_core_7.1.5-400.asahi.aarch64+16k ]; then
+/sbin/depmod -a 7.1.6-400.asahi.aarch64+16k
+if [ -f /lib/modules/7.1.6-400.asahi.aarch64+16k/vmlinuz ] &&
+[ -f /boot/initramfs-7.1.6-400.asahi.aarch64+16k.img ] &&
+[ ! -f /var/lib/rpm-state/kernel/installing_core_7.1.6-400.asahi.aarch64+16k ]; then
 	mkdir -p /var/lib/rpm-state/kernel
-	touch /var/lib/rpm-state/kernel/need_to_run_dracut_7.1.5-400.asahi.aarch64+16k
+	touch /var/lib/rpm-state/kernel/need_to_run_dracut_7.1.6-400.asahi.aarch64+16k
 fi
 
 %postun 16k-modules
-/sbin/depmod -a 7.1.5-400.asahi.aarch64+16k
+/sbin/depmod -a 7.1.6-400.asahi.aarch64+16k
 
 %posttrans 16k-modules
-if [ -f /var/lib/rpm-state/kernel/need_to_run_dracut_7.1.5-400.asahi.aarch64+16k ]; then
-	rm -f /var/lib/rpm-state/kernel/need_to_run_dracut_7.1.5-400.asahi.aarch64+16k
-	echo "Running: dracut -f --kver 7.1.5-400.asahi.aarch64+16k /boot/initramfs-7.1.5-400.asahi.aarch64+16k.img"
-	dracut -f --kver "7.1.5-400.asahi.aarch64+16k" /boot/initramfs-7.1.5-400.asahi.aarch64+16k.img || exit 0
+if [ -f /var/lib/rpm-state/kernel/need_to_run_dracut_7.1.6-400.asahi.aarch64+16k ]; then
+	rm -f /var/lib/rpm-state/kernel/need_to_run_dracut_7.1.6-400.asahi.aarch64+16k
+	echo "Running: dracut -f --kver 7.1.6-400.asahi.aarch64+16k /boot/initramfs-7.1.6-400.asahi.aarch64+16k.img"
+	dracut -f --kver "7.1.6-400.asahi.aarch64+16k" /boot/initramfs-7.1.6-400.asahi.aarch64+16k.img || exit 0
 fi
 
 %posttrans 16k-modules-core
-/sbin/depmod -a 7.1.5-400.asahi.aarch64+16k
+/sbin/depmod -a 7.1.6-400.asahi.aarch64+16k
 
 %post 16k-modules-extra
-/sbin/depmod -a 7.1.5-400.asahi.aarch64+16k
+/sbin/depmod -a 7.1.6-400.asahi.aarch64+16k
 
 %postun 16k-modules-extra
-/sbin/depmod -a 7.1.5-400.asahi.aarch64+16k
+/sbin/depmod -a 7.1.6-400.asahi.aarch64+16k
 
 %post 16k-modules-internal
-/sbin/depmod -a 7.1.5-400.asahi.aarch64+16k
+/sbin/depmod -a 7.1.6-400.asahi.aarch64+16k
 
 %postun 16k-modules-internal
-/sbin/depmod -a 7.1.5-400.asahi.aarch64+16k
+/sbin/depmod -a 7.1.6-400.asahi.aarch64+16k
 
 %posttrans 16k-core
-rm -f /var/lib/rpm-state/kernel/installing_core_7.1.5-400.asahi.aarch64+16k
-/bin/kernel-install add 7.1.5-400.asahi.aarch64+16k /lib/modules/7.1.5-400.asahi.aarch64+16k/vmlinuz || exit 0
-if [[ ! -e "/boot/symvers-7.1.5-400.asahi.aarch64+16k.xz" ]]; then
-    cp "/lib/modules/7.1.5-400.asahi.aarch64+16k/symvers.xz" "/boot/symvers-7.1.5-400.asahi.aarch64+16k.xz"
+rm -f /var/lib/rpm-state/kernel/installing_core_7.1.6-400.asahi.aarch64+16k
+/bin/kernel-install add 7.1.6-400.asahi.aarch64+16k /lib/modules/7.1.6-400.asahi.aarch64+16k/vmlinuz || exit 0
+if [[ ! -e "/boot/symvers-7.1.6-400.asahi.aarch64+16k.xz" ]]; then
+    cp "/lib/modules/7.1.6-400.asahi.aarch64+16k/symvers.xz" "/boot/symvers-7.1.6-400.asahi.aarch64+16k.xz"
     if command -v restorecon &>/dev/null; then
-        restorecon "/boot/symvers-7.1.5-400.asahi.aarch64+16k.xz"
+        restorecon "/boot/symvers-7.1.6-400.asahi.aarch64+16k.xz"
     fi
 fi
 
 %post 16k-core
 
 mkdir -p /var/lib/rpm-state/kernel
-touch /var/lib/rpm-state/kernel/installing_core_7.1.5-400.asahi.aarch64+16k
+touch /var/lib/rpm-state/kernel/installing_core_7.1.6-400.asahi.aarch64+16k
 
 %preun 16k-debug-core
 entry_type=""
@@ -3288,10 +3296,10 @@ entry_type=""
 /bin/kernel-install --help|grep -q -- '--entry-type=' &&
     entry_type="--entry-type type1" 
 
-/bin/kernel-install remove 7.1.5-400.asahi.aarch64+16k-debug $entry_type || exit 0
+/bin/kernel-install remove 7.1.6-400.asahi.aarch64+16k-debug $entry_type || exit 0
 if [ -x /usr/bin/weak-modules ]
 then
-    /usr/bin/weak-modules --remove-kernel 7.1.5-400.asahi.aarch64+16k-debug || exit 0
+    /usr/bin/weak-modules --remove-kernel 7.1.6-400.asahi.aarch64+16k-debug || exit 0
 fi
 
 %post 16k-debug-devel
@@ -3301,7 +3309,7 @@ then
 fi
 if [ "$HARDLINK" != "no" -a -x /usr/bin/hardlink -a ! -e /run/ostree-booted ] 
 then
-    (cd /usr/src/kernels/7.1.5-400.asahi.aarch64+16k-debug &&
+    (cd /usr/src/kernels/7.1.6-400.asahi.aarch64+16k-debug &&
      /usr/bin/find . -type f | while read f; do
        hardlink -c /usr/src/kernels/*.*/$f $f > /dev/null
      done;
@@ -3310,61 +3318,61 @@ then
 fi
 
 %post 16k-debug-modules
-/sbin/depmod -a 7.1.5-400.asahi.aarch64+16k-debug
-if [ -f /lib/modules/7.1.5-400.asahi.aarch64+16k-debug/vmlinuz ] &&
-[ -f /boot/initramfs-7.1.5-400.asahi.aarch64+16k-debug.img ] &&
-[ ! -f /var/lib/rpm-state/kernel/installing_core_7.1.5-400.asahi.aarch64+16k-debug ]; then
+/sbin/depmod -a 7.1.6-400.asahi.aarch64+16k-debug
+if [ -f /lib/modules/7.1.6-400.asahi.aarch64+16k-debug/vmlinuz ] &&
+[ -f /boot/initramfs-7.1.6-400.asahi.aarch64+16k-debug.img ] &&
+[ ! -f /var/lib/rpm-state/kernel/installing_core_7.1.6-400.asahi.aarch64+16k-debug ]; then
 	mkdir -p /var/lib/rpm-state/kernel
-	touch /var/lib/rpm-state/kernel/need_to_run_dracut_7.1.5-400.asahi.aarch64+16k-debug
+	touch /var/lib/rpm-state/kernel/need_to_run_dracut_7.1.6-400.asahi.aarch64+16k-debug
 fi
 
 %postun 16k-debug-modules
-/sbin/depmod -a 7.1.5-400.asahi.aarch64+16k-debug
+/sbin/depmod -a 7.1.6-400.asahi.aarch64+16k-debug
 
 %posttrans 16k-debug-modules
-if [ -f /var/lib/rpm-state/kernel/need_to_run_dracut_7.1.5-400.asahi.aarch64+16k-debug ]; then
-	rm -f /var/lib/rpm-state/kernel/need_to_run_dracut_7.1.5-400.asahi.aarch64+16k-debug
-	echo "Running: dracut -f --kver 7.1.5-400.asahi.aarch64+16k-debug /boot/initramfs-7.1.5-400.asahi.aarch64+16k-debug.img"
-	dracut -f --kver "7.1.5-400.asahi.aarch64+16k-debug" /boot/initramfs-7.1.5-400.asahi.aarch64+16k-debug.img || exit 0
+if [ -f /var/lib/rpm-state/kernel/need_to_run_dracut_7.1.6-400.asahi.aarch64+16k-debug ]; then
+	rm -f /var/lib/rpm-state/kernel/need_to_run_dracut_7.1.6-400.asahi.aarch64+16k-debug
+	echo "Running: dracut -f --kver 7.1.6-400.asahi.aarch64+16k-debug /boot/initramfs-7.1.6-400.asahi.aarch64+16k-debug.img"
+	dracut -f --kver "7.1.6-400.asahi.aarch64+16k-debug" /boot/initramfs-7.1.6-400.asahi.aarch64+16k-debug.img || exit 0
 fi
 
 %posttrans 16k-debug-modules-core
-/sbin/depmod -a 7.1.5-400.asahi.aarch64+16k-debug
+/sbin/depmod -a 7.1.6-400.asahi.aarch64+16k-debug
 
 %post 16k-debug-modules-extra
-/sbin/depmod -a 7.1.5-400.asahi.aarch64+16k-debug
+/sbin/depmod -a 7.1.6-400.asahi.aarch64+16k-debug
 
 %postun 16k-debug-modules-extra
-/sbin/depmod -a 7.1.5-400.asahi.aarch64+16k-debug
+/sbin/depmod -a 7.1.6-400.asahi.aarch64+16k-debug
 
 %post 16k-debug-modules-internal
-/sbin/depmod -a 7.1.5-400.asahi.aarch64+16k-debug
+/sbin/depmod -a 7.1.6-400.asahi.aarch64+16k-debug
 
 %postun 16k-debug-modules-internal
-/sbin/depmod -a 7.1.5-400.asahi.aarch64+16k-debug
+/sbin/depmod -a 7.1.6-400.asahi.aarch64+16k-debug
 
 %posttrans 16k-debug-core
-rm -f /var/lib/rpm-state/kernel/installing_core_7.1.5-400.asahi.aarch64+16k-debug
-/bin/kernel-install add 7.1.5-400.asahi.aarch64+16k-debug /lib/modules/7.1.5-400.asahi.aarch64+16k-debug/vmlinuz || exit 0
-if [[ ! -e "/boot/symvers-7.1.5-400.asahi.aarch64+16k-debug.xz" ]]; then
-    cp "/lib/modules/7.1.5-400.asahi.aarch64+16k-debug/symvers.xz" "/boot/symvers-7.1.5-400.asahi.aarch64+16k-debug.xz"
+rm -f /var/lib/rpm-state/kernel/installing_core_7.1.6-400.asahi.aarch64+16k-debug
+/bin/kernel-install add 7.1.6-400.asahi.aarch64+16k-debug /lib/modules/7.1.6-400.asahi.aarch64+16k-debug/vmlinuz || exit 0
+if [[ ! -e "/boot/symvers-7.1.6-400.asahi.aarch64+16k-debug.xz" ]]; then
+    cp "/lib/modules/7.1.6-400.asahi.aarch64+16k-debug/symvers.xz" "/boot/symvers-7.1.6-400.asahi.aarch64+16k-debug.xz"
     if command -v restorecon &>/dev/null; then
-        restorecon "/boot/symvers-7.1.5-400.asahi.aarch64+16k-debug.xz"
+        restorecon "/boot/symvers-7.1.6-400.asahi.aarch64+16k-debug.xz"
     fi
 fi
 
 %post 16k-debug-core
 
 mkdir -p /var/lib/rpm-state/kernel
-touch /var/lib/rpm-state/kernel/installing_core_7.1.5-400.asahi.aarch64+16k-debug
+touch /var/lib/rpm-state/kernel/installing_core_7.1.6-400.asahi.aarch64+16k-debug
 
 %posttrans 16k-debug-uki-virt
-rm -f /var/lib/rpm-state/kernel/installing_core_7.1.5-400.asahi.aarch64+16k-debug
-/bin/kernel-install add 7.1.5-400.asahi.aarch64+16k-debug /lib/modules/7.1.5-400.asahi.aarch64+16k-debug/vmlinuz-virt.efi || exit 0
-if [[ ! -e "/boot/symvers-7.1.5-400.asahi.aarch64+16k-debug.xz" ]]; then
-    cp "/lib/modules/7.1.5-400.asahi.aarch64+16k-debug/symvers.xz" "/boot/symvers-7.1.5-400.asahi.aarch64+16k-debug.xz"
+rm -f /var/lib/rpm-state/kernel/installing_core_7.1.6-400.asahi.aarch64+16k-debug
+/bin/kernel-install add 7.1.6-400.asahi.aarch64+16k-debug /lib/modules/7.1.6-400.asahi.aarch64+16k-debug/vmlinuz-virt.efi || exit 0
+if [[ ! -e "/boot/symvers-7.1.6-400.asahi.aarch64+16k-debug.xz" ]]; then
+    cp "/lib/modules/7.1.6-400.asahi.aarch64+16k-debug/symvers.xz" "/boot/symvers-7.1.6-400.asahi.aarch64+16k-debug.xz"
     if command -v restorecon &>/dev/null; then
-        restorecon "/boot/symvers-7.1.5-400.asahi.aarch64+16k-debug.xz"
+        restorecon "/boot/symvers-7.1.6-400.asahi.aarch64+16k-debug.xz"
     fi
 fi
 
@@ -3374,19 +3382,19 @@ entry_type=""
 /bin/kernel-install --help|grep -q -- '--entry-type=' &&
     entry_type="--entry-type type2" 
 
-/bin/kernel-install remove 7.1.5-400.asahi.aarch64+16k-debug $entry_type || exit 0
+/bin/kernel-install remove 7.1.6-400.asahi.aarch64+16k-debug $entry_type || exit 0
 if [ -x /usr/bin/weak-modules ]
 then
-    /usr/bin/weak-modules --remove-kernel 7.1.5-400.asahi.aarch64+16k-debug || exit 0
+    /usr/bin/weak-modules --remove-kernel 7.1.6-400.asahi.aarch64+16k-debug || exit 0
 fi
 
 %posttrans 16k-uki-virt
-rm -f /var/lib/rpm-state/kernel/installing_core_7.1.5-400.asahi.aarch64+16k
-/bin/kernel-install add 7.1.5-400.asahi.aarch64+16k /lib/modules/7.1.5-400.asahi.aarch64+16k/vmlinuz-virt.efi || exit 0
-if [[ ! -e "/boot/symvers-7.1.5-400.asahi.aarch64+16k.xz" ]]; then
-    cp "/lib/modules/7.1.5-400.asahi.aarch64+16k/symvers.xz" "/boot/symvers-7.1.5-400.asahi.aarch64+16k.xz"
+rm -f /var/lib/rpm-state/kernel/installing_core_7.1.6-400.asahi.aarch64+16k
+/bin/kernel-install add 7.1.6-400.asahi.aarch64+16k /lib/modules/7.1.6-400.asahi.aarch64+16k/vmlinuz-virt.efi || exit 0
+if [[ ! -e "/boot/symvers-7.1.6-400.asahi.aarch64+16k.xz" ]]; then
+    cp "/lib/modules/7.1.6-400.asahi.aarch64+16k/symvers.xz" "/boot/symvers-7.1.6-400.asahi.aarch64+16k.xz"
     if command -v restorecon &>/dev/null; then
-        restorecon "/boot/symvers-7.1.5-400.asahi.aarch64+16k.xz"
+        restorecon "/boot/symvers-7.1.6-400.asahi.aarch64+16k.xz"
     fi
 fi
 
@@ -3396,10 +3404,10 @@ entry_type=""
 /bin/kernel-install --help|grep -q -- '--entry-type=' &&
     entry_type="--entry-type type2" 
 
-/bin/kernel-install remove 7.1.5-400.asahi.aarch64+16k $entry_type || exit 0
+/bin/kernel-install remove 7.1.6-400.asahi.aarch64+16k $entry_type || exit 0
 if [ -x /usr/bin/weak-modules ]
 then
-    /usr/bin/weak-modules --remove-kernel 7.1.5-400.asahi.aarch64+16k || exit 0
+    /usr/bin/weak-modules --remove-kernel 7.1.6-400.asahi.aarch64+16k || exit 0
 fi
 
 ###
@@ -3418,7 +3426,7 @@ fi
 /usr/lib/linux-asahi/perf-core/*
 /usr/share/man/man[1-8]/perf*
 /etc/bash_completion.d/perf
-%doc linux-7.1.5-400.asahi.aarch64/tools/perf/Documentation/examples.txt
+%doc linux-7.1.6-400.asahi.aarch64/tools/perf/Documentation/examples.txt
 /usr/share/doc/perf-tip/tips.txt
 /usr/include/perf/perf_dlfilter.h
 
@@ -3540,313 +3548,313 @@ fi
 
 %files -f kernel-ldsoconf.list core
 
-%license linux-7.1.5-400.asahi.aarch64/COPYING-7.1.5-400.asahi
-/lib/modules/7.1.5-400.asahi.aarch64/vmlinuz
-%ghost /boot/vmlinuz-7.1.5-400.asahi.aarch64
-/lib/modules/7.1.5-400.asahi.aarch64/.vmlinuz.hmac 
-%ghost /boot/.vmlinuz-7.1.5-400.asahi.aarch64.hmac 
-/lib/modules/7.1.5-400.asahi.aarch64/dtb 
-%ghost /boot/dtb-7.1.5-400.asahi.aarch64 
-/lib/modules/7.1.5-400.asahi.aarch64/System.map
-%ghost /boot/System.map-7.1.5-400.asahi.aarch64
+%license linux-7.1.6-400.asahi.aarch64/COPYING-7.1.6-400.asahi
+/lib/modules/7.1.6-400.asahi.aarch64/vmlinuz
+%ghost /boot/vmlinuz-7.1.6-400.asahi.aarch64
+/lib/modules/7.1.6-400.asahi.aarch64/.vmlinuz.hmac 
+%ghost /boot/.vmlinuz-7.1.6-400.asahi.aarch64.hmac 
+/lib/modules/7.1.6-400.asahi.aarch64/dtb 
+%ghost /boot/dtb-7.1.6-400.asahi.aarch64 
+/lib/modules/7.1.6-400.asahi.aarch64/System.map
+%ghost /boot/System.map-7.1.6-400.asahi.aarch64
 %dir /lib/modules
-%dir /lib/modules/7.1.5-400.asahi.aarch64
-/lib/modules/7.1.5-400.asahi.aarch64/symvers.xz
-/lib/modules/7.1.5-400.asahi.aarch64/config
-/lib/modules/7.1.5-400.asahi.aarch64/modules.builtin*
-%ghost %attr(0644, root, root) /boot/symvers-7.1.5-400.asahi.aarch64.xz
-%ghost %attr(0600, root, root) /boot/initramfs-7.1.5-400.asahi.aarch64.img
-%ghost %attr(0644, root, root) /boot/config-7.1.5-400.asahi.aarch64
+%dir /lib/modules/7.1.6-400.asahi.aarch64
+/lib/modules/7.1.6-400.asahi.aarch64/symvers.xz
+/lib/modules/7.1.6-400.asahi.aarch64/config
+/lib/modules/7.1.6-400.asahi.aarch64/modules.builtin*
+%ghost %attr(0644, root, root) /boot/symvers-7.1.6-400.asahi.aarch64.xz
+%ghost %attr(0600, root, root) /boot/initramfs-7.1.6-400.asahi.aarch64.img
+%ghost %attr(0644, root, root) /boot/config-7.1.6-400.asahi.aarch64
 %files -f kernel-modules-core.list modules-core
 %dir /lib/modules
-%dir /lib/modules/7.1.5-400.asahi.aarch64
-%dir /lib/modules/7.1.5-400.asahi.aarch64/kernel
-/lib/modules/7.1.5-400.asahi.aarch64/build
-/lib/modules/7.1.5-400.asahi.aarch64/source
-/lib/modules/7.1.5-400.asahi.aarch64/updates
-/lib/modules/7.1.5-400.asahi.aarch64/weak-updates
-/lib/modules/7.1.5-400.asahi.aarch64/systemtap
-/usr/share/doc/kernel-keys/7.1.5-400.asahi.aarch64
-/lib/modules/7.1.5-400.asahi.aarch64/vdso
-/lib/modules/7.1.5-400.asahi.aarch64/modules.block
-/lib/modules/7.1.5-400.asahi.aarch64/modules.drm
-/lib/modules/7.1.5-400.asahi.aarch64/modules.modesetting
-/lib/modules/7.1.5-400.asahi.aarch64/modules.networking
-/lib/modules/7.1.5-400.asahi.aarch64/modules.order
-%ghost %attr(0644, root, root) /lib/modules/7.1.5-400.asahi.aarch64/modules.alias
-%ghost %attr(0644, root, root) /lib/modules/7.1.5-400.asahi.aarch64/modules.alias.bin
-%ghost %attr(0644, root, root) /lib/modules/7.1.5-400.asahi.aarch64/modules.builtin.alias.bin
-%ghost %attr(0644, root, root) /lib/modules/7.1.5-400.asahi.aarch64/modules.builtin.bin
-%ghost %attr(0644, root, root) /lib/modules/7.1.5-400.asahi.aarch64/modules.dep
-%ghost %attr(0644, root, root) /lib/modules/7.1.5-400.asahi.aarch64/modules.dep.bin
-%ghost %attr(0644, root, root) /lib/modules/7.1.5-400.asahi.aarch64/modules.devname
-%ghost %attr(0644, root, root) /lib/modules/7.1.5-400.asahi.aarch64/modules.softdep
-%ghost %attr(0644, root, root) /lib/modules/7.1.5-400.asahi.aarch64/modules.symbols
-%ghost %attr(0644, root, root) /lib/modules/7.1.5-400.asahi.aarch64/modules.symbols.bin
-%ghost %attr(0644, root, root) /lib/modules/7.1.5-400.asahi.aarch64/modules.weakdep
+%dir /lib/modules/7.1.6-400.asahi.aarch64
+%dir /lib/modules/7.1.6-400.asahi.aarch64/kernel
+/lib/modules/7.1.6-400.asahi.aarch64/build
+/lib/modules/7.1.6-400.asahi.aarch64/source
+/lib/modules/7.1.6-400.asahi.aarch64/updates
+/lib/modules/7.1.6-400.asahi.aarch64/weak-updates
+/lib/modules/7.1.6-400.asahi.aarch64/systemtap
+/usr/share/doc/kernel-keys/7.1.6-400.asahi.aarch64
+/lib/modules/7.1.6-400.asahi.aarch64/vdso
+/lib/modules/7.1.6-400.asahi.aarch64/modules.block
+/lib/modules/7.1.6-400.asahi.aarch64/modules.drm
+/lib/modules/7.1.6-400.asahi.aarch64/modules.modesetting
+/lib/modules/7.1.6-400.asahi.aarch64/modules.networking
+/lib/modules/7.1.6-400.asahi.aarch64/modules.order
+%ghost %attr(0644, root, root) /lib/modules/7.1.6-400.asahi.aarch64/modules.alias
+%ghost %attr(0644, root, root) /lib/modules/7.1.6-400.asahi.aarch64/modules.alias.bin
+%ghost %attr(0644, root, root) /lib/modules/7.1.6-400.asahi.aarch64/modules.builtin.alias.bin
+%ghost %attr(0644, root, root) /lib/modules/7.1.6-400.asahi.aarch64/modules.builtin.bin
+%ghost %attr(0644, root, root) /lib/modules/7.1.6-400.asahi.aarch64/modules.dep
+%ghost %attr(0644, root, root) /lib/modules/7.1.6-400.asahi.aarch64/modules.dep.bin
+%ghost %attr(0644, root, root) /lib/modules/7.1.6-400.asahi.aarch64/modules.devname
+%ghost %attr(0644, root, root) /lib/modules/7.1.6-400.asahi.aarch64/modules.softdep
+%ghost %attr(0644, root, root) /lib/modules/7.1.6-400.asahi.aarch64/modules.symbols
+%ghost %attr(0644, root, root) /lib/modules/7.1.6-400.asahi.aarch64/modules.symbols.bin
+%ghost %attr(0644, root, root) /lib/modules/7.1.6-400.asahi.aarch64/modules.weakdep
 %files -f kernel-modules.list modules
 %files devel
 %defverify(not mtime)
-/usr/src/kernels/7.1.5-400.asahi.aarch64
+/usr/src/kernels/7.1.6-400.asahi.aarch64
 %files devel-matched
 %files -f kernel-modules-extra.list modules-extra
 %files -f kernel-modules-internal.list modules-internal
 %files -f debuginfo.list debuginfo
 %files uki-virt
 %dir /lib/modules
-%dir /lib/modules/7.1.5-400.asahi.aarch64
-/lib/modules/7.1.5-400.asahi.aarch64/System.map
-/lib/modules/7.1.5-400.asahi.aarch64/symvers.xz
-/lib/modules/7.1.5-400.asahi.aarch64/config
-/lib/modules/7.1.5-400.asahi.aarch64/modules.builtin*
-%attr(0644, root, root) /lib/modules/7.1.5-400.asahi.aarch64/vmlinuz-virt.efi
-%attr(0644, root, root) /lib/modules/7.1.5-400.asahi.aarch64/.vmlinuz-virt.efi.hmac
-%ghost /boot/efi/EFI/Linux/*-7.1.5-400.asahi.aarch64.efi
+%dir /lib/modules/7.1.6-400.asahi.aarch64
+/lib/modules/7.1.6-400.asahi.aarch64/System.map
+/lib/modules/7.1.6-400.asahi.aarch64/symvers.xz
+/lib/modules/7.1.6-400.asahi.aarch64/config
+/lib/modules/7.1.6-400.asahi.aarch64/modules.builtin*
+%attr(0644, root, root) /lib/modules/7.1.6-400.asahi.aarch64/vmlinuz-virt.efi
+%attr(0644, root, root) /lib/modules/7.1.6-400.asahi.aarch64/.vmlinuz-virt.efi.hmac
+%ghost /boot/efi/EFI/Linux/*-7.1.6-400.asahi.aarch64.efi
 %files uki-virt-addons
-%dir /lib/modules/7.1.5-400.asahi.aarch64/vmlinuz-virt.efi.extras/ 
-/lib/modules/7.1.5-400.asahi.aarch64/vmlinuz-virt.efi.extras/*.addon.efi
+%dir /lib/modules/7.1.6-400.asahi.aarch64/vmlinuz-virt.efi.extras/ 
+/lib/modules/7.1.6-400.asahi.aarch64/vmlinuz-virt.efi.extras/*.addon.efi
 %files uki-dtbloader
-%license linux-7.1.5-400.asahi.aarch64/COPYING-7.1.5-400.asahi
+%license linux-7.1.6-400.asahi.aarch64/COPYING-7.1.6-400.asahi
 %dir /lib/modules
-%dir /lib/modules/7.1.5-400.asahi.aarch64
-/lib/modules/7.1.5-400.asahi.aarch64/System.map
-/lib/modules/7.1.5-400.asahi.aarch64/config
-/lib/modules/7.1.5-400.asahi.aarch64/modules.builtin*
-/lib/modules/7.1.5-400.asahi.aarch64/symvers.xz
-/lib/modules/7.1.5-400.asahi.aarch64/vmlinuz-dtbloader.efi
-/lib/modules/7.1.5-400.asahi.aarch64/.vmlinuz-dtbloader.efi.hmac
-%ghost %attr(0644, root, root) /boot/System.map-7.1.5-400.asahi.aarch64
-%ghost %attr(0644, root, root) /boot/config-7.1.5-400.asahi.aarch64
-%ghost %attr(0600, root, root) /boot/initramfs-7.1.5-400.asahi.aarch64.img
-%ghost %attr(0644, root, root) /boot/symvers-7.1.5-400.asahi.aarch64.xz
-%ghost %attr(0755, root, root) /boot/vmlinuz-7.1.5-400.asahi.aarch64
-%ghost %attr(0644, root, root) /boot/.vmlinuz-7.1.5-400.asahi.aarch64.hmac
-/lib/modules/7.1.5-400.asahi.aarch64/dtb 
-%ghost /boot/dtb-7.1.5-400.asahi.aarch64 
+%dir /lib/modules/7.1.6-400.asahi.aarch64
+/lib/modules/7.1.6-400.asahi.aarch64/System.map
+/lib/modules/7.1.6-400.asahi.aarch64/config
+/lib/modules/7.1.6-400.asahi.aarch64/modules.builtin*
+/lib/modules/7.1.6-400.asahi.aarch64/symvers.xz
+/lib/modules/7.1.6-400.asahi.aarch64/vmlinuz-dtbloader.efi
+/lib/modules/7.1.6-400.asahi.aarch64/.vmlinuz-dtbloader.efi.hmac
+%ghost %attr(0644, root, root) /boot/System.map-7.1.6-400.asahi.aarch64
+%ghost %attr(0644, root, root) /boot/config-7.1.6-400.asahi.aarch64
+%ghost %attr(0600, root, root) /boot/initramfs-7.1.6-400.asahi.aarch64.img
+%ghost %attr(0644, root, root) /boot/symvers-7.1.6-400.asahi.aarch64.xz
+%ghost %attr(0755, root, root) /boot/vmlinuz-7.1.6-400.asahi.aarch64
+%ghost %attr(0644, root, root) /boot/.vmlinuz-7.1.6-400.asahi.aarch64.hmac
+/lib/modules/7.1.6-400.asahi.aarch64/dtb 
+%ghost /boot/dtb-7.1.6-400.asahi.aarch64 
 
 %files -f kernel-debug-ldsoconf.list debug-core
 
-%license linux-7.1.5-400.asahi.aarch64/COPYING-7.1.5-400.asahi
-/lib/modules/7.1.5-400.asahi.aarch64+debug/vmlinuz
-%ghost /boot/vmlinuz-7.1.5-400.asahi.aarch64+debug
-/lib/modules/7.1.5-400.asahi.aarch64+debug/.vmlinuz.hmac 
-%ghost /boot/.vmlinuz-7.1.5-400.asahi.aarch64+debug.hmac 
-/lib/modules/7.1.5-400.asahi.aarch64+debug/dtb 
-%ghost /boot/dtb-7.1.5-400.asahi.aarch64+debug 
-/lib/modules/7.1.5-400.asahi.aarch64+debug/System.map
-%ghost /boot/System.map-7.1.5-400.asahi.aarch64+debug
+%license linux-7.1.6-400.asahi.aarch64/COPYING-7.1.6-400.asahi
+/lib/modules/7.1.6-400.asahi.aarch64+debug/vmlinuz
+%ghost /boot/vmlinuz-7.1.6-400.asahi.aarch64+debug
+/lib/modules/7.1.6-400.asahi.aarch64+debug/.vmlinuz.hmac 
+%ghost /boot/.vmlinuz-7.1.6-400.asahi.aarch64+debug.hmac 
+/lib/modules/7.1.6-400.asahi.aarch64+debug/dtb 
+%ghost /boot/dtb-7.1.6-400.asahi.aarch64+debug 
+/lib/modules/7.1.6-400.asahi.aarch64+debug/System.map
+%ghost /boot/System.map-7.1.6-400.asahi.aarch64+debug
 %dir /lib/modules
-%dir /lib/modules/7.1.5-400.asahi.aarch64+debug
-/lib/modules/7.1.5-400.asahi.aarch64+debug/symvers.xz
-/lib/modules/7.1.5-400.asahi.aarch64+debug/config
-/lib/modules/7.1.5-400.asahi.aarch64+debug/modules.builtin*
-%ghost %attr(0644, root, root) /boot/symvers-7.1.5-400.asahi.aarch64+debug.xz
-%ghost %attr(0600, root, root) /boot/initramfs-7.1.5-400.asahi.aarch64+debug.img
-%ghost %attr(0644, root, root) /boot/config-7.1.5-400.asahi.aarch64+debug
+%dir /lib/modules/7.1.6-400.asahi.aarch64+debug
+/lib/modules/7.1.6-400.asahi.aarch64+debug/symvers.xz
+/lib/modules/7.1.6-400.asahi.aarch64+debug/config
+/lib/modules/7.1.6-400.asahi.aarch64+debug/modules.builtin*
+%ghost %attr(0644, root, root) /boot/symvers-7.1.6-400.asahi.aarch64+debug.xz
+%ghost %attr(0600, root, root) /boot/initramfs-7.1.6-400.asahi.aarch64+debug.img
+%ghost %attr(0644, root, root) /boot/config-7.1.6-400.asahi.aarch64+debug
 %files -f kernel-debug-modules-core.list debug-modules-core
 %dir /lib/modules
-%dir /lib/modules/7.1.5-400.asahi.aarch64+debug
-%dir /lib/modules/7.1.5-400.asahi.aarch64+debug/kernel
-/lib/modules/7.1.5-400.asahi.aarch64+debug/build
-/lib/modules/7.1.5-400.asahi.aarch64+debug/source
-/lib/modules/7.1.5-400.asahi.aarch64+debug/updates
-/lib/modules/7.1.5-400.asahi.aarch64+debug/weak-updates
-/lib/modules/7.1.5-400.asahi.aarch64+debug/systemtap
-/usr/share/doc/kernel-keys/7.1.5-400.asahi.aarch64+debug
-/lib/modules/7.1.5-400.asahi.aarch64+debug/vdso
-/lib/modules/7.1.5-400.asahi.aarch64+debug/modules.block
-/lib/modules/7.1.5-400.asahi.aarch64+debug/modules.drm
-/lib/modules/7.1.5-400.asahi.aarch64+debug/modules.modesetting
-/lib/modules/7.1.5-400.asahi.aarch64+debug/modules.networking
-/lib/modules/7.1.5-400.asahi.aarch64+debug/modules.order
-%ghost %attr(0644, root, root) /lib/modules/7.1.5-400.asahi.aarch64+debug/modules.alias
-%ghost %attr(0644, root, root) /lib/modules/7.1.5-400.asahi.aarch64+debug/modules.alias.bin
-%ghost %attr(0644, root, root) /lib/modules/7.1.5-400.asahi.aarch64+debug/modules.builtin.alias.bin
-%ghost %attr(0644, root, root) /lib/modules/7.1.5-400.asahi.aarch64+debug/modules.builtin.bin
-%ghost %attr(0644, root, root) /lib/modules/7.1.5-400.asahi.aarch64+debug/modules.dep
-%ghost %attr(0644, root, root) /lib/modules/7.1.5-400.asahi.aarch64+debug/modules.dep.bin
-%ghost %attr(0644, root, root) /lib/modules/7.1.5-400.asahi.aarch64+debug/modules.devname
-%ghost %attr(0644, root, root) /lib/modules/7.1.5-400.asahi.aarch64+debug/modules.softdep
-%ghost %attr(0644, root, root) /lib/modules/7.1.5-400.asahi.aarch64+debug/modules.symbols
-%ghost %attr(0644, root, root) /lib/modules/7.1.5-400.asahi.aarch64+debug/modules.symbols.bin
-%ghost %attr(0644, root, root) /lib/modules/7.1.5-400.asahi.aarch64+debug/modules.weakdep
+%dir /lib/modules/7.1.6-400.asahi.aarch64+debug
+%dir /lib/modules/7.1.6-400.asahi.aarch64+debug/kernel
+/lib/modules/7.1.6-400.asahi.aarch64+debug/build
+/lib/modules/7.1.6-400.asahi.aarch64+debug/source
+/lib/modules/7.1.6-400.asahi.aarch64+debug/updates
+/lib/modules/7.1.6-400.asahi.aarch64+debug/weak-updates
+/lib/modules/7.1.6-400.asahi.aarch64+debug/systemtap
+/usr/share/doc/kernel-keys/7.1.6-400.asahi.aarch64+debug
+/lib/modules/7.1.6-400.asahi.aarch64+debug/vdso
+/lib/modules/7.1.6-400.asahi.aarch64+debug/modules.block
+/lib/modules/7.1.6-400.asahi.aarch64+debug/modules.drm
+/lib/modules/7.1.6-400.asahi.aarch64+debug/modules.modesetting
+/lib/modules/7.1.6-400.asahi.aarch64+debug/modules.networking
+/lib/modules/7.1.6-400.asahi.aarch64+debug/modules.order
+%ghost %attr(0644, root, root) /lib/modules/7.1.6-400.asahi.aarch64+debug/modules.alias
+%ghost %attr(0644, root, root) /lib/modules/7.1.6-400.asahi.aarch64+debug/modules.alias.bin
+%ghost %attr(0644, root, root) /lib/modules/7.1.6-400.asahi.aarch64+debug/modules.builtin.alias.bin
+%ghost %attr(0644, root, root) /lib/modules/7.1.6-400.asahi.aarch64+debug/modules.builtin.bin
+%ghost %attr(0644, root, root) /lib/modules/7.1.6-400.asahi.aarch64+debug/modules.dep
+%ghost %attr(0644, root, root) /lib/modules/7.1.6-400.asahi.aarch64+debug/modules.dep.bin
+%ghost %attr(0644, root, root) /lib/modules/7.1.6-400.asahi.aarch64+debug/modules.devname
+%ghost %attr(0644, root, root) /lib/modules/7.1.6-400.asahi.aarch64+debug/modules.softdep
+%ghost %attr(0644, root, root) /lib/modules/7.1.6-400.asahi.aarch64+debug/modules.symbols
+%ghost %attr(0644, root, root) /lib/modules/7.1.6-400.asahi.aarch64+debug/modules.symbols.bin
+%ghost %attr(0644, root, root) /lib/modules/7.1.6-400.asahi.aarch64+debug/modules.weakdep
 %files -f kernel-debug-modules.list debug-modules
 %files debug-devel
 %defverify(not mtime)
-/usr/src/kernels/7.1.5-400.asahi.aarch64+debug
+/usr/src/kernels/7.1.6-400.asahi.aarch64+debug
 %files debug-devel-matched
 %files -f kernel-debug-modules-extra.list debug-modules-extra
 %files -f kernel-debug-modules-internal.list debug-modules-internal
 %files -f debuginfodebug.list debug-debuginfo
 %files debug-uki-virt
 %dir /lib/modules
-%dir /lib/modules/7.1.5-400.asahi.aarch64+debug
-/lib/modules/7.1.5-400.asahi.aarch64+debug/System.map
-/lib/modules/7.1.5-400.asahi.aarch64+debug/symvers.xz
-/lib/modules/7.1.5-400.asahi.aarch64+debug/config
-/lib/modules/7.1.5-400.asahi.aarch64+debug/modules.builtin*
-%attr(0644, root, root) /lib/modules/7.1.5-400.asahi.aarch64+debug/vmlinuz-virt.efi
-%attr(0644, root, root) /lib/modules/7.1.5-400.asahi.aarch64+debug/.vmlinuz-virt.efi.hmac
-%ghost /boot/efi/EFI/Linux/*-7.1.5-400.asahi.aarch64+debug.efi
+%dir /lib/modules/7.1.6-400.asahi.aarch64+debug
+/lib/modules/7.1.6-400.asahi.aarch64+debug/System.map
+/lib/modules/7.1.6-400.asahi.aarch64+debug/symvers.xz
+/lib/modules/7.1.6-400.asahi.aarch64+debug/config
+/lib/modules/7.1.6-400.asahi.aarch64+debug/modules.builtin*
+%attr(0644, root, root) /lib/modules/7.1.6-400.asahi.aarch64+debug/vmlinuz-virt.efi
+%attr(0644, root, root) /lib/modules/7.1.6-400.asahi.aarch64+debug/.vmlinuz-virt.efi.hmac
+%ghost /boot/efi/EFI/Linux/*-7.1.6-400.asahi.aarch64+debug.efi
 %files debug-uki-virt-addons
-%dir /lib/modules/7.1.5-400.asahi.aarch64+debug/vmlinuz-virt.efi.extras/ 
-/lib/modules/7.1.5-400.asahi.aarch64+debug/vmlinuz-virt.efi.extras/*.addon.efi
+%dir /lib/modules/7.1.6-400.asahi.aarch64+debug/vmlinuz-virt.efi.extras/ 
+/lib/modules/7.1.6-400.asahi.aarch64+debug/vmlinuz-virt.efi.extras/*.addon.efi
 %files debug-uki-dtbloader
-%license linux-7.1.5-400.asahi.aarch64/COPYING-7.1.5-400.asahi
+%license linux-7.1.6-400.asahi.aarch64/COPYING-7.1.6-400.asahi
 %dir /lib/modules
-%dir /lib/modules/7.1.5-400.asahi.aarch64+debug
-/lib/modules/7.1.5-400.asahi.aarch64+debug/System.map
-/lib/modules/7.1.5-400.asahi.aarch64+debug/config
-/lib/modules/7.1.5-400.asahi.aarch64+debug/modules.builtin*
-/lib/modules/7.1.5-400.asahi.aarch64+debug/symvers.xz
-/lib/modules/7.1.5-400.asahi.aarch64+debug/vmlinuz-dtbloader.efi
-/lib/modules/7.1.5-400.asahi.aarch64+debug/.vmlinuz-dtbloader.efi.hmac
-%ghost %attr(0644, root, root) /boot/System.map-7.1.5-400.asahi.aarch64+debug
-%ghost %attr(0644, root, root) /boot/config-7.1.5-400.asahi.aarch64+debug
-%ghost %attr(0600, root, root) /boot/initramfs-7.1.5-400.asahi.aarch64+debug.img
-%ghost %attr(0644, root, root) /boot/symvers-7.1.5-400.asahi.aarch64+debug.xz
-%ghost %attr(0755, root, root) /boot/vmlinuz-7.1.5-400.asahi.aarch64+debug
-%ghost %attr(0644, root, root) /boot/.vmlinuz-7.1.5-400.asahi.aarch64+debug.hmac
-/lib/modules/7.1.5-400.asahi.aarch64+debug/dtb 
-%ghost /boot/dtb-7.1.5-400.asahi.aarch64+debug 
+%dir /lib/modules/7.1.6-400.asahi.aarch64+debug
+/lib/modules/7.1.6-400.asahi.aarch64+debug/System.map
+/lib/modules/7.1.6-400.asahi.aarch64+debug/config
+/lib/modules/7.1.6-400.asahi.aarch64+debug/modules.builtin*
+/lib/modules/7.1.6-400.asahi.aarch64+debug/symvers.xz
+/lib/modules/7.1.6-400.asahi.aarch64+debug/vmlinuz-dtbloader.efi
+/lib/modules/7.1.6-400.asahi.aarch64+debug/.vmlinuz-dtbloader.efi.hmac
+%ghost %attr(0644, root, root) /boot/System.map-7.1.6-400.asahi.aarch64+debug
+%ghost %attr(0644, root, root) /boot/config-7.1.6-400.asahi.aarch64+debug
+%ghost %attr(0600, root, root) /boot/initramfs-7.1.6-400.asahi.aarch64+debug.img
+%ghost %attr(0644, root, root) /boot/symvers-7.1.6-400.asahi.aarch64+debug.xz
+%ghost %attr(0755, root, root) /boot/vmlinuz-7.1.6-400.asahi.aarch64+debug
+%ghost %attr(0644, root, root) /boot/.vmlinuz-7.1.6-400.asahi.aarch64+debug.hmac
+/lib/modules/7.1.6-400.asahi.aarch64+debug/dtb 
+%ghost /boot/dtb-7.1.6-400.asahi.aarch64+debug 
 %files debug
 
 %files -f kernel-16k-debug-ldsoconf.list 16k-debug-core
 
-%license linux-7.1.5-400.asahi.aarch64/COPYING-7.1.5-400.asahi
-/lib/modules/7.1.5-400.asahi.aarch64+16k-debug/vmlinuz
-%ghost /boot/vmlinuz-7.1.5-400.asahi.aarch64+16k-debug
-/lib/modules/7.1.5-400.asahi.aarch64+16k-debug/.vmlinuz.hmac 
-%ghost /boot/.vmlinuz-7.1.5-400.asahi.aarch64+16k-debug.hmac 
-/lib/modules/7.1.5-400.asahi.aarch64+16k-debug/dtb 
-%ghost /boot/dtb-7.1.5-400.asahi.aarch64+16k-debug 
-/lib/modules/7.1.5-400.asahi.aarch64+16k-debug/System.map
-%ghost /boot/System.map-7.1.5-400.asahi.aarch64+16k-debug
+%license linux-7.1.6-400.asahi.aarch64/COPYING-7.1.6-400.asahi
+/lib/modules/7.1.6-400.asahi.aarch64+16k-debug/vmlinuz
+%ghost /boot/vmlinuz-7.1.6-400.asahi.aarch64+16k-debug
+/lib/modules/7.1.6-400.asahi.aarch64+16k-debug/.vmlinuz.hmac 
+%ghost /boot/.vmlinuz-7.1.6-400.asahi.aarch64+16k-debug.hmac 
+/lib/modules/7.1.6-400.asahi.aarch64+16k-debug/dtb 
+%ghost /boot/dtb-7.1.6-400.asahi.aarch64+16k-debug 
+/lib/modules/7.1.6-400.asahi.aarch64+16k-debug/System.map
+%ghost /boot/System.map-7.1.6-400.asahi.aarch64+16k-debug
 %dir /lib/modules
-%dir /lib/modules/7.1.5-400.asahi.aarch64+16k-debug
-/lib/modules/7.1.5-400.asahi.aarch64+16k-debug/symvers.xz
-/lib/modules/7.1.5-400.asahi.aarch64+16k-debug/config
-/lib/modules/7.1.5-400.asahi.aarch64+16k-debug/modules.builtin*
-%ghost %attr(0644, root, root) /boot/symvers-7.1.5-400.asahi.aarch64+16k-debug.xz
-%ghost %attr(0600, root, root) /boot/initramfs-7.1.5-400.asahi.aarch64+16k-debug.img
-%ghost %attr(0644, root, root) /boot/config-7.1.5-400.asahi.aarch64+16k-debug
+%dir /lib/modules/7.1.6-400.asahi.aarch64+16k-debug
+/lib/modules/7.1.6-400.asahi.aarch64+16k-debug/symvers.xz
+/lib/modules/7.1.6-400.asahi.aarch64+16k-debug/config
+/lib/modules/7.1.6-400.asahi.aarch64+16k-debug/modules.builtin*
+%ghost %attr(0644, root, root) /boot/symvers-7.1.6-400.asahi.aarch64+16k-debug.xz
+%ghost %attr(0600, root, root) /boot/initramfs-7.1.6-400.asahi.aarch64+16k-debug.img
+%ghost %attr(0644, root, root) /boot/config-7.1.6-400.asahi.aarch64+16k-debug
 %files -f kernel-16k-debug-modules-core.list 16k-debug-modules-core
 %dir /lib/modules
-%dir /lib/modules/7.1.5-400.asahi.aarch64+16k-debug
-%dir /lib/modules/7.1.5-400.asahi.aarch64+16k-debug/kernel
-/lib/modules/7.1.5-400.asahi.aarch64+16k-debug/build
-/lib/modules/7.1.5-400.asahi.aarch64+16k-debug/source
-/lib/modules/7.1.5-400.asahi.aarch64+16k-debug/updates
-/lib/modules/7.1.5-400.asahi.aarch64+16k-debug/weak-updates
-/lib/modules/7.1.5-400.asahi.aarch64+16k-debug/systemtap
-/usr/share/doc/kernel-keys/7.1.5-400.asahi.aarch64+16k-debug
-/lib/modules/7.1.5-400.asahi.aarch64+16k-debug/vdso
-/lib/modules/7.1.5-400.asahi.aarch64+16k-debug/modules.block
-/lib/modules/7.1.5-400.asahi.aarch64+16k-debug/modules.drm
-/lib/modules/7.1.5-400.asahi.aarch64+16k-debug/modules.modesetting
-/lib/modules/7.1.5-400.asahi.aarch64+16k-debug/modules.networking
-/lib/modules/7.1.5-400.asahi.aarch64+16k-debug/modules.order
-%ghost %attr(0644, root, root) /lib/modules/7.1.5-400.asahi.aarch64+16k-debug/modules.alias
-%ghost %attr(0644, root, root) /lib/modules/7.1.5-400.asahi.aarch64+16k-debug/modules.alias.bin
-%ghost %attr(0644, root, root) /lib/modules/7.1.5-400.asahi.aarch64+16k-debug/modules.builtin.alias.bin
-%ghost %attr(0644, root, root) /lib/modules/7.1.5-400.asahi.aarch64+16k-debug/modules.builtin.bin
-%ghost %attr(0644, root, root) /lib/modules/7.1.5-400.asahi.aarch64+16k-debug/modules.dep
-%ghost %attr(0644, root, root) /lib/modules/7.1.5-400.asahi.aarch64+16k-debug/modules.dep.bin
-%ghost %attr(0644, root, root) /lib/modules/7.1.5-400.asahi.aarch64+16k-debug/modules.devname
-%ghost %attr(0644, root, root) /lib/modules/7.1.5-400.asahi.aarch64+16k-debug/modules.softdep
-%ghost %attr(0644, root, root) /lib/modules/7.1.5-400.asahi.aarch64+16k-debug/modules.symbols
-%ghost %attr(0644, root, root) /lib/modules/7.1.5-400.asahi.aarch64+16k-debug/modules.symbols.bin
-%ghost %attr(0644, root, root) /lib/modules/7.1.5-400.asahi.aarch64+16k-debug/modules.weakdep
+%dir /lib/modules/7.1.6-400.asahi.aarch64+16k-debug
+%dir /lib/modules/7.1.6-400.asahi.aarch64+16k-debug/kernel
+/lib/modules/7.1.6-400.asahi.aarch64+16k-debug/build
+/lib/modules/7.1.6-400.asahi.aarch64+16k-debug/source
+/lib/modules/7.1.6-400.asahi.aarch64+16k-debug/updates
+/lib/modules/7.1.6-400.asahi.aarch64+16k-debug/weak-updates
+/lib/modules/7.1.6-400.asahi.aarch64+16k-debug/systemtap
+/usr/share/doc/kernel-keys/7.1.6-400.asahi.aarch64+16k-debug
+/lib/modules/7.1.6-400.asahi.aarch64+16k-debug/vdso
+/lib/modules/7.1.6-400.asahi.aarch64+16k-debug/modules.block
+/lib/modules/7.1.6-400.asahi.aarch64+16k-debug/modules.drm
+/lib/modules/7.1.6-400.asahi.aarch64+16k-debug/modules.modesetting
+/lib/modules/7.1.6-400.asahi.aarch64+16k-debug/modules.networking
+/lib/modules/7.1.6-400.asahi.aarch64+16k-debug/modules.order
+%ghost %attr(0644, root, root) /lib/modules/7.1.6-400.asahi.aarch64+16k-debug/modules.alias
+%ghost %attr(0644, root, root) /lib/modules/7.1.6-400.asahi.aarch64+16k-debug/modules.alias.bin
+%ghost %attr(0644, root, root) /lib/modules/7.1.6-400.asahi.aarch64+16k-debug/modules.builtin.alias.bin
+%ghost %attr(0644, root, root) /lib/modules/7.1.6-400.asahi.aarch64+16k-debug/modules.builtin.bin
+%ghost %attr(0644, root, root) /lib/modules/7.1.6-400.asahi.aarch64+16k-debug/modules.dep
+%ghost %attr(0644, root, root) /lib/modules/7.1.6-400.asahi.aarch64+16k-debug/modules.dep.bin
+%ghost %attr(0644, root, root) /lib/modules/7.1.6-400.asahi.aarch64+16k-debug/modules.devname
+%ghost %attr(0644, root, root) /lib/modules/7.1.6-400.asahi.aarch64+16k-debug/modules.softdep
+%ghost %attr(0644, root, root) /lib/modules/7.1.6-400.asahi.aarch64+16k-debug/modules.symbols
+%ghost %attr(0644, root, root) /lib/modules/7.1.6-400.asahi.aarch64+16k-debug/modules.symbols.bin
+%ghost %attr(0644, root, root) /lib/modules/7.1.6-400.asahi.aarch64+16k-debug/modules.weakdep
 %files -f kernel-16k-debug-modules.list 16k-debug-modules
 %files 16k-debug-devel
 %defverify(not mtime)
-/usr/src/kernels/7.1.5-400.asahi.aarch64+16k-debug
+/usr/src/kernels/7.1.6-400.asahi.aarch64+16k-debug
 %files 16k-debug-devel-matched
 %files -f kernel-16k-debug-modules-extra.list 16k-debug-modules-extra
 %files -f kernel-16k-debug-modules-internal.list 16k-debug-modules-internal
 %files -f debuginfo16k-debug.list 16k-debug-debuginfo
 %files 16k-debug-uki-virt
 %dir /lib/modules
-%dir /lib/modules/7.1.5-400.asahi.aarch64+16k-debug
-/lib/modules/7.1.5-400.asahi.aarch64+16k-debug/System.map
-/lib/modules/7.1.5-400.asahi.aarch64+16k-debug/symvers.xz
-/lib/modules/7.1.5-400.asahi.aarch64+16k-debug/config
-/lib/modules/7.1.5-400.asahi.aarch64+16k-debug/modules.builtin*
-%attr(0644, root, root) /lib/modules/7.1.5-400.asahi.aarch64+16k-debug/vmlinuz-virt.efi
-%attr(0644, root, root) /lib/modules/7.1.5-400.asahi.aarch64+16k-debug/.vmlinuz-virt.efi.hmac
-%ghost /boot/efi/EFI/Linux/*-7.1.5-400.asahi.aarch64+16k-debug.efi
+%dir /lib/modules/7.1.6-400.asahi.aarch64+16k-debug
+/lib/modules/7.1.6-400.asahi.aarch64+16k-debug/System.map
+/lib/modules/7.1.6-400.asahi.aarch64+16k-debug/symvers.xz
+/lib/modules/7.1.6-400.asahi.aarch64+16k-debug/config
+/lib/modules/7.1.6-400.asahi.aarch64+16k-debug/modules.builtin*
+%attr(0644, root, root) /lib/modules/7.1.6-400.asahi.aarch64+16k-debug/vmlinuz-virt.efi
+%attr(0644, root, root) /lib/modules/7.1.6-400.asahi.aarch64+16k-debug/.vmlinuz-virt.efi.hmac
+%ghost /boot/efi/EFI/Linux/*-7.1.6-400.asahi.aarch64+16k-debug.efi
 %files 16k-debug-uki-virt-addons
-%dir /lib/modules/7.1.5-400.asahi.aarch64+16k-debug/vmlinuz-virt.efi.extras/ 
-/lib/modules/7.1.5-400.asahi.aarch64+16k-debug/vmlinuz-virt.efi.extras/*.addon.efi
+%dir /lib/modules/7.1.6-400.asahi.aarch64+16k-debug/vmlinuz-virt.efi.extras/ 
+/lib/modules/7.1.6-400.asahi.aarch64+16k-debug/vmlinuz-virt.efi.extras/*.addon.efi
 %files 16k-debug
 
 %files -f kernel-16k-ldsoconf.list 16k-core
 
-%license linux-7.1.5-400.asahi.aarch64/COPYING-7.1.5-400.asahi
-/lib/modules/7.1.5-400.asahi.aarch64+16k/vmlinuz
-%ghost /boot/vmlinuz-7.1.5-400.asahi.aarch64+16k
-/lib/modules/7.1.5-400.asahi.aarch64+16k/.vmlinuz.hmac 
-%ghost /boot/.vmlinuz-7.1.5-400.asahi.aarch64+16k.hmac 
-/lib/modules/7.1.5-400.asahi.aarch64+16k/dtb 
-%ghost /boot/dtb-7.1.5-400.asahi.aarch64+16k 
-/lib/modules/7.1.5-400.asahi.aarch64+16k/System.map
-%ghost /boot/System.map-7.1.5-400.asahi.aarch64+16k
+%license linux-7.1.6-400.asahi.aarch64/COPYING-7.1.6-400.asahi
+/lib/modules/7.1.6-400.asahi.aarch64+16k/vmlinuz
+%ghost /boot/vmlinuz-7.1.6-400.asahi.aarch64+16k
+/lib/modules/7.1.6-400.asahi.aarch64+16k/.vmlinuz.hmac 
+%ghost /boot/.vmlinuz-7.1.6-400.asahi.aarch64+16k.hmac 
+/lib/modules/7.1.6-400.asahi.aarch64+16k/dtb 
+%ghost /boot/dtb-7.1.6-400.asahi.aarch64+16k 
+/lib/modules/7.1.6-400.asahi.aarch64+16k/System.map
+%ghost /boot/System.map-7.1.6-400.asahi.aarch64+16k
 %dir /lib/modules
-%dir /lib/modules/7.1.5-400.asahi.aarch64+16k
-/lib/modules/7.1.5-400.asahi.aarch64+16k/symvers.xz
-/lib/modules/7.1.5-400.asahi.aarch64+16k/config
-/lib/modules/7.1.5-400.asahi.aarch64+16k/modules.builtin*
-%ghost %attr(0644, root, root) /boot/symvers-7.1.5-400.asahi.aarch64+16k.xz
-%ghost %attr(0600, root, root) /boot/initramfs-7.1.5-400.asahi.aarch64+16k.img
-%ghost %attr(0644, root, root) /boot/config-7.1.5-400.asahi.aarch64+16k
+%dir /lib/modules/7.1.6-400.asahi.aarch64+16k
+/lib/modules/7.1.6-400.asahi.aarch64+16k/symvers.xz
+/lib/modules/7.1.6-400.asahi.aarch64+16k/config
+/lib/modules/7.1.6-400.asahi.aarch64+16k/modules.builtin*
+%ghost %attr(0644, root, root) /boot/symvers-7.1.6-400.asahi.aarch64+16k.xz
+%ghost %attr(0600, root, root) /boot/initramfs-7.1.6-400.asahi.aarch64+16k.img
+%ghost %attr(0644, root, root) /boot/config-7.1.6-400.asahi.aarch64+16k
 %files -f kernel-16k-modules-core.list 16k-modules-core
 %dir /lib/modules
-%dir /lib/modules/7.1.5-400.asahi.aarch64+16k
-%dir /lib/modules/7.1.5-400.asahi.aarch64+16k/kernel
-/lib/modules/7.1.5-400.asahi.aarch64+16k/build
-/lib/modules/7.1.5-400.asahi.aarch64+16k/source
-/lib/modules/7.1.5-400.asahi.aarch64+16k/updates
-/lib/modules/7.1.5-400.asahi.aarch64+16k/weak-updates
-/lib/modules/7.1.5-400.asahi.aarch64+16k/systemtap
-/usr/share/doc/kernel-keys/7.1.5-400.asahi.aarch64+16k
-/lib/modules/7.1.5-400.asahi.aarch64+16k/vdso
-/lib/modules/7.1.5-400.asahi.aarch64+16k/modules.block
-/lib/modules/7.1.5-400.asahi.aarch64+16k/modules.drm
-/lib/modules/7.1.5-400.asahi.aarch64+16k/modules.modesetting
-/lib/modules/7.1.5-400.asahi.aarch64+16k/modules.networking
-/lib/modules/7.1.5-400.asahi.aarch64+16k/modules.order
-%ghost %attr(0644, root, root) /lib/modules/7.1.5-400.asahi.aarch64+16k/modules.alias
-%ghost %attr(0644, root, root) /lib/modules/7.1.5-400.asahi.aarch64+16k/modules.alias.bin
-%ghost %attr(0644, root, root) /lib/modules/7.1.5-400.asahi.aarch64+16k/modules.builtin.alias.bin
-%ghost %attr(0644, root, root) /lib/modules/7.1.5-400.asahi.aarch64+16k/modules.builtin.bin
-%ghost %attr(0644, root, root) /lib/modules/7.1.5-400.asahi.aarch64+16k/modules.dep
-%ghost %attr(0644, root, root) /lib/modules/7.1.5-400.asahi.aarch64+16k/modules.dep.bin
-%ghost %attr(0644, root, root) /lib/modules/7.1.5-400.asahi.aarch64+16k/modules.devname
-%ghost %attr(0644, root, root) /lib/modules/7.1.5-400.asahi.aarch64+16k/modules.softdep
-%ghost %attr(0644, root, root) /lib/modules/7.1.5-400.asahi.aarch64+16k/modules.symbols
-%ghost %attr(0644, root, root) /lib/modules/7.1.5-400.asahi.aarch64+16k/modules.symbols.bin
-%ghost %attr(0644, root, root) /lib/modules/7.1.5-400.asahi.aarch64+16k/modules.weakdep
+%dir /lib/modules/7.1.6-400.asahi.aarch64+16k
+%dir /lib/modules/7.1.6-400.asahi.aarch64+16k/kernel
+/lib/modules/7.1.6-400.asahi.aarch64+16k/build
+/lib/modules/7.1.6-400.asahi.aarch64+16k/source
+/lib/modules/7.1.6-400.asahi.aarch64+16k/updates
+/lib/modules/7.1.6-400.asahi.aarch64+16k/weak-updates
+/lib/modules/7.1.6-400.asahi.aarch64+16k/systemtap
+/usr/share/doc/kernel-keys/7.1.6-400.asahi.aarch64+16k
+/lib/modules/7.1.6-400.asahi.aarch64+16k/vdso
+/lib/modules/7.1.6-400.asahi.aarch64+16k/modules.block
+/lib/modules/7.1.6-400.asahi.aarch64+16k/modules.drm
+/lib/modules/7.1.6-400.asahi.aarch64+16k/modules.modesetting
+/lib/modules/7.1.6-400.asahi.aarch64+16k/modules.networking
+/lib/modules/7.1.6-400.asahi.aarch64+16k/modules.order
+%ghost %attr(0644, root, root) /lib/modules/7.1.6-400.asahi.aarch64+16k/modules.alias
+%ghost %attr(0644, root, root) /lib/modules/7.1.6-400.asahi.aarch64+16k/modules.alias.bin
+%ghost %attr(0644, root, root) /lib/modules/7.1.6-400.asahi.aarch64+16k/modules.builtin.alias.bin
+%ghost %attr(0644, root, root) /lib/modules/7.1.6-400.asahi.aarch64+16k/modules.builtin.bin
+%ghost %attr(0644, root, root) /lib/modules/7.1.6-400.asahi.aarch64+16k/modules.dep
+%ghost %attr(0644, root, root) /lib/modules/7.1.6-400.asahi.aarch64+16k/modules.dep.bin
+%ghost %attr(0644, root, root) /lib/modules/7.1.6-400.asahi.aarch64+16k/modules.devname
+%ghost %attr(0644, root, root) /lib/modules/7.1.6-400.asahi.aarch64+16k/modules.softdep
+%ghost %attr(0644, root, root) /lib/modules/7.1.6-400.asahi.aarch64+16k/modules.symbols
+%ghost %attr(0644, root, root) /lib/modules/7.1.6-400.asahi.aarch64+16k/modules.symbols.bin
+%ghost %attr(0644, root, root) /lib/modules/7.1.6-400.asahi.aarch64+16k/modules.weakdep
 %files -f kernel-16k-modules.list 16k-modules
 %files 16k-devel
 %defverify(not mtime)
-/usr/src/kernels/7.1.5-400.asahi.aarch64+16k
+/usr/src/kernels/7.1.6-400.asahi.aarch64+16k
 %files 16k-devel-matched
 %files -f kernel-16k-modules-extra.list 16k-modules-extra
 %files -f kernel-16k-modules-internal.list 16k-modules-internal
 %files -f debuginfo16k.list 16k-debuginfo
 %files 16k-uki-virt
 %dir /lib/modules
-%dir /lib/modules/7.1.5-400.asahi.aarch64+16k
-/lib/modules/7.1.5-400.asahi.aarch64+16k/System.map
-/lib/modules/7.1.5-400.asahi.aarch64+16k/symvers.xz
-/lib/modules/7.1.5-400.asahi.aarch64+16k/config
-/lib/modules/7.1.5-400.asahi.aarch64+16k/modules.builtin*
-%attr(0644, root, root) /lib/modules/7.1.5-400.asahi.aarch64+16k/vmlinuz-virt.efi
-%attr(0644, root, root) /lib/modules/7.1.5-400.asahi.aarch64+16k/.vmlinuz-virt.efi.hmac
-%ghost /boot/efi/EFI/Linux/*-7.1.5-400.asahi.aarch64+16k.efi
+%dir /lib/modules/7.1.6-400.asahi.aarch64+16k
+/lib/modules/7.1.6-400.asahi.aarch64+16k/System.map
+/lib/modules/7.1.6-400.asahi.aarch64+16k/symvers.xz
+/lib/modules/7.1.6-400.asahi.aarch64+16k/config
+/lib/modules/7.1.6-400.asahi.aarch64+16k/modules.builtin*
+%attr(0644, root, root) /lib/modules/7.1.6-400.asahi.aarch64+16k/vmlinuz-virt.efi
+%attr(0644, root, root) /lib/modules/7.1.6-400.asahi.aarch64+16k/.vmlinuz-virt.efi.hmac
+%ghost /boot/efi/EFI/Linux/*-7.1.6-400.asahi.aarch64+16k.efi
 %files 16k-uki-virt-addons
-%dir /lib/modules/7.1.5-400.asahi.aarch64+16k/vmlinuz-virt.efi.extras/ 
-/lib/modules/7.1.5-400.asahi.aarch64+16k/vmlinuz-virt.efi.extras/*.addon.efi
+%dir /lib/modules/7.1.6-400.asahi.aarch64+16k/vmlinuz-virt.efi.extras/ 
+/lib/modules/7.1.6-400.asahi.aarch64+16k/vmlinuz-virt.efi.extras/*.addon.efi
 %files 16k
 
 %files modules-extra-matched
