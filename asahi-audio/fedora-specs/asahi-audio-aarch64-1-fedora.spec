@@ -1,12 +1,12 @@
 
 Name:           asahi-audio
-Version:        3.4
+Version:        4.1
 Release:        1
 Summary:        PipeWire DSP profiles for Apple Silicon machines
 License:        MIT
 URL:            https://github.com/AsahiLinux/asahi-audio
 
-Source:         https://github.com/AsahiLinux/asahi-audio/archive/v3.4/asahi-audio-3.4.tar.gz
+Source:         https://github.com/AsahiLinux/asahi-audio/archive/v4.1/asahi-audio-4.1.tar.gz
 
 BuildArch:      noarch
 
@@ -26,13 +26,13 @@ drive the speaker arrays in Apple Silicon laptops and desktops.
 %prep
 
 cd './'
-rm -rf 'asahi-audio-3.4'
-rpmuncompress -x 'asahi-audio-3.4.tar.gz'
+rm -rf 'asahi-audio-4.1'
+rpmuncompress -x 'asahi-audio-4.1.tar.gz'
 STATUS=$?
 if [ $STATUS -ne 0 ]; then
   exit $STATUS
 fi
-cd 'asahi-audio-3.4'
+cd 'asahi-audio-4.1'
 chmod -Rf a+rX,u+w,g-w,o-w .
 
 %build
@@ -45,7 +45,7 @@ chmod -Rf a+rX,u+w,g-w,o-w .
 %license LICENSE
 %doc README.md
 /usr/share/asahi-audio/
-/usr/share/wireplumber/scripts/device/asahi-limit-volume.lua
+/usr/share/wireplumber/scripts/device/asahi-lock-volume.lua
 /usr/share/wireplumber/wireplumber.conf.d/99-asahi.conf
 /usr/share/pipewire/pipewire.conf.d/99-asahi.conf
 /usr/share/pipewire/pipewire-pulse.conf.d/99-asahi.conf

@@ -3,7 +3,7 @@
 %{?commit:%global shortcommit %(c=%{commit}; echo ${c:0:7})}
 
 Name:           asahi-audio
-Version:        3.4%{?commit:^%{date}git%{shortcommit}}
+Version:        4.1%{?commit:^%{date}git%{shortcommit}}
 Release:        %autorelease
 Summary:        PipeWire DSP profiles for Apple Silicon machines
 License:        MIT
@@ -42,7 +42,7 @@ drive the speaker arrays in Apple Silicon laptops and desktops.
 %license LICENSE
 %doc README.md
 %{_datadir}/asahi-audio/
-%{_datadir}/wireplumber/scripts/device/asahi-limit-volume.lua
+%{_datadir}/wireplumber/scripts/device/asahi-lock-volume.lua
 %{_datadir}/wireplumber/wireplumber.conf.d/99-asahi.conf
 %{_datadir}/pipewire/pipewire.conf.d/99-asahi.conf
 %{_datadir}/pipewire/pipewire-pulse.conf.d/99-asahi.conf

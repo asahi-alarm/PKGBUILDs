@@ -1,13 +1,13 @@
 
 Name:           alsa-ucm-asahi
-Version:        8
+Version:        10
 Release:        1
 Summary:        ALSA Use Case Manager configuration (and topologies) for Apple silicon devices
 License:        BSD-3-Clause
 
 URL:            https://github.com/AsahiLinux/alsa-ucm-conf-asahi
 
-Source:         https://github.com/AsahiLinux/alsa-ucm-conf-asahi/archive/v8/alsa-ucm-conf-asahi-8.tar.gz
+Source:         https://github.com/AsahiLinux/alsa-ucm-conf-asahi/archive/v10/alsa-ucm-conf-asahi-10.tar.gz
 
 BuildArch:      noarch
 
@@ -19,13 +19,13 @@ The ALSA Use Case Manager configuration (and topologies) for Apple silicon devic
 %prep
 
 cd './'
-rm -rf 'alsa-ucm-conf-asahi-8'
-rpmuncompress -x 'alsa-ucm-conf-asahi-8.tar.gz'
+rm -rf 'alsa-ucm-conf-asahi-10'
+rpmuncompress -x 'alsa-ucm-conf-asahi-10.tar.gz'
 STATUS=$?
 if [ $STATUS -ne 0 ]; then
   exit $STATUS
 fi
-cd 'alsa-ucm-conf-asahi-8'
+cd 'alsa-ucm-conf-asahi-10'
 chmod -Rf a+rX,u+w,g-w,o-w .
 
 %install

@@ -4,7 +4,7 @@
 %{?commit:%global shortcommit %(c=%{commit}; echo ${c:0:7})}
 
 Name:           alsa-ucm-asahi
-Version:        8%{?commit:^%{date}git%{shortcommit}}
+Version:        10%{?commit:^%{date}git%{shortcommit}}
 Release:        %autorelease
 Summary:        ALSA Use Case Manager configuration (and topologies) for Apple silicon devices
 License:        BSD-3-Clause

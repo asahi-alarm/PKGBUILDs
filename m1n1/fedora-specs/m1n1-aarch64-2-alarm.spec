@@ -1,32 +1,35 @@
 
   Name:           m1n1
-  Version:        1.5.2
+  Version:        1.6.1
   Release:        1
   Summary:        Bootloader and experimentation playground for Apple Silicon
 
-  License:        MIT AND CC0-1.0 AND OFL-1.1-RFN AND Zlib AND (BSD-2-Clause OR GPL-2.0-or-later) AND (BSD-3-Clause OR GPL-2.0-or-later)
+  License:        MIT AND CC0-1.0 AND OFL-1.1-RFN AND Zlib AND (BSD-2-Clause OR GPL-2.0-or-later) AND (BSD-3-Clause OR GPL-2.0-or-later) AND MIT AND (MIT OR Apache-2.0)
   URL:            https://github.com/AsahiLinux/m1n1
-  Source:         https://github.com/AsahiLinux/m1n1/archive/v1.5.2/m1n1-1.5.2.tar.gz
-  Source:         https://github.com/rafalh/rust-fatfs/archive/87fc1ed5074a32b4e0344fcdde77359ef9e75432/rust-fatfs-87fc1ed5074a32b4e0344fcdde77359ef9e75432.tar.gz
+  Source:         https://github.com/AsahiLinux/m1n1/archive/v1.6.1/m1n1-1.6.1.tar.gz
+  Source:         https://github.com/rafalh/rust-fatfs/archive/4eccb50d011146fbed20e133d33b22f3c27292e7/rust-fatfs-4eccb50d011146fbed20e133d33b22f3c27292e7.tar.gz
 
-  Patch:          m1n1-rust-deps.patch
-
-  Patch:          rust-fatfs-fix-build-log.patch
+  Patch:          m1n1-1.6.1-rust-deps.patch
 
   BuildRequires:  gcc
-
   BuildRequires:  make
 
   BuildRequires:  adobe-source-code-pro-fonts
   BuildRequires:  coreutils
   BuildRequires:  fontconfig
   BuildRequires:  system-logos
-  BuildRequires:  ImageMagick
+  BuildRequires:  ImageMagick >= 7
 
   BuildRequires:  systemd-rpm-macros
 
   BuildRequires:  cargo-rpm-macros >= 24
   BuildRequires:  rust-std-static-aarch64-unknown-none-softfloat
+
+  BuildArch:      noarch
+
+  ExclusiveArch:  aarch64 noarch
+
+  Obsoletes:      m1n1 < 1.5.2-3
 
   Provides:       bundled(arm-trusted-firmware)
   Provides:       bundled(dwc3)
@@ -56,12 +59,12 @@
 
   %package        tools
   Summary:        Developer tools for m1n1
-  Requires:       m1n1 = 1.5.2-1
+  License:        MIT
+  Requires:       m1n1 = 1.6.1-1
   Requires:       python3
   Requires:       python3dist(construct)
   Requires:       python3dist(pyserial)
   Requires:       systemd-udev
-  BuildArch:      noarch
 
   %description    tools
   m1n1 is the bootloader developed by the Asahi Linux project to bridge the Apple
@@ -72,14 +75,23 @@
 prepare() {
 
   cd './'
-  rm -rf 'm1n1-1.5.2'
-  tar -xf 'm1n1-1.5.2.tar.gz'
+  rm -rf 'm1n1-1.6.1'
+  tar -xf 'm1n1-1.6.1.tar.gz'
   STATUS=$?
   if [ $STATUS -ne 0 ]; then
     exit $STATUS
   fi
-  cd 'm1n1-1.5.2'
+  cd 'm1n1-1.6.1'
   chmod -Rf a+rX,u+w,g-w,o-w .
+
+  mkdir -p rust/vendor/rust-fatfs
+  tar -xf rust-fatfs-4eccb50d011146fbed20e133d33b22f3c27292e7.tar.gz -C rust/vendor/rust-fatfs --strip-components 1
+
+  cat m1n1-1.6.1-rust-deps.patch | 
+  patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
+
+  /usr/bin/rm -f rust/Cargo.lock
+  sed -ie 's;\(^build/$(RUST_LIB):.*\) rust/Cargo.lock$;\1;' Makefile
 
   # Use our logos
   pushd data
@@ -100,35 +112,43 @@ prepare() {
   ./makefont.sh 16 32 25 "$font" font_retina.bin
   popd
 
-  tar -xf rust-fatfs-87fc1ed5074a32b4e0344fcdde77359ef9e75432.tar.gz -C rust/vendor/rust-fatfs --strip-components 1
-
-  echo 'Cannot read m1n1-rust-deps.patch'; exit 1;
-
-  echo 'Cannot read rust-fatfs-fix-build-log.patch'; exit 1;
-
+  # Generate rust dependencies
   %cargo_prep
 
   %generate_buildrequires
   cd rust
-  %cargo_generate_buildrequires
+  %cargo_generate_buildrequires -f chainload
 
 }
 
 build() {
-  /usr/bin/make -O -j${RPM_BUILD_NCPUS} V=1 VERBOSE=1 RELEASE=1 CHAINLOADING=1 LOGO=fedora
+  /usr/bin/make -O -j${RPM_BUILD_NCPUS} V=1 VERBOSE=1 RELEASE=1 LOGO=fedora CHAINLOADING=1
   mv build build-stage1
   pushd rust
-  %{cargo_license_summary}
-  %{cargo_license} > LICENSE.dependencies
+  %{cargo_license_summary} -f chainload
+  %{cargo_license} -f chainload > ../build-stage1/LICENSE.dependencies
   popd
 
   /usr/bin/make -O -j${RPM_BUILD_NCPUS} V=1 VERBOSE=1 RELEASE=1 LOGO=fedora
+  pushd rust
+  %{cargo_license_summary}
+  %{cargo_license} > ../build/LICENSE.dependencies
+  popd
 
 }
 
 package() {
   install -Dpm0644 -t fakeinstall/usr/lib/m1n1 \
     build/m1n1.{bin,macho} build/m1n1-asahi.bin
+  # install backwards compatibility symlink since update-m1n1 hardcodes
+  # `/usr/lib64/m1n1/m1n1.bin` as m1n1 binary
+  # check if the dir exists since /usr/lib expands to "/usr/lib64" for
+  # aarch64 builds in mock
+  if [ ! -d fakeinstall/usr/lib64/m1n1 ]; then
+    mkdir -p fakeinstall/usr/lib64/m1n1
+    ln -s /usr/lib/m1n1/m1n1.bin \
+      fakeinstall/usr/lib64/m1n1/m1n1.bin
+  fi
   install -Dpm0644 -t fakeinstall/usr/lib/m1n1-stage1 \
     build-stage1/m1n1.{bin,macho} build-stage1/m1n1-asahi.bin
   install -Ddpm0755 fakeinstall/usr/lib/m1n1/m1n1
@@ -137,18 +157,19 @@ package() {
   install -Dpm0644 m1n1.conf.example fakeinstall/etc/m1n1.conf
 
   # A spec %files section (it could be that part of the next lines duplicate part of the package() function)
-  install -Dpm0755 -t ${pkgdir}/usr/share/licenses/m1n1/ LICENSE 3rdparty_licenses/LICENSE.*
+  install -Dpm0755 -t ${pkgdir}/usr/share/licenses/m1n1/ LICENSE 3rdparty_licenses/LICENSE.* build/LICENSE.dependencies
   install -Dpm0755 -t ${pkgdir}/usr/share/doc/m1n1/  README.md
   install -Dpm0755 -t ${pkgdir}/usr/share/doc/m1n1/  m1n1.conf.example
-  _install fakeinstall/usr/lib/m1n1
+  _install fakeinstall/usr/lib/m1n1/
+  _install fakeinstall/usr/lib64/m1n1
   %config(noreplace) /etc/m1n1.conf
 
   # stage1
-  install -Dpm0755 -t ${pkgdir}/usr/share/licenses/m1n1/ LICENSE 3rdparty_licenses/LICENSE.* rust/vendor/rust-fatfs/LICENSE.txt rust/LICENSE.dependencies
+  install -Dpm0755 -t ${pkgdir}/usr/share/licenses/m1n1/ LICENSE 3rdparty_licenses/LICENSE.* rust/vendor/rust-fatfs/LICENSE.txt build-stage1/LICENSE.dependencies
   install -Dpm0755 -t ${pkgdir}/usr/share/doc/m1n1/  README.md
-  _install fakeinstall/usr/lib/m1n1-stage1
+  _install fakeinstall/usr/lib/m1n1-stage1/
 
   # tools
-  _install fakeinstall/usr/lib/m1n1/m1n1
+  _install fakeinstall/usr/lib/m1n1/m1n1/
   %{_udevrulesdir}/80-m1n1.rules
 }
