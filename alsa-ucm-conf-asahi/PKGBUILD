@@ -2,7 +2,7 @@
 # Maintainer: Matthias Kurz <m.kurz@irregular.at>
 
 pkgname=alsa-ucm-conf-asahi
-pkgver=8
+pkgver=10
 pkgrel=1
 pkgdesc="ALSA Use Case Manager configuration (and topologies) for Apple silicon devices"
 arch=(any)
@@ -11,8 +11,8 @@ url="https://asahilinux.org/"
 license=(BSD)
 _commit_id=v$pkgver
 source=("$pkgname-$pkgver-$_commit_id.tar.gz::https://github.com/AsahiLinux/$pkgname/archive/$_commit_id.tar.gz")
-sha512sums=('b925a2a5ab7e4e48ee300f2dbd045d8e3c642deeabbcc103ad10f119358350b4724ed4c408b7c0c897e90fd001ce6f1903598b5d819efb45e17ccd56155425ea')
-b2sums=('5dcd87426ea277d98ca1d7b3ab1dee06d85bb8947022f1278389c35d1090c8b13ce2864a02e6b70a24e0970994accafa48e3a217283a4b527c8f1528a6ac8e2b')
+sha512sums=('ff8092bf14c91996f1c3c582100cf5755460cb77bf328544e2ba7b2197deb70849a2b3b96fd11f9e56871c0918236bfea9e60a418c833d6dab2bd851ea6c8016')
+b2sums=('fe69a9afc810245762bdb0b0b5f269cbda63b1fe78f86cb062cb129c484faf0040349b6fd124c9d39d29f55ef8463eb585e53dddd5743b2c3edcaefec4247b5d')
 
 package() {
   cd $pkgname-${_commit_id##v}

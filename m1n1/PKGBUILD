@@ -2,7 +2,7 @@
 # Maintainer: Matthias Kurz <m.kurz@irregular.at>
 
 pkgname=m1n1
-pkgver=1.5.2
+pkgver=1.6.1
 pkgrel=1
 pkgdesc='Asahi Linux bootloader'
 _artwork_commit_id=80d14f8b6f485b310e305a84b4b806361518ddd1
@@ -11,16 +11,16 @@ _artwork_srcname=artwork-${_artwork_commit_id}
 _m1n1_srcname=m1n1-${_m1n1_commit_id##v}
 arch=('aarch64')
 url='http://asahilinux.org'
-license=('MIT')
-makedepends=( imagemagick )
+license=('MIT AND CC0-1.0 AND OFL-1.1-RFN AND Zlib AND (BSD-2-Clause OR GPL-2.0-or-later) AND (BSD-3-Clause OR GPL-2.0-or-later) AND (MIT OR Apache-2.0)')
+makedepends=( imagemagick rust rust-src )
 source=(
   "artwork-${_artwork_commit_id}.tar.gz::https://github.com/AsahiLinux/artwork/archive/${_artwork_commit_id}.tar.gz"
   "m1n1-${_m1n1_commit_id}.tar.gz::https://github.com/AsahiLinux/m1n1/archive/${_m1n1_commit_id}.tar.gz"
 )
 sha256sums=('f2b18744a38d1369a8e9e59acddd12551c5500435fbd9e709fe7a6b212a070ac'
-            '01d4c8a75999ab388f9e3d87245f041c195f05e068237b6918435368afd3db99')
+            '7099fcf6e94b6a6a8e57f8a3d434e7a66dbe476737f0f02f7bb3349586aa3b85')
 b2sums=('d967794fc750ddec24b2f130c39214dc482fa9e3cf338b9f377b6c93d42c5885325ff4214e5ada5f5dc1eaa12b169fd7ef7927d1de10076959692ea71f1b10d4'
-        '3fb8d8d7eb9a166bae225b0f8f01443fbc241506c976c701dddde9ad50cc0515aef73f3e41dbc63b764f4c84e41a903e59988c91f4984391fdbea8906254f921')
+        '4891c1d7fa1b44f3c43fa9483926a816cb20dd96f0dc0616e1c2f7f50f923a8e44962a08784dd121dce1f874fa6259c04cf8291fb6f611e59a8fbf0444d18eec')
 
 prepare() {
   rm -rf "${srcdir}/$_m1n1_srcname"/artwork
@@ -29,7 +29,7 @@ prepare() {
 
 build() {
   cd "${srcdir}/$_m1n1_srcname"
-  make ARCH= RELEASE=1
+  make ARCH= RELEASE=1 BUILDSTD=1
 }
 
 package() {
@@ -39,6 +39,7 @@ package() {
 
   install -Dt "$tgtdir" -m644 "${_m1n1_srcname}/build/m1n1.bin"
 
-  install -Dm644 "$srcdir/$_m1n1_srcname/LICENSE" \
-    "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+  install -Dm644 -t "$pkgdir/usr/share/licenses/$pkgname" \
+    "$srcdir/$_m1n1_srcname/LICENSE" \
+    "$srcdir/$_m1n1_srcname"/3rdparty_licenses/LICENSE.*
 }
