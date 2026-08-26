@@ -1,8 +1,8 @@
 
 Package                        Fedora F44                     ALARM Version                 
-alsa-ucm-conf-asahi            10-1                           8-1                           
+alsa-ucm-conf-asahi            10-1                           10-1                          
 asahi-alarm-keyring            /                              20241216-1                    
-asahi-audio                    4.1-1                          3.4-1                         
+asahi-audio                    4.1-1                          4.1-1                         
 asahi-bless                    /                              0.4.2-1                       
 asahi-btsync                   /                              0.2.4-1                       
 asahi-calamares-configs        20240509-6                     20260414-2                    
@@ -23,8 +23,8 @@ libkrunfw                      5.5.0-1                        5.5.0-1
 linux-asahi                    7.1.6-400.asahi                7.1.6.asahi1-1                
 linux-asahi-headers            7.1.6-400.asahi                7.1.6.asahi1-1                
 lzfse                          /                              1.0-1                         
-m1n1                           1.6.1-1                        1.5.2-1                       
-mesa                           26.1.8-1                       26.1.7-1                      
+m1n1                           1.6.1-1                        1.6.1-1                       
+mesa                           26.1.8-1                       26.1.8-1                      
 muvm                           0.6.0-3                        0.6.0-1                       
 speakersafetyd                 2.0.1-1                        2.0.1-1                       
 startup-disk                   0.1.7-1                        0.1.7-1                       
