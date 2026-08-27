@@ -3,16 +3,16 @@
 
 _name=asahi-alarm-installer
 pkgname=asahi-fwextract
-pkgver=0.7.9
-pkgrel=2
+pkgver=0.8.4
+pkgrel=1
 pkgdesc='Asahi Linux firmware extractor'
 arch=('any')
 url='http://asahilinux.org'
 license=('MIT')
 source=("${pkgname}-${pkgver}.tar.gz::https://github.com/asahi-alarm/${_name}/archive/refs/tags/v${pkgver}.tar.gz")
 install=asahi-fwextract.install
-sha256sums=('1f8728dd5d206855cc5ecac045dc4de03c9e22583663c907061d275d2da3b05d')
-b2sums=('794ac1682a82a191da28aa62cac943228a36ed1fec99881c08f404f5fa491374e185803376dd102fa3b104ab0505de59d1efe311ed69ef527a61b0eb5524574b')
+sha256sums=('186f4f7065445ed1ce8064b6977f93d994ff531a022f987a2a745d0f6661adc4')
+b2sums=('7eeabec6727dd34003f577d6513de0ed2244d863e8106809399fb50e523397aed50a766671bb399927cb31c9cb158f08a5d73d3cace0c891c3b035b857571f0d')
 depends=(python "asahi-scripts>=20230606-1" lzfse)
 makedepends=(python-build python-installer python-wheel python-setuptools)
 
