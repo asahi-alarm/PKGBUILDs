@@ -8,7 +8,7 @@ asahi-btsync                   /                              0.2.4-1
 asahi-calamares-configs        20240509-6                     20260414-2                    
 asahi-configs                  /                              20251217-1                    
 asahi-desktop-meta             /                              4-8                           
-asahi-fwextract                /                              0.7.9-1                       
+asahi-fwextract                /                              0.8.4-1                       
 asahi-meta                     /                              5-4                           
 asahi-nvram                    /                              0.2.3-1                       
 asahi-scripts                  20250713-5                     20260127.1-1                  
