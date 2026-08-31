@@ -7,7 +7,7 @@ _rcver=7.1.6
 _asahirel=1
 pkgrel=1
 
-_m1n1_version=1.4.21
+_m1n1_version=1.6.1
 
 pkgbase=linux-asahi
 #_commit_id=asahi-${_nextver}-${_asahirel}
