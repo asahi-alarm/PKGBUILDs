@@ -10,7 +10,7 @@ url="https://crates.io/crates/$pkgname"
 makedepends=('rustup')
 license=('MIT')
 source=(
-  "asahi-bless-${pkgver}.tar.gz::https://crates.io/api/v1/crates/asahi-bless/${pkgver}/download"
+  "${pkgname}-${pkgver}.tar.gz::https://static.crates.io/crates/${pkgname}/${pkgname}-${pkgver}.crate"
 )
 sha256sums=('1b1f6905316fcd1ec30e2ded7bf1ba1a8ba092f9d13bdf65fc98a5e528353112')
 

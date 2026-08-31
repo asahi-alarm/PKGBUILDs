@@ -10,7 +10,7 @@ url="https://crates.io/crates/$pkgname"
 makedepends=('rustup' 'cargo-license')
 license=('MIT')
 source=(
-  "${pkgname}-${pkgver}.tar.gz::https://crates.io/api/v1/crates/${pkgname}/${pkgver}/download"
+  "${pkgname}-${pkgver}.tar.gz::https://static.crates.io/crates/${pkgname}/${pkgname}-${pkgver}.crate"
 )
 sha256sums=('b0b54e23f056992a7e63360e7ab962328956a06ba01013afc245874b1ee986d0')
 

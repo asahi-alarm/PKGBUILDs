@@ -11,7 +11,7 @@ license=('MIT' 'APACHE')
 makedepends=('rustup')
 depends=('pango' 'libinput' 'gdk-pixbuf2' 'librsvg')
 source=(
-  "$pkgname-$pkgver.crate::https://crates.io/api/v1/crates/tiny-dfr/$pkgver/download"
+  "$pkgname-$pkgver.crate::https://static.crates.io/crates/tiny-dfr/tiny-dfr-$pkgver.crate"
   '81.patch')
 sha512sums=('af8ac6116c80cf7e87f06158c0917af4faad1804531666bd21d8382d729b969cc8902e0e1b9e78e628f4bda4f54ae942a36ce64d8388edb0db2b6ce167214cb7'
             '7ee49f123225757b57b89ae21b5ed53cc3249e51c5ed24caf55edf5b5f4a77c2c6bc2e34f4dc81a4db23e85b57c74b9d3f14f63c2700905fbf285a26943a2cfb')

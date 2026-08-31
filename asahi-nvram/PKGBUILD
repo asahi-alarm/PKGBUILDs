@@ -10,7 +10,7 @@ url="https://crates.io/crates/$pkgname"
 makedepends=('rustup')
 license=('MIT')
 source=(
-  "asahi-nvram-${pkgver}.tar.gz::https://crates.io/api/v1/crates/asahi-nvram/${pkgver}/download"
+  "asahi-nvram-${pkgver}.tar.gz::https://static.crates.io/crates/asahi-nvram/asahi-nvram-${pkgver}.crate"
 )
 sha256sums=('dc80eff56f2dc5c8224b8d56b8814f765858f5485db35b76805eeb820b39c211')
 
