@@ -4,7 +4,7 @@ alsa-ucm-conf-asahi            10-1                           10-1
 asahi-alarm-keyring            /                              20241216-1                    
 asahi-audio                    4.1-1                          4.1-1                         
 asahi-bless                    /                              0.4.2-1                       
-asahi-btsync                   /                              0.2.4-1                       
+asahi-btsync                   /                              0.2.6-1                       
 asahi-calamares-configs        20240509-6                     20260414-2                    
 asahi-configs                  /                              20251217-1                    
 asahi-desktop-meta             /                              4-8                           
