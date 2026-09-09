@@ -1,6 +1,6 @@
-From 121fd475757e183428ca78f43420c42b9973aa33 Mon Sep 17 00:00:00 2001
+From 56a985cec8592a8de88e7f254df82f5d444a5ecc Mon Sep 17 00:00:00 2001
 From: Peter Robinson <pbrobinson@gmail.com>
-Date: Tue, 31 Dec 2024 14:11:12 +0000
+Date: Thu, 28 May 2026 22:08:07 +0100
 Subject: [PATCH] initial find_fdt_location for finding the DT on disk
 
 The old distro boot looked for a DT on the first boot partition
@@ -18,14 +18,14 @@ Signed-off-by: Peter Robinson <pbrobinson@gmail.com>
 ---
  cmd/bootmenu.c              |   5 ++
  include/efi_loader.h        |   2 +
- lib/efi_loader/efi_helper.c | 105 +++++++++++++++++++++++++++++++++++-
- 4 files changed, 112 insertions(+), 1 deletion(-)
+ lib/efi_loader/efi_helper.c | 106 +++++++++++++++++++++++++++++++++++-
+ 3 files changed, 112 insertions(+), 1 deletion(-)
 
 diff --git a/cmd/bootmenu.c b/cmd/bootmenu.c
-index b633aedf011..96a71a96820 100644
+index 528afd221d0..a10ea35a687 100644
 --- a/cmd/bootmenu.c
 +++ b/cmd/bootmenu.c
-@@ -461,6 +461,11 @@ static void handle_uefi_bootnext(void)
+@@ -502,6 +502,11 @@ static void handle_uefi_bootnext(void)
  	u16 bootnext;
  	efi_status_t ret;
  	efi_uintn_t size;
@@ -38,10 +38,10 @@ index b633aedf011..96a71a96820 100644
  	/* Initialize EFI drivers */
  	ret = efi_init_obj_list();
 diff --git a/include/efi_loader.h b/include/efi_loader.h
-index 39809eac1bc..511eba655e7 100644
+index 3a4d502631c..b11f8a2cb42 100644
 --- a/include/efi_loader.h
 +++ b/include/efi_loader.h
-@@ -514,6 +514,8 @@ struct efi_register_notify_event {
+@@ -574,6 +574,8 @@ struct efi_register_notify_event {
  	struct list_head handles;
  };
  
@@ -51,10 +51,10 @@ index 39809eac1bc..511eba655e7 100644
  int efi_init_early(void);
  /* Initialize efi execution environment */
 diff --git a/lib/efi_loader/efi_helper.c b/lib/efi_loader/efi_helper.c
-index bf96f61d3d0..3f496cc0dfb 100644
+index 44b806aadc4..61e982091b9 100644
 --- a/lib/efi_loader/efi_helper.c
 +++ b/lib/efi_loader/efi_helper.c
-@@ -12,6 +12,7 @@
+@@ -15,6 +15,7 @@
  #include <mapmem.h>
  #include <dm.h>
  #include <fs.h>
@@ -62,7 +62,7 @@ index bf96f61d3d0..3f496cc0dfb 100644
  #include <efi.h>
  #include <efi_api.h>
  #include <efi_load_initrd.h>
-@@ -95,6 +96,99 @@ int efi_get_pxe_arch(void)
+@@ -98,6 +99,99 @@ int efi_get_pxe_arch(void)
  	return -EINVAL;
  }
  
@@ -162,14 +162,15 @@ index bf96f61d3d0..3f496cc0dfb 100644
  /**
   * efi_create_current_boot_var() - Return Boot#### name were #### is replaced by
   *			           the value of BootCurrent
-@@ -548,11 +642,20 @@ efi_status_t efi_install_fdt(void *fdt)
- 		/* Look for device tree that is already installed */
- 		if (efi_get_configuration_table(&efi_guid_fdt))
- 			return EFI_SUCCESS;
+@@ -558,11 +652,21 @@ efi_status_t efi_install_fdt(void *fdt)
+ 		const char *fdt_opt;
+ 		uintptr_t fdt_addr;
+ 
 +		/* Check if there is device tree loaded from disk */
 +		fdt_opt = find_fdt_location();
 +		if (fdt_opt)
-+			log_debug("Found DTB on disk\n");
++			log_info("Found DTB on disk\n");
++
  		/* Check if there is a hardware device tree */
 -		fdt_opt = env_get("fdt_addr");
 +		if (!fdt_opt) {
@@ -180,10 +181,10 @@ index bf96f61d3d0..3f496cc0dfb 100644
  		/* Use our own device tree as fallback */
  		if (!fdt_opt) {
  			fdt_opt = env_get("fdtcontroladdr");
-+			log_debug("Using DT from U-Boot\n");
++			log_info("Using DT from U-Boot\n");
  			if (!fdt_opt) {
  				log_err("need device tree\n");
  				return EFI_NOT_FOUND;
 -- 
-2.47.1
+2.54.0
 

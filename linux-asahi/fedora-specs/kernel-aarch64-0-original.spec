@@ -187,18 +187,18 @@ Summary: The Linux kernel
 #  the --with-release option overrides this setting.)
 %define debugbuildsenabled 1
 # define buildid .local
-%define specrpmversion 7.1.6
-%define specversion 7.1.6
+%define specrpmversion 7.1.13
+%define specversion 7.1.13
 %define patchversion 7.1
-%define pkgrelease 400.asahi
+%define pkgrelease 402.asahi
 %define kversion 7
-%define tarfile_release 7.1.6
+%define tarfile_release 7.1.13
 # This is needed to do merge window version magic
 %define patchlevel 1
 # This allows pkg_release to have configurable %%{?dist} tag
-%define specrelease 400.asahi%{?buildid}%{?dist}
+%define specrelease 402.asahi%{?buildid}%{?dist}
 # This defines the kabi tarball version
-%define kabiversion 7.1.6
+%define kabiversion 7.1.13
 
 # If this variable is set to 1, a bpf selftests build failure will cause a
 # fatal kernel package build error
@@ -4868,7 +4868,20 @@ fi\
 #
 #
 %changelog
-* Wed Aug 05 2026 Neal Gompa <neal@gompa.dev> [7.1.6-400.asahi]
+* Tue Sep 08 2026 Neal Gompa <neal@gompa.dev> [7.1.13-402.asahi]
+- fixup! arm64: dts: apple: t[603x,8122]: Add speaker/jack nodes (James Calligeros)
+- fixup! media: apple: avd: support vp9 (sofus)
+- media: apple: avd: add a dedicated "submit" step (sofus)
+- fixup! media: apple: avd: define static values and bitmasks (sofus)
+- media: apple: avd: rename buffers (sofus)
+- fixup! media: apple: avd: add av1 support (sofus)
+- media: apple: avd: check that buffer size is positive (sofus)
+
+* Fri Sep 04 2026 Neal Gompa <neal@gompa.dev> [7.1.13-401.asahi]
+- dracut-virt.conf: change systemd-pcrphase to systemd-pcrextend (Vitaly Kuznetsov)
+
+* Fri Sep 04 2026 Neal Gompa <neal@gompa.dev> [7.1.13-400.asahi]
+- redhat/configs: Disable DRM Panic frontend URL (Neal Gompa)
 - redhat/configs: aarch64: Enable the sn201202x support driver for Fedora (Neal Gompa)
 - redhat/configs: aarch64: Enable Apple Video Decoder driver (Neal Gompa)
 - redhat/configs: Enable Broadcom Bluetooth extensions (Neal Gompa)
@@ -4894,13 +4907,22 @@ fi\
 - redhat/configs: aarch64: Enable ARM64_MEMORY_MODEL_CONTROL (Neal Gompa)
 - redhat/configs: s390x: Drop CONFIG_BACKLIGHT_CLASS_DEVICE=m for Fedora (Neal Gompa)
 - redhat/configs: aarch64: asahi: Turn on downstream Apple Silicon configs (Neal Gompa)
+- fixup! media: apple: add avd driver (Janne Grunau)
+- fixup! HID: magicmouse: add support for Macbook trackpads (Janne Grunau)
 - mfd: macsmc: Add second gpio subdevice for 'gp00' keys (Janne Grunau)
 - gpio: gpio-macsmc: Support 'gp00' GPIO keys (Janne Grunau)
 - dt-bindings: gpio: apple,smc: Add compatible for 'gp00' keys (Janne Grunau)
 - driver-core: Add error message to device_links_missing_supplier WARN() (Janne Grunau)
 - Fail the build on RUST=y and RUST_IS_AVAILABLE=n (Sasha Finkelstein)
 - Bluetooth: Add Broadcom channel priority commands (Sasha Finkelstein)
-- power: supply: macsmc: Support macOS 27 SMC firmware (Sasha Finkelstein)
+- Bluetooth: hci_bcm4377: Ignore reserved PHY in ext adv reports on BCM4378 (Lorenzo Stoakes (ARM))
+- arch: arm64: add early_param idle=<wfi|yield|nop> (Yureka Lilian)
+- nvme-apple: Drop the PRP null check chicken bit (Sven Peter)
+- nvme-apple: Require page aligned buffers on the admin queue (Sven Peter)
+- nvme: Add a quirk for page aligned admin queue buffers (Sven Peter)
+- nvme-apple: Never set the opcode in the NVMMU TCB (Sven Peter)
+- nvme-apple: Don't set a DMA direction for commands without a data transfer (Sven Peter)
+- nvme-apple: Destroy the admin queue on removal (Sven Peter)
 - mm: pull writability check to follow_pfnmap_start() (Paolo Bonzini)
 - kvm: apply VM_READ/VM_WRITE checks to all VMA types (Paolo Bonzini)
 - drm/ttm, drm/vmwgfx: directly create writable PTEs when mkwrite is in use (Paolo Bonzini)
@@ -4946,6 +4968,24 @@ fi\
 - rust: device: HACK? make parent() public (Janne Grunau)
 - rust: device: WIP(?): Make as_raw() public for AOP series (Sasha Finkelstein)
 - rust: property: HACK? make as_raw() public (Sasha Finkelstein)
+- media: apple: avd: h264: fix default weights handling (sofus)
+- dt-bindings: media: add apple,avd (sofus)
+- media: apple: avd: h264: size buffers correctly (sofus)
+- media: apple: avd: hevc: size buffers correctly (sofus)
+- media: apple: avd: vp9: size buffers correctly (sofus)
+- media: apple: avd: av1: size buffers (semi) correctly (sofus)
+- media: apple: avd: only allocate if new buffer is larger (sofus)
+- media: apple: avd: change rvra naming and fix size calculation (sofus)
+- media: apple: avd: add y, uv and coded to common struct (sofus)
+- media: apple: avd: drop INST_DMA (sofus)
+- media: apple: avd: av1: add try_ctrl handler (sofus)
+- media: apple: avd: calculate buffer size (sofus)
+- media: apple: avd: mark suspend/resume as __maybe_unused (sofus)
+- media: apple: avd: add MODULE_FIRMWARE (sofus)
+- media: apple: avd: better av1 support (sofus)
+- media: apple: avd: fix hevc offsets (sofus)
+- fixup! media: apple: avd: define static values and bitmasks (sofus)
+- media: apple: avd: clang-format avd-{av1,h264,hevc,vp9} (sofus)
 - media: apple: isp: add t8122 support (Janne Grunau)
 - media: apple: isp: add t6030 support (Sasha Finkelstein)
 - media: apple: avd: add av1 support (sofus)
@@ -5085,6 +5125,9 @@ fi\
 - rust: drm: Move FEATURES back to drivers (Janne Grunau)
 - rust: drm: driver: Add feature flags used by asahi (Janne Grunau)
 - rust: lock: guard: Remove T: Unpin bound to DerefMut" (Janne Grunau)
+- fixup! drm: apple: Handle differences in surface positions between SoCs (Janne Grunau)
+- fixup! drm: apple: Handle differences in surface positions between SoCs (Janne Grunau)
+- drm: apple: Handle differences in surface positions between SoCs (James Calligeros)
 - fixup! drm: apple: dptx: Fix get_drive_settings retcode (Janne Grunau)
 - fixup! drm: apple: dptxep: Implement drive settings stuff (Janne Grunau)
 - HACK: drm/apple: depend on BACKLIGHT_CLASS_DEVICE to break x86 Kconfig cycles (Janne Grunau)
@@ -5383,6 +5426,12 @@ fi\
 - wifi: brcmfmac: Fix logic for deciding which doorbell registers to use (Hector Martin)
 - wifi: brcmfmac: Handle PCIe MSI properly (Hector Martin)
 - wifi: brcmfmac: Add missing shared area defines to pcie.c (Hector Martin)
+- Revert "ASoC: tas2770: Drop dummy regulator" (Janne Grunau)
+- ASoC: tas2770: Drop dummy regulator (James Calligeros)
+- Revert "ASoC: tas2764: Drop dummy regulator use" (Janne Grunau)
+- ASoC: tas2764: Drop dummy regulator use (James Calligeros)
+- ASoC: tas2770: Initialise SDZ GPIO as low (James Calligeros)
+- ASoC: tas2764: Initialise SDZ GPIO low (James Calligeros)
 - dmaengine: apple-admac: Add M3 generation ADMACs (Sasha Finkelstein)
 - dt-bindings: dma: apple,admac: Add M3 generation ADMACs (Sasha Finkelstein)
 - ASoC: macaudio: Add comments for M3 machines (James Calligeros)
@@ -5501,6 +5550,7 @@ fi\
 - iommu: apple-dart: Enable runtime PM (Hector Martin)
 - iommu: apple-dart: Link to consumers with blanket RPM_ACTIVE (Martin Povišer)
 - iommu: apple-dart: Power on device when handling IRQs (Asahi Lina)
+- arm64: Kconfig: Select HAVE_SHARED_GPIOS for Apple Silicon (James Calligeros)
 - soc: apple: tunable: Allow passing NULL to tunable_apply (Sasha Finkelstein)
 - soc: apple: rtkit: Pass 0 as size for a NULL crashlog buffer (Janne Grunau)
 - soc: apple: rtkit: Use scope-based cleanup in apple_rtkit_crashlog_rx() (Janne Grunau)
@@ -5512,6 +5562,15 @@ fi\
 - dt-bindings: power: apple,pmgr-pwrstate: Add force-{disable,reset} (Asahi Lina)
 - soc: apple: Add driver for Apple PMGR misc controls (Hector Martin)
 - soc: apple: rtkit: Add devm_apple_rtkit_free() (Janne Grunau)
+- fixup! arm64: dts: apple: t[603x,8122]: Add speaker/jack nodes (Janne Grunau)
+- Revert "arm64: dts: apple: t602x: describe shared SDZ GPIO for tas2764" (Janne Grunau)
+- fixup! arm64: dts: apple: t600x-jxxx: Put in audio nodes (Janne Grunau)
+- fixup! arm64: dts: apple: t8103*: Put in audio nodes (Janne Grunau)
+- fixup! arm64: dts: apple: t8112: Put in audio nodes (Janne Grunau)
+- arm64: dts: apple: t8112: Add apple,iomfb-surfaces to DCP nodes (James Calligeros)
+- arm64: dts: apple: t8103: Add apple,iomfb-surfaces to DCP nodes (James Calligeros)
+- arm64: dts: apple: t600x: Add apple,iomfb-surfaces to DCP nodes (James Calligeros)
+- arm64: dts: apple: t602x: add apple,iomfb-surfaces to DCP nodes (James Calligeros)
 - arm64: dts: apple: t600x-j314-j316: Change Type-C port label (Janne Grunau)
 - arm64: dts: apple: t603x: Add usb/atcphy nodes (Sasha Finkelstein)
 - arm64: dts: apple: t8122: Add usb/atcphy nodes (Sasha Finkelstein)
@@ -5712,6 +5771,48 @@ fi\
 - dt-bindings: power: apple,pmgr-pwrstate: Add t8122 compatible (Janne Grunau)
 - dt-bindings: arm: apple: apple,pmgr: Add t8122 compatible (Janne Grunau)
 - dt-bindings: watchdog: apple,wdt: Add t8122 compatible (Janne Grunau)
+
+* Wed Sep 02 2026 Justin M. Forbes <jforbes@fedoraproject.org> [7.1.13-0]
+- New config item for 7.1.13 stable update (Justin M. Forbes)
+- Add more bugs to BugsFixed (Justin M. Forbes)
+- page_pool: keep frag_offset aligned for odd-sized requests (Florian Schauer) [2521546 2521847]
+- ACPI: scan: Do not combine resources that overlap completely (Rafael J. Wysocki) [2514390]
+- ACPI: scan: Avoid registering platform devices with resource overlaps (Rafael J. Wysocki) [2514390]
+- Bluetooth: btusb: limit RTL8761B BROKEN_EXT_SCAN quirk to 0bda:a728 (Junjie Cao) [2521504]
+- redhat: configs: fedora: Enable Intel CVS (Kate Hsuan)
+- media: i2c: cvs: Pass link frequency explicitly to csi_set_link_cfg() (Laurent Pinchart)
+- media: i2c: cvs: Add NVL ACPI ID (Arun T)
+- media: i2c: cvs: Add IPU8 PCI device ID (Arun T)
+- media: i2c: cvs: Add driver of Intel Computer Vision Sensing Controller(CVS) (Miguel Vadillo)
+- Add bugs to BugsFixed for 7.1.13 (Justin M. Forbes)
+- random: Drop the extrng module reference when import_ubuf() fails (Junjie Cao) [2524262]
+- Linux v7.1.13
+
+* Fri Aug 28 2026 Justin M. Forbes <jforbes@fedoraproject.org> [7.1.12-0]
+- Linux v7.1.12
+
+* Thu Aug 27 2026 Justin M. Forbes <jforbes@fedoraproject.org> [7.1.11-0]
+- Linux v7.1.11
+
+* Sun Aug 23 2026 Justin M. Forbes <jforbes@fedoraproject.org> [7.1.10-0]
+- ALSA: hda/realtek: add quirk for Framework F111:0010 (Daniel Schaefer)
+- Linux v7.1.10
+
+* Wed Aug 19 2026 Justin M. Forbes <jforbes@fedoraproject.org> [7.1.9-0]
+- packet: use consistent hard_header_len in non-ring send paths (Qihang Tang)
+- platform/x86: int3472: Increase handshake GPIO delay to 200 ms (Hans de Goede)
+- drm/xe: Fix DPT allocation paths. (Junjie Cao) [2488751]
+- Turn on CONFIG_CRYPTO_MLDSA for Fedora (Justin M. Forbes)
+- Linux v7.1.9
+
+* Sun Aug 09 2026 Justin M. Forbes <jforbes@fedoraproject.org> [7.1.8-0]
+- Config updates for 7.1.8 (Justin M. Forbes)
+- Add to BugsFixed (Justin M. Forbes)
+- smb/client: return EOPNOTSUPP for unsupported O_TMPFILE (ChenXiaoSong)
+- Linux v7.1.8
+
+* Thu Aug 06 2026 Justin M. Forbes <jforbes@fedoraproject.org> [7.1.7-0]
+- Linux v7.1.7
 
 * Mon Aug 03 2026 Justin M. Forbes <jforbes@fedoraproject.org> [7.1.6-1]
 - vhost: reset the vring metadata cache on vring reconfiguration (Jun Yang)

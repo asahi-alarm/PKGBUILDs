@@ -5,13 +5,13 @@
 %global opensbi opensbi
 
 Name:     uboot-tools
-Version:  2026.04
-Release:  102%{?candidate:.%{candidate}}%{?dist}
+Version:  2026.07
+Release:  101%{?candidate:.%{candidate}}%{?dist}
 Epoch:    1
 Summary:  U-Boot utilities
 # Automatically converted from old format: GPLv2+ BSD LGPL-2.1+ LGPL-2.0+ - review is highly recommended.
 License:  GPL-2.0-or-later AND LicenseRef-Callaway-BSD AND LGPL-2.1-or-later AND LGPL-2.0-or-later
-URL:      http://www.denx.de/wiki/U-Boot
+URL:      https://u-boot-project.org/
 ExcludeArch: s390x
 Source0:  https://ftp.denx.de/pub/u-boot/u-boot-%{version}%{?candidate:-%{candidate}}.tar.bz2
 Source1:  aarch64-boards
@@ -25,15 +25,14 @@ Patch2:   enable-bootmenu-by-default.patch
 Patch3:   uefi-distro-load-FDT-from-any-partition-on-boot-device.patch
 # Identify VFAT partitions as ESP, allows EFI setvar on our images
 Patch4:   uefi-Add-all-options-for-EFI-System-Partitions.patch
-# Upstream revert for rpi boot fix
-Patch5:   0001-Revert-efi_loader-install-device-tree-on-configurati.patch
 # New function to find fdt for loading from disk
-Patch6:   uefi-initial-find_fdt_location-for-finding-the-DT-on-disk.patch
+Patch5:   uefi-initial-find_fdt_location-for-finding-the-DT-on-disk.patch
 # Enable UEFI SetVariable for devices without backed storage
-Patch7:   uefi-enable-SetVariableRT-with-volotile-storage.patch
+Patch6:   uefi-enable-SetVariableRT-with-volotile-storage.patch
 # Enable UEFI HTTPS boot for all Fedora firmware
-Patch8:   uefi-enable-https-boot-by-default.patch
-Patch9:   efi_loader-disk-Add-EFI_PARTITION_INFO_PROTOCOL-support-for-MBR.patch
+Patch7:   uefi-enable-https-boot-by-default.patch
+# Upstream SWIG 4.5 fix.
+Patch8:   pylibfdt-Replace-removed-SWIG-Python-2-compatibility-macros.patch
 
 # Device improvments
 # USB-PD improvements
@@ -48,95 +47,67 @@ Patch15:  JetsonTX2-Fix-upstream-device-tree-naming.patch
 # Fix AllWinner
 Patch16:  Allwinner-fix-booting-on-a-number-of-devices.patch
 # RPi
-Patch20:  ARM-RPi5-Enable-PCIe.patch
-Patch21:  0001-Add-bcm2712-compat.patch
-Patch22:  ARM-RPi-PCIe-fixes.patch
-Patch23:  raspberrypi-Add-quirk-for-RPi5-2Gb-rev-1.0.patch
+Patch20:  Fix-NVMe-not-only-on-Raspberry-Pi-5.patch
+Patch21:  raspberrypi-Add-quirk-for-RPi5-2Gb-rev-1.0.patch
 
 # Build with OPENSSL_NO_ENGINE
 Patch90:  openssl-no-engine.patch
 
 ### Asahi downstream patches
-# nvme: apple: add "apple,t8103-nvme-ans2" compatible
-Patch100: https://github.com/AsahiLinux/u-boot/commit/c38fe0da9ec361ad27392a5938780815365c97a7.patch#/asahi-c38fe0da9ec361ad27392a5938780815365c97a7.patch
-# pinctrl: apple: Add "apple,t8103-pinctrl" compatible
-Patch101: https://github.com/AsahiLinux/u-boot/commit/875354fcbfd9bf99884589499860fe0cda8d03fe.patch#/asahi-875354fcbfd9bf99884589499860fe0cda8d03fe.patch
-# power: domain: apple: Add "apple,t8103-pmgr-pwrstate" compatible
-Patch102: https://github.com/AsahiLinux/u-boot/commit/25c40c21c5befeb9abc44c36c3293666108d0170.patch#/asahi-25c40c21c5befeb9abc44c36c3293666108d0170.patch
-# spi: apple: Add "apple,t8103-spi" compatible
-Patch103: https://github.com/AsahiLinux/u-boot/commit/39ee4f12d547eb2bfc726c99f1af22f7b5fcfdf4.patch#/asahi-39ee4f12d547eb2bfc726c99f1af22f7b5fcfdf4.patch
-# watchdog: apple: Add "apple,t8103-wdt" compatible
-Patch104: https://github.com/AsahiLinux/u-boot/commit/8087a722706c758bf9d94e324753029c4f6f80d8.patch#/asahi-8087a722706c758bf9d94e324753029c4f6f80d8.patch
-# doc: board: apple: Mention M2 and M2 Pro/Max/Ultra SoCs
-Patch105: https://github.com/AsahiLinux/u-boot/commit/069ee0692959ee29c6fed077ca82012f30ce93ed.patch#/asahi-069ee0692959ee29c6fed077ca82012f30ce93ed.patch
-# doc: device-tree-bindings: Remove apple,pinctrl.yaml
-Patch106: https://github.com/AsahiLinux/u-boot/commit/65ebb5d2ce9a9e0e58c57f4ceac153a233320f65.patch#/asahi-65ebb5d2ce9a9e0e58c57f4ceac153a233320f65.patch
-# arm: dts: Switch Apple silicon devices to dts/upstream
-Patch107: https://github.com/AsahiLinux/u-boot/commit/360ba4a4b3843b92438b62a9c5b9f02584821498.patch#/asahi-360ba4a4b3843b92438b62a9c5b9f02584821498.patch
-# MAINTAINERS: Add missing Apple M1 specific files
-Patch108: https://github.com/AsahiLinux/u-boot/commit/c183a8e502834d95831ae5b629b5eac4e7b65ccb.patch#/asahi-c183a8e502834d95831ae5b629b5eac4e7b65ccb.patch
-# arm: apple: Switch to board based text env
-Patch109: https://github.com/AsahiLinux/u-boot/commit/dea067f48029c437334de42aebe080540432eb09.patch#/asahi-dea067f48029c437334de42aebe080540432eb09.patch
 # input: apple: Split off report handling into a separate file
-Patch110: https://github.com/AsahiLinux/u-boot/commit/db27d8c07f0a574c4289b7d09bc5c7df2d7833af.patch#/asahi-db27d8c07f0a574c4289b7d09bc5c7df2d7833af.patch
+Patch100: https://github.com/AsahiLinux/u-boot/commit/6835515ba36f290390bc92644e4c47df857a14b3.patch#/asahi-6835515ba36f290390bc92644e4c47df857a14b3.patch
 # input: apple: Add support for Apple MTP keyboard
-Patch111: https://github.com/AsahiLinux/u-boot/commit/dd20f5e6cb98ee19aa0d73353df9d3c83e281c43.patch#/asahi-dd20f5e6cb98ee19aa0d73353df9d3c83e281c43.patch
+Patch101: https://github.com/AsahiLinux/u-boot/commit/812c17b106e7522c8eb8d416923fd447c9a746c4.patch#/asahi-812c17b106e7522c8eb8d416923fd447c9a746c4.patch
 # arm: apple: Add MTP keyboard options to defconfig
-Patch112: https://github.com/AsahiLinux/u-boot/commit/3b197c83142f643e73a1881eeaa2c69168cd7ade.patch#/asahi-3b197c83142f643e73a1881eeaa2c69168cd7ade.patch
+Patch102: https://github.com/AsahiLinux/u-boot/commit/10fb7ce4f5eec2d12a6d480e809f71dba35d398b.patch#/asahi-10fb7ce4f5eec2d12a6d480e809f71dba35d398b.patch
 # apple: Set up file system firmware loader
-Patch113: https://github.com/AsahiLinux/u-boot/commit/e18c2cc68ad3917dff37a15a69be06805c2ca792.patch#/asahi-e18c2cc68ad3917dff37a15a69be06805c2ca792.patch
+Patch103: https://github.com/AsahiLinux/u-boot/commit/247988ff7034b3277a985fe35665992eb652ec5d.patch#/asahi-247988ff7034b3277a985fe35665992eb652ec5d.patch
 # iopoll: Add readb_poll_sleep_timeout
-Patch114: https://github.com/AsahiLinux/u-boot/commit/01878d7691bd2e8b4dc53bd7386b82ff231acc3b.patch#/asahi-01878d7691bd2e8b4dc53bd7386b82ff231acc3b.patch
+Patch104: https://github.com/AsahiLinux/u-boot/commit/1527497f6729de9d70cf40070e03984bd69dcdad.patch#/asahi-1527497f6729de9d70cf40070e03984bd69dcdad.patch
 # usb: xhci-pci: Load ASMedia XHCI controller firmware
-Patch115: https://github.com/AsahiLinux/u-boot/commit/f9e0240c5693be7859e5d142a39ed59892a13576.patch#/asahi-f9e0240c5693be7859e5d142a39ed59892a13576.patch
+Patch105: https://github.com/AsahiLinux/u-boot/commit/96ddc124c2fc12ebd40a304c570cd9aa7cf84048.patch#/asahi-96ddc124c2fc12ebd40a304c570cd9aa7cf84048.patch
 # env: apple: Enable ENV_IS_IN_FAT
-Patch116: https://github.com/AsahiLinux/u-boot/commit/f5787c26ae35f5b10d808073e19b9c81ab4e93a7.patch#/asahi-f5787c26ae35f5b10d808073e19b9c81ab4e93a7.patch
+Patch106: https://github.com/AsahiLinux/u-boot/commit/4cb43c165ad964258c32d504fe939a10ef5e1ce3.patch#/asahi-4cb43c165ad964258c32d504fe939a10ef5e1ce3.patch
 # apple: Nail down the EFI system partition
-Patch117: https://github.com/AsahiLinux/u-boot/commit/91ea578fe3ab3ef48b87d18607c015d7e280be5b.patch#/asahi-91ea578fe3ab3ef48b87d18607c015d7e280be5b.patch
-# efi_loader: prefer EFI system partition
-Patch118: https://github.com/AsahiLinux/u-boot/commit/c659e88a7024a51ce898e64fc53073d94ae55d9b.patch#/asahi-c659e88a7024a51ce898e64fc53073d94ae55d9b.patch
-# usb: xhci: Add more debugging
-Patch119: https://github.com/AsahiLinux/u-boot/commit/02c4a3d0a32f108200856948a9566a4138879698.patch#/asahi-02c4a3d0a32f108200856948a9566a4138879698.patch
-# usb: storage: Clear endpoint stalls properly
-Patch120: https://github.com/AsahiLinux/u-boot/commit/01382cc455b6fd9d8ae8bf3363523d9e6cebf61c.patch#/asahi-01382cc455b6fd9d8ae8bf3363523d9e6cebf61c.patch
-# usb: Pass through timeout to drivers
-Patch121: https://github.com/AsahiLinux/u-boot/commit/ce24899757a20a0cd1d0337527bf0b5916b4be3c.patch#/asahi-ce24899757a20a0cd1d0337527bf0b5916b4be3c.patch
-# usb: xhci: Hook up timeouts
-Patch122: https://github.com/AsahiLinux/u-boot/commit/ba71e64f6f9619c7e896da94d7aeb4d9dfcad2eb.patch#/asahi-ba71e64f6f9619c7e896da94d7aeb4d9dfcad2eb.patch
-# scsi: Fix a bunch of SCSI definitions.
-Patch123: https://github.com/AsahiLinux/u-boot/commit/2c343e36671511c04683602db6f8f30200ccf7d2.patch#/asahi-2c343e36671511c04683602db6f8f30200ccf7d2.patch
-# usb: storage: Increase read/write timeout
-Patch124: https://github.com/AsahiLinux/u-boot/commit/b85792fb5982acb1c6e8894fb23cce8e3b85d8d4.patch#/asahi-b85792fb5982acb1c6e8894fb23cce8e3b85d8d4.patch
-# usb: storage: Implement 64-bit LBA support
-Patch125: https://github.com/AsahiLinux/u-boot/commit/a68d8fb458b62c0ce10fc5dfc514f81eaf3672a9.patch#/asahi-a68d8fb458b62c0ce10fc5dfc514f81eaf3672a9.patch
-# usb: Ignore endpoints in non-zero altsettings
-Patch126: https://github.com/AsahiLinux/u-boot/commit/afc509b957da47872c98ddbe90f4a226a122f451.patch#/asahi-afc509b957da47872c98ddbe90f4a226a122f451.patch
-# video: console: Select default font based on video_priv.font_size
-Patch127: https://github.com/AsahiLinux/u-boot/commit/239fb952613ec04ff9f226aafd60aef8428e6acf.patch#/asahi-239fb952613ec04ff9f226aafd60aef8428e6acf.patch
-# video: simplefb: HACK: Set video font size
-Patch128: https://github.com/AsahiLinux/u-boot/commit/95c091294521f63845ed0018cafd1ae775e3543e.patch#/asahi-95c091294521f63845ed0018cafd1ae775e3543e.patch
-# configs: apple: Do not show the boot menu automatically
-Patch129: https://github.com/AsahiLinux/u-boot/commit/20d67f319421dcd955f146abdea8944b7946f407.patch#/asahi-20d67f319421dcd955f146abdea8944b7946f407.patch
-# FEDORA: configs: apple: Disable AUTOBOOT_KEYED
-Patch130: https://github.com/AsahiLinux/u-boot/commit/3aea66db69f0aca940e24aac172ecf27cd030228.patch#/asahi-3aea66db69f0aca940e24aac172ecf27cd030228.patch
-# configs: apple: decrease boot delay to 1 second
-Patch131: https://github.com/AsahiLinux/u-boot/commit/ab751ea6edc26fa86cbe6d4ed7eb9f240a9ebeec.patch#/asahi-ab751ea6edc26fa86cbe6d4ed7eb9f240a9ebeec.patch
-# arm: apple: Add Apple M3 (t8122) support
-Patch132: https://github.com/AsahiLinux/u-boot/commit/595eafa2bdcd249f80fd52041388ba69ab010777.patch#/asahi-595eafa2bdcd249f80fd52041388ba69ab010777.patch
-# fixup! arm: dts: Switch Apple silicon devices to dts/upstream
-Patch133: https://github.com/AsahiLinux/u-boot/commit/3fa16d88dce40faf60b55863bb6dc51fbd670362.patch#/asahi-3fa16d88dce40faf60b55863bb6dc51fbd670362.patch
+Patch107: https://github.com/AsahiLinux/u-boot/commit/e141ab229f5176952955ede699e5ae16795f0b42.patch#/asahi-e141ab229f5176952955ede699e5ae16795f0b42.patch
 # scripts/dtc: Add support for floating-point literals
-Patch134: https://github.com/AsahiLinux/u-boot/commit/10c5e0e5f01bf7360ecb8dc06e02daba4c6b60e4.patch#/asahi-10c5e0e5f01bf7360ecb8dc06e02daba4c6b60e4.patch
-# Revert "arm: apple: Add Apple M3 (t8122) support"
-Patch135: https://github.com/AsahiLinux/u-boot/commit/d7263c63a95ecd3cba539f8b92fb0058db0bb303.patch#/asahi-d7263c63a95ecd3cba539f8b92fb0058db0bb303.patch
-# arm: apple: Add Apple M3 (t8122) support
-Patch136: https://github.com/AsahiLinux/u-boot/commit/01c2642c3a86e343915042eeaf2f47bda62781d4.patch#/asahi-01c2642c3a86e343915042eeaf2f47bda62781d4.patch
+Patch108: https://github.com/AsahiLinux/u-boot/commit/63091fcaa4736a9a9086c943c53d2238080fb5cb.patch#/asahi-63091fcaa4736a9a9086c943c53d2238080fb5cb.patch
+# efi_loader: prefer EFI system partition
+Patch109: https://github.com/AsahiLinux/u-boot/commit/6c8f104a1463560eb887db688eb34d3ba521e3ed.patch#/asahi-6c8f104a1463560eb887db688eb34d3ba521e3ed.patch
+# usb: xhci: Add more debugging
+Patch110: https://github.com/AsahiLinux/u-boot/commit/e03fdb9b4f20b869996393e3e7e0c29595f36df8.patch#/asahi-e03fdb9b4f20b869996393e3e7e0c29595f36df8.patch
+# usb: storage: Clear endpoint stalls properly
+Patch111: https://github.com/AsahiLinux/u-boot/commit/eacc5c5f848f7ba490e7f2127145543d62cd9f48.patch#/asahi-eacc5c5f848f7ba490e7f2127145543d62cd9f48.patch
+# usb: Pass through timeout to drivers
+Patch112: https://github.com/AsahiLinux/u-boot/commit/3c9a9164b1da60e6f6bc9c8452ba49a75bcf6504.patch#/asahi-3c9a9164b1da60e6f6bc9c8452ba49a75bcf6504.patch
+# usb: xhci: Hook up timeouts
+Patch113: https://github.com/AsahiLinux/u-boot/commit/50669696be033e8c76f78e182a14e9cadd08387f.patch#/asahi-50669696be033e8c76f78e182a14e9cadd08387f.patch
+# scsi: Fix a bunch of SCSI definitions
+Patch114: https://github.com/AsahiLinux/u-boot/commit/a0af6e889957dc72df6f8d7d07f000518fb45668.patch#/asahi-a0af6e889957dc72df6f8d7d07f000518fb45668.patch
+# usb: storage: Increase read/write timeout
+Patch115: https://github.com/AsahiLinux/u-boot/commit/88b9ffc80e1777a0b44154f9dafc6580fee8cdc4.patch#/asahi-88b9ffc80e1777a0b44154f9dafc6580fee8cdc4.patch
+# usb: storage: Implement 64-bit LBA support
+Patch116: https://github.com/AsahiLinux/u-boot/commit/19b32bfe962dbd5115afe4c334e4669063273843.patch#/asahi-19b32bfe962dbd5115afe4c334e4669063273843.patch
+# usb: Ignore endpoints in non-zero altsettings
+Patch117: https://github.com/AsahiLinux/u-boot/commit/8db950bebbb91cbb5ee2c5360df38afb83b4f0ec.patch#/asahi-8db950bebbb91cbb5ee2c5360df38afb83b4f0ec.patch
+# video: console: Select default font based on video_priv.font_size
+Patch118: https://github.com/AsahiLinux/u-boot/commit/13a7dd0cbd66be4f3e5621b5cb97a3176db15783.patch#/asahi-13a7dd0cbd66be4f3e5621b5cb97a3176db15783.patch
+# video: simplefb: HACK: Set video font size
+Patch119: https://github.com/AsahiLinux/u-boot/commit/af5a1e21ea6aa22b5e8e6d9dcee866002c5f3524.patch#/asahi-af5a1e21ea6aa22b5e8e6d9dcee866002c5f3524.patch
+# configs: apple: Do not show the boot menu automatically
+Patch120: https://github.com/AsahiLinux/u-boot/commit/b880dc016cfde814ad6257f6b8fe90fbe3ca167c.patch#/asahi-b880dc016cfde814ad6257f6b8fe90fbe3ca167c.patch
+# FEDORA: configs: apple: Disable AUTOBOOT_KEYED
+Patch121: https://github.com/AsahiLinux/u-boot/commit/73b78347959e579ed2a1f008faa8a159d9bd9d1c.patch#/asahi-73b78347959e579ed2a1f008faa8a159d9bd9d1c.patch
+# configs: apple: decrease boot delay to 1 second
+Patch122: https://github.com/AsahiLinux/u-boot/commit/7f01e6365be00301b1edec7b79c9d72bf07d9eaa.patch#/asahi-7f01e6365be00301b1edec7b79c9d72bf07d9eaa.patch
 # arm: apple: Add Apple M3 Pro and Max (t603[014]) support
-Patch137: https://github.com/AsahiLinux/u-boot/commit/cf58ab5d145c9ab586a4c018b17221cc09555343.patch#/asahi-cf58ab5d145c9ab586a4c018b17221cc09555343.patch
+Patch123: https://github.com/AsahiLinux/u-boot/commit/e23275e7b46f1f582fde4dd7c824e2263477e999.patch#/asahi-e23275e7b46f1f582fde4dd7c824e2263477e999.patch
 # arm: apple: Add Apple M3 Ultra (t6032) support
-Patch138: https://github.com/AsahiLinux/u-boot/commit/79cc635b73dbae8535558ebaf74d8bf841c35765.patch#/asahi-79cc635b73dbae8535558ebaf74d8bf841c35765.patch
+Patch124: https://github.com/AsahiLinux/u-boot/commit/5654e6e9f2b4dc7af138600bf9beb983c92097ef.patch#/asahi-5654e6e9f2b4dc7af138600bf9beb983c92097ef.patch
 # power: domain: apple: Ignore power states with auto enable flag
-Patch139: https://github.com/AsahiLinux/u-boot/commit/3b233f59d0b6b57eae5add46a6fa7787ea11388e.patch#/asahi-3b233f59d0b6b57eae5add46a6fa7787ea11388e.patch
+Patch125: https://github.com/AsahiLinux/u-boot/commit/51b63835a99d660933546251e45ce499500ff355.patch#/asahi-51b63835a99d660933546251e45ce499500ff355.patch
+# phy: apple-atc: Add t8122 compatible
+Patch126: https://github.com/AsahiLinux/u-boot/commit/dbd2154cb0d3a5552505cfcc00a8b5f8da737030.patch#/asahi-dbd2154cb0d3a5552505cfcc00a8b5f8da737030.patch
 
 BuildRequires:  bc
 BuildRequires:  bison
@@ -147,7 +118,11 @@ BuildRequires:  gnutls-devel
 BuildRequires:  libuuid-devel
 BuildRequires:  make
 BuildRequires:  ncurses-devel
+%if 0%{?fedora} > 44
+BuildRequires:  openssl3-devel
+%else
 BuildRequires:  openssl-devel
+%endif
 BuildRequires:  perl-interpreter
 BuildRequires:  python3-devel
 BuildRequires:  python3-setuptools
@@ -401,18 +376,34 @@ install -p -m 0755 builds/tools/env/fw_printenv %{buildroot}%{_bindir}
 %endif
 
 %changelog
-* Sun May 24 2026 Janne Grunau <j@jannau.net> - 1:2026.04-102
-- Add patchers from asahi-v2026.04-2 for M3 Pro/Max/Ultra support
+* Thu Sep 03 2026 Janne Grunau <j@jannau.net> - 1:2026.07-101
+- Import asahi u-boot downstream patches for v2026.07
 
-* Fri May 01 2026 Janne Grunau <j@jannau.net> - 1:2026.04-101
-- Import asahi u-boot downstream patches for v2026.04
-
-* Fri May 01 2026 Janne Grunau <j@jannau.net> - 1:2025.10-100
-- Skip p3450-0000 on Fedora 41 / EPEL 10 due to build failure
-
-* Fri May 01 2026 Davide Cavalca <dcavalca@fedoraproject.org> - 1:2026.04-100
+* Thu Sep 03 2026 Davide Cavalca <dcavalca@fedoraproject.org> - 1:2026.07-100
 - Unconditionally build images
 - Restore patch to build without openssl engine
+- Skip p3450-0000 on Fedora 41 / EPEL 10 due to build failure
+
+* Fri Jul 17 2026 Fedora Release Engineering <releng@fedoraproject.org> - 1:2026.07-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_45_Mass_Rebuild
+
+* Tue Jul 07 2026 Peter Robinson <pbrobinson@fedoraproject.org> - 1:2026.07-1
+- Update to 2026.07 GA
+
+* Tue Jun 23 2026 Peter Robinson <pbrobinson@fedoraproject.org> - 1:2026.07-0.4.rc5
+- Update to 2026.07 RC5
+
+* Mon Jun 08 2026 Peter Robinson <pbrobinson@fedoraproject.org> - 1:2026.07-0.3.rc4
+- Update to 2026.07 RC4
+
+* Fri May 29 2026 Peter Robinson <pbrobinson@fedoraproject.org> - 1:2026.07-0.2.rc3
+- Update to 2026.07 RC3
+- Update U-Boot Project URL
+- Update RPi PCIe patches
+- Various RPi fixes
+
+* Fri May 01 2026 Peter Robinson <pbrobinson@fedoraproject.org> - 1:2026.07-0.1.rc1
+- Update to 2026.07 RC1
 
 * Sat Apr 11 2026 Peter Robinson <pbrobinson@fedoraproject.org> - 1:2026.04-2
 - Fix PCIe/USB on Raspberry Pi 4 (rhbz#2448365)

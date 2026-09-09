@@ -1,14 +1,14 @@
 
   Name:     uboot-tools
-  Version:  2026.04
-  Release:  102
+  Version:  2026.07
+  Release:  101
   Epoch:    1
   Summary:  U-Boot utilities
 
   License:  GPL-2.0-or-later AND LicenseRef-Callaway-BSD AND LGPL-2.1-or-later AND LGPL-2.0-or-later
-  URL:      http://www.denx.de/wiki/U-Boot
+  URL:      https://u-boot-project.org/
   ExcludeArch: s390x
-  Source0:  https://ftp.denx.de/pub/u-boot/u-boot-2026.04.tar.bz2
+  Source0:  https://ftp.denx.de/pub/u-boot/u-boot-2026.07.tar.bz2
   Source1:  aarch64-boards
   Source2:  riscv64-boards
   Source3:  x86_64-boards
@@ -20,14 +20,13 @@
 
   Patch4:   uefi-Add-all-options-for-EFI-System-Partitions.patch
 
-  Patch5:   0001-Revert-efi_loader-install-device-tree-on-configurati.patch
+  Patch5:   uefi-initial-find_fdt_location-for-finding-the-DT-on-disk.patch
 
-  Patch6:   uefi-initial-find_fdt_location-for-finding-the-DT-on-disk.patch
+  Patch6:   uefi-enable-SetVariableRT-with-volotile-storage.patch
 
-  Patch7:   uefi-enable-SetVariableRT-with-volotile-storage.patch
+  Patch7:   uefi-enable-https-boot-by-default.patch
 
-  Patch8:   uefi-enable-https-boot-by-default.patch
-  Patch9:   efi_loader-disk-Add-EFI_PARTITION_INFO_PROTOCOL-support-for-MBR.patch
+  Patch8:   pylibfdt-Replace-removed-SWIG-Python-2-compatibility-macros.patch
 
   Patch10:  USB-PD-TCPM-improvements.patch
 
@@ -40,92 +39,64 @@
 
   Patch16:  Allwinner-fix-booting-on-a-number-of-devices.patch
 
-  Patch20:  ARM-RPi5-Enable-PCIe.patch
-  Patch21:  0001-Add-bcm2712-compat.patch
-  Patch22:  ARM-RPi-PCIe-fixes.patch
-  Patch23:  raspberrypi-Add-quirk-for-RPi5-2Gb-rev-1.0.patch
+  Patch20:  Fix-NVMe-not-only-on-Raspberry-Pi-5.patch
+  Patch21:  raspberrypi-Add-quirk-for-RPi5-2Gb-rev-1.0.patch
 
   Patch90:  openssl-no-engine.patch
 
-  Patch100: https://github.com/AsahiLinux/u-boot/commit/c38fe0da9ec361ad27392a5938780815365c97a7.patch#/asahi-c38fe0da9ec361ad27392a5938780815365c97a7.patch
+  Patch100: https://github.com/AsahiLinux/u-boot/commit/6835515ba36f290390bc92644e4c47df857a14b3.patch#/asahi-6835515ba36f290390bc92644e4c47df857a14b3.patch
 
-  Patch101: https://github.com/AsahiLinux/u-boot/commit/875354fcbfd9bf99884589499860fe0cda8d03fe.patch#/asahi-875354fcbfd9bf99884589499860fe0cda8d03fe.patch
+  Patch101: https://github.com/AsahiLinux/u-boot/commit/812c17b106e7522c8eb8d416923fd447c9a746c4.patch#/asahi-812c17b106e7522c8eb8d416923fd447c9a746c4.patch
 
-  Patch102: https://github.com/AsahiLinux/u-boot/commit/25c40c21c5befeb9abc44c36c3293666108d0170.patch#/asahi-25c40c21c5befeb9abc44c36c3293666108d0170.patch
+  Patch102: https://github.com/AsahiLinux/u-boot/commit/10fb7ce4f5eec2d12a6d480e809f71dba35d398b.patch#/asahi-10fb7ce4f5eec2d12a6d480e809f71dba35d398b.patch
 
-  Patch103: https://github.com/AsahiLinux/u-boot/commit/39ee4f12d547eb2bfc726c99f1af22f7b5fcfdf4.patch#/asahi-39ee4f12d547eb2bfc726c99f1af22f7b5fcfdf4.patch
+  Patch103: https://github.com/AsahiLinux/u-boot/commit/247988ff7034b3277a985fe35665992eb652ec5d.patch#/asahi-247988ff7034b3277a985fe35665992eb652ec5d.patch
 
-  Patch104: https://github.com/AsahiLinux/u-boot/commit/8087a722706c758bf9d94e324753029c4f6f80d8.patch#/asahi-8087a722706c758bf9d94e324753029c4f6f80d8.patch
+  Patch104: https://github.com/AsahiLinux/u-boot/commit/1527497f6729de9d70cf40070e03984bd69dcdad.patch#/asahi-1527497f6729de9d70cf40070e03984bd69dcdad.patch
 
-  Patch105: https://github.com/AsahiLinux/u-boot/commit/069ee0692959ee29c6fed077ca82012f30ce93ed.patch#/asahi-069ee0692959ee29c6fed077ca82012f30ce93ed.patch
+  Patch105: https://github.com/AsahiLinux/u-boot/commit/96ddc124c2fc12ebd40a304c570cd9aa7cf84048.patch#/asahi-96ddc124c2fc12ebd40a304c570cd9aa7cf84048.patch
 
-  Patch106: https://github.com/AsahiLinux/u-boot/commit/65ebb5d2ce9a9e0e58c57f4ceac153a233320f65.patch#/asahi-65ebb5d2ce9a9e0e58c57f4ceac153a233320f65.patch
+  Patch106: https://github.com/AsahiLinux/u-boot/commit/4cb43c165ad964258c32d504fe939a10ef5e1ce3.patch#/asahi-4cb43c165ad964258c32d504fe939a10ef5e1ce3.patch
 
-  Patch107: https://github.com/AsahiLinux/u-boot/commit/360ba4a4b3843b92438b62a9c5b9f02584821498.patch#/asahi-360ba4a4b3843b92438b62a9c5b9f02584821498.patch
+  Patch107: https://github.com/AsahiLinux/u-boot/commit/e141ab229f5176952955ede699e5ae16795f0b42.patch#/asahi-e141ab229f5176952955ede699e5ae16795f0b42.patch
 
-  Patch108: https://github.com/AsahiLinux/u-boot/commit/c183a8e502834d95831ae5b629b5eac4e7b65ccb.patch#/asahi-c183a8e502834d95831ae5b629b5eac4e7b65ccb.patch
+  Patch108: https://github.com/AsahiLinux/u-boot/commit/63091fcaa4736a9a9086c943c53d2238080fb5cb.patch#/asahi-63091fcaa4736a9a9086c943c53d2238080fb5cb.patch
 
-  Patch109: https://github.com/AsahiLinux/u-boot/commit/dea067f48029c437334de42aebe080540432eb09.patch#/asahi-dea067f48029c437334de42aebe080540432eb09.patch
+  Patch109: https://github.com/AsahiLinux/u-boot/commit/6c8f104a1463560eb887db688eb34d3ba521e3ed.patch#/asahi-6c8f104a1463560eb887db688eb34d3ba521e3ed.patch
 
-  Patch110: https://github.com/AsahiLinux/u-boot/commit/db27d8c07f0a574c4289b7d09bc5c7df2d7833af.patch#/asahi-db27d8c07f0a574c4289b7d09bc5c7df2d7833af.patch
+  Patch110: https://github.com/AsahiLinux/u-boot/commit/e03fdb9b4f20b869996393e3e7e0c29595f36df8.patch#/asahi-e03fdb9b4f20b869996393e3e7e0c29595f36df8.patch
 
-  Patch111: https://github.com/AsahiLinux/u-boot/commit/dd20f5e6cb98ee19aa0d73353df9d3c83e281c43.patch#/asahi-dd20f5e6cb98ee19aa0d73353df9d3c83e281c43.patch
+  Patch111: https://github.com/AsahiLinux/u-boot/commit/eacc5c5f848f7ba490e7f2127145543d62cd9f48.patch#/asahi-eacc5c5f848f7ba490e7f2127145543d62cd9f48.patch
 
-  Patch112: https://github.com/AsahiLinux/u-boot/commit/3b197c83142f643e73a1881eeaa2c69168cd7ade.patch#/asahi-3b197c83142f643e73a1881eeaa2c69168cd7ade.patch
+  Patch112: https://github.com/AsahiLinux/u-boot/commit/3c9a9164b1da60e6f6bc9c8452ba49a75bcf6504.patch#/asahi-3c9a9164b1da60e6f6bc9c8452ba49a75bcf6504.patch
 
-  Patch113: https://github.com/AsahiLinux/u-boot/commit/e18c2cc68ad3917dff37a15a69be06805c2ca792.patch#/asahi-e18c2cc68ad3917dff37a15a69be06805c2ca792.patch
+  Patch113: https://github.com/AsahiLinux/u-boot/commit/50669696be033e8c76f78e182a14e9cadd08387f.patch#/asahi-50669696be033e8c76f78e182a14e9cadd08387f.patch
 
-  Patch114: https://github.com/AsahiLinux/u-boot/commit/01878d7691bd2e8b4dc53bd7386b82ff231acc3b.patch#/asahi-01878d7691bd2e8b4dc53bd7386b82ff231acc3b.patch
+  Patch114: https://github.com/AsahiLinux/u-boot/commit/a0af6e889957dc72df6f8d7d07f000518fb45668.patch#/asahi-a0af6e889957dc72df6f8d7d07f000518fb45668.patch
 
-  Patch115: https://github.com/AsahiLinux/u-boot/commit/f9e0240c5693be7859e5d142a39ed59892a13576.patch#/asahi-f9e0240c5693be7859e5d142a39ed59892a13576.patch
+  Patch115: https://github.com/AsahiLinux/u-boot/commit/88b9ffc80e1777a0b44154f9dafc6580fee8cdc4.patch#/asahi-88b9ffc80e1777a0b44154f9dafc6580fee8cdc4.patch
 
-  Patch116: https://github.com/AsahiLinux/u-boot/commit/f5787c26ae35f5b10d808073e19b9c81ab4e93a7.patch#/asahi-f5787c26ae35f5b10d808073e19b9c81ab4e93a7.patch
+  Patch116: https://github.com/AsahiLinux/u-boot/commit/19b32bfe962dbd5115afe4c334e4669063273843.patch#/asahi-19b32bfe962dbd5115afe4c334e4669063273843.patch
 
-  Patch117: https://github.com/AsahiLinux/u-boot/commit/91ea578fe3ab3ef48b87d18607c015d7e280be5b.patch#/asahi-91ea578fe3ab3ef48b87d18607c015d7e280be5b.patch
+  Patch117: https://github.com/AsahiLinux/u-boot/commit/8db950bebbb91cbb5ee2c5360df38afb83b4f0ec.patch#/asahi-8db950bebbb91cbb5ee2c5360df38afb83b4f0ec.patch
 
-  Patch118: https://github.com/AsahiLinux/u-boot/commit/c659e88a7024a51ce898e64fc53073d94ae55d9b.patch#/asahi-c659e88a7024a51ce898e64fc53073d94ae55d9b.patch
+  Patch118: https://github.com/AsahiLinux/u-boot/commit/13a7dd0cbd66be4f3e5621b5cb97a3176db15783.patch#/asahi-13a7dd0cbd66be4f3e5621b5cb97a3176db15783.patch
 
-  Patch119: https://github.com/AsahiLinux/u-boot/commit/02c4a3d0a32f108200856948a9566a4138879698.patch#/asahi-02c4a3d0a32f108200856948a9566a4138879698.patch
+  Patch119: https://github.com/AsahiLinux/u-boot/commit/af5a1e21ea6aa22b5e8e6d9dcee866002c5f3524.patch#/asahi-af5a1e21ea6aa22b5e8e6d9dcee866002c5f3524.patch
 
-  Patch120: https://github.com/AsahiLinux/u-boot/commit/01382cc455b6fd9d8ae8bf3363523d9e6cebf61c.patch#/asahi-01382cc455b6fd9d8ae8bf3363523d9e6cebf61c.patch
+  Patch120: https://github.com/AsahiLinux/u-boot/commit/b880dc016cfde814ad6257f6b8fe90fbe3ca167c.patch#/asahi-b880dc016cfde814ad6257f6b8fe90fbe3ca167c.patch
 
-  Patch121: https://github.com/AsahiLinux/u-boot/commit/ce24899757a20a0cd1d0337527bf0b5916b4be3c.patch#/asahi-ce24899757a20a0cd1d0337527bf0b5916b4be3c.patch
+  Patch121: https://github.com/AsahiLinux/u-boot/commit/73b78347959e579ed2a1f008faa8a159d9bd9d1c.patch#/asahi-73b78347959e579ed2a1f008faa8a159d9bd9d1c.patch
 
-  Patch122: https://github.com/AsahiLinux/u-boot/commit/ba71e64f6f9619c7e896da94d7aeb4d9dfcad2eb.patch#/asahi-ba71e64f6f9619c7e896da94d7aeb4d9dfcad2eb.patch
+  Patch122: https://github.com/AsahiLinux/u-boot/commit/7f01e6365be00301b1edec7b79c9d72bf07d9eaa.patch#/asahi-7f01e6365be00301b1edec7b79c9d72bf07d9eaa.patch
 
-  Patch123: https://github.com/AsahiLinux/u-boot/commit/2c343e36671511c04683602db6f8f30200ccf7d2.patch#/asahi-2c343e36671511c04683602db6f8f30200ccf7d2.patch
+  Patch123: https://github.com/AsahiLinux/u-boot/commit/e23275e7b46f1f582fde4dd7c824e2263477e999.patch#/asahi-e23275e7b46f1f582fde4dd7c824e2263477e999.patch
 
-  Patch124: https://github.com/AsahiLinux/u-boot/commit/b85792fb5982acb1c6e8894fb23cce8e3b85d8d4.patch#/asahi-b85792fb5982acb1c6e8894fb23cce8e3b85d8d4.patch
+  Patch124: https://github.com/AsahiLinux/u-boot/commit/5654e6e9f2b4dc7af138600bf9beb983c92097ef.patch#/asahi-5654e6e9f2b4dc7af138600bf9beb983c92097ef.patch
 
-  Patch125: https://github.com/AsahiLinux/u-boot/commit/a68d8fb458b62c0ce10fc5dfc514f81eaf3672a9.patch#/asahi-a68d8fb458b62c0ce10fc5dfc514f81eaf3672a9.patch
+  Patch125: https://github.com/AsahiLinux/u-boot/commit/51b63835a99d660933546251e45ce499500ff355.patch#/asahi-51b63835a99d660933546251e45ce499500ff355.patch
 
-  Patch126: https://github.com/AsahiLinux/u-boot/commit/afc509b957da47872c98ddbe90f4a226a122f451.patch#/asahi-afc509b957da47872c98ddbe90f4a226a122f451.patch
-
-  Patch127: https://github.com/AsahiLinux/u-boot/commit/239fb952613ec04ff9f226aafd60aef8428e6acf.patch#/asahi-239fb952613ec04ff9f226aafd60aef8428e6acf.patch
-
-  Patch128: https://github.com/AsahiLinux/u-boot/commit/95c091294521f63845ed0018cafd1ae775e3543e.patch#/asahi-95c091294521f63845ed0018cafd1ae775e3543e.patch
-
-  Patch129: https://github.com/AsahiLinux/u-boot/commit/20d67f319421dcd955f146abdea8944b7946f407.patch#/asahi-20d67f319421dcd955f146abdea8944b7946f407.patch
-
-  Patch130: https://github.com/AsahiLinux/u-boot/commit/3aea66db69f0aca940e24aac172ecf27cd030228.patch#/asahi-3aea66db69f0aca940e24aac172ecf27cd030228.patch
-
-  Patch131: https://github.com/AsahiLinux/u-boot/commit/ab751ea6edc26fa86cbe6d4ed7eb9f240a9ebeec.patch#/asahi-ab751ea6edc26fa86cbe6d4ed7eb9f240a9ebeec.patch
-
-  Patch132: https://github.com/AsahiLinux/u-boot/commit/595eafa2bdcd249f80fd52041388ba69ab010777.patch#/asahi-595eafa2bdcd249f80fd52041388ba69ab010777.patch
-
-  Patch133: https://github.com/AsahiLinux/u-boot/commit/3fa16d88dce40faf60b55863bb6dc51fbd670362.patch#/asahi-3fa16d88dce40faf60b55863bb6dc51fbd670362.patch
-
-  Patch134: https://github.com/AsahiLinux/u-boot/commit/10c5e0e5f01bf7360ecb8dc06e02daba4c6b60e4.patch#/asahi-10c5e0e5f01bf7360ecb8dc06e02daba4c6b60e4.patch
-
-  Patch135: https://github.com/AsahiLinux/u-boot/commit/d7263c63a95ecd3cba539f8b92fb0058db0bb303.patch#/asahi-d7263c63a95ecd3cba539f8b92fb0058db0bb303.patch
-
-  Patch136: https://github.com/AsahiLinux/u-boot/commit/01c2642c3a86e343915042eeaf2f47bda62781d4.patch#/asahi-01c2642c3a86e343915042eeaf2f47bda62781d4.patch
-
-  Patch137: https://github.com/AsahiLinux/u-boot/commit/cf58ab5d145c9ab586a4c018b17221cc09555343.patch#/asahi-cf58ab5d145c9ab586a4c018b17221cc09555343.patch
-
-  Patch138: https://github.com/AsahiLinux/u-boot/commit/79cc635b73dbae8535558ebaf74d8bf841c35765.patch#/asahi-79cc635b73dbae8535558ebaf74d8bf841c35765.patch
-
-  Patch139: https://github.com/AsahiLinux/u-boot/commit/3b233f59d0b6b57eae5add46a6fa7787ea11388e.patch#/asahi-3b233f59d0b6b57eae5add46a6fa7787ea11388e.patch
+  Patch126: https://github.com/AsahiLinux/u-boot/commit/dbd2154cb0d3a5552505cfcc00a8b5f8da737030.patch#/asahi-dbd2154cb0d3a5552505cfcc00a8b5f8da737030.patch
 
   BuildRequires:  bc
   BuildRequires:  bison
@@ -136,7 +107,9 @@
   BuildRequires:  libuuid-devel
   BuildRequires:  make
   BuildRequires:  ncurses-devel
+
   BuildRequires:  openssl-devel
+
   BuildRequires:  perl-interpreter
   BuildRequires:  python3-devel
   BuildRequires:  python3-setuptools
@@ -166,13 +139,13 @@
 prepare() {
 
   cd './'
-  rm -rf 'u-boot-2026.04'
-  tar -xf 'u-boot-2026.04.tar.bz2'
+  rm -rf 'u-boot-2026.07'
+  tar -xf 'u-boot-2026.07.tar.bz2'
   STATUS=$?
   if [ $STATUS -ne 0 ]; then
     exit $STATUS
   fi
-  cd 'u-boot-2026.04'
+  cd 'u-boot-2026.07'
   chmod -Rf a+rX,u+w,g-w,o-w .
 
   cat disable-VBE-by-default.patch | 
@@ -187,9 +160,6 @@ prepare() {
   cat uefi-Add-all-options-for-EFI-System-Partitions.patch | 
   patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
 
-  cat 0001-Revert-efi_loader-install-device-tree-on-configurati.patch | 
-  patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
-
   cat uefi-initial-find_fdt_location-for-finding-the-DT-on-disk.patch | 
   patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
 
@@ -199,7 +169,7 @@ prepare() {
   cat uefi-enable-https-boot-by-default.patch | 
   patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
 
-  cat efi_loader-disk-Add-EFI_PARTITION_INFO_PROTOCOL-support-for-MBR.patch | 
+  cat pylibfdt-Replace-removed-SWIG-Python-2-compatibility-macros.patch | 
   patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
 
   cat USB-PD-TCPM-improvements.patch | 
@@ -223,13 +193,7 @@ prepare() {
   cat Allwinner-fix-booting-on-a-number-of-devices.patch | 
   patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
 
-  cat ARM-RPi5-Enable-PCIe.patch | 
-  patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
-
-  cat 0001-Add-bcm2712-compat.patch | 
-  patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
-
-  cat ARM-RPi-PCIe-fixes.patch | 
+  cat Fix-NVMe-not-only-on-Raspberry-Pi-5.patch | 
   patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
 
   cat raspberrypi-Add-quirk-for-RPi5-2Gb-rev-1.0.patch | 
@@ -238,85 +202,59 @@ prepare() {
   cat openssl-no-engine.patch | 
   patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
 
-  echo 'Cannot read asahi-c38fe0da9ec361ad27392a5938780815365c97a7.patch'; exit 1;
+  echo 'Cannot read asahi-6835515ba36f290390bc92644e4c47df857a14b3.patch'; exit 1;
 
-  echo 'Cannot read asahi-875354fcbfd9bf99884589499860fe0cda8d03fe.patch'; exit 1;
+  echo 'Cannot read asahi-812c17b106e7522c8eb8d416923fd447c9a746c4.patch'; exit 1;
 
-  echo 'Cannot read asahi-25c40c21c5befeb9abc44c36c3293666108d0170.patch'; exit 1;
+  echo 'Cannot read asahi-10fb7ce4f5eec2d12a6d480e809f71dba35d398b.patch'; exit 1;
 
-  echo 'Cannot read asahi-39ee4f12d547eb2bfc726c99f1af22f7b5fcfdf4.patch'; exit 1;
+  echo 'Cannot read asahi-247988ff7034b3277a985fe35665992eb652ec5d.patch'; exit 1;
 
-  echo 'Cannot read asahi-8087a722706c758bf9d94e324753029c4f6f80d8.patch'; exit 1;
+  echo 'Cannot read asahi-1527497f6729de9d70cf40070e03984bd69dcdad.patch'; exit 1;
 
-  echo 'Cannot read asahi-069ee0692959ee29c6fed077ca82012f30ce93ed.patch'; exit 1;
+  echo 'Cannot read asahi-96ddc124c2fc12ebd40a304c570cd9aa7cf84048.patch'; exit 1;
 
-  echo 'Cannot read asahi-65ebb5d2ce9a9e0e58c57f4ceac153a233320f65.patch'; exit 1;
+  echo 'Cannot read asahi-4cb43c165ad964258c32d504fe939a10ef5e1ce3.patch'; exit 1;
 
-  echo 'Cannot read asahi-360ba4a4b3843b92438b62a9c5b9f02584821498.patch'; exit 1;
+  echo 'Cannot read asahi-e141ab229f5176952955ede699e5ae16795f0b42.patch'; exit 1;
 
-  echo 'Cannot read asahi-c183a8e502834d95831ae5b629b5eac4e7b65ccb.patch'; exit 1;
+  echo 'Cannot read asahi-63091fcaa4736a9a9086c943c53d2238080fb5cb.patch'; exit 1;
 
-  echo 'Cannot read asahi-dea067f48029c437334de42aebe080540432eb09.patch'; exit 1;
+  echo 'Cannot read asahi-6c8f104a1463560eb887db688eb34d3ba521e3ed.patch'; exit 1;
 
-  echo 'Cannot read asahi-db27d8c07f0a574c4289b7d09bc5c7df2d7833af.patch'; exit 1;
+  echo 'Cannot read asahi-e03fdb9b4f20b869996393e3e7e0c29595f36df8.patch'; exit 1;
 
-  echo 'Cannot read asahi-dd20f5e6cb98ee19aa0d73353df9d3c83e281c43.patch'; exit 1;
+  echo 'Cannot read asahi-eacc5c5f848f7ba490e7f2127145543d62cd9f48.patch'; exit 1;
 
-  echo 'Cannot read asahi-3b197c83142f643e73a1881eeaa2c69168cd7ade.patch'; exit 1;
+  echo 'Cannot read asahi-3c9a9164b1da60e6f6bc9c8452ba49a75bcf6504.patch'; exit 1;
 
-  echo 'Cannot read asahi-e18c2cc68ad3917dff37a15a69be06805c2ca792.patch'; exit 1;
+  echo 'Cannot read asahi-50669696be033e8c76f78e182a14e9cadd08387f.patch'; exit 1;
 
-  echo 'Cannot read asahi-01878d7691bd2e8b4dc53bd7386b82ff231acc3b.patch'; exit 1;
+  echo 'Cannot read asahi-a0af6e889957dc72df6f8d7d07f000518fb45668.patch'; exit 1;
 
-  echo 'Cannot read asahi-f9e0240c5693be7859e5d142a39ed59892a13576.patch'; exit 1;
+  echo 'Cannot read asahi-88b9ffc80e1777a0b44154f9dafc6580fee8cdc4.patch'; exit 1;
 
-  echo 'Cannot read asahi-f5787c26ae35f5b10d808073e19b9c81ab4e93a7.patch'; exit 1;
+  echo 'Cannot read asahi-19b32bfe962dbd5115afe4c334e4669063273843.patch'; exit 1;
 
-  echo 'Cannot read asahi-91ea578fe3ab3ef48b87d18607c015d7e280be5b.patch'; exit 1;
+  echo 'Cannot read asahi-8db950bebbb91cbb5ee2c5360df38afb83b4f0ec.patch'; exit 1;
 
-  echo 'Cannot read asahi-c659e88a7024a51ce898e64fc53073d94ae55d9b.patch'; exit 1;
+  echo 'Cannot read asahi-13a7dd0cbd66be4f3e5621b5cb97a3176db15783.patch'; exit 1;
 
-  echo 'Cannot read asahi-02c4a3d0a32f108200856948a9566a4138879698.patch'; exit 1;
+  echo 'Cannot read asahi-af5a1e21ea6aa22b5e8e6d9dcee866002c5f3524.patch'; exit 1;
 
-  echo 'Cannot read asahi-01382cc455b6fd9d8ae8bf3363523d9e6cebf61c.patch'; exit 1;
+  echo 'Cannot read asahi-b880dc016cfde814ad6257f6b8fe90fbe3ca167c.patch'; exit 1;
 
-  echo 'Cannot read asahi-ce24899757a20a0cd1d0337527bf0b5916b4be3c.patch'; exit 1;
+  echo 'Cannot read asahi-73b78347959e579ed2a1f008faa8a159d9bd9d1c.patch'; exit 1;
 
-  echo 'Cannot read asahi-ba71e64f6f9619c7e896da94d7aeb4d9dfcad2eb.patch'; exit 1;
+  echo 'Cannot read asahi-7f01e6365be00301b1edec7b79c9d72bf07d9eaa.patch'; exit 1;
 
-  echo 'Cannot read asahi-2c343e36671511c04683602db6f8f30200ccf7d2.patch'; exit 1;
+  echo 'Cannot read asahi-e23275e7b46f1f582fde4dd7c824e2263477e999.patch'; exit 1;
 
-  echo 'Cannot read asahi-b85792fb5982acb1c6e8894fb23cce8e3b85d8d4.patch'; exit 1;
+  echo 'Cannot read asahi-5654e6e9f2b4dc7af138600bf9beb983c92097ef.patch'; exit 1;
 
-  echo 'Cannot read asahi-a68d8fb458b62c0ce10fc5dfc514f81eaf3672a9.patch'; exit 1;
+  echo 'Cannot read asahi-51b63835a99d660933546251e45ce499500ff355.patch'; exit 1;
 
-  echo 'Cannot read asahi-afc509b957da47872c98ddbe90f4a226a122f451.patch'; exit 1;
-
-  echo 'Cannot read asahi-239fb952613ec04ff9f226aafd60aef8428e6acf.patch'; exit 1;
-
-  echo 'Cannot read asahi-95c091294521f63845ed0018cafd1ae775e3543e.patch'; exit 1;
-
-  echo 'Cannot read asahi-20d67f319421dcd955f146abdea8944b7946f407.patch'; exit 1;
-
-  echo 'Cannot read asahi-3aea66db69f0aca940e24aac172ecf27cd030228.patch'; exit 1;
-
-  echo 'Cannot read asahi-ab751ea6edc26fa86cbe6d4ed7eb9f240a9ebeec.patch'; exit 1;
-
-  echo 'Cannot read asahi-595eafa2bdcd249f80fd52041388ba69ab010777.patch'; exit 1;
-
-  echo 'Cannot read asahi-3fa16d88dce40faf60b55863bb6dc51fbd670362.patch'; exit 1;
-
-  echo 'Cannot read asahi-10c5e0e5f01bf7360ecb8dc06e02daba4c6b60e4.patch'; exit 1;
-
-  echo 'Cannot read asahi-d7263c63a95ecd3cba539f8b92fb0058db0bb303.patch'; exit 1;
-
-  echo 'Cannot read asahi-01c2642c3a86e343915042eeaf2f47bda62781d4.patch'; exit 1;
-
-  echo 'Cannot read asahi-cf58ab5d145c9ab586a4c018b17221cc09555343.patch'; exit 1;
-
-  echo 'Cannot read asahi-79cc635b73dbae8535558ebaf74d8bf841c35765.patch'; exit 1;
-
-  echo 'Cannot read asahi-3b233f59d0b6b57eae5add46a6fa7787ea11388e.patch'; exit 1;
+  echo 'Cannot read asahi-dbd2154cb0d3a5552505cfcc00a8b5f8da737030.patch'; exit 1;
 
 }
 
