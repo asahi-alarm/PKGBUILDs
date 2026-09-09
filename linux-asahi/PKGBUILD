@@ -2,7 +2,7 @@
 # Maintainer: Jos Dehaes <jos.dehaes@gmail.com>
 # Maintainer: Matthias Kurz <m.kurz@irregular.at>
 
-_rcver=7.1.6
+_rcver=7.1.13
 #_rcrel=3
 _asahirel=1
 pkgrel=1
@@ -28,10 +28,10 @@ source=(
   https://github.com/AsahiLinux/linux/archive/${_commit_id}.tar.gz
   config         # the main kernel config file
 )
-sha256sums=('0d198546350d303eab5405446f394ab69a7af3984322035127b8887bfe5ca6d5'
-            '098dd3e1073e57c0bd70abe0f21dbdba41ff4d2d8161daf485c6c84d805cb76c')
-b2sums=('d9a6ede581c35a2c5fd8f46e6b1e3cbdbee3afa58547f2b0a5160b0702827e43293fe663ae889136e7bfd576e40268c91f61c7555b6431694ca3989e6ef304b8'
-        '8015620924175e0f1658ec5855423c4b53d1e3d2bc485387b6a213cd4307a8f767df455f542526a7728584ae27343996df314aa66d94b4c59899ec671c553f66')
+sha256sums=('d6dd0e1143b9381778de0563254478d81a112e77a35af538b857371999b754da'
+            '2144ccd26ee42faf84eb3cc697ba83bc130ef86d3f87bfcf414c753b8eb10a44')
+b2sums=('91ac2fd17cc12ac71010a1954f89a2c4a6bf0ef736520464c8364ff386cd1383efccee3fe895cc5ab7c60999c3c191e308537728d0fc813ee76ff8a0ac1f3337'
+        'ad95de214deb086584da536484fa486e77a9252ad9b4a870c9de677090d0f685bd753a948fdd94be713806cf59c0cff68eeac6ba1eb260c21d392dbc92fe1178')
 export KBUILD_BUILD_HOST=archlinux
 export KBUILD_BUILD_USER=$pkgbase
 export KBUILD_BUILD_TIMESTAMP="$(date -Ru${SOURCE_DATE_EPOCH:+d @$SOURCE_DATE_EPOCH})"
