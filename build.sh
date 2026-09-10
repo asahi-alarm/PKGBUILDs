@@ -13,7 +13,7 @@ set -xe
 # This also requires the github-cli tool to be installed and logged in
 
 # default packages, can be overridden on command line
-PKGS="asahi-scripts m1n1 uboot-asahi linux-asahi alsa-ucm-conf-asahi bankstown speakersafetyd asahi-audio calamares \
+PKGS="asahi-fix27 asahi-scripts m1n1 uboot-asahi linux-asahi alsa-ucm-conf-asahi bankstown speakersafetyd asahi-audio calamares \
  asahi-calamares-configs asahi-configs lzfse asahi-fwextract asahi-alarm-keyring \
  virglrenderer mesa tiny-dfr widevine \
  libkrunfw libkrun muvm FEX-Emu asahi-bless fex-emu-rootfs-arch steam \

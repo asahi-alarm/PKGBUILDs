@@ -41,6 +41,7 @@ declare -A PACKAGES=(
     ["asahi-calamares-configs"]="copr+fedora-remix-scripts/calamares-firstboot-config.git,calamares-firstboot-config.spec|aarch64"
     #["asahi-configs"]=""
     #["asahi-desktop-meta"]=""
+    ["asahi-fix27"]="fsrc+rpms/asahi-fix27,asahi-fix27.spec|aarch64"
     #["asahi-fwextract"]=""
     #["asahi-meta"]=""
     ["asahi-scripts"]="fsrc+rpms/asahi-scripts,asahi-scripts.spec|aarch64"
