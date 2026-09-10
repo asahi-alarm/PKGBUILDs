@@ -1,0 +1,26 @@
+.TH ASAHI\-FIX27 "1" "July 2026" "" "User Commands"
+.SH NAME
+.B asahi\-fix27
+\(en Fix macOS 27 bootability flag from linux side
+.SH SYNOPSIS
+.B asahi\-fix27
+.RB [ \-\-confirm ]
+.SH DESCRIPTION
+If you have partitions with
+.B VolBootable
+flag unset,
+it will list those and ask to be re-run with the
+.B \-\-confirm
+flag.
+If no such partitions are detected,
+it will exit with no output.
+.SH OPTIONS
+.TP
+.B \-\-confirm
+write the changes to disk
+.SH EXAMPLES
+.in 7
+.EX
+.B sudo\ asahi\-fix27
+.EE
+.in

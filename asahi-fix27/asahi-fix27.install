@@ -1,0 +1,43 @@
+#!/bin/sh
+
+post_install() {
+  local marker="/var/lib/asahi-fix27/done_v${1}"
+  local error_log
+
+  [ ! -e "$marker" ] || return 0
+
+  # Package installation in an image or container must not modify the host's APFS volumes.
+  if systemd-detect-virt --quiet --chroot || systemd-detect-virt --quiet --container ||
+      [ -e /boot/.builder ] || [ -e /boot/efi/.builder ]; then
+    return 0
+  fi
+
+  # Upstream hardcodes /dev/nvme0n1 and panics if it is absent.
+  [ -b /dev/nvme0n1 ] || return 0
+
+  if ! error_log=$(mktemp); then
+    printf '==> Could not prepare the bootability fix; run sudo asahi-fix27 --confirm.\n' >&2
+    return 0
+  fi
+
+  # Upstream 0.1.0 also exits successfully on an initial disk permission error.
+  # Require empty stderr as well as a successful exit before recording completion.
+  if asahi-fix27 --confirm 2>"$error_log" && [ ! -s "$error_log" ]; then
+    if ! install -Dm644 /dev/null "$marker"; then
+      printf '==> Could not record completion of the bootability fix; a later upgrade will retry.\n' >&2
+    fi
+  else
+    cat "$error_log" >&2
+    printf '==> Bootability fix did not complete; run sudo asahi-fix27 --confirm to retry.\n' >&2
+  fi
+  rm -f "$error_log"
+}
+
+post_upgrade() {
+  post_install "$@"
+}
+
+post_remove() {
+  rm -f /var/lib/asahi-fix27/done_v*
+  rmdir /var/lib/asahi-fix27 2>/dev/null || true
+}

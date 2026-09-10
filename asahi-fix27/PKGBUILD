@@ -1,0 +1,35 @@
+# Maintainer: Jos Dehaes <jos.dehaes@gmail.com>
+# Maintainer: Matthias Kurz <m.kurz@irregular.at>
+
+pkgname=asahi-fix27
+pkgver=0.1.0
+pkgrel=1
+pkgdesc='Fix the APFS bootability flag for macOS 27 compatibility'
+arch=('aarch64')
+url='https://github.com/AsahiLinux/asahi-fix27'
+license=('GPL-2.0-only AND MIT AND (Apache-2.0 OR MIT)')
+depends=('glibc' 'gcc-libs' 'systemd')
+makedepends=('rustup' 'cargo-license')
+install=asahi-fix27.install
+source=(
+  "${pkgname}-${pkgver}.tar.gz::${url}/archive/refs/tags/${pkgver}.tar.gz"
+  # Upstream's man page was added after the 0.1.0 release.
+  asahi-fix27.1
+)
+sha256sums=('a9798e6716673ab8de3f2bd8bbcf04f9d273f01b68731e280256d1fa61da77b0'
+            'bcabeb94958ceb78940ebada9d8519246258455dd89dd5a53456f3b6c1a5ac3c')
+
+build() {
+  cd "${srcdir}/${pkgname}-${pkgver}"
+  cargo build --release --locked
+  cargo license --avoid-build-deps --avoid-dev-deps \
+    --filter-platform aarch64-unknown-linux-gnu > LICENSE.dependencies
+}
+
+package() {
+  cd "${srcdir}/${pkgname}-${pkgver}"
+  install -Dm755 "target/release/${pkgname}" "${pkgdir}/usr/bin/${pkgname}"
+  install -Dm644 "${srcdir}/asahi-fix27.1" "${pkgdir}/usr/share/man/man1/asahi-fix27.1"
+  install -Dm644 README.md "${pkgdir}/usr/share/doc/${pkgname}/README.md"
+  install -Dm644 -t "${pkgdir}/usr/share/licenses/${pkgname}" LICENSE LICENSE.dependencies
+}
