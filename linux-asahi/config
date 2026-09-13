@@ -116,7 +116,7 @@ CONFIG_BPF_JIT=y
 CONFIG_BPF_JIT_DEFAULT_ON=y
 # CONFIG_BPF_UNPRIV_DEFAULT_OFF is not set
 # CONFIG_BPF_PRELOAD is not set
-# CONFIG_BPF_LSM is not set
+CONFIG_BPF_LSM=y
 # end of BPF subsystem
 
 CONFIG_PREEMPT_BUILD=y
@@ -303,7 +303,7 @@ CONFIG_SYSTEM_DATA_VERIFICATION=y
 CONFIG_PROFILING=y
 CONFIG_RUST=y
 CONFIG_RUSTC_VERSION_TEXT="rustc 1.93.1 (01f6ddf75 2026-02-11)"
-CONFIG_BINDGEN_VERSION_TEXT="bindgen 0.72.1"
+CONFIG_BINDGEN_VERSION_TEXT="bindgen 0.73.2"
 CONFIG_TRACEPOINTS=y
 
 #
@@ -8501,7 +8501,7 @@ CONFIG_SECURITY_LANDLOCK=y
 # CONFIG_IMA_SECURE_AND_OR_TRUSTED_BOOT is not set
 # CONFIG_DEFAULT_SECURITY_APPARMOR is not set
 CONFIG_DEFAULT_SECURITY_DAC=y
-CONFIG_LSM="landlock,yama,loadpin,safesetid,integrity,selinux,smack,tomoyo,apparmor"
+CONFIG_LSM="landlock,yama,loadpin,safesetid,integrity,selinux,smack,tomoyo,apparmor,bpf"
 
 #
 # Kernel hardening options
