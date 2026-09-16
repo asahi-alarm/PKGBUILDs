@@ -190,13 +190,13 @@ Summary: The Linux kernel
 %define specrpmversion 7.1.13
 %define specversion 7.1.13
 %define patchversion 7.1
-%define pkgrelease 402.asahi
+%define pkgrelease 403.asahi
 %define kversion 7
 %define tarfile_release 7.1.13
 # This is needed to do merge window version magic
 %define patchlevel 1
 # This allows pkg_release to have configurable %%{?dist} tag
-%define specrelease 402.asahi%{?buildid}%{?dist}
+%define specrelease 403.asahi%{?buildid}%{?dist}
 # This defines the kabi tarball version
 %define kabiversion 7.1.13
 
@@ -4868,6 +4868,10 @@ fi\
 #
 #
 %changelog
+* Sat Sep 12 2026 Neal Gompa <neal@gompa.dev> [7.1.13-403.asahi]
+- wifi: brcmfmac: cfg80211: Report port_authorized for 4-way HS offload (Janne Grunau)
+- fixup! arm64: dts: apple: t[603x,8122]: Add speaker/jack nodes (sofus)
+
 * Tue Sep 08 2026 Neal Gompa <neal@gompa.dev> [7.1.13-402.asahi]
 - fixup! arm64: dts: apple: t[603x,8122]: Add speaker/jack nodes (James Calligeros)
 - fixup! media: apple: avd: support vp9 (sofus)
