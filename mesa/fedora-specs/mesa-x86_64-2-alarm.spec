@@ -1,12 +1,12 @@
 
   Name:           mesa
   Summary:        Mesa graphics libraries
-  Version:        26.1.8
+  Version:        26.2.2
   Release:        1
   License:        MIT AND BSD-3-Clause AND SGI-B-2.0
   URL:            https://mesa3d.org
 
-  Source0:        https://archive.mesa3d.org/mesa-26.1.8.tar.xz
+  Source0:        https://archive.mesa3d.org/mesa-26.2.2.tar.xz
 
   Source1:        Mesa-MLAA-License-Clarification-Email.txt
 
@@ -101,11 +101,11 @@
 
   %package filesystem
   Summary:        Mesa driver filesystem
-  Provides:       mesa-dri-filesystem = 26.1.8-1
-  Obsoletes:      mesa-omx-drivers < 26.1.8-1
-  Obsoletes:      mesa-libd3d < 26.1.8-1
-  Obsoletes:      mesa-libd3d-devel < 26.1.8-1
-  Obsoletes:      mesa-vdpau-drivers < 26.1.8-1
+  Provides:       mesa-dri-filesystem = 26.2.2-1
+  Obsoletes:      mesa-omx-drivers < 26.2.2-1
+  Obsoletes:      mesa-libd3d < 26.2.2-1
+  Obsoletes:      mesa-libd3d-devel < 26.2.2-1
+  Obsoletes:      mesa-vdpau-drivers < 26.2.2-1
 
   %description filesystem
   Mesa driver filesystem.
@@ -113,7 +113,7 @@
   %package libGL
   Summary:        Mesa libGL runtime libraries
   Requires:       libglvnd-glx(x86-64) >= 1:1.3.2
-  Requires:       mesa-dri-drivers(x86-64) = 26.1.8-1
+  Requires:       mesa-dri-drivers(x86-64) = 26.2.2-1
   Obsoletes:      mesa-libOSMesa < 25.1.0~rc2-1
 
   %description libGL
@@ -121,10 +121,10 @@
 
   %package libGL-devel
   Summary:        Mesa libGL development package
-  Requires:       (mesa-libGL(x86-64) = 26.1.8-1 if mesa-libGL(x86-64))
+  Requires:       (mesa-libGL(x86-64) = 26.2.2-1 if mesa-libGL(x86-64))
   Requires:       libglvnd-devel(x86-64) >= 1:1.3.2
-  Provides:       libGL-devel = 26.1.8-1
-  Provides:       libGL-devel(x86-64) = 26.1.8-1
+  Provides:       libGL-devel = 26.2.2-1
+  Provides:       libGL-devel(x86-64) = 26.2.2-1
   Recommends:     gl-manpages
   Obsoletes:      mesa-libOSMesa-devel < 25.1.0~rc2-1
 
@@ -134,31 +134,31 @@
   %package libEGL
   Summary:        Mesa libEGL runtime libraries
   Requires:       libglvnd-egl(x86-64) >= 1:1.3.2
-  Requires:       mesa-libgbm(x86-64) = 26.1.8-1
-  Requires:       mesa-dri-drivers(x86-64) = 26.1.8-1
+  Requires:       mesa-libgbm(x86-64) = 26.2.2-1
+  Requires:       mesa-dri-drivers(x86-64) = 26.2.2-1
 
   %description libEGL
   Mesa libEGL runtime libraries.
 
   %package libEGL-devel
   Summary:        Mesa libEGL development package
-  Requires:       (mesa-libEGL(x86-64) = 26.1.8-1 if mesa-libEGL(x86-64))
+  Requires:       (mesa-libEGL(x86-64) = 26.2.2-1 if mesa-libEGL(x86-64))
   Requires:       libglvnd-devel(x86-64) >= 1:1.3.2
   Requires:       mesa-khr-devel(x86-64)
-  Provides:       libEGL-devel = 26.1.8-1
-  Provides:       libEGL-devel(x86-64) = 26.1.8-1
+  Provides:       libEGL-devel = 26.2.2-1
+  Provides:       libEGL-devel(x86-64) = 26.2.2-1
 
   %description libEGL-devel
   Mesa libEGL development package.
 
   %package dri-drivers
   Summary:        Mesa-based DRI drivers
-  Requires:       mesa-filesystem(x86-64) = 26.1.8-1
-  Requires:       mesa-libgbm(x86-64) = 26.1.8-1
+  Requires:       mesa-filesystem(x86-64) = 26.2.2-1
+  Requires:       mesa-libgbm(x86-64) = 26.2.2-1
   Obsoletes:      mesa-libglapi < 25.0.0~rc2-1
   Obsoletes:      mesa-va-drivers < 26.0.0-5
-  Provides:       mesa-va-drivers = 26.1.8-1
-  Provides:       mesa-va-drivers(x86-64) = 26.1.8-1
+  Provides:       mesa-va-drivers = 26.2.2-1
+  Provides:       mesa-va-drivers(x86-64) = 26.2.2-1
   Obsoletes:      mesa-vaapi-drivers < 22.2.0-5
 
   %description dri-drivers
@@ -166,20 +166,20 @@
 
   %package libgbm
   Summary:        Mesa gbm runtime library
-  Provides:       libgbm = 26.1.8-1
-  Provides:       libgbm(x86-64) = 26.1.8-1
-  Recommends:     mesa-dri-drivers(x86-64) = 26.1.8-1
+  Provides:       libgbm = 26.2.2-1
+  Provides:       libgbm(x86-64) = 26.2.2-1
+  Recommends:     mesa-dri-drivers(x86-64) = 26.2.2-1
 
-  Requires:       (mesa-dri-drivers(x86-64) = 26.1.8-1 if mesa-dri-drivers(x86-64))
+  Requires:       (mesa-dri-drivers(x86-64) = 26.2.2-1 if mesa-dri-drivers(x86-64))
 
   %description libgbm
   Mesa gbm runtime library.
 
   %package libgbm-devel
   Summary:        Mesa libgbm development package
-  Requires:       mesa-libgbm(x86-64) = 26.1.8-1
-  Provides:       libgbm-devel = 26.1.8-1
-  Provides:       libgbm-devel(x86-64) = 26.1.8-1
+  Requires:       mesa-libgbm(x86-64) = 26.2.2-1
+  Provides:       libgbm-devel = 26.2.2-1
+  Provides:       libgbm-devel(x86-64) = 26.2.2-1
 
   %description libgbm-devel
   Mesa libgbm development package.
@@ -188,7 +188,7 @@
   Summary:        Mesa OpenCL runtime library
   Requires:       (ocl-icd(x86-64) or OpenCL-ICD-Loader(x86-64))
   Requires:       libclc(x86-64)
-  Requires:       mesa-libgbm(x86-64) = 26.1.8-1
+  Requires:       mesa-libgbm(x86-64) = 26.2.2-1
   Requires:       opencl-filesystem
 
   %description libOpenCL
@@ -196,7 +196,7 @@
 
   %package libOpenCL-devel
   Summary:        Mesa OpenCL development package
-  Requires:       mesa-libOpenCL(x86-64) = 26.1.8-1
+  Requires:       mesa-libOpenCL(x86-64) = 26.2.2-1
 
   %description libOpenCL-devel
   Mesa OpenCL development package.
@@ -209,7 +209,7 @@
 
   %package dxil-devel
   Summary:        Mesa SPIR-V to DXIL binary
-  Requires:       mesa-filesystem(x86-64) = 26.1.8-1
+  Requires:       mesa-filesystem(x86-64) = 26.2.2-1
 
   %description dxil-devel
   Development tools for translating SPIR-V shader code to DXIL for Direct3D 12
@@ -217,8 +217,8 @@
   %package vulkan-drivers
   Summary:        Mesa Vulkan drivers
   Requires:       vulkan(x86-64)
-  Requires:       mesa-filesystem(x86-64) = 26.1.8-1
-  Obsoletes:      mesa-vulkan-devel < 26.1.8-1
+  Requires:       mesa-filesystem(x86-64) = 26.2.2-1
+  Obsoletes:      mesa-vulkan-devel < 26.2.2-1
   Obsoletes:      VK_hdr_layer < 1
 
   %description vulkan-drivers
@@ -227,13 +227,13 @@
 prepare() {
 
   cd './'
-  rm -rf 'mesa-26.1.8'
-  tar -xf 'mesa-26.1.8.tar.xz'
+  rm -rf 'mesa-26.2.2'
+  tar -xf 'mesa-26.2.2.tar.xz'
   STATUS=$?
   if [ $STATUS -ne 0 ]; then
     exit $STATUS
   fi
-  cd 'mesa-26.1.8'
+  cd 'mesa-26.2.2'
   chmod -Rf a+rX,u+w,g-w,o-w .
 
   # Extract Rust crates meson cache directory
@@ -241,7 +241,7 @@ prepare() {
   cat > Cargo.toml <<_EOF
   [package]
   name = "mesa"
-  version = "26.1.8"
+  version = "26.2.2"
   edition = "2021"
 
   [lib]
@@ -304,7 +304,7 @@ build() {
     -Dteflon=true \
     -Dgallium-rusticl=true \
     -Dvulkan-drivers=swrast,amd,intel,intel_hasvk,asahi,broadcom,freedreno,panfrost,imagination,nouveau,virtio,microsoft-experimental \
-    -Dvulkan-layers=device-select \
+    -Dvulkan-layers=device-select,anti-lag \
     -Dgles1=enabled \
     -Dgles2=enabled \
     -Dopengl=true \
@@ -387,16 +387,24 @@ package() {
   _install fakeinstall/usr/$LIBDIR/dri/libdril_dri.so
   _install fakeinstall/usr/$LIBDIR/dri/swrast_dri.so
   _install fakeinstall/usr/$LIBDIR/dri/virtio_gpu_dri.so
+  _install fakeinstall/usr/share/drirc.d/00-virtio_gpu-defaults.conf
 
   _install fakeinstall/usr/$LIBDIR/dri/r300_dri.so
+  _install fakeinstall/usr/share/drirc.d/00-r300-defaults.conf
   _install fakeinstall/usr/$LIBDIR/dri/r600_dri.so
+  _install fakeinstall/usr/share/drirc.d/00-r600-defaults.conf
   _install fakeinstall/usr/$LIBDIR/dri/radeonsi_dri.so
+  _install fakeinstall/usr/share/drirc.d/00-radeonsi-defaults.conf
   _install fakeinstall/usr/$LIBDIR/dri/crocus_dri.so
+  _install fakeinstall/usr/share/drirc.d/00-crocus-defaults.conf
   _install fakeinstall/usr/$LIBDIR/dri/iris_dri.so
+  _install fakeinstall/usr/share/drirc.d/00-iris-defaults.conf
   _install fakeinstall/usr/$LIBDIR/dri/i915_dri.so
   _install fakeinstall/usr/$LIBDIR/dri/apple_dri.so
   _install fakeinstall/usr/$LIBDIR/dri/asahi_dri.so
+  _install fakeinstall/usr/share/drirc.d/00-asahi-defaults.conf
   _install fakeinstall/usr/$LIBDIR/dri/d3d12_dri.so
+  _install fakeinstall/usr/share/drirc.d/00-d3d12-defaults.conf
   _install fakeinstall/usr/$LIBDIR/dri/ingenic-drm_dri.so
   _install fakeinstall/usr/$LIBDIR/dri/imx-drm_dri.so
   _install fakeinstall/usr/$LIBDIR/dri/imx-lcdif_dri.so
@@ -409,15 +417,19 @@ package() {
   _install fakeinstall/usr/$LIBDIR/dri/stm_dri.so
   _install fakeinstall/usr/$LIBDIR/dri/vc4_dri.so
   _install fakeinstall/usr/$LIBDIR/dri/v3d_dri.so
+  _install fakeinstall/usr/share/drirc.d/00-v3d-defaults.conf
   _install fakeinstall/usr/$LIBDIR/dri/kgsl_dri.so
   _install fakeinstall/usr/$LIBDIR/dri/msm_dri.so
+  _install fakeinstall/usr/share/drirc.d/00-msm-defaults.conf
   _install fakeinstall/usr/$LIBDIR/dri/etnaviv_dri.so
   _install fakeinstall/usr/$LIBDIR/dri/tegra_dri.so
   _install fakeinstall/usr/$LIBDIR/dri/lima_dri.so
   _install fakeinstall/usr/$LIBDIR/dri/panfrost_dri.so
   _install fakeinstall/usr/$LIBDIR/dri/panthor_dri.so
+  _install fakeinstall/usr/share/drirc.d/00-panfrost-defaults.conf
   _install fakeinstall/usr/$LIBDIR/dri/nouveau_dri.so
   _install fakeinstall/usr/$LIBDIR/dri/vmwgfx_dri.so
+  _install fakeinstall/usr/share/drirc.d/00-vmwgfx-defaults.conf
   _install fakeinstall/usr/$LIBDIR/dri/armada-drm_dri.so
   _install fakeinstall/usr/$LIBDIR/dri/exynos_dri.so
   _install fakeinstall/usr/$LIBDIR/dri/gm12u320_dri.so
@@ -445,6 +457,7 @@ package() {
   _install fakeinstall/usr/$LIBDIR/dri/vkms_dri.so
   _install fakeinstall/usr/$LIBDIR/dri/zynqmp-dpsub_dri.so
   _install fakeinstall/usr/$LIBDIR/dri/zink_dri.so
+  _install fakeinstall/usr/share/drirc.d/00-zink-defaults.conf
   _install fakeinstall/usr/$LIBDIR/dri/nouveau_drv_video.so
   _install fakeinstall/usr/$LIBDIR/dri/r600_drv_video.so
   _install fakeinstall/usr/$LIBDIR/dri/radeonsi_drv_video.so
@@ -460,29 +473,42 @@ package() {
   install -Dpm0755 -t ${pkgdir}/usr/share/licenses/mesa/ LICENSE.dependencies
   _install fakeinstall/usr/$LIBDIR/libvulkan_lvp.so
   _install fakeinstall/usr/share/vulkan/icd.d/lvp_icd.*.json
+  _install fakeinstall/usr/share/drirc.d/00-lavapipe-defaults.conf
   _install fakeinstall/usr/$LIBDIR/libVkLayer_MESA_device_select.so
   _install fakeinstall/usr/share/vulkan/implicit_layer.d/VkLayer_MESA_device_select.json
+  _install fakeinstall/usr/$LIBDIR/libVkLayer_MESA_anti_lag.so
+  _install fakeinstall/usr/share/vulkan/implicit_layer.d/VkLayer_MESA_anti_lag.json
   _install fakeinstall/usr/$LIBDIR/libvulkan_virtio.so
   _install fakeinstall/usr/share/vulkan/icd.d/virtio_icd.*.json
+  _install fakeinstall/usr/share/drirc.d/00-venus-defaults.conf
   _install fakeinstall/usr/$LIBDIR/libvulkan_radeon.so
   _install fakeinstall/usr/share/drirc.d/00-radv-defaults.conf
   _install fakeinstall/usr/share/vulkan/icd.d/radeon_icd.*.json
   _install fakeinstall/usr/$LIBDIR/libvulkan_nouveau.so
   _install fakeinstall/usr/share/vulkan/icd.d/nouveau_icd.*.json
+  _install fakeinstall/usr/share/drirc.d/00-nvk-defaults.conf
   _install fakeinstall/usr/$LIBDIR/libvulkan_dzn.so
   _install fakeinstall/usr/share/vulkan/icd.d/dzn_icd.*.json
+  _install fakeinstall/usr/share/drirc.d/00-dzn-defaults.conf
   _install fakeinstall/usr/$LIBDIR/libvulkan_intel.so
   _install fakeinstall/usr/share/vulkan/icd.d/intel_icd.*.json
+  _install fakeinstall/usr/share/drirc.d/00-anv-defaults.conf
   _install fakeinstall/usr/$LIBDIR/libvulkan_intel_hasvk.so
   _install fakeinstall/usr/share/vulkan/icd.d/intel_hasvk_icd.*.json
+  _install fakeinstall/usr/share/drirc.d/00-hasvk-defaults.conf
   _install fakeinstall/usr/$LIBDIR/libvulkan_asahi.so
   _install fakeinstall/usr/share/vulkan/icd.d/asahi_icd.*.json
+  _install fakeinstall/usr/share/drirc.d/00-hk-defaults.conf
   _install fakeinstall/usr/$LIBDIR/libvulkan_broadcom.so
   _install fakeinstall/usr/share/vulkan/icd.d/broadcom_icd.*.json
+  _install fakeinstall/usr/share/drirc.d/00-v3dv-defaults.conf
   _install fakeinstall/usr/$LIBDIR/libvulkan_freedreno.so
   _install fakeinstall/usr/share/vulkan/icd.d/freedreno_icd.*.json
+  _install fakeinstall/usr/share/drirc.d/00-turnip-defaults.conf
   _install fakeinstall/usr/$LIBDIR/libvulkan_panfrost.so
   _install fakeinstall/usr/share/vulkan/icd.d/panfrost_icd.*.json
+  _install fakeinstall/usr/share/drirc.d/00-panvk-defaults.conf
   _install fakeinstall/usr/$LIBDIR/libvulkan_powervr_mesa.so
   _install fakeinstall/usr/share/vulkan/icd.d/powervr_mesa_icd.*.json
+  _install fakeinstall/usr/share/drirc.d/00-pvr-defaults.conf
 }
