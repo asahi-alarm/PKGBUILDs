@@ -60,6 +60,7 @@ jobs:
           path: |
             mesa/mesa-fex-emu-overlay-i386*
             mesa/mesa-fex-emu-overlay-x86_64*
+            mesa/mesa-dummy*
   compile:
     name: building ${{ needs.changed.outputs.output1 }}
     runs-on: ubuntu-24.04-arm

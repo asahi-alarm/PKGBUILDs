@@ -15,7 +15,7 @@ set -xe
 # default packages, can be overridden on command line
 PKGS="asahi-fix27 asahi-scripts m1n1 uboot-asahi linux-asahi alsa-ucm-conf-asahi bankstown speakersafetyd asahi-audio calamares \
  asahi-calamares-configs asahi-configs lzfse asahi-fwextract asahi-alarm-keyring \
- virglrenderer mesa tiny-dfr widevine \
+ virglrenderer tiny-dfr widevine \
  libkrunfw libkrun muvm FEX-Emu asahi-bless fex-emu-rootfs-arch steam \
  asahi-desktop-meta asahi-meta"
 
@@ -29,6 +29,13 @@ fi
 
 # Build packages
 for srcpkg in $PKGS; do
+  # mesa only builds the x86 FEX-Emu overlays (+ mesa-dummy) these days; those need
+  # an x86_64 host and are built by the separate 'mesa' job in .github/workflows.
+  # The native aarch64 mesa package now comes from the ALARM [extra] repo.
+  if [ "$srcpkg" == "mesa" ]; then
+    echo "Skipping mesa: the x86 FEX-Emu overlays are built on an x86_64 host"
+    continue
+  fi
   pushd "$srcpkg"
   echo "Building $srcpkg"
   # remove src andn pkg folders
@@ -36,14 +43,6 @@ for srcpkg in $PKGS; do
   # Remove any previously created packages
   rm -f -- *.pkg.tar.xz
   makepkg -CsA --noconfirm
-  if [ "$srcpkg" == "mesa" ]; then
-    # HACK: move the unwanted mesa-dummy package out of the way so it doesn't get picked up by 'ls'
-    # we DO want it in packages though, but not install it since it conflicts with mesa
-    mv mesa-dummy* ../packages/
-    # we need to remove mesa to avoid conflicts, not sure why -U --noconfirm isn't enough
-    sudo pacman -Rdd --noconfirm mesa
-  fi
-
   pkg=$(ls -- *.pkg.tar.xz)
   sudo pacman -U --noconfirm $pkg
   mv $pkg ../packages/

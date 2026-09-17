@@ -64,7 +64,7 @@ shift $((OPTIND - 1))
 # default.erofs.xz to work.
 PKGS="linux-asahi alsa-ucm-conf-asahi bankstown speakersafetyd asahi-audio calamares \
   asahi-calamares-configs asahi-configs asahi-fwextract asahi-alarm-keyring asahi-fix27 asahi-scripts lzfse \
-  m1n1 mesa tiny-dfr uboot-asahi widevine asahi-desktop-meta asahi-meta\
+  m1n1 tiny-dfr uboot-asahi widevine asahi-desktop-meta asahi-meta\
   virglrenderer libkrun libkrunfw muvm FEX-Emu fex-emu-rootfs-arch vulkan-tools asahi-bless steam"
 
 if [ $# -ge 1 ]; then
@@ -88,8 +88,8 @@ for srcpkg in $PKGS; do
   # Remove any previous created packages
   rm -f *.pkg.tar.xz *.pkg.tar.xz.sig
   makepkg -Cs --noconfirm
-  # NOTE mesa also builds the fex overlays, but these need to be built on x86, so these
-  # packages should be ignored for release
+  # NOTE the mesa PKGBUILD only builds the x86 FEX overlays (+ mesa-dummy) and has to
+  # be built on an x86_64 host, so it is not part of the list above
   pkg=$(ls -- *.pkg.tar.xz | grep -v fex-emu-overlay)
   # there could be multiple packages built from same PKGBUILD
   for bin in $pkg; do
