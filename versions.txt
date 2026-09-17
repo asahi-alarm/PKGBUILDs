@@ -7,7 +7,7 @@ asahi-bless                    /                              0.4.2-1
 asahi-btsync                   /                              0.2.6-1                       
 asahi-calamares-configs        20240509-6                     20260831-1                    
 asahi-configs                  /                              20251217-1                    
-asahi-desktop-meta             /                              4-8                           
+asahi-desktop-meta             /                              4-9                           
 asahi-fix27                    0.1.0-1                        0.1.0-1                       
 asahi-fwextract                /                              0.8.4-1                       
 asahi-meta                     /                              5-5                           
@@ -25,7 +25,6 @@ linux-asahi                    7.1.13-403.asahi               7.1.13.asahi3-1
 linux-asahi-headers            7.1.13-403.asahi               7.1.13.asahi3-1               
 lzfse                          /                              1.0-1                         
 m1n1                           1.6.1-1                        1.6.1-1                       
-mesa                           26.2.2-6                       26.1.8-1                      
 muvm                           0.6.0-3                        0.6.0-1                       
 speakersafetyd                 2.0.1-1                        2.0.1-1                       
 startup-disk                   0.1.7-1                        0.1.7-1                       
