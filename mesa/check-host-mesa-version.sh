@@ -29,7 +29,14 @@ DB=$(mktemp)
 trap 'rm -f "$DB"' EXIT
 
 echo "Fetching ALARM aarch64 [extra] database from $MIRROR"
-curl -sfL --retry 3 --max-time 180 -o "$DB" "$MIRROR/aarch64/extra/extra.db.tar.gz"
+if command -v curl >/dev/null; then
+  curl -sfL --retry 3 --max-time 180 -o "$DB" "$MIRROR/aarch64/extra/extra.db.tar.gz"
+elif command -v wget >/dev/null; then
+  wget -q -T 180 -O "$DB" "$MIRROR/aarch64/extra/extra.db.tar.gz"
+else
+  echo "ERROR: need curl or wget to query ALARM's database" >&2
+  exit 1
+fi
 
 # db entries look like "mesa-1:26.2.2-1/" -- keep epoch+pkgrel for the message,
 # strip them for the comparison. "[0-9]" after the dash keeps out mesa-demos etc.
