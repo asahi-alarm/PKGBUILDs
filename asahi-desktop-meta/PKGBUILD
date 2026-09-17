@@ -39,7 +39,7 @@ package() {
     pipewire-pulse
     speakersafetyd
     startup-disk
-    virglrenderer
+    'virglrenderer<1:0'
     'vulkan-asahi>=26'
     'vulkan-swrast>=26'
     vulkan-tools
