@@ -65,7 +65,7 @@ shift $((OPTIND - 1))
 PKGS="linux-asahi alsa-ucm-conf-asahi bankstown speakersafetyd asahi-audio calamares \
   asahi-calamares-configs asahi-configs asahi-fwextract asahi-alarm-keyring asahi-fix27 asahi-scripts lzfse \
   m1n1 tiny-dfr uboot-asahi widevine asahi-desktop-meta asahi-meta\
-  virglrenderer libkrun libkrunfw muvm FEX-Emu fex-emu-rootfs-arch vulkan-tools asahi-bless steam"
+  muvm FEX-Emu fex-emu-rootfs-arch vulkan-tools asahi-bless steam"
 
 if [ $# -ge 1 ]; then
   PKGS=("$@")

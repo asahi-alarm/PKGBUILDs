@@ -19,11 +19,8 @@ mappings["asahi-fix27"]="asahi-fix27"
 mappings["asahi-scripts"]="asahi-scripts"
 mappings["binfmt-dispatcher"]="rust-binfmt-dispatcher"
 mappings["calamares"]="calamares"
-mappings["libkrun"]="libkrun"
-mappings["libkrunfw"]="libkrunfw"
 mappings["tiny-dfr"]="rust-tiny-dfr"
 mappings["triforce-lv2"]="rust-triforce-lv2"
-mappings["virglrenderer"]="virglrenderer"
 mappings["mesa"]="mesa"
 mappings["muvm"]="rust-muvm"
 mappings["speakersafetyd"]="rust-speakersafetyd"
@@ -75,8 +72,6 @@ for P in $PKGS; do
   else
     if [ "$B" == "fex-emu" ]; then
       F=$(curl -s "https://bodhi.fedoraproject.org/updates/?search=$B&status=stable&releases=$REPO" | jq -r '[ first(.updates[] | { nvr: .builds.[].nvr } | select(.nvr | contains("'$B'")) | select(.nvr | contains("fex-emu-rootfs") | not)) ]' | jq -r '.[].nvr' | sed "s/$B-\([0-9].*\)/\1/" | sed 's/.[^.]*$//')
-    elif [ "$B" == "libkrun" ]; then
-      F=$(curl -s "https://bodhi.fedoraproject.org/updates/?search=$B&status=stable&releases=$REPO" | jq -r '[ first(.updates[] | { nvr: .builds.[].nvr } | select(.nvr | contains("'$B'")) | select(.nvr | contains("libkrunfw") | not)) ]' | jq -r '.[].nvr' | sed "s/$B-\([0-9].*\)/\1/" | sed 's/.[^.]*$//')
     else
       F=$(curl -s "https://bodhi.fedoraproject.org/updates/?search=$B&status=stable&releases=$REPO" | jq -r '[ first(.updates[] | { nvr: .builds.[].nvr } | select(.nvr | contains("'$B'"))) ]' | jq -r '.[].nvr' | sed "s/$B-\([0-9].*\)/\1/" | sed 's/.[^.]*$//')
     fi
