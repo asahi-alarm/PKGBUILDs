@@ -3,7 +3,7 @@
 
 pkgname=asahi-desktop-meta
 pkgver=4
-pkgrel=9
+pkgrel=10
 pkgdesc='Asahi Linux desktop support meta package'
 url='https://www.asahilinux.org'
 arch=('any')
@@ -39,6 +39,12 @@ package() {
     pipewire-pulse
     speakersafetyd
     startup-disk
+    # virglrenderer comes from [extra] now. Our old package carried an epoch, so it
+    # outranks every (epoch-less) ALARM release forever and a plain -Syu will never
+    # replace it -- only -Syuu would. Depending on "<1:0" excludes anything carrying
+    # an epoch, which makes pacman pull extra's build to satisfy this instead.
+    # Do NOT relax this back to a bare 'virglrenderer': that silently strands users
+    # on our frozen 1:1.3.0-1, missing future venus fixes.
     'virglrenderer<1:0'
     'vulkan-asahi>=26'
     'vulkan-swrast>=26'
