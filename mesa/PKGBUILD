@@ -5,7 +5,7 @@ highmem=1
 
 pkgname=(mesa mesa-fex-emu-overlay-x86_64 mesa-fex-emu-overlay-i386 mesa-dummy)
 pkgdesc="An open-source implementation of the OpenGL specification"
-pkgver=26.1.8
+pkgver=26.2.2
 pkgrel=1
 arch=('x86_64' 'aarch64')
 makedepends=('python-mako' 'libxml2' 'libx11' 'xorgproto' 'libdrm' 'libxshmfence' 'libxxf86vm'
@@ -28,7 +28,7 @@ source=(
   https://archive.mesa3d.org/mesa-$pkgver.tar.xz
   Mesa-MLAA-License-Clarification-Email.txt
 )
-sha512sums=('eb3d46ae9aaba70fdd908486cef24041fec9264ddf586eaebbba65ce55e716d306ef9e91be83e742dfaec4dfc94105a5cd3a36b29bf56614febcbcf6c1f8b516'
+sha512sums=('55b1234c8653dad9b85ba3de7b777a0d957909baf4628f0c00e21d4ba89c004cb687a1dcf8da46ed0a092231dd4f859027509f83ad8c558750845ba470902615'
             'ecdabad21a86f04d51ba709a90fbeccb3004c6e8af3546edc530dcb4727787ed5d6a63043b6ab50b4c0a46de0894b6f3c594101b4d25f7831dee9f33fd2a7e31')
 
 prepare() {
@@ -56,7 +56,7 @@ meson_build() {
     -Dteflon=$TEFLON \
     -Dgallium-rusticl=true \
     -Dvulkan-drivers=swrast,virtio,asahi \
-    -Dvulkan-layers=device-select \
+    -Dvulkan-layers=device-select,anti-lag \
     -Dgles1=enabled \
     -Dgles2=enabled \
     -Dopengl=true \
@@ -170,9 +170,11 @@ package_mesa() {
   _install fakeinstall/usr/lib/dri/libdril_dri.so
   _install fakeinstall/usr/lib/dri/swrast_dri.so
   _install fakeinstall/usr/lib/dri/virtio_gpu_dri.so
+  _install fakeinstall/usr/share/drirc.d/00-virtio_gpu-defaults.conf
 
   _install fakeinstall/usr/lib/dri/apple_dri.so
   _install fakeinstall/usr/lib/dri/asahi_dri.so
+  _install fakeinstall/usr/share/drirc.d/00-asahi-defaults.conf
   _install fakeinstall/usr/lib/dri/ingenic-drm_dri.so
   _install fakeinstall/usr/lib/dri/imx-drm_dri.so
   _install fakeinstall/usr/lib/dri/imx-lcdif_dri.so
@@ -210,6 +212,7 @@ package_mesa() {
   _install fakeinstall/usr/lib/dri/vkms_dri.so
   _install fakeinstall/usr/lib/dri/zynqmp-dpsub_dri.so
   _install fakeinstall/usr/lib/dri/zink_dri.so
+  _install fakeinstall/usr/share/drirc.d/00-zink-defaults.conf
 
   # va-drivers
   _install fakeinstall/usr/lib/dri/virtio_gpu_drv_video.so
@@ -217,12 +220,17 @@ package_mesa() {
   # vulkan-drivers
   _install fakeinstall/usr/lib/libvulkan_lvp.so
   _install fakeinstall/usr/share/vulkan/icd.d/lvp_icd.*.json
+  _install fakeinstall/usr/share/drirc.d/00-lavapipe-defaults.conf
   _install fakeinstall/usr/lib/libVkLayer_MESA_device_select.so
   _install fakeinstall/usr/share/vulkan/implicit_layer.d/VkLayer_MESA_device_select.json
+  _install fakeinstall/usr/lib/libVkLayer_MESA_anti_lag.so
+  _install fakeinstall/usr/share/vulkan/implicit_layer.d/VkLayer_MESA_anti_lag.json
   _install fakeinstall/usr/lib/libvulkan_virtio.so
   _install fakeinstall/usr/share/vulkan/icd.d/virtio_icd.*.json
+  _install fakeinstall/usr/share/drirc.d/00-venus-defaults.conf
   _install fakeinstall/usr/lib/libvulkan_asahi.so
   _install fakeinstall/usr/share/vulkan/icd.d/asahi_icd.*.json
+  _install fakeinstall/usr/share/drirc.d/00-hk-defaults.conf
 
   # headers
   _install fakeinstall/usr/include
@@ -259,6 +267,11 @@ create_overlay() {
   ln -s libdril_dri.so "fexov/usr/$LIBDIR/ovl_dri/asahi_dri.so"
   ln -s ovl_dri "fexov/usr/$LIBDIR/dri"
 
+  install -Dpm0644 -t "fexov/usr/share/drirc.d/" \
+    fakeinstall/usr/share/drirc.d/00-mesa-defaults.conf \
+    fakeinstall/usr/share/drirc.d/00-asahi-defaults.conf \
+    fakeinstall/usr/share/drirc.d/00-hk-defaults.conf
+
   install -Dpm0755 -s -t "fexov/usr/$LIBDIR/" \
     fakeinstall/usr/$LIBDIR/libEGL_mesa.so.0.0.0 \
     fakeinstall/usr/$LIBDIR/libGLX_mesa.so.0.0.0
@@ -275,12 +288,14 @@ create_overlay() {
 
   install -Dpm0755 -s -t "fexov/usr/$LIBDIR/" \
     fakeinstall/usr/$LIBDIR/libvulkan_asahi.so \
-    fakeinstall/usr/$LIBDIR/libVkLayer_MESA_device_select.so
+    fakeinstall/usr/$LIBDIR/libVkLayer_MESA_device_select.so \
+    fakeinstall/usr/$LIBDIR/libVkLayer_MESA_anti_lag.so
 
   install -Dpm0644 -t "fexov/usr/share/vulkan/ovl_icd.d/" \
     fakeinstall/usr/share/vulkan/icd.d/asahi_icd.*.json
   install -Dpm0644 -t "fexov/usr/share/vulkan/implicit_layer.d/" \
-    fakeinstall/usr/share/vulkan/implicit_layer.d/VkLayer_MESA_device_select.json
+    fakeinstall/usr/share/vulkan/implicit_layer.d/VkLayer_MESA_device_select.json \
+    fakeinstall/usr/share/vulkan/implicit_layer.d/VkLayer_MESA_anti_lag.json
   ln -s ovl_icd.d "fexov/usr/share/vulkan/icd.d"
 
   install -Dpm0755 -s -t "fexov/usr/$LIBDIR/" \
