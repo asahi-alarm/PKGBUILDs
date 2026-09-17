@@ -3,7 +3,7 @@
 
 pkgname=asahi-desktop-meta
 pkgver=4
-pkgrel=8
+pkgrel=9
 pkgdesc='Asahi Linux desktop support meta package'
 url='https://www.asahilinux.org'
 arch=('any')
@@ -23,6 +23,10 @@ package() {
     mesa
     mesa-demos
     mesa-utils
+    # our old mesa package bundled these; ALARM splits them into their own
+    # packages, so they have to be pulled in explicitly or users lose the asahi
+    # vulkan driver, venus (muvm/steam), lavapipe and rusticl on upgrade
+    opencl-mesa
     pacman-contrib
     pavucontrol
     pipewire
@@ -32,7 +36,10 @@ package() {
     speakersafetyd
     startup-disk
     virglrenderer
+    vulkan-asahi
+    vulkan-swrast
     vulkan-tools
+    vulkan-virtio
     widevine
     wireplumber
     xkeyboard-config)
