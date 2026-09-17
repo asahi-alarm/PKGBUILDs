@@ -49,8 +49,12 @@ jobs:
             -v ${{ github.workspace }}:/home/user/PKGBUILDs --user 1001:116
 
           run: |
+            set -e
             echo "update alarm packages"
             sudo pacman -Syu --noconfirm
+            # the overlays must be built from the same mesa release ALARM ships as
+            # the aarch64 mesa package, otherwise FEX breaks -- fail the build if not
+            ./mesa/check-host-mesa-version.sh
             cd mesa && makepkg -sC --noconfirm
       - name: Upload build artifacts
         if: contains(needs.changed.outputs.output1, 'mesa')
