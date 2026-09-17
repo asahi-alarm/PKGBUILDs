@@ -25,7 +25,11 @@ package() {
     mesa-utils
     # our old mesa package bundled these; ALARM splits them into their own
     # packages, so they have to be pulled in explicitly or users lose the asahi
-    # vulkan driver, venus (muvm/steam), lavapipe and rusticl on upgrade
+    # vulkan driver, venus (muvm/steam), lavapipe and rusticl on upgrade.
+    # The vulkan-* deps are versioned on purpose: the old mesa (and mesa-dummy)
+    # carry bare "provides = vulkan-asahi" etc, and an unversioned provision does
+    # not satisfy a versioned dependency -- without this pacman can consider them
+    # already satisfied by the package we are migrating away from.
     opencl-mesa
     pacman-contrib
     pavucontrol
@@ -36,10 +40,10 @@ package() {
     speakersafetyd
     startup-disk
     virglrenderer
-    vulkan-asahi
-    vulkan-swrast
+    'vulkan-asahi>=26'
+    'vulkan-swrast>=26'
     vulkan-tools
-    vulkan-virtio
+    'vulkan-virtio>=26'
     widevine
     wireplumber
     xkeyboard-config)
