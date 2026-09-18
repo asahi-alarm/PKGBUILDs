@@ -6,8 +6,8 @@ highmem=1
 pkgbase=mesa
 pkgname=(mesa-fex-emu-overlay-x86_64 mesa-fex-emu-overlay-i386 mesa-dummy)
 pkgdesc="Mesa builds for the x86 FEX-Emu overlays"
-pkgver=26.2.2
-pkgrel=2
+pkgver=26.2.3
+pkgrel=1
 # x86 only: the native aarch64 mesa package now comes from [extra] (ALARM).
 # This PKGBUILD only produces the FEX-Emu overlays (x86_64 + i386) and the
 # mesa-dummy package used inside the x86_64 FEX rootfs, so it must be built
@@ -32,7 +32,7 @@ source=(
   https://archive.mesa3d.org/mesa-$pkgver.tar.xz
   Mesa-MLAA-License-Clarification-Email.txt
 )
-sha512sums=('55b1234c8653dad9b85ba3de7b777a0d957909baf4628f0c00e21d4ba89c004cb687a1dcf8da46ed0a092231dd4f859027509f83ad8c558750845ba470902615'
+sha512sums=('ec621735ae4679762ea27b979a5314c7aecfdd4165afea19c8c55f933d79b40f01fa041a95874fc4347e732ac565786d9b616a9aa8856a422204d9ecc9a12ec4'
             'ecdabad21a86f04d51ba709a90fbeccb3004c6e8af3546edc530dcb4727787ed5d6a63043b6ab50b4c0a46de0894b6f3c594101b4d25f7831dee9f33fd2a7e31')
 
 prepare() {
