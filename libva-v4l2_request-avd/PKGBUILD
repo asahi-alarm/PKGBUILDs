@@ -1,0 +1,62 @@
+# VA-API driver for V4L2 stateless decoders, with Apple Video Decoder support.
+#
+# This packages sofus13's AVD-capable fork of megi's libva V4L2 Request
+# driver.  The separate package name allows it to identify the AVD-capable
+# implementation while replacing either of the older AUR package variants.
+
+_fork=sofus13
+pkgname=libva-v4l2_request-avd
+pkgver=1.3
+pkgrel=1
+pkgdesc='VA-API driver for V4L2 stateless decoders, with Apple Video Decoder (AVD) support'
+arch=('aarch64')
+url="https://github.com/$_fork/libva-v4l2_request"
+license=('GPL-3.0-or-later')
+
+# This release exports __vaDriverInit_1_24 when built against ALARM's current
+# libva headers.  Newer libva loaders accept older minor driver interfaces,
+# while a pre-2.24 loader cannot load this build.
+depends=('glibc' 'libva>=2.24')
+makedepends=('meson' 'libdrm' 'linux-api-headers')
+
+provides=(
+  "libva-v4l2_request=$pkgver"
+  "libva-v4l2-request=$pkgver"
+  'v4l2_request_drv_video.so'
+  'libva-driver'
+)
+conflicts=(
+  'libva-v4l2_request'
+  'libva-v4l2-request'
+  'libva-v4l2-request-git'
+)
+
+install="$pkgname.install"
+source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/$pkgver.tar.gz")
+sha256sums=('3670a1712f9f0a5a61bd44a781eba81dd9b2e0fd8271417ca8a9fbbed9dccfe9')
+
+build() {
+  # Let libva's pkg-config data select /usr/lib/dri.  The available codecs are
+  # selected from the V4L2 stateless interfaces in linux-api-headers.
+  meson setup \
+    --prefix=/usr \
+    --buildtype=plain \
+    --wrap-mode=nodownload \
+    "libva-v4l2_request-$pkgver" build
+
+  meson compile -C build
+}
+
+package() {
+  meson install -C build --destdir "$pkgdir"
+
+  # libva derives "asahi" from the DRM render node and therefore probes this
+  # filename.  The relative link also leaves LIBVA_DRIVER_NAME=v4l2_request as
+  # an explicit fallback.
+  ln -s v4l2_request_drv_video.so "$pkgdir/usr/lib/dri/asahi_drv_video.so"
+
+  install -Dm644 "libva-v4l2_request-$pkgver/COPYING" \
+    "$pkgdir/usr/share/licenses/$pkgname/COPYING"
+  install -Dm644 "libva-v4l2_request-$pkgver/README" \
+    "$pkgdir/usr/share/doc/$pkgname/README"
+}
