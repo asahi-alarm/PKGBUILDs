@@ -1,0 +1,46 @@
+# Open replacement firmware for the Apple Video Decoder (AVD).
+#
+# The firmware is built for AVD's Cortex-M3, so the resulting package is
+# independent of the architecture of the machine that builds it.  Version 0.1
+# ships every firmware variant currently requested by the downstream
+# apple-avd kernel driver.
+
+pkgname=avd-fw
+pkgver=0.1
+pkgrel=1
+pkgdesc='Open replacement firmware for the Apple Video Decoder (AVD) on Apple Silicon'
+arch=('any')
+url='https://github.com/AsahiLinux/avd-fw'
+license=('MIT')
+makedepends=('meson' 'clang' 'llvm')
+
+# makepkg's host CFLAGS and LDFLAGS are not valid for this bare-metal
+# Cortex-M3 build.  The installed files are raw firmware images and must not be
+# processed by makepkg's host strip/debug machinery.
+options=('!strip' '!debug' '!buildflags' '!lto')
+
+source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
+sha256sums=('2e131244275cb15c94243e41eec8a2a665ec895cfe3a818181549db991e62c67')
+
+build() {
+  # llvm.ini selects clang's arm-none-eabi target and forces libdir=lib.  The
+  # latter makes the v0.1 Meson rules install below /usr/lib/firmware/apple.
+  meson setup \
+    --cross-file "$pkgname-$pkgver/llvm.ini" \
+    --prefix=/usr \
+    -Doptimization=2 \
+    -Ddebug=false \
+    "$pkgname-$pkgver" build
+
+  meson compile -C build
+}
+
+package() {
+  meson install -C build --destdir "$pkgdir"
+
+  # Meson installs custom_target outputs as executable files by default.
+  chmod 644 "$pkgdir"/usr/lib/firmware/apple/*.bin
+
+  install -Dm644 "$pkgname-$pkgver/LICENSE" \
+    "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}

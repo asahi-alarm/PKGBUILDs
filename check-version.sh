@@ -3,6 +3,7 @@
 declare -A mappings
 declare -A mappings_fedora_repo
 declare -A copr
+declare -A copr_projects
 
 mappings_fedora_repo["bankstown"]="EPEL-10.0"
 
@@ -29,9 +30,14 @@ mappings["asahi-calamares-configs"]="fedora-remix-scripts"
 mappings["m1n1"]="m1n1"
 
 copr["kernel"]="kernel"
+copr["avd-fw"]="avd-fw"
 copr["steam"]="steam"
 copr["u-boot"]="uboot-tools"
 copr["fedora-remix-scripts"]="calamares-firstboot-config"
+
+# avd-fw shares the kernel COPR rather than having its own project.
+# https://copr.fedorainfracloud.org/coprs/g/asahi/kernel/packages/
+copr_projects["avd-fw"]="kernel"
 
 DB=asahi-alarm.db.tar.gz
 
@@ -68,7 +74,8 @@ for P in $PKGS; do
   if [[ -n "${copr[$B]}" ]]; then
     # search in copr
     PACKAGE=${copr[$B]}
-    F=$(curl -s -X 'GET' "https://copr.fedorainfracloud.org/api_3/package/?ownername=%40asahi&projectname=$B&packagename=$PACKAGE&with_latest_build=false&with_latest_succeeded_build=false" -H 'accept: application/json' | jq -r '.builds.latest.source_package.version')
+    PROJECT=${copr_projects[$B]:-$B}
+    F=$(curl -s -X 'GET' "https://copr.fedorainfracloud.org/api_3/package/?ownername=%40asahi&projectname=$PROJECT&packagename=$PACKAGE&with_latest_build=false&with_latest_succeeded_build=false" -H 'accept: application/json' | jq -r '.builds.latest.source_package.version')
   else
     if [ "$B" == "fex-emu" ]; then
       F=$(curl -s "https://bodhi.fedoraproject.org/updates/?search=$B&status=stable&releases=$REPO" | jq -r '[ first(.updates[] | { nvr: .builds.[].nvr } | select(.nvr | contains("'$B'")) | select(.nvr | contains("fex-emu-rootfs") | not)) ]' | jq -r '.[].nvr' | sed "s/$B-\([0-9].*\)/\1/" | sed 's/.[^.]*$//')

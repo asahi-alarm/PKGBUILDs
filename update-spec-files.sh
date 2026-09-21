@@ -2,6 +2,7 @@
 
 # FYI:
 # This script requires the Arch Linux "rpm-tools" package.
+# Pass package names to update only those specs, e.g. ./update-spec-files.sh avd-fw.
 #
 # You can find rpm macros here (not sure if there are more somewhere else however):
 # /usr/lib/rpm/macros
@@ -45,6 +46,7 @@ declare -A PACKAGES=(
     #["asahi-fwextract"]=""
     #["asahi-meta"]=""
     ["asahi-scripts"]="fsrc+rpms/asahi-scripts,asahi-scripts.spec|aarch64"
+    ["avd-fw"]="copr+kernel/avd-fw.git,avd-fw.spec|aarch64"
     ["bankstown"]="fsrc+rpms/rust-bankstown-lv2,rust-bankstown-lv2.spec|aarch64"
     ["binfmt-dispatcher"]="fsrc+rpms/rust-binfmt-dispatcher,rust-binfmt-dispatcher.spec|aarch64"
     #["calamares"]=""
@@ -65,9 +67,26 @@ declare -A PACKAGES=(
     ["wpa_supplicant"]="fsrc+rpms/wpa_supplicant,wpa_supplicant.spec|aarch64"
 )
 
+# avd-fw is noarch and its COPR dist-git has only a master branch.
+declare -A COPR_BRANCHES=(
+    ["avd-fw"]="master"
+)
+
+if [ $# -gt 0 ]; then
+    SPEC_PACKAGES=("$@")
+    for ASAHI_PACKAGE in "${SPEC_PACKAGES[@]}"; do
+        if [[ -z "${PACKAGES[$ASAHI_PACKAGE]}" ]]; then
+            echo "Error: No Fedora spec source configured for $ASAHI_PACKAGE" >&2
+            exit 1
+        fi
+    done
+else
+    SPEC_PACKAGES=("${!PACKAGES[@]}")
+fi
+
 echo "Working... Be patient, I also have to download stuff..."
 
-for ASAHI_PACKAGE in "${!PACKAGES[@]}"; do
+for ASAHI_PACKAGE in "${SPEC_PACKAGES[@]}"; do
 
     TARGET_FOLDER=${SCRIPTPATH}/${ASAHI_PACKAGE}/fedora-specs
 
@@ -98,7 +117,8 @@ for ASAHI_PACKAGE in "${!PACKAGES[@]}"; do
         if [[ "$FEDORA_GIT_REPO" == copr+* ]]; then
            rm -rf "$TMP_CLONE_FOLDER"
            mkdir -p "$TMP_CLONE_FOLDER"
-           git clone -o upstream -b f${FEDORA_VERSION} "${SPEC_COPR_CGIT_URL}${FEDORA_GIT_REPO:5}" "$TMP_CLONE_FOLDER"/
+           COPR_BRANCH=${COPR_BRANCHES[$ASAHI_PACKAGE]:-f${FEDORA_VERSION}}
+           git clone -o upstream -b "$COPR_BRANCH" "${SPEC_COPR_CGIT_URL}${FEDORA_GIT_REPO:5}" "$TMP_CLONE_FOLDER"/
            FINAL_SPEC_URL="$TMP_CLONE_FOLDER"/"${SPEC_FILE}"
 
            ########################################################################################################

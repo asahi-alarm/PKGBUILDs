@@ -3,7 +3,7 @@
 
 pkgname=asahi-meta
 pkgver=5
-pkgrel=5
+pkgrel=6
 pkgdesc='Asahi Linux core support meta package'
 url='https://www.asahilinux.org'
 arch=('any')
@@ -14,7 +14,7 @@ package() {
   depends=(
     'linux-asahi' 'uboot-asahi' 'm1n1' 'asahi-scripts' 'asahi-alarm-keyring' 'asahi-fwextract'
     'alsa-ucm-conf-asahi' 'asahi-configs' 'tiny-dfr' 'asahi-bless' 'asahi-btsync' 'asahi-wifisync'
-    'asahi-fix27'
+    'asahi-fix27' 'avd-fw'
   )
 }
 

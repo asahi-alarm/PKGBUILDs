@@ -64,11 +64,11 @@ shift $((OPTIND - 1))
 # default.erofs.xz to work.
 PKGS="linux-asahi alsa-ucm-conf-asahi bankstown speakersafetyd asahi-audio calamares \
   asahi-calamares-configs asahi-configs asahi-fwextract asahi-alarm-keyring asahi-fix27 asahi-scripts lzfse \
-  m1n1 tiny-dfr uboot-asahi widevine asahi-desktop-meta asahi-meta\
+  m1n1 tiny-dfr uboot-asahi widevine avd-fw asahi-desktop-meta asahi-meta\
   muvm FEX-Emu fex-emu-rootfs-arch vulkan-tools asahi-bless steam"
 
 if [ $# -ge 1 ]; then
-  PKGS=("$@")
+  PKGS="$*"
 fi
 
 if [ -z "$GPG_PASSPHRASE" ]; then
