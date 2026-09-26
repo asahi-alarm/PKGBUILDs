@@ -26,7 +26,7 @@ lzfse                          /                              1.0-1
 m1n1                           1.6.1-1                        1.6.1-1                       
 muvm                           0.6.0-3                        0.6.0-1                       
 speakersafetyd                 2.0.1-1                        2.0.1-1                       
-startup-disk                   0.1.7-1                        0.1.7-1                       
+startup-disk                   0.1.7-3                        0.1.7-1                       
 steam                          0-14                           20241231-4                    
 tiny-dfr                       0.3.7-3                        0.3.7-1                       
 triforce-lv2                   /                              0.3.2-1                       
