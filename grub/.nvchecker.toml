@@ -1,0 +1,5 @@
+[grub]
+source = 'git'
+git = 'https://gitlab.freedesktop.org/gnu-grub/grub.git'
+prefix = 'grub-'
+include_regex = 'grub-\d+\.\d+'
