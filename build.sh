@@ -42,6 +42,9 @@ for srcpkg in $PKGS; do
   rm -rf src pkg
   # Remove any previously created packages
   rm -f -- *.pkg.tar.xz
+  if [[ -d keys/pgp ]]; then
+    gpg --batch --no-tty --import keys/pgp/*.asc
+  fi
   makepkg -CsA --noconfirm
   pkg=$(ls -- *.pkg.tar.xz)
   sudo pacman -U --noconfirm $pkg
