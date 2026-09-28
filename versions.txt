@@ -9,7 +9,7 @@ asahi-calamares-configs        20240509-6                     20260831-1
 asahi-configs                  /                              20251217-1                    
 asahi-desktop-meta             /                              4-10                          
 asahi-fix27                    0.1.0-1                        0.1.0-1                       
-asahi-fwextract                /                              0.8.4-1                       
+asahi-fwextract                /                              0.9.2-1                       
 asahi-meta                     /                              5-6                           
 asahi-nvram                    /                              0.2.3-1                       
 asahi-scripts                  20250713-5                     20260127.1-1                  
