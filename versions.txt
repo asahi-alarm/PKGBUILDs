@@ -20,6 +20,7 @@ binfmt-dispatcher              /                              0.1.2-1
 calamares                      3.3.14-5                       3.4.2-4                       
 FEX-Emu                        2604-1                         2604-1                        
 fex-emu-rootfs-arch            44^20260410.n.0-1              20260318-1                    
+grub                           grub2-breeze-theme-6.7.5-1     2:2.16-3                      
 linux-asahi                    7.1.13-403.asahi               7.1.13.asahi3-2               
 linux-asahi-headers            7.1.13-403.asahi               7.1.13.asahi3-2               
 lzfse                          /                              1.0-1                         
