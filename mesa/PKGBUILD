@@ -7,7 +7,7 @@ pkgbase=mesa
 pkgname=(mesa-fex-emu-overlay-x86_64 mesa-fex-emu-overlay-i386 mesa-dummy)
 pkgdesc="Mesa builds for the x86 FEX-Emu overlays"
 pkgver=26.2.3
-pkgrel=1
+pkgrel=2
 # x86 only: the native aarch64 mesa package now comes from [extra] (ALARM).
 # This PKGBUILD only produces the FEX-Emu overlays (x86_64 + i386) and the
 # mesa-dummy package used inside the x86_64 FEX rootfs, so it must be built
