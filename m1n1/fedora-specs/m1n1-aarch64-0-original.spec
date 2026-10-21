@@ -9,7 +9,7 @@
 m1n1 is the bootloader developed by the Asahi Linux project to bridge the Apple
 (XNU) boot ecosystem to the Linux boot ecosystem.}
 
-%global srcversion 1.6.1
+%global srcversion 1.9.9
 
 Name:           m1n1
 Version:        %(echo '%{srcversion}' | tr '-' '~')
@@ -29,7 +29,11 @@ Source:         %{url}/archive/v%{srcversion}/%{name}-%{srcversion}.tar.gz
 Source:         https://github.com/rafalh/rust-fatfs/archive/%{fatfs_commit}/rust-fatfs-%{fatfs_commit}.tar.gz
 # * Vendor git dependency rust-fatfs and ensure its dependencies are
 #   included as well.
-Patch:          m1n1-1.6.1-rust-deps.patch
+Patch:          m1n1-1.9.9-rust-deps.patch
+# https://github.com/AsahiLinux/m1n1/pull/703 "rust: Add workaround for rust 1.99.0 regression"
+Patch10:        pr-703-rust-1.99-workaround.patch
+# https://github.com/AsahiLinux/m1n1/pull/704 "display: Limit M1/M2 Sequoia DCP power-cycle to M1/M2"
+Patch11:        pr-704-display-m3-imac-fixes.patch
 
 BuildRequires:  gcc
 BuildRequires:  make
@@ -71,9 +75,10 @@ Provides:       bundled(tinf)
 Summary:        %{summary}
 # The following breakdown only covers the rust dependencies
 # Apache-2.0 OR MIT
+# BSD-3-Clause
 # MIT
 # MIT OR Apache-2.0
-License:        MIT AND CC0-1.0 AND OFL-1.1-RFN AND Zlib AND (BSD-2-Clause OR GPL-2.0-or-later) AND (BSD-3-Clause OR GPL-2.0-or-later) AND (Apache-2.0 OR MIT) AND MIT AND (MIT OR Apache-2.0)
+License:        MIT AND CC0-1.0 AND OFL-1.1-RFN AND Zlib AND (BSD-2-Clause OR GPL-2.0-or-later) AND BSD-3-Clause AND (BSD-3-Clause OR GPL-2.0-or-later) AND (Apache-2.0 OR MIT) AND MIT
 # LICENSE.dependencies contains a full license breakdown of the rust dependencies
 
 # This is vendored and statically linked into m1n1 when building for stage 1

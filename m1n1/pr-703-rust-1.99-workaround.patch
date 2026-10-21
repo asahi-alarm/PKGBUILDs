@@ -1,0 +1,39 @@
+From 175f1a9ddf4a9e2e312f08ad6cd0162f0b418341 Mon Sep 17 00:00:00 2001
+From: Janne Grunau <j@jannau.net>
+Date: Fri, 9 Oct 2026 17:34:53 +0200
+Subject: [PATCH] rust: Add workaround for rust 1.99.0 regression.
+
+librust.a fails to link with "undefined reference to `wcslen'" caused by
+LLVM 23 regression reported in [1]. Add
+"-C llvm-args=-disable-loop-idiom-wcslen" to RUSTFLAGS to workaround
+this bug.
+
+Link: https://github.com/rust-lang/rust/issues/163614 [1]
+Signed-off-by: Janne Grunau <j@jannau.net>
+---
+ Makefile | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/Makefile b/Makefile
+index b3a420431..2f3845bdc 100644
+--- a/Makefile
++++ b/Makefile
+@@ -81,6 +81,9 @@ else
+ CARGO_FLAGS :=
+ endif
+ 
++# workaround https://github.com/rust-lang/rust/issues/163614 LLVM 23 regression in rust 1.99.0
++CARGO_RUSTFLAGS := --config 'build.rustflags = ["-C", "llvm-args=-disable-loop-idiom-wcslen"]'
++
+ ifeq ($(CHAINLOADING),1)
+ CFG += CHAINLOADING
+ CARGO_FLAGS += --features chainload
+@@ -228,7 +231,7 @@ build/$(RUST_LIB): src/../build/build_cfg.h rust/src/*.rs rust/src/gpu/*.rs rust
+ 	$(QUIET)echo "  RS    $@"
+ 	$(QUIET)mkdir -p $(DEPDIR)
+ 	$(QUIET)mkdir -p "$(dir $@)"
+-	$(QUIET)cargo build $(CARGO_FLAGS) --target $(RUSTARCH) --lib --release --manifest-path rust/Cargo.toml --target-dir build
++	$(QUIET)cargo build $(CARGO_RUSTFLAGS) $(CARGO_FLAGS) --target $(RUSTARCH) --lib --release --manifest-path rust/Cargo.toml --target-dir build
+ 	$(QUIET)cp "build/$(RUSTARCH)/release/${RUST_LIB}" "$@"
+ 
+ build/%.o: src/%.S

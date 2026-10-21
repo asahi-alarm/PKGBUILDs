@@ -2,7 +2,7 @@
 # Maintainer: Matthias Kurz <m.kurz@irregular.at>
 
 pkgname=m1n1
-pkgver=1.6.1
+pkgver=1.9.9
 pkgrel=1
 pkgdesc='Asahi Linux bootloader'
 _artwork_commit_id=80d14f8b6f485b310e305a84b4b806361518ddd1
@@ -16,11 +16,20 @@ makedepends=( imagemagick rust rust-src )
 source=(
   "artwork-${_artwork_commit_id}.tar.gz::https://github.com/AsahiLinux/artwork/archive/${_artwork_commit_id}.tar.gz"
   "m1n1-${_m1n1_commit_id}.tar.gz::https://github.com/AsahiLinux/m1n1/archive/${_m1n1_commit_id}.tar.gz"
+  "m1n1-1.9.9-rust-deps.patch"
+  "pr-703-rust-1.99-workaround.patch"
+  "pr-704-display-m3-imac-fixes.patch"
 )
 sha256sums=('f2b18744a38d1369a8e9e59acddd12551c5500435fbd9e709fe7a6b212a070ac'
-            '7099fcf6e94b6a6a8e57f8a3d434e7a66dbe476737f0f02f7bb3349586aa3b85')
+            '8a0dc272475d414c383e3301316222a3b49d4b5883e27d9a9c6572ff0fd0ef91'
+            'e2990fded6a4ba79676a1436a61237f282edc2a422a7c71acc56254ad2d8a637'
+            'ac9fb8811c9f902f9537c68e72053f4db9235f112f5d6a7c4d2b9d6f3951f620'
+            'c87e6540fd0a6837c4768690b09a41a529711f8201f95fd2272d18e087a6ca81')
 b2sums=('d967794fc750ddec24b2f130c39214dc482fa9e3cf338b9f377b6c93d42c5885325ff4214e5ada5f5dc1eaa12b169fd7ef7927d1de10076959692ea71f1b10d4'
-        '4891c1d7fa1b44f3c43fa9483926a816cb20dd96f0dc0616e1c2f7f50f923a8e44962a08784dd121dce1f874fa6259c04cf8291fb6f611e59a8fbf0444d18eec')
+        '3f57522ecc9e040c54a31f5a25bb7e54e3d81c6df191d05f04b360a6999d5fa2319f026755c51c7035e2323b3b2e27b9067d79d654f6aa52ffe74dd07d0f65cc'
+        '431f4dffafbdd71c3fe59b3193702b44f67b967998aa150a5d7260ce18d563d49a4d7573a7cbe564c3c1a023da53b151068947b8cc93e1604dccccd1e51ae687'
+        'c3dd0d23adbca1771bdacea2d7c451a91ef6dba62495f51f434cb3df77b547f2bc388a84f376fb3da8270d1034bc0d8408556bc99ee499a340f235e1c4569a2c'
+        'c45d9d38313b8d290f69ca80743c92841c2fb97e57d9caa5292c07898ac7c2a93da86873b616d0fbbe7cdeb7fc7dc98314cd4aba9c53397e82b7824b1cd4c1a1')
 
 prepare() {
   rm -rf "${srcdir}/$_m1n1_srcname"/artwork
@@ -29,6 +38,16 @@ prepare() {
 
 build() {
   cd "${srcdir}/$_m1n1_srcname"
+
+  #cat ../m1n1-1.9.9-rust-deps.patch |
+  #patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
+
+  cat ../pr-703-rust-1.99-workaround.patch |
+  patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
+
+  cat ../pr-704-display-m3-imac-fixes.patch |
+  patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
+
   make ARCH= RELEASE=1 BUILDSTD=1
 }
 

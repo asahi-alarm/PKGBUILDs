@@ -1,15 +1,19 @@
 
 Name:           m1n1
-Version:        1.6.1
+Version:        1.9.9
 Release:        1
 Summary:        Bootloader and experimentation playground for Apple Silicon
 
 License:        MIT AND CC0-1.0 AND OFL-1.1-RFN AND Zlib AND (BSD-2-Clause OR GPL-2.0-or-later) AND (BSD-3-Clause OR GPL-2.0-or-later) AND MIT AND (MIT OR Apache-2.0)
 URL:            https://github.com/AsahiLinux/m1n1
-Source:         https://github.com/AsahiLinux/m1n1/archive/v1.6.1/m1n1-1.6.1.tar.gz
+Source:         https://github.com/AsahiLinux/m1n1/archive/v1.9.9/m1n1-1.9.9.tar.gz
 Source:         https://github.com/rafalh/rust-fatfs/archive/4eccb50d011146fbed20e133d33b22f3c27292e7/rust-fatfs-4eccb50d011146fbed20e133d33b22f3c27292e7.tar.gz
 
-Patch:          m1n1-1.6.1-rust-deps.patch
+Patch:          m1n1-1.9.9-rust-deps.patch
+
+Patch10:        pr-703-rust-1.99-workaround.patch
+
+Patch11:        pr-704-display-m3-imac-fixes.patch
 
 BuildRequires:  gcc
 BuildRequires:  make
@@ -46,7 +50,7 @@ m1n1 is the bootloader developed by the Asahi Linux project to bridge the Apple
 %package        stage1
 Summary:        Bootloader and experimentation playground for Apple Silicon
 
-License:        MIT AND CC0-1.0 AND OFL-1.1-RFN AND Zlib AND (BSD-2-Clause OR GPL-2.0-or-later) AND (BSD-3-Clause OR GPL-2.0-or-later) AND (Apache-2.0 OR MIT) AND MIT AND (MIT OR Apache-2.0)
+License:        MIT AND CC0-1.0 AND OFL-1.1-RFN AND Zlib AND (BSD-2-Clause OR GPL-2.0-or-later) AND BSD-3-Clause AND (BSD-3-Clause OR GPL-2.0-or-later) AND (Apache-2.0 OR MIT) AND MIT
 
 Provides:       bundled(crate(fatfs))= 0.4.0
 
@@ -60,7 +64,7 @@ Installer.
 %package        tools
 Summary:        Developer tools for m1n1
 License:        MIT
-Requires:       m1n1 = 1.6.1-1
+Requires:       m1n1 = 1.9.9-1
 Requires:       python3
 Requires:       python3dist(construct)
 Requires:       python3dist(pyserial)
@@ -75,19 +79,25 @@ This package contains various developer tools for m1n1.
 %prep
 
 cd './'
-rm -rf 'm1n1-1.6.1'
-rpmuncompress -x 'm1n1-1.6.1.tar.gz'
+rm -rf 'm1n1-1.9.9'
+rpmuncompress -x 'm1n1-1.9.9.tar.gz'
 STATUS=$?
 if [ $STATUS -ne 0 ]; then
   exit $STATUS
 fi
-cd 'm1n1-1.6.1'
+cd 'm1n1-1.9.9'
 chmod -Rf a+rX,u+w,g-w,o-w .
 
 mkdir -p rust/vendor/rust-fatfs
 tar -xf rust-fatfs-4eccb50d011146fbed20e133d33b22f3c27292e7.tar.gz -C rust/vendor/rust-fatfs --strip-components 1
 
-rpmuncompress m1n1-1.6.1-rust-deps.patch | 
+rpmuncompress m1n1-1.9.9-rust-deps.patch | 
+patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
+
+rpmuncompress pr-703-rust-1.99-workaround.patch | 
+patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
+
+rpmuncompress pr-704-display-m3-imac-fixes.patch | 
 patch -p1 -s --fuzz=0 --no-backup-if-mismatch -f
 
 /usr/bin/rm -f rust/Cargo.lock
