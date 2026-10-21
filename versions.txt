@@ -24,7 +24,7 @@ grub                           grub2-2.12-66                  2:2.16-3
 linux-asahi                    7.1.13-403.asahi               7.1.13.asahi3-2               
 linux-asahi-headers            7.1.13-403.asahi               7.1.13.asahi3-2               
 lzfse                          /                              1.0-1                         
-m1n1                           1.9.9-1                        1.6.1-1                       
+m1n1                           1.9.9-1                        1.9.9-1                       
 muvm                           0.7.0-1                        0.7.0-1                       
 speakersafetyd                 2.0.1-1                        2.0.1-1                       
 startup-disk                   0.1.7-3                        0.1.7-1                       
