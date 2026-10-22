@@ -27,11 +27,14 @@ options=('!strip')
 source=(
   https://github.com/AsahiLinux/linux/archive/${_commit_id}.tar.gz
   config         # the main kernel config file
+  0001-tools-add-128-bit-integer-types.patch # Build tools against Linux 7.3 arm64 headers
 )
 sha256sums=('3d2639b6d1353c671ae576ad1fc82d609d95a4cf26c677a318fafdf2522315f4'
-            '7acd99304c44ea673bd6d2fe63bc7335b392418b938ca733a4a4dc5fb85cc4d7')
+            '7acd99304c44ea673bd6d2fe63bc7335b392418b938ca733a4a4dc5fb85cc4d7'
+            '30b45a34e029aee8cd57123300a83ab1dfe473cb6c88d87ad1b3cccd891e0648')
 b2sums=('5b3ddaef8e1b0943f57d5ecab1a77e638f57da0f0b80fa61d3391dcaadbad4adc2a2f36a29eda63c26e2c3fa00e9e076cba3819947be866fac28ab772395cfce'
-        '1b1a9f2619fd342e5be34d214df163ff5cb0cc6b868cefdcb3ea66c5a0e7742583007f2f102ffad3804fae4c96565e55f42f47ff541ba21abbcbe1d34499d350')
+        '1b1a9f2619fd342e5be34d214df163ff5cb0cc6b868cefdcb3ea66c5a0e7742583007f2f102ffad3804fae4c96565e55f42f47ff541ba21abbcbe1d34499d350'
+        '013bd337c6bd839cfb5a0f2a3bbfc897a4662c414e048674d6a02187acdcd7ce85b380d5209f9fd88e6a29fc198921e29aac65a858f8c5f789a1ce23d0dfe6b4')
 export KBUILD_BUILD_HOST=archlinux
 export KBUILD_BUILD_USER=$pkgbase
 export KBUILD_BUILD_TIMESTAMP="$(date -Ru${SOURCE_DATE_EPOCH:+d @$SOURCE_DATE_EPOCH})"
