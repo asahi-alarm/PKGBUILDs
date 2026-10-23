@@ -4,10 +4,10 @@
 
 _rcver=7.2.12
 #_rcrel=3
-_asahirel=1
+_asahirel=2
 pkgrel=1
 
-_m1n1_version=1.6.1
+_m1n1_version=1.9.9
 
 pkgbase=linux-asahi
 #_commit_id=asahi-${_nextver}-${_asahirel}
@@ -29,11 +29,11 @@ source=(
   config         # the main kernel config file
   0001-tools-add-128-bit-integer-types.patch # Build tools against Linux 7.3 arm64 headers
 )
-sha256sums=('3d2639b6d1353c671ae576ad1fc82d609d95a4cf26c677a318fafdf2522315f4'
-            '7acd99304c44ea673bd6d2fe63bc7335b392418b938ca733a4a4dc5fb85cc4d7'
+sha256sums=('17a9dc58f41451adadb1cafd447b02976c41d21db000ee6e0a10b652260c03af'
+            '653ac121b5a3a34356f10cc0c4aa3286f4e9be4a5927a5267efec0f3f38c1f41'
             '30b45a34e029aee8cd57123300a83ab1dfe473cb6c88d87ad1b3cccd891e0648')
-b2sums=('5b3ddaef8e1b0943f57d5ecab1a77e638f57da0f0b80fa61d3391dcaadbad4adc2a2f36a29eda63c26e2c3fa00e9e076cba3819947be866fac28ab772395cfce'
-        '1b1a9f2619fd342e5be34d214df163ff5cb0cc6b868cefdcb3ea66c5a0e7742583007f2f102ffad3804fae4c96565e55f42f47ff541ba21abbcbe1d34499d350'
+b2sums=('074bedd67f8e632b5bcfbef897b954ccf515262711a1cad88745c40cac2344e35d651df086b1edf9c1bbba9d1abb8cc8139f097a315f47600cb3b480aeea85c9'
+        'b8dcd4e0ce327de5e5df0a7f4130345162fa6ad482a536d584f308ba01731b7fc31619bccd47a41b454d3ff6809366e621bbb96941894a4f56932cc3f6413933'
         '013bd337c6bd839cfb5a0f2a3bbfc897a4662c414e048674d6a02187acdcd7ce85b380d5209f9fd88e6a29fc198921e29aac65a858f8c5f789a1ce23d0dfe6b4')
 export KBUILD_BUILD_HOST=archlinux
 export KBUILD_BUILD_USER=$pkgbase
