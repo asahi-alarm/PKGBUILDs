@@ -195,13 +195,13 @@ Summary: The Linux kernel
 %define specrpmversion 7.2.12
 %define specversion 7.2.12
 %define patchversion 7.2
-%define pkgrelease 400.asahi
+%define pkgrelease 402.asahi
 %define kversion 7
 %define tarfile_release 7.2.12
 # This is needed to do merge window version magic
 %define patchlevel 2
 # This allows pkg_release to have configurable %%{?dist} tag
-%define specrelease 400.asahi%{?buildid}%{?dist}
+%define specrelease 402.asahi%{?buildid}%{?dist}
 # This defines the kabi tarball version
 %define kabiversion 7.2.12
 
@@ -4967,6 +4967,17 @@ fi\
 #
 #
 %changelog
+* Mon Oct 26 2026 Janne Grunau <j@jannau.net> [7.2.12-402.asahi]
+- fixup! WIP: drm: apple: Add 14.7 FW ABI (Janne Grunau)
+- net: atlantic: AQC113: Limit multicast filters to avaiable slots (Janne Grunau)
+- net: atlantic: AQC113: Fix hw_packet_filter_set for l2 filter base index > 0 (Janne Grunau)
+- Revert "net: atlantic: AQC113: Zero struct hw_atl2_priv in hw_atl2_hw_reset()" (Janne Grunau)
+
+* Sun Oct 25 2026 Janne Grunau <j@jannau.net> [7.2.12-401.asahi]
+- net: atlantic: AQC113: Zero struct hw_atl2_priv in hw_atl2_hw_reset() (Janne Grunau)
+- fixup! arm64: dts: apple: t8103: Add dcpext/dispext0 nodes (Janne Grunau)
+- amend! arm64: configs: asahi: Add new configs for v7.1/v7.2 (Janne Grunau)
+
 * Thu Oct 22 2026 Neal Gompa <neal@gompa.dev> [7.2.12-400.asahi]
 - redhat/configs: aarch64: Enable Apple USB4 drivers (Neal Gompa)
 - redhat/configs: Disable DRM Panic frontend URL (Neal Gompa)
