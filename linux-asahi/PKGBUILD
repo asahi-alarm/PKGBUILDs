@@ -4,7 +4,7 @@
 
 _rcver=7.2.12
 #_rcrel=3
-_asahirel=2
+_asahirel=3
 pkgrel=1
 
 _m1n1_version=1.9.9
@@ -29,10 +29,10 @@ source=(
   config         # the main kernel config file
   0001-tools-add-128-bit-integer-types.patch # Build tools against Linux 7.3 arm64 headers
 )
-sha256sums=('17a9dc58f41451adadb1cafd447b02976c41d21db000ee6e0a10b652260c03af'
+sha256sums=('1b88834ee374f649d1240718900a87bad1f7266b1deadfa3c187c835c3a29106'
             '653ac121b5a3a34356f10cc0c4aa3286f4e9be4a5927a5267efec0f3f38c1f41'
             '30b45a34e029aee8cd57123300a83ab1dfe473cb6c88d87ad1b3cccd891e0648')
-b2sums=('074bedd67f8e632b5bcfbef897b954ccf515262711a1cad88745c40cac2344e35d651df086b1edf9c1bbba9d1abb8cc8139f097a315f47600cb3b480aeea85c9'
+b2sums=('66847a4b85e4c7bf37b77b3323eb6ad4a9667ecdd4417189af29b66759752865f9118dc822b543ce21a0bfa8a7a63e589b6621fd898e66948a742ec061440065'
         'b8dcd4e0ce327de5e5df0a7f4130345162fa6ad482a536d584f308ba01731b7fc31619bccd47a41b454d3ff6809366e621bbb96941894a4f56932cc3f6413933'
         '013bd337c6bd839cfb5a0f2a3bbfc897a4662c414e048674d6a02187acdcd7ce85b380d5209f9fd88e6a29fc198921e29aac65a858f8c5f789a1ce23d0dfe6b4')
 export KBUILD_BUILD_HOST=archlinux
