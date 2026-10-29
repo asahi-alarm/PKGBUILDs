@@ -5,7 +5,7 @@ asahi-alarm-keyring            /                              20241216-1
 asahi-audio                    4.1-1                          4.1-1                         
 asahi-bless                    /                              0.4.2-1                       
 asahi-btsync                   /                              0.2.6-1                       
-asahi-calamares-configs        20240509-6                     20260831-1                    
+asahi-calamares-configs        20240509-6                     20261029-5                    
 asahi-configs                  /                              20251217-1                    
 asahi-desktop-meta             /                              4-10                          
 asahi-fix27                    0.1.0-1                        0.1.0-1                       
@@ -21,8 +21,8 @@ calamares                      3.3.14-5                       3.4.2-4
 FEX-Emu                        2604-1                         2604-1                        
 fex-emu-rootfs-arch            44^20260410.n.0-1              20260318-1                    
 grub                           grub2-2.12-66                  2:2.16-3                      
-linux-asahi                    7.2.12-402.asahi               7.2.12.asahi2-1               
-linux-asahi-headers            7.2.12-402.asahi               7.2.12.asahi2-1               
+linux-asahi                    7.2.12-402.asahi               7.2.12.asahi3-1               
+linux-asahi-headers            7.2.12-402.asahi               7.2.12.asahi3-1               
 lzfse                          /                              1.0-1                         
 m1n1                           1.9.9-1                        1.9.9-1                       
 muvm                           0.7.0-1                        0.7.0-1                       
