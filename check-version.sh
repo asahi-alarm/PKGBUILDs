@@ -41,7 +41,7 @@ copr_projects["avd-fw"]="kernel"
 
 DB=asahi-alarm.db.tar.gz
 
-FEDORA_REPO="F44"
+FEDORA_REPO="F45"
 
 if [ $# == 1 ]; then
   FEDORA_REPO=$1
